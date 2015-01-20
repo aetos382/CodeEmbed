@@ -31,38 +31,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Http", "CodeE
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46318556-2CEE-4898-98F4-7AE30EDAF2F4}"
 	ProjectSection(SolutionItems) = preProject
-		AppVeyor.yml = AppVeyor.yml
+		appveyor.yml = appveyor.yml
 		beforeBuild.ps1 = beforeBuild.ps1
 	EndProjectSection
 EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 8
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://aerie.visualstudio.com/defaultcollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = CodeEmbed.Core\\CodeEmbed.Core.csproj
-		SccProjectName1 = CodeEmbed.Core
-		SccLocalPath1 = CodeEmbed.Core
-		SccProjectUniqueName2 = CodeEmbed.Core.Tests\\CodeEmbed.Core.Tests.csproj
-		SccProjectName2 = CodeEmbed.Core.Tests
-		SccLocalPath2 = CodeEmbed.Core.Tests
-		SccProjectUniqueName3 = CodeEmbed.Web.Api\\CodeEmbed.Web.Api.csproj
-		SccProjectName3 = CodeEmbed.Web.Api
-		SccLocalPath3 = CodeEmbed.Web.Api
-		SccProjectUniqueName4 = CodeEmbed.Web.Api.Tests\\CodeEmbed.Web.Api.Tests.csproj
-		SccProjectName4 = CodeEmbed.Web.Api.Tests
-		SccLocalPath4 = CodeEmbed.Web.Api.Tests
-		SccProjectUniqueName5 = CodeEmbed.Web\\CodeEmbed.Web.csproj
-		SccProjectName5 = CodeEmbed.Web
-		SccLocalPath5 = CodeEmbed.Web
-		SccProjectUniqueName6 = CodeEmbed.Web.Samples\\CodeEmbed.Web.Samples.csproj
-		SccProjectName6 = CodeEmbed.Web.Samples
-		SccLocalPath6 = CodeEmbed.Web.Samples
-		SccProjectUniqueName7 = CodeEmbed.Web.Http\\CodeEmbed.Web.Http.csproj
-		SccProjectName7 = CodeEmbed.Web.Http
-		SccLocalPath7 = CodeEmbed.Web.Http
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
