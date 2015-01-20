@@ -34,7 +34,7 @@ namespace CodeEmbed.Web.Api.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("60154a9ae4aeb303bb1e301ffd9f6784f70db63e")]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string AccessToken {
             get {
                 return ((string)(this["AccessToken"]));

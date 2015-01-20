@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -39,6 +40,8 @@
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
+
                 response = this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
 
@@ -68,6 +71,8 @@
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
+
                 response = this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
 
@@ -104,6 +109,8 @@
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
+
                 response = this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
 
@@ -194,6 +201,8 @@
             }
             catch (Exception ex)
             {
+                Debug.WriteLine(ex.Message);
+
                 response = this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
 

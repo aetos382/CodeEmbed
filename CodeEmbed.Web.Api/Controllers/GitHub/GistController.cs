@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.Web.Api.Controllers.GitHub
 {
     using System;
+    using System.Diagnostics;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -40,6 +41,12 @@
             catch (NotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+                response = this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
             }
 
             return response;
