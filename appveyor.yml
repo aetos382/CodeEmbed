@@ -13,6 +13,9 @@ branches:
 # Do not build on tags (GitHub only)
 skip_tags: true
 
+# fetch repository as zip archive
+shallow_clone: true
+
 #---------------------------------#
 #    environment configuration    #
 #---------------------------------#
