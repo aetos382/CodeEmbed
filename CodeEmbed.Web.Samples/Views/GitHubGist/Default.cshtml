@@ -1,0 +1,31 @@
+﻿@{
+  ViewBag.Title = "GitHub-Gist";
+}
+
+<div>
+  <pre id="code" class="brush: csharp"></pre>
+</div>
+
+@section scripts
+{
+  <script type="text/javascript">
+
+    $(function() {
+
+      $.ajax("http://localhost:57250/github-gist/d80103a9d1c3c12b1786/CodeEmbedSample.cs", {
+
+        success: function(data) {
+
+          $('#code').text(data);
+          SyntaxHighlighter.highlight();
+
+        },
+
+        error: function(xhr) {
+          window.alert("error");
+        }
+      });
+
+    });
+  </script>
+}

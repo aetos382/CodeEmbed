@@ -1,0 +1,56 @@
+﻿@{
+  ViewBag.Title = "GitHub-Git";
+}
+
+<h1>default</h1>
+<div>
+  <pre id="code-1" class="brush: csharp"></pre>
+</div>
+
+<h1>branch</h1>
+<div>
+  <pre id="code-2" class="brush: csharp"></pre>
+</div>
+
+<h1>tag</h1>
+<div>
+  <pre id="code-3" class="brush: csharp"></pre>
+</div>
+
+<h1>commit</h1>
+<div>
+  <pre id="code-4" class="brush: csharp"></pre>
+</div>
+
+@section scripts
+{
+  <script type="text/javascript">
+
+    $(function() {
+
+      var uris = [
+        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/HelloWorld.cs",
+        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/branches/master/HelloWorld.cs",
+        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/tags/helloworld/HelloWorld.cs",
+        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/commits/e48e107ede57aa765d758711877a5e61ba2701db/HelloWorld.cs"
+      ];
+
+      var requests = [];
+
+      for (var i = 0; i < uris.length; ++i) {
+        requests.push($.ajax(uris[i]));
+      }
+
+      $.when.apply($, requests).then(function (r1, r2, r3, r4) {
+
+        $('#code-1').text(r1[0]);
+        $('#code-2').text(r2[0]);
+        $('#code-3').text(r3[0]);
+        $('#code-4').text(r4[0]);
+
+        SyntaxHighlighter.highlight();
+      });
+
+    });
+  </script>
+}
