@@ -20,9 +20,6 @@ skip_tags: true
 # Operating system (build VM template)
 os: Windows Server 2012
 
-# scripts that are called at very beginning, before repo cloning
-init:
-
 # environment variables
 environment:
   github_oauth_token:
@@ -31,10 +28,6 @@ environment:
 # this is how to allow failing jobs in the matrix
 matrix:
   fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
-
-# scripts that run after cloning repository
-
-install:
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
