@@ -29,6 +29,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Samples", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Http", "CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj", "{67DE14A6-ED41-4C0E-A98F-4A522437266C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46318556-2CEE-4898-98F4-7AE30EDAF2F4}"
+	ProjectSection(SolutionItems) = preProject
+		AppVeyor.yml = AppVeyor.yml
+		beforeBuild.ps1 = beforeBuild.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
 		SccNumberOfProjects = 8

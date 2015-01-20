@@ -1,0 +1,65 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 0.1.{build}                 # You can use {branch} to, for example
+
+# branches to build
+branches:
+  only:
+    - master
+
+# Do not build on tags (GitHub only)
+skip_tags: true
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Operating system (build VM template)
+os: Windows Server 2012
+
+# scripts that are called at very beginning, before repo cloning
+init:
+
+# environment variables
+environment:
+  github_oauth_token:
+    secure: gK9AoP7fDkQVqCRLPFFGhr8jpAH7eDGYA0KNv+jSYwcVwJul8UFiZDqmGdFpV4YJ
+
+# this is how to allow failing jobs in the matrix
+matrix:
+  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+
+# scripts that run after cloning repository
+
+install:
+
+# enable patching of AssemblyInfo.* files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration: Release
+
+build:
+  parallel: true                  # enable MSBuild parallel builds
+  project: CodeEmbed.sln   # path to Visual Studio solution or project
+
+  # MSBuild verbosity level
+  verbosity: minimal
+
+before_build:
+  - ps: .\beforeBuild.ps1
