@@ -224,8 +224,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\GitHubGist\Default.cshtml" />
-    <Content Include="Views\GitHubGit\Default.cshtml" />
     <Content Include="Views\Home\Default.cshtml" />
     <Content Include="Views\Home\GitHubGist.cshtml" />
     <Content Include="Views\Home\GitHubGit.cshtml" />
