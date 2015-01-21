@@ -12,17 +12,13 @@
 
     $(function () {
 
-      $.ajax("http://localhost:57250/github-gist/d80103a9d1c3c12b1786/CodeEmbedSample.cs", {
+      $.ajax("http://localhost:57250/github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
 
         success: function (data) {
 
           $('#code').text(data);
           SyntaxHighlighter.highlight();
 
-        },
-
-        error: function (xhr) {
-          window.alert("error");
         }
       });
 
