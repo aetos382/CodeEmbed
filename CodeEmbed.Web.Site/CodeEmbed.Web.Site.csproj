@@ -127,6 +127,7 @@
     <Content Include="Content\Images\gist.png" />
     <Content Include="Content\Images\git-commit.png" />
     <Content Include="Content\Images\git-default.png" />
+    <Content Include="Content\Images\icon.png" />
     <Content Include="Content\Images\mscc.png" />
     <Content Include="Content\lightview\lightview.css" />
     <Content Include="Content\lightview\skins\blank.gif" />
@@ -248,7 +249,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21492</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
