@@ -13,7 +13,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Api.Tests", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{197F83A0-A55D-4F26-A1C3-73B667CD3E99}"
 	ProjectSection(SolutionItems) = preProject
-		CodeEmbed.runsettings = CodeEmbed.runsettings
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
 		packages\repositories.config = packages\repositories.config
