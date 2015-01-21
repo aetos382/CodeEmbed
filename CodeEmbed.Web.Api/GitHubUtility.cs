@@ -1,10 +1,8 @@
 ﻿namespace CodeEmbed.Web.Api
 {
     using System;
+    using System.Configuration;
     using System.Linq;
-    using System.Threading.Tasks;
-
-    using CodeEmbed.Web.Api.Properties;
 
     using Octokit;
     using Octokit.Internal;
@@ -13,8 +11,8 @@
     {
         public static IGitHubClient GetClient()
         {
-            string userAgent = Settings.Default.UserAgent;
-            string accessToken = Settings.Default.AccessToken;
+            string userAgent = ConfigurationManager.AppSettings["UserAgent"];
+            string accessToken = ConfigurationManager.AppSettings["OAuthToken"];
 
             var credentialStore = new InMemoryCredentialStore(new Credentials(accessToken));
 

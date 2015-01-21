@@ -6,7 +6,7 @@
 
 	$fullpath = Convert-Path $Path
 	$xml = [xml] (Get-Content $fullpath)
-	$node = $xml.SelectSingleNode('/configuration/applicationSettings/CodeEmbed.Web.Api.Properties.Settings/setting[@name = "AccessToken"]')
+	$node = $xml.SelectSingleNode('/configuration/appSettings/add[@key = "OAuthToken"]')
 	$node.value = $env:github_oauth_token
 	$xml.Save($fullpath)
 }
