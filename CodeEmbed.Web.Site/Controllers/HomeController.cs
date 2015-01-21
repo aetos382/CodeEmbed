@@ -22,10 +22,5 @@
         {
             return this.View();
         }
-
-        public ActionResult Contact()
-        {
-            return this.View();
-        }
     }
 }

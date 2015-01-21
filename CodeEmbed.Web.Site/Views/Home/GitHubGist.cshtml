@@ -14,16 +14,19 @@
 <h2>@ViewBag.Title</h2>
 
 <h3>必要なもの</h3>
-<ul>
-  <li>Gist の ID</li>
-  <li>ファイル名</li>
-</ul>
-
-<p>
-  <a href="@Url.Content("~/Content/Images/gist.png")" class="lightview" data-lightview-options="skin: 'dark'">
-    <img src="@Url.Content("~/Content/Images/gist.png")" class="img-thumbnail" width="400" height="260" title="クリックで拡大" />
-  </a>
-</p>
+<div class="row">
+  <div class="col-md-6">
+    <ul>
+      <li>Gist の ID</li>
+      <li>ファイル名</li>
+    </ul>
+  </div>
+  <div class="col-md-3 col-md-offset-3">
+    <a href="@Url.Content("~/Content/Images/gist.png")" class="thumbnail lightview" data-lightview-options="skin: 'dark'">
+      <img src="@Url.Content("~/Content/Images/gist.png")" title="クリックで拡大" />
+    </a>
+  </div>
+</div>
 
 <h3>URL</h3>
 <div class="panel panel-default">

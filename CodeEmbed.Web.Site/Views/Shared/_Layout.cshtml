@@ -35,14 +35,8 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <li>@Html.ActionLink("Home", "Default", "Home")</li>
-          <li class="drpodown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">How To Use <span class="caret"></span></a>
-            <ul class="dropdown-menu" role="menu">
-              <li>@Html.ActionLink("GitHub-Git", "GitHubGit", "Home")</li>
-              <li>@Html.ActionLink("GitHub-Gist", "GitHubGist", "Home")</li>
-            </ul>
-          </li>
-          <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+          <li>@Html.ActionLink("GitHub-Git", "GitHubGit", "Home")</li>
+          <li>@Html.ActionLink("GitHub-Gist", "GitHubGist", "Home")</li>
         </ul>
       </div>
     </div>
@@ -53,7 +47,7 @@
     <hr />
     <footer>
       <p>
-        <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home" target="_blank"><img src="@Url.Content("~/Content/Images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品"/></a>
+        <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home"><img src="@Url.Content("~/Content/Images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品"/></a>
         CodeEmbed | Copyright &copy; @DateTime.Now.Year - AETOS. all rights reserved.
       </p>
     </footer>
