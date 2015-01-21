@@ -125,6 +125,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Images\gist.png" />
+    <Content Include="Content\Images\git-default.png" />
     <Content Include="Content\Images\mscc.png" />
     <Content Include="Content\lightview\lightview.css" />
     <Content Include="Content\lightview\skins\blank.gif" />
@@ -210,6 +211,9 @@
     <Content Include="Scripts\SyntaxHighlighter\shCore.js" />
     <Content Include="Scripts\SyntaxHighlighter\shLegacy.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Home\GitHubGit.cshtml">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -226,7 +230,6 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Default.cshtml" />
     <Content Include="Views\Home\GitHubGist.cshtml" />
-    <Content Include="Views\Home\GitHubGit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

@@ -1,17 +1,17 @@
 ﻿@{
   ViewBag.Title = "GitHub-Git";
-  
+
   var apiEndpoint = Configuration.ApiEndpoint;
 
   var sourceUri1 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/HelloWorld.cs");
   var sourceUri2 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Site/Content/HelloWorld.cs");
   var sourceUri3 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/HelloWorld.cs");
-  var sourceUri4 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/commits/3663d9bc29b8fef20050ed2fe85223f774618e54//CodeEmbed.Web.Site/Content/HelloWorld.cs");
+  var sourceUri4 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/commits/3663d9bc29b8fef20050ed2fe85223f774618e54/CodeEmbed.Web.Site/Content/HelloWorld.cs");
 }
 
 @section head
 {
-  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/lightview/lightview.css")"/>
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/lightview/lightview.css")" />
 }
 
 <h2>@ViewBag.Title</h2>
@@ -31,82 +31,124 @@
 </ul>
 
 <p>
-  <a href="@Url.Content("~/Content/Images/gist.png")" class="lightview" data-lightview-options="skin: 'dark'">
-    <img src="@Url.Content("~/Content/Images/gist.png")" class="img-thumbnail" width="400" height="260" title="クリックで拡大"/>
+  <a href="@Url.Content("~/Content/Images/git-default.png")" class="lightview" data-lightview-options="skin: 'dark'">
+    <img src="@Url.Content("~/Content/Images/git-default.png")" class="img-thumbnail" width="400" height="290" title="クリックで拡大" />
   </a>
 </p>
 
 <h3>URL</h3>
-<p>@(apiEndpoint)github-gist/&lt;gist の ID&gt;/&lt;ファイル名&gt;</p>
-<p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs</p>
+
+<div class="panel panel-default">
+  <div class="panel-heading">デフォルト</div>
+  <div class="panel-body">
+    <p>@(apiEndpoint)github-git/:user/:repo/:path</p>
+    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/HelloWorld.cs</p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">ブランチ指定</div>
+  <div class="panel-body">
+    <p>@(apiEndpoint)github-git/:user/:repo/branches/:branch/:path</p>
+    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Site/Content/HelloWorld.cs</p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">タグ指定</div>
+  <div class="panel-body">
+    <p>@(apiEndpoint)github-git/:user/:repo/tags/:tag/:path</p>
+    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/tags/v0.1/CodeEmbed.Web.Site/Content/HelloWorld.cs</p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">コミット ハッシュ指定</div>
+  <div class="panel-body">
+    <p>@(apiEndpoint)github-git/:user/:repo/:sha/:path</p>
+    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/commits/3663d9bc29b8fef20050ed2fe85223f774618e54/CodeEmbed.Web.Site/Content/HelloWorld.cs</p>
+  </div>
+</div>
 
 <h3>例</h3>
-<pre class="brush: js">
-  $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
-    success: function (data) {
-      $('#code').text(data);
-      SyntaxHighlighter.highlight();
-    }
-  });
-</pre>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <pre class="brush: js">
+$.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/HelloWorld.cs", {
+  success: function (data) {
+    $('#code').text(data);
+    SyntaxHighlighter.highlight();
+  }
+});
+    </pre>
+  </div>
+</div>
 
 <h3>デモ</h3>
-<p>コードは全部同じですが、取得方法は異なります。</p>
+<p>見た目は全部同じですが、取得方法は異なります。詳細はソースを参照してください。</p>
 
-<h4>default</h4>
-<div>
-  <pre id="code-1" class="brush: csharp"></pre>
+<div class="panel panel-default">
+  <div class="panel-heading">デフォルト</div>
+  <div class="panel-body">
+    <pre id="code-1" class="brush: csharp"></pre>
+  </div>
 </div>
 
-<h4>branch</h4>
-<div>
-  <pre id="code-2" class="brush: csharp"></pre>
+<div class="panel panel-default">
+  <div class="panel-heading">ブランチ指定</div>
+  <div class="panel-body">
+    <pre id="code-2" class="brush: csharp"></pre>
+  </div>
 </div>
 
-<h4>tag</h4>
-<div>
-  <pre id="code-3" class="brush: csharp"></pre>
+<div class="panel panel-default">
+  <div class="panel-heading">タグ指定</div>
+  <div class="panel-body">
+    <pre id="code-3" class="brush: csharp"></pre>
+  </div>
 </div>
 
-<h4>commit</h4>
-<div>
-  <pre id="code-4" class="brush: csharp"></pre>
+<div class="panel panel-default">
+  <div class="panel-heading">コミット ハッシュ指定</div>
+  <div class="panel-body">
+    <pre id="code-4" class="brush: csharp"></pre>
+  </div>
 </div>
 
 @section scripts
 {
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-  <script type="text/javascript" src="@Url.Content("~/bundles/LightView")"></script>
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+      <script type="text/javascript" src="@Url.Content("~/bundles/LightView")"></script>
 
-  <script type="text/javascript">
+      <script type="text/javascript">
 
-  $(function () {
+        $(function () {
 
-    var uris = [
-      "@sourceUri1",
-      "@sourceUri2",
-      "@sourceUri3",
-      "@sourceUri4"
-    ];
+          var uris = [
+            "@sourceUri1",
+            "@sourceUri2",
+            "@sourceUri3",
+            "@sourceUri4"
+          ];
 
-    var requests = [];
+          var requests = [];
 
-    for (var i = 0; i < uris.length; ++i) {
-      requests.push($.ajax(uris[i]));
+          for (var i = 0; i < uris.length; ++i) {
+            requests.push($.ajax(uris[i]));
+          }
+
+          $.when.apply($, requests).then(function (r1, r2, r3, r4) {
+
+            $('#code-1').text(r1[0]);
+            $('#code-2').text(r2[0]);
+            $('#code-3').text(r3[0]);
+            $('#code-4').text(r4[0]);
+
+            SyntaxHighlighter.defaults['auto-links'] = false;
+            SyntaxHighlighter.highlight();
+          });
+
+        });
+
+      </script>
     }
-
-    $.when.apply($, requests).then(function (r1, r2, r3, r4) {
-
-      $('#code-1').text(r1[0]);
-      $('#code-2').text(r2[0]);
-      $('#code-3').text(r3[0]);
-      $('#code-4').text(r4[0]);
-
-      SyntaxHighlighter.defaults['auto-links'] = false;
-      SyntaxHighlighter.highlight();
-    });
-
-  });
-
-  </script>
-}
