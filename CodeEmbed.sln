@@ -25,10 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2DB6C5
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web", "CodeEmbed.Web\CodeEmbed.Web.csproj", "{4B8E9D3C-7F4C-4A3D-9561-D4C1FD60FBCC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Samples", "CodeEmbed.Web.Samples\CodeEmbed.Web.Samples.csproj", "{9605D481-ECCD-4059-A5BB-654DCA01DD3B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Http", "CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj", "{67DE14A6-ED41-4C0E-A98F-4A522437266C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46318556-2CEE-4898-98F4-7AE30EDAF2F4}"
@@ -36,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46
 		appveyor.yml = appveyor.yml
 		beforeBuild.ps1 = beforeBuild.ps1
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Site", "CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj", "{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,18 +57,14 @@ Global
 		{EBA19781-B2C1-45D4-9E05-E58971F86AB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EBA19781-B2C1-45D4-9E05-E58971F86AB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EBA19781-B2C1-45D4-9E05-E58971F86AB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4B8E9D3C-7F4C-4A3D-9561-D4C1FD60FBCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4B8E9D3C-7F4C-4A3D-9561-D4C1FD60FBCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4B8E9D3C-7F4C-4A3D-9561-D4C1FD60FBCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4B8E9D3C-7F4C-4A3D-9561-D4C1FD60FBCC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9605D481-ECCD-4059-A5BB-654DCA01DD3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9605D481-ECCD-4059-A5BB-654DCA01DD3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9605D481-ECCD-4059-A5BB-654DCA01DD3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9605D481-ECCD-4059-A5BB-654DCA01DD3B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{67DE14A6-ED41-4C0E-A98F-4A522437266C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{67DE14A6-ED41-4C0E-A98F-4A522437266C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{67DE14A6-ED41-4C0E-A98F-4A522437266C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{67DE14A6-ED41-4C0E-A98F-4A522437266C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
