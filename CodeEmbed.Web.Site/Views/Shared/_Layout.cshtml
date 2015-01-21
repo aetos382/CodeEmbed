@@ -4,9 +4,9 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>@ViewBag.Title - マイ ASP.NET アプリケーション</title>
+  <title>@ViewBag.Title - CodeEmbed</title>
 
   @Styles.Render("~/Content/css")
   @Styles.Render("~/Content/SyntaxHighlighter")
@@ -22,24 +22,39 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        @Html.ActionLink("アプリケーション名", "Default", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.ActionLink("CodeEmbed", "Default", "Home", new
+        {
+          area = ""
+        }, new
+          {
+            @class = "navbar-brand"
+          })
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li>@Html.ActionLink("ホーム", "Default", "Home")</li>
-          <li>@Html.ActionLink("詳細", "About", "Home")</li>
-          <li>@Html.ActionLink("連絡先", "Contact", "Home")</li>
-          <li>@Html.ActionLink("GitHub-Gist", "Default", "GitHubGist")</li>
-          <li>@Html.ActionLink("GitHub-Git", "Default", "GitHubGit")</li>
+          <li>@Html.ActionLink("Home", "Default", "Home")</li>
+          <li>@Html.ActionLink("How To Use", "HowToUse", "Home")</li>
+          <li class="drpodown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Demo <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li>@Html.ActionLink("GitHub-Gist", "Default", "GitHubGist")</li>
+              <li>@Html.ActionLink("GitHub-Git", "Default", "GitHubGit")</li>
+            </ul>
+          </li>
+          <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
         </ul>
       </div>
     </div>
   </div>
+
   <div class="container body-content">
     @RenderBody()
     <hr />
     <footer>
-      <p>&copy; @DateTime.Now.Year - マイ ASP.NET アプリケーション</p>
+      <p>
+        <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home" target="_blank"><img src="@Url.Content("~/Content/workicon.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品"/></a>
+        CodeEmbed | Copyright &copy; @DateTime.Now.Year - AETOS. all rights reserved.
+      </p>
     </footer>
   </div>
 

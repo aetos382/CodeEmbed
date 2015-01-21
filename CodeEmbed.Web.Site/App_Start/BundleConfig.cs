@@ -1,6 +1,6 @@
 ﻿namespace CodeEmbed.Web.Site
 {
-    using System.Web;
+    using System;
     using System.Web.Optimization;
 
     public class BundleConfig

@@ -1,7 +1,11 @@
 ﻿@{
   ViewBag.Title = "GitHub-Gist";
-}
 
+  var apiEndpoint = Configuration.ApiEndpoint;
+
+  var sourceUri = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/HelloWorld.cs");
+}
+<h2>@ViewBag.Title</h2>
 <div>
   <pre id="code" class="brush: csharp"></pre>
 </div>
@@ -12,7 +16,7 @@
 
     $(function () {
 
-      $.ajax("http://localhost:57250/github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
+      $.ajax("@sourceUri", {
 
         success: function (data) {
 

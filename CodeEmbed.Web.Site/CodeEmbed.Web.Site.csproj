@@ -111,6 +111,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Configuration.cs" />
+    <Compile Include="Content\HelloWorld.cs" />
     <Compile Include="Controllers\GitHubGistController.cs" />
     <Compile Include="Controllers\GitHubGitController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -124,6 +126,8 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\gist.png" />
+    <Content Include="Content\Images\mscc.png" />
     <Content Include="Content\SyntaxHighlighter\shCore.css" />
     <Content Include="Content\SyntaxHighlighter\shCoreDefault.css" />
     <Content Include="Content\SyntaxHighlighter\shCoreDjango.css" />
@@ -209,11 +213,11 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\GitHubGist\Default.cshtml" />
     <Content Include="Views\GitHubGit\Default.cshtml" />
     <Content Include="Views\Home\Default.cshtml" />
+    <Content Include="Views\Home\HowToUse.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

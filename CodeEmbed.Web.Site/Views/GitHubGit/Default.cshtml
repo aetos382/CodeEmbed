@@ -1,23 +1,31 @@
 ﻿@{
   ViewBag.Title = "GitHub-Git";
-}
 
-<h1>default</h1>
+  var apiEndpoint = Configuration.ApiEndpoint;
+
+  var sourceUri1 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed.Tests/HelloWorld.cs");
+  var sourceUri2 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed.Tests/branches/master/HelloWorld.cs");
+  var sourceUri3 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed.Tests/tags/helloworld/HelloWorld.cs");
+  var sourceUri4 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed.Tests/commits/e48e107ede57aa765d758711877a5e61ba2701db/HelloWorld.cs");
+}
+<h2>@ViewBag.Title</h2>
+
+<h3>default</h3>
 <div>
   <pre id="code-1" class="brush: csharp"></pre>
 </div>
 
-<h1>branch</h1>
+<h3>branch</h3>
 <div>
   <pre id="code-2" class="brush: csharp"></pre>
 </div>
 
-<h1>tag</h1>
+<h3>tag</h3>
 <div>
   <pre id="code-3" class="brush: csharp"></pre>
 </div>
 
-<h1>commit</h1>
+<h3>commit</h3>
 <div>
   <pre id="code-4" class="brush: csharp"></pre>
 </div>
@@ -29,10 +37,10 @@
     $(function () {
 
       var uris = [
-        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/HelloWorld.cs",
-        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/branches/master/HelloWorld.cs",
-        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/tags/helloworld/HelloWorld.cs",
-        "http://localhost:57250/github-git/aetos382/CodeEmbed.Tests/commits/e48e107ede57aa765d758711877a5e61ba2701db/HelloWorld.cs"
+        "@sourceUri1",
+        "@sourceUri2",
+        "@sourceUri3",
+        "@sourceUri4"
       ];
 
       var requests = [];
