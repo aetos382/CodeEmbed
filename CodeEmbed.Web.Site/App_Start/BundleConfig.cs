@@ -16,7 +16,6 @@
                 new ScriptBundle("~/bundles/jqueryval").Include(
                     "~/Scripts/jquery.validate*"));
 
-
             bundles.Add(
                 new ScriptBundle("~/bundles/SyntaxHighlighter").Include(
                     "~/Scripts/SyntaxHighlighter/shCore.js",
@@ -41,10 +40,6 @@
                 new StyleBundle("~/Content/css").Include(
                     "~/Content/bootstrap.css",
                     "~/Content/site.css"));
-
-            bundles.Add(new StyleBundle("~/Content/SyntaxHighlighter").Include(
-                "~/Content/SyntaxHighlighter/shCore.css",
-                "~/Content/SyntaxHighlighter/shThemeEclipse.css"));
         }
     }
 }

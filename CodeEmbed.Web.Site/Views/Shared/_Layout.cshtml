@@ -9,7 +9,8 @@
   <title>@ViewBag.Title - CodeEmbed</title>
 
   @Styles.Render("~/Content/css")
-  @Styles.Render("~/Content/SyntaxHighlighter")
+
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/SyntaxHighlighter/shCoreEclipse.css")"/>
 
   @Scripts.Render("~/bundles/modernizr")
 
@@ -24,13 +25,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        @Html.ActionLink("CodeEmbed", "Default", "Home", new
-        {
-          area = ""
-        }, new
-          {
-            @class = "navbar-brand"
-          })
+        @Html.ActionLink("CodeEmbed", "Default", "Home", null, new { @class = "navbar-brand" })
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
