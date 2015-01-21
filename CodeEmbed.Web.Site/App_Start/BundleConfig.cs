@@ -20,10 +20,14 @@
             bundles.Add(
                 new ScriptBundle("~/bundles/SyntaxHighlighter").Include(
                     "~/Scripts/SyntaxHighlighter/shCore.js",
-                    "~/Scripts/SyntaxHighlighter/shBrushCSharp.js"));
+                    "~/Scripts/SyntaxHighlighter/shBrushCSharp.js",
+                    "~/Scripts/SyntaxHighlighter/shBrushJScript.js"));
 
-            // 開発と学習には、Modernizr の開発バージョンを使用します。次に、実稼働の準備が
-            // できたら、http://modernizr.com にあるビルド ツールを使用して、必要なテストのみを選択します。
+            bundles.Add(
+                new ScriptBundle("~/bundles/LightView").Include(
+                    "~/Scripts/lightview/lightview.js",
+                    "~/Scripts/spinners/spinners.js"));
+
             bundles.Add(
                 new ScriptBundle("~/bundles/modernizr").Include(
                     "~/Scripts/modernizr-*"));

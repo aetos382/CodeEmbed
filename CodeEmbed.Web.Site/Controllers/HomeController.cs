@@ -13,7 +13,12 @@
             return this.View();
         }
 
-        public ActionResult HowToUse()
+        public ActionResult GitHubGit()
+        {
+            return this.View();
+        }
+
+        public ActionResult GitHubGist()
         {
             return this.View();
         }

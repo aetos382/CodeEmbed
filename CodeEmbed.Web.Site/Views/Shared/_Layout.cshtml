@@ -12,6 +12,8 @@
   @Styles.Render("~/Content/SyntaxHighlighter")
 
   @Scripts.Render("~/bundles/modernizr")
+
+  @RenderSection("head", false)
 </head>
 <body>
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -52,7 +54,7 @@
     <hr />
     <footer>
       <p>
-        <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home" target="_blank"><img src="@Url.Content("~/Content/workicon.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品"/></a>
+        <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home" target="_blank"><img src="@Url.Content("~/Content/Images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品"/></a>
         CodeEmbed | Copyright &copy; @DateTime.Now.Year - AETOS. all rights reserved.
       </p>
     </footer>

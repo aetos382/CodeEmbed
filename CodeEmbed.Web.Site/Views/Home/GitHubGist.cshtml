@@ -1,0 +1,88 @@
+﻿@{
+  ViewBag.Title = "How To Use";
+
+  var apiEndpoint = Configuration.ApiEndpoint;
+
+  string sourceUri = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/HelloWorld.cs").AbsoluteUri;
+}
+
+@section head
+{
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/lightview/lightview.css")"/>
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>現在は、URL を手動で組み立てて、jQuery 等でデータを取得して頂くことになります。</p>
+<p>将来的には、もう少し使いやすくする予定です。</p>
+
+<h3>GitHub のコードを使う</h3>
+<h4>必要なもの</h4>
+<ul>
+  <li>ユーザー名</li>
+  <li>リポジトリ名</li>
+  <li>ファイル名</li>
+</ul>
+
+<p>オプションで以下のいずれかを指定できます。</p>
+<ul>
+  <li>ブランチ名</li>
+  <li>タグ名</li>
+  <li>コミット ハッシュ</li>
+</ul>
+
+<h3>Gist のコードを使う</h3>
+
+<h4>必要なもの</h4>
+<ul>
+  <li>Gist の ID</li>
+  <li>ファイル名</li>
+</ul>
+
+<p>
+  <a href="@Url.Content("~/Content/Images/gist.png")" class="lightview" data-lightview-options="skin: 'dark'">
+    <img src="@Url.Content("~/Content/Images/gist.png")" class="img-thumbnail" width="400" height="260" title="クリックで拡大"/>
+  </a>
+</p>
+
+<h4>URL</h4>
+<p>@(apiEndpoint)github-gist/&lt;gist の ID&gt;/&lt;ファイル名&gt;</p>
+<p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs</p>
+
+<h4>例</h4>
+<pre class="brush: js">
+  $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
+    success: function (data) {
+      $('#code').text(data);
+      SyntaxHighlighter.highlight();
+    }
+  });
+</pre>
+
+@Html.ActionLink("Demo", "GitHubGist", "Home")
+
+@section scripts
+{
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+  <script type="text/javascript" src="@Url.Content("~/bundles/LightView")"></script>
+
+  <script type="text/javascript">
+
+  $(function () {
+
+    $.ajax("@sourceUri", {
+
+      success: function (data) {
+
+        $('#code').text(data);
+        SyntaxHighlighter.highlight();
+
+      }
+    });
+
+  });
+
+  SyntaxHighlighter.defaults['auto-links'] = false;
+  SyntaxHighlighter.all();
+  </script>
+}
