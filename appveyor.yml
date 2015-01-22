@@ -26,7 +26,7 @@ os: Windows Server 2012 R2
 # environment variables
 environment:
   github_oauth_token:
-    secure: DAMP0pQb9Dg1LIN3OvQnA6r3eyKvZWQERJYkrv+qqomp5VU2vB92/OVm0CKFWGfF
+    secure: jqtdWF2szgieS3RJDDjtE6Ttj0QXORa+kmLJkHCCBpKsyMz/UeFOZSfIP2jHu9L2
 
 # this is how to allow failing jobs in the matrix
 matrix:
