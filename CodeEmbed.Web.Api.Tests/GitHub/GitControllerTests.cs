@@ -128,7 +128,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "0a59989a70ac01c201379f7b267368a4f5a4a3eb", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "62905855d49ef1670b10ed176105bf1c6a1cbe86", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -150,7 +150,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "0a59989a70ac01c201379f7b267368a4f5a4a3eb", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "62905855d49ef1670b10ed176105bf1c6a1cbe86", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -163,7 +163,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test2", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -185,7 +185,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test2", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 

@@ -126,7 +126,7 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/0a59989a70ac01c201379f7b267368a4f5a4a3eb/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/62905855d49ef1670b10ed176105bf1c6a1cbe86/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
 
             const string expected = "Hello, CodeEmbed.";
 
@@ -149,7 +149,7 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/0a59989a70ac01c201379f7b267368a4f5a4a3eb/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/62905855d49ef1670b10ed176105bf1c6a1cbe86/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
 
             const string expected = "Hello, CodeEmbed.";
 
@@ -161,7 +161,7 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test2/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
 
             const string expected = "Hello, CodeEmbed.";
 
@@ -184,7 +184,7 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test2/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
 
             const string expected = "Hello, CodeEmbed.";
 
