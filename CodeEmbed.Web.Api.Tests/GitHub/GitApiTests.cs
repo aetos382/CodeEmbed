@@ -93,7 +93,7 @@
         {
             var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -116,7 +116,7 @@
         {
             var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -128,7 +128,7 @@
         {
             var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/0a59989a70ac01c201379f7b267368a4f5a4a3eb/Test/Test1.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -151,7 +151,7 @@
         {
             var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/0a59989a70ac01c201379f7b267368a4f5a4a3eb/Test/Foo/Bar/Test2.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -163,7 +163,7 @@
         {
             var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test/Test/Test1.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -186,7 +186,7 @@
         {
             var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test/Test/Foo/Bar/Test2.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
