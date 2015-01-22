@@ -1,1 +1,1 @@
-﻿Hello, CodeEmbed.
+Hello, CodeEmbed.

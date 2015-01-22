@@ -4,13 +4,13 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>@ViewBag.Title - CodeEmbed</title>
 
   @Styles.Render("~/Content/css")
 
-  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/SyntaxHighlighter/shCoreEclipse.css")"/>
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/SyntaxHighlighter/shCoreEclipse.css")" />
 
   @Scripts.Render("~/bundles/modernizr")
 
@@ -41,10 +41,15 @@
     @RenderBody()
     <hr />
     <footer>
-      <p>
-        <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home"><img src="@Url.Content("~/Content/Images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品"/></a>
-        CodeEmbed | Copyright &copy; @DateTime.Now.Year - AETOS. all rights reserved.
-      </p>
+      <div class="row">
+        <div class="col-md-2">
+          <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home"><img src="@Url.Content("~/Content/Images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品" /></a>
+        </div>
+        <div class="col-md-10">
+          <p>CodeEmbed | Copyright &copy; @DateTime.Now.Year - aetos. All rights reserved.</p>
+          <p><a href="https://ci.appveyor.com/project/aerie/codeembed"><img src="https://ci.appveyor.com/api/projects/status/h22cd6uydo1e9gqv?svg=true" /></a></p>
+        </div>
+      </div>
     </footer>
   </div>
 
@@ -55,3 +60,4 @@
   @RenderSection("scripts", required: false)
 </body>
 </html>
+

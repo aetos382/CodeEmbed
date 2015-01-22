@@ -40,7 +40,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Test/Test1.txt"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -53,7 +53,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -93,7 +93,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "Test/Test1.txt"))
+            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -115,7 +115,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -128,7 +128,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "0a59989a70ac01c201379f7b267368a4f5a4a3eb", "Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "0a59989a70ac01c201379f7b267368a4f5a4a3eb", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -150,7 +150,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "0a59989a70ac01c201379f7b267368a4f5a4a3eb", "Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "0a59989a70ac01c201379f7b267368a4f5a4a3eb", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -163,7 +163,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test", "Test/Test1.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -185,7 +185,7 @@
         {
             const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test", "Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -196,7 +196,7 @@
         [TestMethod]
         public async Task GetGitCodeBinaryFileTest()
         {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Test/Foo/Bar/Test2.zip"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.zip"))
             {
                 Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
             }
@@ -205,7 +205,7 @@
         [TestMethod]
         public async Task GetGitCodeGetDirTest()
         {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Foo/Bar"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar"))
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
