@@ -34,9 +34,9 @@
         [TestMethod]
         public async Task GetGitCodeDefaultBranchTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -46,9 +46,9 @@
         [TestMethod]
         public async Task GetGitCodeDefaultBranchTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
 
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
             string result = await this._client.GetStringAsync(uri);
 
@@ -80,7 +80,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidPathTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/--- invalid path ---");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/--- invalid path ---");
 
             using (var response = await this._client.GetAsync(uri))
             {
@@ -91,7 +91,7 @@
         [TestMethod]
         public async Task GetGitCodeByBranchTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/branches/master/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
 
             const string expected = "Hello, GitHub.\nThis is test text.\n";
 
@@ -103,7 +103,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidBranchTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/branches/--- invalid branch name ---/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/branches/--- invalid branch name ---/path");
 
             using (var response = await this._client.GetAsync(uri))
             {
@@ -114,7 +114,7 @@
         [TestMethod]
         public async Task GetGitCodeByBranchTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/branches/master/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
 
             const string expected = "Hello, GitHub.\nThis is test text 2.\n";
 
@@ -126,7 +126,7 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/commits/221edc8afea2815163c533cdfbf552bfaf92698d/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/221edc8afea2815163c533cdfbf552bfaf92698d/Test/Test1.txt");
 
             const string expected = "Hello, GitHub.\nThis is test text.\n";
 
@@ -138,7 +138,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidCommitTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/commits/--- invalid commit hash ---/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/--- invalid commit hash ---/Test/Test1.txt");
 
             using (var response = await this._client.GetAsync(uri))
             {
@@ -149,7 +149,7 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/commits/ededfbaa1771f48338c9d17abd776de0006e658e/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/commits/ededfbaa1771f48338c9d17abd776de0006e658e/Test/Foo/Bar/Test2.txt");
 
             const string expected = "Hello, GitHub.\nThis is test text 2.\n";
 
@@ -161,7 +161,7 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/tags/tag-a2/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/tag-a2/Test/Test1.txt");
 
             const string expected = "Hello, GitHub.\nThis is test text.\n";
 
@@ -173,7 +173,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidTagTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/tags/--- invalid tag name ---/Test.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/--- invalid tag name ---/path");
 
             using (var response = await this._client.GetAsync(uri))
             {
@@ -184,7 +184,7 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/tags/tag-a2/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/tag-a2/Test/Foo/Bar/Test2.txt");
 
             const string expected = "Hello, GitHub.\nThis is test text 2.\n";
 
@@ -196,7 +196,7 @@
         [TestMethod]
         public async Task GetGitCodeBinaryFileTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/Foo/Bar/Test2.zip");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/Test/Foo/Bar/Test2.zip");
 
             using (var response = await this._client.GetAsync(uri))
             {
@@ -207,7 +207,7 @@
         [TestMethod]
         public async Task GetGitCodeGetDirTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed.Tests/Foo/Bar");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/Test/Foo/Bar");
 
             using (var response = await this._client.GetAsync(uri))
             {

@@ -82,9 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="Test\Foo\Bar\Test2.txt" />
+    <Content Include="Test\Test1.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Test\Foo\Bar\Test2.zip" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj">

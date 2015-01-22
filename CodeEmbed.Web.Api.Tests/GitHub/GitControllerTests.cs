@@ -38,9 +38,9 @@
         [TestMethod]
         public async Task GetGitCodeDefaultBranchTest()
         {
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed.Tests", "Test.txt"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -51,9 +51,9 @@
         [TestMethod]
         public async Task GetGitCodeDefaultBranchTest2()
         {
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed.Tests", "Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -82,7 +82,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidPathTest()
         {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed.Tests", "--- invalid path ---"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "--- invalid path ---"))
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
@@ -91,9 +91,9 @@
         [TestMethod]
         public async Task GetGitCodeByBranchTest()
         {
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed.Tests", "master", "Test.txt"))
+            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -104,7 +104,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidBranchTest()
         {
-            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed.Tests", "--- invalid branch name ---", "Test.txt"))
+            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "--- invalid branch name ---", "path"))
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
@@ -113,9 +113,9 @@
         [TestMethod]
         public async Task GetGitCodeByBranchTest2()
         {
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed.Tests", "master", "Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -126,9 +126,9 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest()
         {
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed.Tests", "ededfbaa1771f48338c9d17abd776de0006e658e", "Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "ededfbaa1771f48338c9d17abd776de0006e658e", "Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -139,7 +139,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidCommitTest()
         {
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed.Tests", "--- invalid commit hash ---", "Test.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "--- invalid commit hash ---", "path"))
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
@@ -148,9 +148,9 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest2()
         {
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed.Tests", "ededfbaa1771f48338c9d17abd776de0006e658e", "Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "ededfbaa1771f48338c9d17abd776de0006e658e", "Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -161,9 +161,9 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest()
         {
-            const string expected = "Hello, GitHub.\nThis is test text.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed.Tests", "tag-a2", "Test.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "tag-a2", "Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -174,7 +174,7 @@
         [TestMethod]
         public async Task GetGitCodeInvalidTagTest()
         {
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed.Tests", "--- invalid tag name ---", "Test.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "--- invalid tag name ---", "path"))
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
@@ -183,9 +183,9 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest2()
         {
-            const string expected = "Hello, GitHub.\nThis is test text 2.\n";
+            const string expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed.Tests", "tag-a2", "Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "tag-a2", "Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
@@ -196,7 +196,7 @@
         [TestMethod]
         public async Task GetGitCodeBinaryFileTest()
         {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed.Tests", "Foo/Bar/Test2.zip"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Test/Foo/Bar/Test2.zip"))
             {
                 Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
             }
@@ -205,7 +205,7 @@
         [TestMethod]
         public async Task GetGitCodeGetDirTest()
         {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed.Tests", "Foo/Bar"))
+            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "Foo/Bar"))
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
