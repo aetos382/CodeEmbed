@@ -1,11 +1,9 @@
 ﻿namespace CodeEmbed.Web.Api
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Web.Http;
-    using System.Web.Http.Routing;
+    using System.Web.Http.Cors;
 
     using CodeEmbed.Web.Http.Formatting;
 
@@ -15,6 +13,9 @@
         {
             // Web API ルート
             config.MapHttpAttributeRoutes();
+
+            var corsAttribute = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(corsAttribute);
 
             config.Formatters.Add(new PlainTextMediaTypeFormatter());
         }
