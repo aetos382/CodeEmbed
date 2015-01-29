@@ -119,9 +119,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeEmbed.Core\CodeEmbed.Core.csproj">
+    <ProjectReference Include="..\CodeEmbed.Core\CodeEmbed.GitHub.csproj">
       <Project>{E2817AF8-E889-4BF1-9A0F-D4D6A7B9C56E}</Project>
-      <Name>CodeEmbed.Core</Name>
+      <Name>CodeEmbed.GitHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj">
       <Project>{67de14a6-ed41-4c0e-a98f-4a522437266c}</Project>
