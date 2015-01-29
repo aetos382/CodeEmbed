@@ -71,7 +71,7 @@
     <Folder Include="GitHub\Models\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeEmbed.Core\CodeEmbed.GitHub.csproj">
+    <ProjectReference Include="..\CodeEmbed.GitHub\CodeEmbed.GitHub.csproj">
       <Project>{E2817AF8-E889-4BF1-9A0F-D4D6A7B9C56E}</Project>
       <Name>CodeEmbed.GitHub</Name>
     </ProjectReference>

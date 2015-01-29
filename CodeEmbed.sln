@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.GitHub", "CodeEmbed.Core\CodeEmbed.GitHub.csproj", "{E2817AF8-E889-4BF1-9A0F-D4D6A7B9C56E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.GitHub", "CodeEmbed.GitHub\CodeEmbed.GitHub.csproj", "{E2817AF8-E889-4BF1-9A0F-D4D6A7B9C56E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.GitHub.Tests", "CodeEmbed.Core.Tests\CodeEmbed.GitHub.Tests.csproj", "{61FF2F1B-F1C1-4480-B6D6-803063D18CD5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.GitHub.Tests", "CodeEmbed.GitHub.Tests\CodeEmbed.GitHub.Tests.csproj", "{61FF2F1B-F1C1-4480-B6D6-803063D18CD5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Api", "CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj", "{B400D6C1-80B6-4BF4-8BCF-3DFA81024326}"
 EndProject
