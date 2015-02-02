@@ -3,12 +3,13 @@
 #---------------------------------#
 
 # version format
-version: 0.1.{build}                 # You can use {branch} to, for example
+version: 0.2.{build}                 # You can use {branch} to, for example
 
 # branches to build
 branches:
   only:
     - master
+    - dev
 
 # Do not build on tags (GitHub only)
 skip_tags: true
@@ -27,10 +28,16 @@ os: Windows Server 2012 R2
 environment:
   github_oauth_token:
     secure: jqtdWF2szgieS3RJDDjtE6Ttj0QXORa+kmLJkHCCBpKsyMz/UeFOZSfIP2jHu9L2
+  deploy_password:
+    secure: KgSo90aar4SKwjJH91cbxC+fn0ZXhzRnr29DflE9jJ2cm2Y4EzdLkKy7C2stLYfYcGsXxb41VUQiwjHFtSvXTA==
 
 # this is how to allow failing jobs in the matrix
 matrix:
   fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+
+# scripts that run after cloning repository
+install:
+  - cinst WAWSDeploy
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
@@ -48,14 +55,54 @@ assembly_info:
 platform: Any CPU
 
 # build Configuration, i.e. Debug, Release, etc.
-configuration: Release
+configuration:
+  - Debug
+  - Release
 
 build:
-  parallel: true                  # enable MSBuild parallel builds
+  parallel: true           # enable MSBuild parallel builds
   project: CodeEmbed.sln   # path to Visual Studio solution or project
 
   # MSBuild verbosity level
   verbosity: minimal
 
+# scripts to run before build
 before_build:
   - ps: .\beforeBuild.ps1
+
+# scripts to run after build
+after_build:
+  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj @publish.rsp /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
+  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj @publish.rsp /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+  - path: Publish
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+# to run your custom scripts instead of provider deployments
+deploy_script: deploy.cmd
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+
+# on build failure
+notifications:
+
+  # Email
+  - provider: Email
+    to: build-notification@aerie.jp
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
