@@ -92,3 +92,18 @@ artifacts:
 
 # to run your custom scripts instead of provider deployments
 deploy_script: deploy.cmd
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+
+# on build failure
+notifications:
+
+  # Email
+  - provider: Email
+    to:
+      secure: 7lr3FolaXO1FKzI1pNP/YA==
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
