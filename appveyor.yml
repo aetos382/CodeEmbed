@@ -102,8 +102,7 @@ notifications:
 
   # Email
   - provider: Email
-    to:
-      secure: 7lr3FolaXO1FKzI1pNP/YA==
+    to: build-notification@aerie.jp
     on_build_success: false
     on_build_failure: true
     on_build_status_changed: true
