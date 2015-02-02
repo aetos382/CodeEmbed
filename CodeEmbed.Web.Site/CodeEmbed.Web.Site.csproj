@@ -129,6 +129,7 @@
     <Content Include="Content\Images\git-default.png" />
     <Content Include="Content\Images\icon.png" />
     <Content Include="Content\Images\mscc.png" />
+    <Content Include="Content\Images\wait.gif" />
     <Content Include="Content\lightview\lightview.css" />
     <Content Include="Content\lightview\skins\blank.gif" />
     <Content Include="Content\lightview\skins\dark\sprite.png" />

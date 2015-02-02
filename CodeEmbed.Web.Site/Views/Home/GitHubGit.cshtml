@@ -98,28 +98,40 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/H
 <div class="panel panel-default">
   <div class="panel-heading">デフォルト</div>
   <div class="panel-body">
-    <pre id="code-1" class="brush: csharp"></pre>
+    <div class="wait-indicator text-center">
+      <img src="@Url.Content("~/Content/Images/wait.gif")" />
+    </div>
+    <pre id="code-1" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
 <div class="panel panel-default">
   <div class="panel-heading">ブランチ指定</div>
   <div class="panel-body">
-    <pre id="code-2" class="brush: csharp"></pre>
+    <div class="wait-indicator text-center">
+      <img src="@Url.Content("~/Content/Images/wait.gif")" />
+    </div>
+    <pre id="code-2" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
 <div class="panel panel-default">
   <div class="panel-heading">タグ指定</div>
   <div class="panel-body">
-    <pre id="code-3" class="brush: csharp"></pre>
+    <div class="wait-indicator text-center">
+      <img src="@Url.Content("~/Content/Images/wait.gif")" />
+    </div>
+    <pre id="code-3" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
 <div class="panel panel-default">
   <div class="panel-heading">コミット ハッシュ指定</div>
   <div class="panel-body">
-    <pre id="code-4" class="brush: csharp"></pre>
+    <div class="wait-indicator text-center">
+      <img src="@Url.Content("~/Content/Images/wait.gif")" />
+    </div>
+    <pre id="code-4" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
@@ -147,10 +159,11 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/H
 
       $.when.apply($, requests).then(function (r1, r2, r3, r4) {
 
-        $('#code-1').text(r1[0]);
-        $('#code-2').text(r2[0]);
-        $('#code-3').text(r3[0]);
-        $('#code-4').text(r4[0]);
+        $('.wait-indicator').hide();
+        $('#code-1').text(r1[0]).show();
+        $('#code-2').text(r2[0]).show();
+        $('#code-3').text(r3[0]).show();
+        $('#code-4').text(r4[0]).show();
 
         SyntaxHighlighter.defaults['auto-links'] = false;
         SyntaxHighlighter.highlight();
