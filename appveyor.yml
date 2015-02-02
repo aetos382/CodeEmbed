@@ -72,8 +72,8 @@ before_build:
 
 # scripts to run after build
 after_build:
-  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj @publish.rsp /p:PublishUrl="..\Publish\$(Configuration)\CodeEmbed.Web.Api"
-  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj @publish.rsp /p:PublishUrl="..\Publish\$(Configuration)\CodeEmbed.Web.Site"
+  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj @publish.rsp /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
+  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj @publish.rsp /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
 
 #---------------------------------#
 #       tests configuration       #
