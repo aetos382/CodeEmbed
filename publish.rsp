@@ -1,1 +1,1 @@
-/m /v:m /t:WebPublish /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:VisualStudioVersion=12.0
+/m /v:m /t:WebPublish /p:OutputPath="bin" /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True
