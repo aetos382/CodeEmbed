@@ -32,6 +32,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46
 	ProjectSection(SolutionItems) = preProject
 		appveyor.yml = appveyor.yml
 		beforeBuild.ps1 = beforeBuild.ps1
+		codeembed-dev.PublishSettings = codeembed-dev.PublishSettings
+		deploy.cmd = deploy.cmd
+		publish.rsp = publish.rsp
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Site", "CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj", "{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}"
