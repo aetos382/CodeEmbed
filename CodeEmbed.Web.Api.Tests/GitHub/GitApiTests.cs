@@ -161,7 +161,7 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test2/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/0.1.1/CodeEmbed.Web.Api.Tests/Test/Test1.txt");
 
             const string expected = "Hello, CodeEmbed.";
 
@@ -184,7 +184,7 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest2()
         {
-            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/test2/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
+            var uri = new Uri(_apiBaseUri, "aetos382/CodeEmbed/tags/0.1.1/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt");
 
             const string expected = "Hello, CodeEmbed.";
 
