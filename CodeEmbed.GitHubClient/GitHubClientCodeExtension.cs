@@ -1,10 +1,10 @@
-﻿namespace CodeEmbed.GitHub
+﻿namespace CodeEmbed.GitHubClient
 {
     using System;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using CodeEmbed.GitHub.Models;
+    using CodeEmbed.GitHubClient.Models;
 
     public static class GitHubClientCodeExtension
     {

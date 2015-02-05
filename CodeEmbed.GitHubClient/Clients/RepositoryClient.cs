@@ -1,9 +1,9 @@
-﻿namespace CodeEmbed.GitHub.Clients
+﻿namespace CodeEmbed.GitHubClient.Clients
 {
     using System;
     using System.Linq;
 
-    using CodeEmbed.GitHub.Models;
+    using CodeEmbed.GitHubClient.Models;
 
     internal class RepositoryClient :
         Repository,

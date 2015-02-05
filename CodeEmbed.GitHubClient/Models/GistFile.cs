@@ -1,4 +1,4 @@
-﻿namespace CodeEmbed.GitHub.Models
+﻿namespace CodeEmbed.GitHubClient.Models
 {
     using System;
     using System.Linq;

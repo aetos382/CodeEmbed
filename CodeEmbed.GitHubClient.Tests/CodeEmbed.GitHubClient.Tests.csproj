@@ -6,8 +6,8 @@
     <ProjectGuid>{61FF2F1B-F1C1-4480-B6D6-803063D18CD5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CodeEmbed.GitHub.Tests</RootNamespace>
-    <AssemblyName>CodeEmbed.GitHub.Tests</AssemblyName>
+    <RootNamespace>CodeEmbed.GitHubClient.Tests</RootNamespace>
+    <AssemblyName>CodeEmbed.GitHubClient.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -41,10 +41,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -60,16 +56,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="GitHub\GistClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="BitBucket\" />
-    <Folder Include="GitHub\Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CodeEmbed.GitHub\CodeEmbed.GitHub.csproj">
       <Project>{E2817AF8-E889-4BF1-9A0F-D4D6A7B9C56E}</Project>
