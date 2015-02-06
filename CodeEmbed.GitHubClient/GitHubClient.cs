@@ -4,6 +4,7 @@
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
     using System.Text;
@@ -125,7 +126,19 @@
 
             using (var response = await this._client.GetAsync(uri).ConfigureAwait(false))
             {
-                response.EnsureSuccessStatusCode();
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+                }
+                catch (HttpRequestException ex)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new GitHubNotFoundException(uri, ex);
+                    }
+
+                    throw;
+                }
 
                 string charSet = response.Content.Headers.ContentType.CharSet;
 

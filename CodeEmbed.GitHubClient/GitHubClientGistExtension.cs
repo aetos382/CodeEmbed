@@ -22,8 +22,15 @@
             var relUriString = string.Format(CultureInfo.InvariantCulture, "/gists/{0}", id);
             var relUri = new Uri(relUriString, UriKind.Relative);
 
-            var task = client.GetData<Gist>(relUri);
-            return task;
+            try
+            {
+                var task = client.GetData<Gist>(relUri);
+                return task;
+            }
+            catch (GitHubNotFoundException ex)
+            {
+                throw new GistNotFoundException(id, null, null, ex);
+            }
         }
 
         public static Task<string> GetGistCode(
@@ -49,7 +56,6 @@
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(id != null);
-            Contract.Requires<ArgumentNullException>(version != null);
             Contract.Requires<ArgumentNullException>(fileName != null);
 
             Contract.Ensures(Contract.Result<Task<string>>() != null);
@@ -61,7 +67,7 @@
                 var history = gist.Histories.SingleOrDefault(x => x.Version == version);
                 if (history == null)
                 {
-                    throw new GistFileNotFoundException(id, version, fileName);
+                    throw new GistNotFoundException(id, version, fileName);
                 }
 
                 gist = await client.GetData<Gist>(history.Uri).ConfigureAwait(false);
@@ -70,7 +76,7 @@
             GistFile file;
             if (!gist.Files.TryGetValue(fileName, out file))
             {
-                throw new GistFileNotFoundException(id, version, fileName);
+                throw new GistNotFoundException(id, version, fileName);
             }
 
             string result = file.Content;

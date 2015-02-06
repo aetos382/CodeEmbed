@@ -7,7 +7,6 @@
         Exception
     {
         public GitHubException()
-            : base()
         {
         }
 

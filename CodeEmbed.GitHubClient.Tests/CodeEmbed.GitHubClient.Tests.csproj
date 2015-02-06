@@ -42,6 +42,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -56,13 +58,16 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="GitHubClientGistExtensionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\CodeEmbed.GitHub\CodeEmbed.GitHub.csproj">
-      <Project>{E2817AF8-E889-4BF1-9A0F-D4D6A7B9C56E}</Project>
-      <Name>CodeEmbed.GitHub</Name>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj">
+      <Project>{66479f3b-f2b8-484d-8192-0089694a0311}</Project>
+      <Name>CodeEmbed.GitHubClient</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>
