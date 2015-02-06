@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
@@ -23,9 +24,26 @@
 
         public GitHubClient(
             string userAgent)
+            : this(userAgent, null)
         {
-            this._userAgent = userAgent;
-            this._client = CreateHttpClient(userAgent);
+        }
+
+        public GitHubClient(
+            string userAgent,
+            string oauthToken)
+            : this(DefaultBaseUri, userAgent, oauthToken, null, true)
+        {
+        }
+
+        public GitHubClient(
+            Uri baseUri,
+            string userAgent,
+            string oauthToken,
+            HttpClientHandler handler,
+            bool disposeHandler)
+        {
+            this._baseUri = baseUri;
+            this._client = CreateHttpClient(userAgent, oauthToken, handler, disposeHandler);
         }
 
         public Uri BaseUri
@@ -44,18 +62,9 @@
             }
         }
 
-        public GitHubClient(
-            Uri baseUri,
-            string userAgent,
-            HttpClientHandler handler,
-            bool disposeHandler)
-        {
-            this._baseUri = baseUri;
-            this._client = CreateHttpClient(userAgent, handler, disposeHandler);
-        }
-
         private static HttpClient CreateHttpClient(
             string userAgent,
+            string oauthToken,
             HttpClientHandler handler = null,
             bool disposeHandler = true)
         {
@@ -73,10 +82,13 @@
             client.DefaultRequestHeaders.Add("User-Agent", userAgent);
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
 
+            if (string.IsNullOrEmpty(oauthToken))
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
+            }
+
             return client;
         }
-
-        #region Implementation of IDisposable
 
         private bool _disposed = false;
 
@@ -95,10 +107,22 @@
             }
         }
 
-        #endregion
+        private Uri EnsureUriAbsolute(Uri uri)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            if (!uri.IsAbsoluteUri)
+            {
+                uri = new Uri(this._baseUri, uri);
+            }
+
+            return uri;
+        }
 
         public async Task<T> GetData<T>(Uri uri)
         {
+            uri = this.EnsureUriAbsolute(uri);
+
             using (var response = await this._client.GetAsync(uri).ConfigureAwait(false))
             {
                 response.EnsureSuccessStatusCode();
@@ -130,6 +154,8 @@
 
         public Task<byte[]> GetBinary(Uri uri)
         {
+            uri = this.EnsureUriAbsolute(uri);
+
             var result = this._client.GetByteArrayAsync(uri);
             return result;
 
@@ -137,6 +163,8 @@
 
         public Task<string> GetString(Uri uri)
         {
+            uri = this.EnsureUriAbsolute(uri);
+
             var result = this._client.GetStringAsync(uri);
             return result;
         }
