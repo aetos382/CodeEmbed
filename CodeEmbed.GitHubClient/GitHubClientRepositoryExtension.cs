@@ -21,8 +21,6 @@
             Contract.Requires<ArgumentNullException>(user != null);
             Contract.Requires<ArgumentNullException>(repository != null);
 
-            Contract.Ensures(Contract.Result<Task<Repository>>() != null);
-
             string relUriString = string.Format(CultureInfo.InvariantCulture, "/repos/{0}/{1}", user, repository);
             var relUri = new Uri(relUriString, UriKind.Relative);
 

@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient
 {
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
@@ -17,11 +18,13 @@
     {
         public static readonly Uri DefaultBaseUri = new Uri("https://api.github.com");
 
+        [ContractPublicPropertyName("UserAgent")]
         private readonly string _userAgent;
 
-        private readonly HttpClient _client;
+        [ContractPublicPropertyName("BaseUri")]
+        private readonly Uri _baseUri = DefaultBaseUri;
 
-        private Uri _baseUri = DefaultBaseUri;
+        private readonly HttpClient _client;
 
         private bool _disposed = false;
 
@@ -58,6 +61,7 @@
 
         public Uri BaseUri
         {
+            [Pure]
             get
             {
                 return this._baseUri;
@@ -66,8 +70,11 @@
 
         public string UserAgent
         {
+            [Pure]
             get
             {
+                Contract.Ensures(Contract.Result<string>() != null);
+
                 return this._userAgent;
             }
         }
@@ -89,6 +96,8 @@
 
         public async Task<T> GetData<T>(Uri uri)
         {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
             uri = this.EnsureUriAbsolute(uri);
 
             using (var response = await this._client.GetAsync(uri).ConfigureAwait(false))
@@ -198,6 +207,13 @@
             }
 
             return uri;
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._userAgent != null);
         }
     }
 }

@@ -17,8 +17,6 @@
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(id != null);
 
-            Contract.Ensures(Contract.Result<Task<Gist>>() != null);
-
             var relUriString = string.Format(CultureInfo.InvariantCulture, "/gists/{0}", id);
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -42,8 +40,6 @@
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(fileName != null);
 
-            Contract.Ensures(Contract.Result<Task<string>>() != null);
-
             var task = GetGistCode(client, id, null, fileName);
             return task;
         }
@@ -57,8 +53,6 @@
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(id != null);
             Contract.Requires<ArgumentNullException>(fileName != null);
-
-            Contract.Ensures(Contract.Result<Task<string>>() != null);
 
             var gist = await GetGist(client, id).ConfigureAwait(false);
 
