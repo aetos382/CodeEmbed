@@ -29,6 +29,7 @@
             string userAgent)
             : this(userAgent, null)
         {
+            Contract.Requires<ArgumentNullException>(userAgent != null);
         }
 
         public GitHubClient(
@@ -36,6 +37,7 @@
             string oauthToken)
             : this(DefaultBaseUri, userAgent, oauthToken, null, true)
         {
+            Contract.Requires<ArgumentNullException>(userAgent != null);
         }
 
         public GitHubClient(
@@ -45,7 +47,12 @@
             HttpClientHandler handler,
             bool disposeHandler)
         {
+            Contract.Requires<ArgumentNullException>(baseUri != null);
+            Contract.Requires<ArgumentNullException>(userAgent != null);
+
             this._baseUri = baseUri;
+            this._userAgent = userAgent;
+
             this._client = CreateHttpClient(userAgent, oauthToken, handler, disposeHandler);
         }
 
@@ -127,6 +134,8 @@
 
         public Task<byte[]> GetBinary(Uri uri)
         {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
             uri = this.EnsureUriAbsolute(uri);
 
             var result = this._client.GetByteArrayAsync(uri);
@@ -135,6 +144,8 @@
 
         public Task<string> GetString(Uri uri)
         {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
             uri = this.EnsureUriAbsolute(uri);
 
             var result = this._client.GetStringAsync(uri);
@@ -147,6 +158,10 @@
             HttpClientHandler handler = null,
             bool disposeHandler = true)
         {
+            Contract.Requires<ArgumentNullException>(userAgent != null);
+
+            Contract.Ensures(Contract.Result<HttpClient>() != null);
+            
             HttpClient client = null;
 
             if (handler == null)
@@ -158,12 +173,14 @@
                 client = new HttpClient(handler, disposeHandler);
             }
 
-            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+            var headers = client.DefaultRequestHeaders;
+
+            headers.Add("User-Agent", userAgent);
+            headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
 
             if (string.IsNullOrEmpty(oauthToken))
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
+                headers.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
             }
 
             return client;
@@ -172,6 +189,8 @@
         private Uri EnsureUriAbsolute(Uri uri)
         {
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Uri>() != null);
 
             if (!uri.IsAbsoluteUri)
             {
