@@ -10,7 +10,7 @@
 
     public static class GitHubClientGistExtension
     {
-        public static Task<Gist> GetGist(
+        public static async Task<Gist> GetGist(
             this GitHubClient client,
             string id)
         {
@@ -24,8 +24,8 @@
 
             try
             {
-                var task = client.GetData<Gist>(relUri);
-                return task;
+                var gist = await client.GetData<Gist>(relUri).ConfigureAwait(false);
+                return gist;
             }
             catch (GitHubNotFoundException ex)
             {
