@@ -12,33 +12,46 @@
     [TestClass]
     public class GitHubClientGistExtensionTests
     {
+        private static string _oauthToken;
+
+        private GitHubClient _client;
+
+        public TestContext TestContext { get; set; }
+
+        [ClassInitialize]
+        public static void ClassInitialize(TestContext testContext)
+        {
+            _oauthToken = ConfigurationManager.AppSettings["OAuthToken"];
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            this._client = new GitHubClient(this.GetType().FullName, _oauthToken);
+        }
+
+        [TestCleanup]
+        public void TestCleanup()
+        {
+            if (this._client != null)
+            {
+                this._client.Dispose();
+            }
+        }
+
         [TestMethod]
         public async Task GetGistTest()
         {
-            string oauthToken = ConfigurationManager.AppSettings["OAuthToken"];
+            var gist = await this._client.GetGist("1");
 
-            using (var client = new GitHubClient(
-                this.GetType().FullName,
-                oauthToken))
-            {
-                var gist = await client.GetGist("1");
-
-                Assert.IsNotNull(gist);
-            }
+            Assert.IsNotNull(gist);
         }
 
         [TestMethod]
         [ExpectedException(typeof(GistNotFoundException))]
         public async Task GistIdNotFoundTest()
         {
-            string oauthToken = ConfigurationManager.AppSettings["OAuthToken"];
-
-            using (var client = new GitHubClient(
-                this.GetType().FullName,
-                oauthToken))
-            {
-                await client.GetGist("Z");
-            }
+            await this._client.GetGist("Z");
         }
     }
 }
