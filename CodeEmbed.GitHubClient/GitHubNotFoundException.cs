@@ -8,7 +8,7 @@
     public class GitHubNotFoundException :
         GitHubException
     {
-        private const string _messageFormat = "リソースが見つかりません。";
+        private const string MessageFormat = "リソースが見つかりません。";
 
         [ContractPublicPropertyName("ResourceUri")]
         private readonly Uri _resourceUri;
@@ -74,7 +74,7 @@
         {
             Contract.Ensures(Contract.Result<string>() != null);
 
-            var builder = new StringBuilder(_messageFormat);
+            var builder = new StringBuilder(MessageFormat);
 
             if (resourceUri != null)
             {

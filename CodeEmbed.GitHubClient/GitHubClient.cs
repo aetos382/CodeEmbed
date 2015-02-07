@@ -15,13 +15,15 @@
     public class GitHubClient :
         IDisposable
     {
+        public static readonly Uri DefaultBaseUri = new Uri("https://api.github.com");
+
         private readonly string _userAgent;
 
         private readonly HttpClient _client;
 
-        public static readonly Uri DefaultBaseUri = new Uri("https://api.github.com");
-
         private Uri _baseUri = DefaultBaseUri;
+
+        private bool _disposed = false;
 
         public GitHubClient(
             string userAgent)
@@ -63,36 +65,6 @@
             }
         }
 
-        private static HttpClient CreateHttpClient(
-            string userAgent,
-            string oauthToken,
-            HttpClientHandler handler = null,
-            bool disposeHandler = true)
-        {
-            HttpClient client = null;
-
-            if (handler == null)
-            {
-                client = new HttpClient();
-            }
-            else
-            {
-                client = new HttpClient(handler, disposeHandler);
-            }
-
-            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-
-            if (string.IsNullOrEmpty(oauthToken))
-            {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
-            }
-
-            return client;
-        }
-
-        private bool _disposed = false;
-
         public void Dispose()
         {
             if (this._disposed)
@@ -106,18 +78,6 @@
             {
                 this._client.Dispose();
             }
-        }
-
-        private Uri EnsureUriAbsolute(Uri uri)
-        {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            if (!uri.IsAbsoluteUri)
-            {
-                uri = new Uri(this._baseUri, uri);
-            }
-
-            return uri;
         }
 
         public async Task<T> GetData<T>(Uri uri)
@@ -171,7 +131,6 @@
 
             var result = this._client.GetByteArrayAsync(uri);
             return result;
-
         }
 
         public Task<string> GetString(Uri uri)
@@ -180,6 +139,46 @@
 
             var result = this._client.GetStringAsync(uri);
             return result;
+        }
+
+        private static HttpClient CreateHttpClient(
+            string userAgent,
+            string oauthToken,
+            HttpClientHandler handler = null,
+            bool disposeHandler = true)
+        {
+            HttpClient client = null;
+
+            if (handler == null)
+            {
+                client = new HttpClient();
+            }
+            else
+            {
+                client = new HttpClient(handler, disposeHandler);
+            }
+
+            client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+
+            if (string.IsNullOrEmpty(oauthToken))
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
+            }
+
+            return client;
+        }
+
+        private Uri EnsureUriAbsolute(Uri uri)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            if (!uri.IsAbsoluteUri)
+            {
+                uri = new Uri(this._baseUri, uri);
+            }
+
+            return uri;
         }
     }
 }

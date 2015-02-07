@@ -11,7 +11,7 @@
     [TestClass]
     public class GistApiTests
     {
-        private static readonly Uri _apiBaseUri = new Uri("http://localhost:57250/github-gist/");
+        private static readonly Uri ApiBaseUri = new Uri("http://localhost:57250/github-gist/");
 
         private HttpClient _client;
 
@@ -34,21 +34,20 @@
         [TestMethod]
         public async Task GetGistCodeTest()
         {
-            var uri = new Uri(_apiBaseUri, "1/gistfile1.txt");
+            var uri = new Uri(ApiBaseUri, "1/gistfile1.txt");
 
-            const string expected =
+            const string Expected =
                 "This is gist. \nThere are many like it, but this one is mine. \nIt is my life. \nI must master it as I must master my life. \nWithout me gist is useless. \nWithout gist, I am useless.";
 
             string result = await this._client.GetStringAsync(uri);
 
-            Assert.AreEqual(expected, result);
+            Assert.AreEqual(Expected, result);
         }
 
         [TestMethod]
         public async Task GistIdNotFoundTest()
         {
-            var uri = new Uri(_apiBaseUri, "Z/notfound.txt");
-
+            var uri = new Uri(ApiBaseUri, "Z/notfound.txt");
 
             using (var response = await this._client.GetAsync(uri))
             {
@@ -59,7 +58,7 @@
         [TestMethod]
         public async Task GistFileNotFoundTest()
         {
-            var uri = new Uri(_apiBaseUri, "1/gistfile2.txt");
+            var uri = new Uri(ApiBaseUri, "1/gistfile2.txt");
 
             using (var response = await this._client.GetAsync(uri))
             {

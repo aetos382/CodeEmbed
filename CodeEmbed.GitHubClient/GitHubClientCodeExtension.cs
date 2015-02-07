@@ -8,7 +8,6 @@
 
     public static class GitHubClientCodeExtension
     {
-
         public static async Task<string> GetGitCode(
             this GitHubClient client,
             string user,

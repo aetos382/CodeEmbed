@@ -8,6 +8,8 @@
     public class GistNotFoundException :
         GitHubNotFoundException
     {
+        private const string MessageFormat = "Gist ファイルが見つかりません。Id = {0}, Version = {1}, FileName = {2}";
+
         [ContractPublicPropertyName("Id")]
         private readonly string _id;
 
@@ -16,8 +18,6 @@
 
         [ContractPublicPropertyName("FileName")]
         private readonly string _fileName;
-
-        private const string _messageFormat = "Gist ファイルが見つかりません。Id = {0}, Version = {1}, FileName = {2}";
 
         public GistNotFoundException(
             string id,
@@ -71,7 +71,7 @@
 
             Contract.Ensures(Contract.Result<string>() != null);
 
-            return string.Format(_messageFormat, id, version ?? "(null)", fileName ?? "(null)");
+            return string.Format(MessageFormat, id, version ?? "(null)", fileName ?? "(null)");
         }
 
         [Conditional("CONTRACTS_FULL")]
