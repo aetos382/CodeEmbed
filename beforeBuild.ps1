@@ -14,6 +14,7 @@
 Push-Location $PSScriptRoot
 
 try {
+	Set-OAuthToken .\CodeEmbed.GitHubClient.Tests\App.config
 	Set-OAuthToken .\CodeEmbed.Web.Api\Web.config
 	Set-OAuthToken .\CodeEmbed.Web.Api.Tests\App.config
 }
