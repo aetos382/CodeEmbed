@@ -1,13 +1,16 @@
 ﻿namespace CodeEmbed.GitHubClient.Models
 {
     using System;
+    using System.Diagnostics.Contracts;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
     using Newtonsoft.Json;
 
     [JsonObject]
-    public partial class Repository
+    public partial class Repository :
+        ModelBase
     {
         [JsonProperty("id")]
         public long Id { get; set; }

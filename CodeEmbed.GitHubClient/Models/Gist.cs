@@ -7,7 +7,8 @@
     using Newtonsoft.Json;
 
     [JsonObject]
-    public class Gist
+    public class Gist :
+        ModelBase
     {
         [JsonProperty("url")]
         public Uri Uri { get; set; }

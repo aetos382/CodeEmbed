@@ -46,9 +46,9 @@
     <CodeContractsSuggestAssumptionsForCallees>True</CodeContractsSuggestAssumptionsForCallees>
     <CodeContractsSuggestRequires>True</CodeContractsSuggestRequires>
     <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
-    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestObjectInvariants>True</CodeContractsSuggestObjectInvariants>
     <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
-    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsRunInBackground>False</CodeContractsRunInBackground>
     <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
     <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
     <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
@@ -136,10 +136,10 @@
     <Compile Include="GistNotFoundException.cs" />
     <Compile Include="GitHubClient.cs" />
     <Compile Include="GitHubClientCodeExtension.cs" />
-    <Compile Include="GitHubClientGistExtension.cs" />
-    <Compile Include="GitHubClientRepositoryExtension.cs" />
+    <Compile Include="GitHubClientExtension.cs" />
     <Compile Include="GitHubException.cs" />
     <Compile Include="GitHubNotFoundException.cs" />
+    <Compile Include="GitHubUri.cs" />
     <Compile Include="Models\Gist.cs" />
     <Compile Include="Models\GistFile.cs" />
     <Compile Include="Models\GistHistory.cs" />
@@ -148,14 +148,16 @@
     <Compile Include="Models\GitCommitCore.cs" />
     <Compile Include="Models\GitTree.cs" />
     <Compile Include="Models\GitTreeNode.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Reference.cs" />
     <Compile Include="Models\ReferenceWithHtml.cs" />
     <Compile Include="Models\Repository.cs" />
-    <Compile Include="Models\RepositoryBranch.cs" />
+    <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\RepositoryCommit.cs" />
     <Compile Include="Models\RepositoryCommitCore.cs" />
     <Compile Include="Models\RepositoryCommitFile.cs" />
     <Compile Include="Models\RepositoryCommitStat.cs" />
+    <Compile Include="Models\RepositoryExtension.cs" />
     <Compile Include="Models\RepositoryGitCommit.cs" />
     <Compile Include="Models\RepositoryUser.cs" />
     <Compile Include="Models\Signature.cs" />

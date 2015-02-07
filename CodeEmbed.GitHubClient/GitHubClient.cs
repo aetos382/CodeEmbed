@@ -11,6 +11,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using CodeEmbed.GitHubClient.Models;
+
     using Newtonsoft.Json;
 
     public class GitHubClient :
@@ -95,6 +97,7 @@
         }
 
         public async Task<T> GetData<T>(Uri uri)
+            where T : ModelBase
         {
             Contract.Requires<ArgumentNullException>(uri != null);
 
@@ -135,6 +138,8 @@
                 {
                     var serializer = new JsonSerializer();
                     var result = serializer.Deserialize<T>(jsonReader);
+
+                    result.Client = this;
 
                     return result;
                 }

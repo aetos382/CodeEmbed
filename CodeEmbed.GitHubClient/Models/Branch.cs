@@ -6,7 +6,8 @@
     using Newtonsoft.Json;
 
     [JsonObject]
-    public class RepositoryBranch
+    public class Branch :
+        ModelBase
     {
         [JsonProperty("name")]
         public string Name { get; set; }

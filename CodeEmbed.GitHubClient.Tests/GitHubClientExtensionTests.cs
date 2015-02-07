@@ -10,7 +10,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GitHubClientGistExtensionTests
+    public class GitHubClientExtensionTests
     {
         private static string _oauthToken;
 
