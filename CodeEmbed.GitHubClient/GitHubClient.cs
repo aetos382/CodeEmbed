@@ -83,17 +83,8 @@
 
         public void Dispose()
         {
-            if (this._disposed)
-            {
-                return;
-            }
-
-            this._disposed = true;
-
-            if (this._client != null)
-            {
-                this._client.Dispose();
-            }
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public async Task<T> GetData<T>(Uri uri)
@@ -166,6 +157,24 @@
             return result;
         }
 
+        protected virtual void Dispose(bool disposing)
+        {
+            if (this._disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (this._client != null)
+                {
+                    this._client.Dispose();
+                }
+            }
+
+            this._disposed = true;
+        }
+
         private static HttpClient CreateHttpClient(
             string userAgent,
             string oauthToken,
@@ -178,26 +187,38 @@
             
             HttpClient client = null;
 
-            if (handler == null)
+            try
             {
-                client = new HttpClient();
+                if (handler == null)
+                {
+                    client = new HttpClient();
+                }
+                else
+                {
+                    client = new HttpClient(handler, disposeHandler);
+                }
+
+                var headers = client.DefaultRequestHeaders;
+
+                headers.Add("User-Agent", userAgent);
+                headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+
+                if (string.IsNullOrEmpty(oauthToken))
+                {
+                    headers.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
+                }
+
+                return client;
             }
-            else
+            catch
             {
-                client = new HttpClient(handler, disposeHandler);
+                if (client != null)
+                {
+                    client.Dispose();
+                }
+
+                throw;
             }
-
-            var headers = client.DefaultRequestHeaders;
-
-            headers.Add("User-Agent", userAgent);
-            headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-
-            if (string.IsNullOrEmpty(oauthToken))
-            {
-                headers.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
-            }
-
-            return client;
         }
 
         private Uri EnsureUriAbsolute(Uri uri)

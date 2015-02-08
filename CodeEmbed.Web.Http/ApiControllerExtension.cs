@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -18,6 +19,8 @@
             this ApiController controller,
             string text)
         {
+            Contract.Requires<ArgumentNullException>(controller != null);
+
             return PlainText(controller, text, Encoding.UTF8);
         }
 
@@ -26,13 +29,14 @@
             string text,
             Encoding encoding)
         {
-            var response = controller.Request.CreateResponse(
-                HttpStatusCode.OK, text, new PlainTextMediaTypeFormatter());
+            Contract.Requires<ArgumentNullException>(controller != null);
+            Contract.Requires<ArgumentNullException>(encoding != null);
 
             var contentType = new MediaTypeHeaderValue("text/plain");
             contentType.CharSet = encoding.HeaderName;
 
-            response.Content.Headers.ContentType = contentType;
+            var response = controller.Request.CreateResponse(
+                HttpStatusCode.OK, text, new PlainTextMediaTypeFormatter(), contentType);
 
             return response;
         }

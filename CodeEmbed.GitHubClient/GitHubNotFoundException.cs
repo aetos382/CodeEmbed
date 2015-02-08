@@ -3,12 +3,14 @@
     using System;
     using System.Diagnostics.Contracts;
     using System.Globalization;
+    using System.Runtime.Serialization;
     using System.Text;
 
+    [Serializable]
     public class GitHubNotFoundException :
         GitHubException
     {
-        private const string MessageFormat = "リソースが見つかりません。";
+        private const string DefaultMessage = "リソースが見つかりません。";
 
         [ContractPublicPropertyName("ResourceUri")]
         private readonly Uri _resourceUri;
@@ -59,6 +61,23 @@
             this._resourceUri = resourceUri;
         }
 
+        protected GitHubNotFoundException(
+            SerializationInfo serializationInfo,
+            StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
+        {
+            this._resourceUri = (Uri)serializationInfo.GetValue("ResourceUri", typeof(Uri));
+        }
+
+        public override void GetObjectData(
+            SerializationInfo info,
+            StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("ResourceUri", this._resourceUri);
+        }
+
         public Uri ResourceUri
         {
             [Pure]
@@ -74,7 +93,7 @@
         {
             Contract.Ensures(Contract.Result<string>() != null);
 
-            var builder = new StringBuilder(MessageFormat);
+            var builder = new StringBuilder(DefaultMessage);
 
             if (resourceUri != null)
             {

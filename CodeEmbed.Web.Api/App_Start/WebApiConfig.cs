@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.Web.Api
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Web.Http;
     using System.Web.Http.Cors;
@@ -11,6 +12,8 @@
     {
         public static void Register(HttpConfiguration config)
         {
+            Contract.Requires<ArgumentNullException>(config != null);
+
             // Web API ルート
             config.MapHttpAttributeRoutes();
 

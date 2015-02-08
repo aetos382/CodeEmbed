@@ -10,7 +10,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GitHubClientExtensionTests
+    public sealed class GitHubClientExtensionTests :
+        IDisposable
     {
         private static string _oauthToken;
 
@@ -33,10 +34,7 @@
         [TestCleanup]
         public void TestCleanup()
         {
-            if (this._client != null)
-            {
-                this._client.Dispose();
-            }
+            this.Dispose();
         }
 
         [TestMethod]
@@ -52,6 +50,11 @@
         public async Task GistIdNotFoundTest()
         {
             await this._client.GetGist("Z");
+        }
+
+        public void Dispose()
+        {
+            this._client.Dispose();
         }
     }
 }

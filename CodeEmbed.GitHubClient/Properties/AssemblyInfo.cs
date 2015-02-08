@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -15,7 +14,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright (C)  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("ja")]
+
+// ComVisible を false に設定すると、その型はこのアセンブリ内で COM コンポーネントから 
+// 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、
+// その型の ComVisible 属性を true に設定してください。
+[assembly: ComVisible(false)]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
@@ -30,6 +33,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: ComVisible(false)]
 [assembly: CLSCompliant(true)]
 [assembly: InternalsVisibleTo("CodeEmbed.GitHubClient.Tests")]

@@ -2,7 +2,9 @@
 {
     using System;
     using System.Linq;
+    using System.Runtime.Serialization;
 
+    [Serializable]
     public class GitHubException :
         Exception
     {
@@ -19,6 +21,13 @@
             string message,
             Exception innerException)
             : base(message, innerException)
+        {
+        }
+
+        protected GitHubException(
+            SerializationInfo serializationInfo,
+            StreamingContext streamingContext)
+            : base(serializationInfo, streamingContext)
         {
         }
     }

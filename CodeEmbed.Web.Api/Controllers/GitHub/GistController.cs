@@ -18,7 +18,7 @@
         [Route("{filename}")]
         public async Task<HttpResponseMessage> GetGistCode(
             string id,
-            string filename)
+            string fileName)
         {
             var client = GitHubUtility.GetClient();
 
@@ -29,7 +29,7 @@
                 var gist = await client.Gist.Get(id);
 
                 GistFile file;
-                if (gist.Files.TryGetValue(filename, out file))
+                if (gist.Files.TryGetValue(fileName, out file))
                 {
                     response = this.PlainText(file.Content);
                 }

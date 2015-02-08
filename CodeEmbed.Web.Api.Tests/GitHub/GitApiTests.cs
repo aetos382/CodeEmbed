@@ -9,7 +9,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GitApiTests
+    public sealed class GitApiTests :
+        IDisposable
     {
         private static readonly Uri ApiBaseUri = new Uri("http://localhost:57250/github-git/");
 
@@ -28,7 +29,7 @@
         [TestCleanup]
         public void Cleanup()
         {
-            this._client.Dispose();
+            this.Dispose();
         }
 
         [TestMethod]
@@ -213,6 +214,11 @@
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
+        }
+
+        public void Dispose()
+        {
+            this._client.Dispose();
         }
     }
 }

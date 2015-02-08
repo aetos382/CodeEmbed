@@ -66,6 +66,8 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -140,6 +142,7 @@
     <Compile Include="GitHubException.cs" />
     <Compile Include="GitHubNotFoundException.cs" />
     <Compile Include="GitHubUri.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\Gist.cs" />
     <Compile Include="Models\GistFile.cs" />
     <Compile Include="Models\GistHistory.cs" />

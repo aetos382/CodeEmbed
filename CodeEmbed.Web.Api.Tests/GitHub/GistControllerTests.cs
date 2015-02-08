@@ -12,7 +12,8 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GistControllerTests
+    public sealed class GistControllerTests :
+        IDisposable
     {
         private GistController _controller;
 
@@ -32,7 +33,7 @@
         [TestCleanup]
         public void Cleanup()
         {
-            this._controller.Dispose();
+            this.Dispose();
         }
 
         [TestMethod]
@@ -65,6 +66,11 @@
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
+        }
+
+        public void Dispose()
+        {
+            this._controller.Dispose();
         }
     }
 }

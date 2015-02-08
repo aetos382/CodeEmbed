@@ -1,5 +1,5 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // アセンブリに関する一般的情報は、以下の属性セットによって
@@ -19,9 +19,6 @@ using System.Runtime.InteropServices;
 // COM からこのアセンブリ内の型にアクセスする必要がある場合は、その型の ComVisible 属性を true に設定してください。
 [assembly: ComVisible(false)]
 
-// このプロジェクトが COM に公開される場合、次の GUID が typelib の ID になります。
-[assembly: Guid("cb5c5b00-df68-4f6a-abab-7099c4d9e1d3")]
-
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
 //      メジャー バージョン
@@ -33,3 +30,5 @@ using System.Runtime.InteropServices;
 // 既定値にすることができます:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+[assembly: CLSCompliant(true)]
