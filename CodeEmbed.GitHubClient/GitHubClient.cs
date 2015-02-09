@@ -166,10 +166,7 @@
 
             if (disposing)
             {
-                if (this._client != null)
-                {
-                    this._client.Dispose();
-                }
+                this._client.Dispose();
             }
 
             this._disposed = true;
@@ -240,6 +237,7 @@
         private void ObjectInvariant()
         {
             Contract.Invariant(this._userAgent != null);
+            Contract.Invariant(this._client != null);
         }
     }
 }

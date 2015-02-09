@@ -2,6 +2,7 @@
 {
     using System;
     using System.Configuration;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     using Octokit;
@@ -11,8 +12,16 @@
     {
         public static IGitHubClient GetClient()
         {
-            string userAgent = ConfigurationManager.AppSettings["UserAgent"];
+            Contract.Ensures(Contract.Result<IGitHubClient>() != null);
+
+            string userAgent = ConfigurationManager.AppSettings["UserAgent"] ?? "CodeEmbed.v1";
             string accessToken = ConfigurationManager.AppSettings["OAuthToken"];
+
+            if (accessToken == null)
+            {
+                // TODO: Use derived exception.
+                throw new InvalidOperationException();
+            }
 
             var credentialStore = new InMemoryCredentialStore(new Credentials(accessToken));
 

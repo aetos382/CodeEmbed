@@ -80,8 +80,6 @@
             [Pure]
             get
             {
-                Contract.Ensures(Contract.Result<string>() != null);
-
                 return this._id;
             }
         }
@@ -128,13 +126,6 @@
             }
 
             return builder.ToString();
-        }
-
-        [Conditional("CONTRACTS_FULL")]
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this._id != null);
         }
     }
 }
