@@ -15,6 +15,69 @@
             string repository,
             string path)
         {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(path != null);
+
+            var repo = await client.GetRepository(user, repository).ConfigureAwait(false);
+
+            var result = await GetGitCodeFromBranch(client, user, repository, repo.DefaultBranch, path).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public static async Task<string> GetGitCodeFromBranch(
+            this GitHubClient client,
+            string user,
+            string repository,
+            string branch,
+            string path)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(branch != null);
+            Contract.Requires<ArgumentNullException>(path != null);
+
+            var bra = await client.GetBranch(user, repository, branch).ConfigureAwait(false);
+
+            var result = await GetGitCodeFromCommit(client, user, repository, bra.Commit.Hash, path).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public static async Task<string> GetGitCodeFromTag(
+            this GitHubClient client,
+            string user,
+            string repository,
+            string tag,
+            string path)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(tag != null);
+            Contract.Requires<ArgumentNullException>(path != null);
+
+            var repo = await client.GetRepository(user, repository).ConfigureAwait(false);
+
+            throw new NotImplementedException();
+        }
+
+        public static async Task<string> GetGitCodeFromCommit(
+            this GitHubClient client,
+            string user,
+            string repository,
+            string commit,
+            string path)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(commit != null);
+            Contract.Requires<ArgumentNullException>(path != null);
+
             var repo = await client.GetRepository(user, repository).ConfigureAwait(false);
 
             throw new NotImplementedException();

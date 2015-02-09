@@ -58,6 +58,40 @@
             return result;
         }
 
+        public static Task<GitReference> GetReference(
+            this GitHubClient client,
+            string user,
+            string repository,
+            string reference)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(reference != null);
+
+            var relUri = GitHubUri.Reference(user, repository, reference);
+            var result = client.GetData<GitReference>(relUri);
+
+            return result;
+        }
+
+        public static Task<GitReference> GetTagReference(
+            this GitHubClient client,
+            string user,
+            string repository,
+            string tag)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(tag != null);
+
+            var relUri = GitHubUri.TagReference(user, repository, tag);
+            var result = client.GetData<GitReference>(relUri);
+
+            return result;
+        }
+
         public static async Task<Gist> GetGist(
             this GitHubClient client,
             string id)

@@ -149,6 +149,8 @@
     <Compile Include="Models\GitBlob.cs" />
     <Compile Include="Models\GitCommit.cs" />
     <Compile Include="Models\GitCommitCore.cs" />
+    <Compile Include="Models\GitReference.cs" />
+    <Compile Include="Models\GitReferencedObject.cs" />
     <Compile Include="Models\GitTree.cs" />
     <Compile Include="Models\GitTreeNode.cs" />
     <Compile Include="Models\ModelBase.cs" />

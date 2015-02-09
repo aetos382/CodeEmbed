@@ -36,7 +36,7 @@
         public GistNotFoundException(
             string message,
             Exception innerException)
-            : base(message, innerException)
+            : base(GetUri(null, innerException), message, innerException)
         {
         }
 
@@ -45,7 +45,7 @@
             string version = null,
             string fileName = null,
             Exception innerException = null)
-            : base(GitHubUri.Gist(id), BuildMessage(id, version, fileName), innerException)
+            : base(GetUri(id, innerException), BuildMessage(id, version, fileName), innerException)
         {
             Contract.Requires<ArgumentNullException>(id != null);
 
@@ -126,6 +126,24 @@
             }
 
             return builder.ToString();
+        }
+
+        private static Uri GetUri(
+            string id,
+            Exception ex)
+        {
+            var nfe = ex as GitHubNotFoundException;
+            if (nfe != null)
+            {
+                return nfe.ResourceUri;
+            }
+
+            if (id != null)
+            {
+                return GitHubUri.Gist(id);
+            }
+
+            return null;
         }
     }
 }
