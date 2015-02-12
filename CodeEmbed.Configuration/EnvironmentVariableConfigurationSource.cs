@@ -39,6 +39,8 @@
 
         [Conditional("CONTRACTS_FULL")]
         [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._settings != null);

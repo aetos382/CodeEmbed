@@ -2,10 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using CodeEmbed.Contracts;
 
     [ContractClassFor(typeof(IConfigurationSource))]
     public abstract class ConfigurationSourceContracts :
@@ -13,9 +16,12 @@
     {
         public IDictionary<string, string> Values
         {
+            [DebuggerStepThrough]
+            [DebuggerHidden]
+            [Pure]
             get
             {
-                Contract.Ensures(Contract.Result<IDictionary<string, string>>() != null);
+                Ensures.ResultIsNotNull<IDictionary<string, string>>();
 
                 throw new NotImplementedException();
             }

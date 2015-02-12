@@ -12,7 +12,6 @@
     [ContractClass(typeof(ConfigurationSourceContracts))]
     public interface IConfigurationSource
     {
-        [Pure]
         IDictionary<string, string> Values { get; }
 
         void Refresh();

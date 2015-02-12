@@ -8,6 +8,8 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using CodeEmbed.Contracts;
+
     public class ConfigurationStore
     {
         [ContractPublicPropertyName("ConfigurationSources")]
@@ -25,7 +27,7 @@
 
         public ConfigurationStore(IEnumerable<IConfigurationSource> configurationSources)
         {
-            Contract.Requires<ArgumentNullException>(configurationSources != null);
+            Requires.ArgumentNotNull(configurationSources);
 
             this._configurationSources = new List<IConfigurationSource>(configurationSources);
         }
@@ -35,7 +37,7 @@
             [Pure]
             get
             {
-                Contract.Ensures(Contract.Result<IList<IConfigurationSource>>() != null);
+                Ensures.ResultIsNotNull<IList<IConfigurationSource>>();
 
                 return this._configurationSources;
             }
@@ -43,9 +45,9 @@
 
         public string GetConfigurationValue(string valueName)
         {
-            Contract.Requires<ArgumentNullException>(valueName != null);
+            Requires.StringNotNullOrEmpty(valueName);
 
-            var source = this._configurationSources.FirstOrDefault(
+            var source = this._configurationSources.LastOrDefault(
                 x => x.Values.ContainsKey(valueName));
 
             if (source == null)
@@ -59,6 +61,8 @@
 
         [Conditional("CONTRACTS_FULL")]
         [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._configurationSources != null);

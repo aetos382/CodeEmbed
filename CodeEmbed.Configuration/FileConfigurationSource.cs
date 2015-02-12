@@ -9,15 +9,20 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using CodeEmbed.Contracts;
+
     using Newtonsoft.Json;
 
     public class FileConfigurationSource :
         IConfigurationSource
     {
+        [ContractPublicPropertyName("DefaultConfigurationFilePath")]
         private static string _defaultConfigurationFilePath;
 
-        private IDictionary<string, string> _settings;
+        [ContractPublicPropertyName("Values")]
+        private IDictionary<string, string> _settings = new Dictionary<string, string>();
 
+        [ContractPublicPropertyName("ConfigurationFilePath")]
         private string _configurationFilePath;
 
         public FileConfigurationSource()
@@ -28,7 +33,7 @@
         public FileConfigurationSource(
             string configurationFilePath)
         {
-            Contract.Requires<ArgumentNullException>(configurationFilePath != null);
+            Requires.StringNotNullOrEmpty(configurationFilePath);
 
             this._configurationFilePath = configurationFilePath;
 
@@ -40,7 +45,7 @@
             [Pure]
             get
             {
-                Contract.Ensures(Contract.Result<string>() != null);
+                Ensures.StringIsNotNullOrEmpty();
 
                 if (_defaultConfigurationFilePath == null)
                 {
@@ -57,14 +62,14 @@
             [Pure]
             get
             {
-                Contract.Ensures(Contract.Result<string>() != null);
+                Ensures.StringIsNotNullOrEmpty();
 
                 return this._configurationFilePath;
             }
 
             set
             {
-                Contract.Requires<ArgumentNullException>(value != null);
+                Requires.StringNotNullOrEmpty(value);
 
                 if (string.Equals(this._configurationFilePath, value, StringComparison.OrdinalIgnoreCase))
                 {
@@ -87,15 +92,33 @@
 
         public void Refresh()
         {
+            this._settings.Clear();
+
+            if (!File.Exists(this._configurationFilePath))
+            {
+                return;
+            }
+
             string json = File.ReadAllText(this._configurationFilePath);
-            this._settings = JsonConvert.DeserializeObject<IDictionary<string, string>>(json);
+            var settings = JsonConvert.DeserializeObject<IDictionary<string, string>>(json);
+            if (settings != null)
+            {
+                this._settings = settings;
+            }
         }
 
         [Conditional("CONTRACTS_FULL")]
         [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
         private void ObjectInvariant()
         {
+            Contract.Invariant(_defaultConfigurationFilePath != null);
+            Contract.Invariant(!string.IsNullOrEmpty(_defaultConfigurationFilePath));
+
             Contract.Invariant(this._configurationFilePath != null);
+            Contract.Invariant(!string.IsNullOrEmpty(this._configurationFilePath));
+
             Contract.Invariant(this._settings != null);
         }
     }

@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Configuration", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Configuration.Tests", "CodeEmbed.Configuration.Tests\CodeEmbed.Configuration.Tests.csproj", "{4FE7D85F-3950-4F48-890C-26747307BFC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Contracts", "CodeEmbed.Contracts\CodeEmbed.Contracts.csproj", "{89D71FF0-DE64-41EB-9182-A3D51E7789AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D71FF0-DE64-41EB-9182-A3D51E7789AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D71FF0-DE64-41EB-9182-A3D51E7789AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D71FF0-DE64-41EB-9182-A3D51E7789AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D71FF0-DE64-41EB-9182-A3D51E7789AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
