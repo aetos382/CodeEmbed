@@ -3,11 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Configuration;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using Newtonsoft.Json;
 
     [TestClass]
     public sealed class GitHubClientExtensionTests :
@@ -22,7 +25,7 @@
         [ClassInitialize]
         public static void ClassInitialize(TestContext testContext)
         {
-            _oauthToken = ConfigurationManager.AppSettings["OAuthToken"];
+            _oauthToken = GetOAuthToken(testContext);
         }
 
         [TestInitialize]
@@ -55,6 +58,22 @@
         public void Dispose()
         {
             this._client.Dispose();
+        }
+
+        private static string GetOAuthToken(TestContext testContext)
+        {
+            string token = Environment.GetEnvironmentVariable("github_oauth_token");
+            if (string.IsNullOrEmpty(token))
+            {
+                return token;
+            }
+
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string path = Path.Combine(dir, "CodeEmbed.Tests.json");
+
+            string json = File.ReadAllText(path);
+
+            var dictionary = JsonConvert.DeserializeObject<IDictionary<string, string>>(json);
         }
     }
 }

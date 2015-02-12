@@ -39,6 +39,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Site", "CodeE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.GitHubClient", "CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj", "{66479F3B-F2B8-484D-8192-0089694A0311}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Configuration", "CodeEmbed.Configuration\CodeEmbed.Configuration.csproj", "{B8E0AC78-7F88-4770-97AA-5818110D1C1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Configuration.Tests", "CodeEmbed.Configuration.Tests\CodeEmbed.Configuration.Tests.csproj", "{4FE7D85F-3950-4F48-890C-26747307BFC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{66479F3B-F2B8-484D-8192-0089694A0311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66479F3B-F2B8-484D-8192-0089694A0311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66479F3B-F2B8-484D-8192-0089694A0311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E0AC78-7F88-4770-97AA-5818110D1C1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E0AC78-7F88-4770-97AA-5818110D1C1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E0AC78-7F88-4770-97AA-5818110D1C1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E0AC78-7F88-4770-97AA-5818110D1C1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FE7D85F-3950-4F48-890C-26747307BFC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
