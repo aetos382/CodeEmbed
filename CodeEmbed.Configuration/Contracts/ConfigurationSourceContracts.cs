@@ -11,12 +11,12 @@
     using CodeEmbed.Contracts;
 
     [ContractClassFor(typeof(IConfigurationSource))]
+    [DebuggerStepThrough]
     public abstract class ConfigurationSourceContracts :
         IConfigurationSource
     {
         public IDictionary<string, string> Values
         {
-            [DebuggerStepThrough]
             [DebuggerHidden]
             [Pure]
             get

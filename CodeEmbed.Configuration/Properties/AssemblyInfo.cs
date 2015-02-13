@@ -20,9 +20,6 @@ using System.Runtime.InteropServices;
 // その型の ComVisible 属性を true に設定してください。
 [assembly: ComVisible(false)]
 
-// 次の GUID は、このプロジェクトが COM に公開される場合の、typelib の ID です
-[assembly: Guid("ce9c0ca0-bb32-4492-a6e6-ec3b2f6d1b26")]
-
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されています:
 //
 //      Major Version
@@ -37,4 +34,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: CLSCompliant(true)]
-
+[assembly: InternalsVisibleTo("CodeEmbed.Configuration.Tests")]
