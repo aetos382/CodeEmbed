@@ -39,8 +39,8 @@
 
         public GitHubClient(
             string userAgent,
-            string oauthToken)
-            : this(DefaultBaseUri, userAgent, oauthToken, null, true)
+            string oAuthToken)
+            : this(DefaultBaseUri, userAgent, oAuthToken, null, true)
         {
             Contract.Requires<ArgumentNullException>(userAgent != null);
         }
@@ -48,7 +48,7 @@
         public GitHubClient(
             Uri baseUri,
             string userAgent,
-            string oauthToken,
+            string oAuthToken,
             HttpClientHandler handler,
             bool disposeHandler)
         {
@@ -58,7 +58,7 @@
             this._baseUri = baseUri;
             this._userAgent = userAgent;
 
-            this._client = CreateHttpClient(userAgent, oauthToken, handler, disposeHandler);
+            this._client = CreateHttpClient(userAgent, oAuthToken, handler, disposeHandler);
         }
 
         public Uri BaseUri
@@ -174,7 +174,7 @@
 
         private static HttpClient CreateHttpClient(
             string userAgent,
-            string oauthToken,
+            string oAuthToken,
             HttpClientHandler handler = null,
             bool disposeHandler = true)
         {
@@ -200,9 +200,9 @@
                 headers.Add("User-Agent", userAgent);
                 headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
 
-                if (string.IsNullOrEmpty(oauthToken))
+                if (string.IsNullOrEmpty(oAuthToken))
                 {
-                    headers.Authorization = new AuthenticationHeaderValue("Token", oauthToken);
+                    headers.Authorization = new AuthenticationHeaderValue("Token", oAuthToken);
                 }
 
                 return client;

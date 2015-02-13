@@ -6,14 +6,14 @@
     using System.Globalization;
     using System.Linq;
     using System.Runtime.Serialization;
+    using System.Runtime.Versioning;
     using System.Text;
+    using CodeEmbed.GitHubClient.Properties;
 
     [Serializable]
     public class GistNotFoundException :
         GitHubNotFoundException
     {
-        private const string DefaultMessage = "Gist ファイルが見つかりません。";
-
         [ContractPublicPropertyName("Id")]
         private readonly string _id;
 
@@ -24,7 +24,7 @@
         private readonly string _fileName;
 
         public GistNotFoundException()
-            : base(DefaultMessage)
+            : base(Resources.GistNotFound)
         {
         }
 
@@ -111,7 +111,7 @@
 
             Contract.Ensures(Contract.Result<string>() != null);
 
-            var builder = new StringBuilder(DefaultMessage);
+            var builder = new StringBuilder(Resources.GistNotFound);
 
             builder.AppendFormat(CultureInfo.InvariantCulture, "Id = {0}", id);
 

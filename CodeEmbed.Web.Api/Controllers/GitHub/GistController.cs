@@ -31,7 +31,7 @@
                 GistFile file;
                 if (gist.Files.TryGetValue(fileName, out file))
                 {
-                    response = this.PlainText(file.Content);
+                    response = this.Plaintext(file.Content);
                 }
                 else
                 {

@@ -15,16 +15,16 @@
 
     public static class ApiControllerExtension
     {
-        public static HttpResponseMessage PlainText(
+        public static HttpResponseMessage Plaintext(
             this ApiController controller,
             string text)
         {
             Contract.Requires<ArgumentNullException>(controller != null);
 
-            return PlainText(controller, text, Encoding.UTF8);
+            return Plaintext(controller, text, Encoding.UTF8);
         }
 
-        public static HttpResponseMessage PlainText(
+        public static HttpResponseMessage Plaintext(
             this ApiController controller,
             string text,
             Encoding encoding)
@@ -36,7 +36,7 @@
             contentType.CharSet = encoding.HeaderName;
 
             var response = controller.Request.CreateResponse(
-                HttpStatusCode.OK, text, new PlainTextMediaTypeFormatter(), contentType);
+                HttpStatusCode.OK, text, new PlaintextMediaTypeFormatter(), contentType);
 
             return response;
         }

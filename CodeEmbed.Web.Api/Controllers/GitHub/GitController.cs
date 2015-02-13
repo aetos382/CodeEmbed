@@ -185,7 +185,7 @@
                     throw new NotSupportedException(string.Format("blob.encoding = {0}", blob.Encoding));
                 }
 
-                response = this.PlainText(content);
+                response = this.Plaintext(content);
             }
             catch (NotFoundException ex)
             {
