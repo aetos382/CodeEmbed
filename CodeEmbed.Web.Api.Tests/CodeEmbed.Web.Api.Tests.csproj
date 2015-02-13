@@ -83,6 +83,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
     <Content Include="App.config" />
     <Content Include="Test\Foo\Bar\Test2.txt" />
     <Content Include="Test\Test1.txt" />

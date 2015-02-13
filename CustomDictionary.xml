@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- see https://msdn.microsoft.com/ja-jp/library/bb514188.aspx -->
 <Dictionary>
   <Words>
-    <Unrecognized>
-      <!-- <Word>cb</Word> -->
-    </Unrecognized>
     <Recognized>
       <Word>Git</Word>
     </Recognized>
-    <Deprecated>
-      <!-- <Term PreferredAlternate="EnterpriseServices">ComPlus</Term> -->
-    </Deprecated>
   </Words>
-  <Acronyms>
-    <CasingExceptions>
-      <!-- <Acronym>CJK</Acronym> -->
-    </CasingExceptions>
-  </Acronyms>
 </Dictionary>
