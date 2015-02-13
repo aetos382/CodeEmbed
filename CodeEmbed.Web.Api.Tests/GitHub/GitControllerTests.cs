@@ -62,7 +62,7 @@
         }
 
         [TestMethod]
-        public async Task GetGitCodeInvaldUserTest()
+        public async Task GetGitCodeInvalidUserTest()
         {
             using (var response = await this._controller.GetGitCode("--- invalid user name ---", "repository", "path"))
             {
@@ -71,7 +71,7 @@
         }
 
         [TestMethod]
-        public async Task GetGitCodeInvaldRepositoryTest()
+        public async Task GetGitCodeInvalidRepositoryTest()
         {
             using (var response = await this._controller.GetGitCode("aetos382", "--- invalid repository name ---", "path"))
             {

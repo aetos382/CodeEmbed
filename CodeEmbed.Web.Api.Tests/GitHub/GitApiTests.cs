@@ -57,7 +57,7 @@
         }
 
         [TestMethod]
-        public async Task GetGitCodeInvaldUserTest()
+        public async Task GetGitCodeInvalidUserTest()
         {
             var uri = new Uri(ApiBaseUri, "--- invalid user name ---/repository/path");
 
@@ -68,7 +68,7 @@
         }
 
         [TestMethod]
-        public async Task GetGitCodeInvaldRepositoryTest()
+        public async Task GetGitCodeInvalidRepositoryTest()
         {
             var uri = new Uri(ApiBaseUri, "aetos382/--- invalid repository name ---/path");
 

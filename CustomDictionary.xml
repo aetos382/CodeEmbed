@@ -5,6 +5,8 @@
     <Recognized>
       <Word>Git</Word>
       <Word>Api</Word>
+      <Word>OAuth</Word>
+      <Word>Mvc</Word>
     </Recognized>
   </Words>
 </Dictionary>
