@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.Contracts
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
@@ -25,6 +26,15 @@
         {
             Contract.Ensures(Contract.Result<string>() != null);
             Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
+        }
+
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        [ContractAbbreviator]
+        public static void NotContainNull()
+        {
+            Contract.Ensures(Contract.Result<IEnumerable>() != null);
+            Contract.Ensures(Contract.ForAll(Contract.Result<IEnumerable>().Cast<object>(), x => x != null));
         }
     }
 }

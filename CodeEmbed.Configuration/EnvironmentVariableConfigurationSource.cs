@@ -14,7 +14,15 @@
         [ContractPublicPropertyName("Values")]
         private readonly IDictionary<string, string> _settings = new Dictionary<string, string>();
 
+        private readonly EnvironmentVariableTarget _target;
+
         public EnvironmentVariableConfigurationSource()
+            : this(EnvironmentVariableTarget.Process)
+        {
+        }
+
+        public EnvironmentVariableConfigurationSource(
+            EnvironmentVariableTarget target)
         {
             this.Refresh();
         }
@@ -27,13 +35,21 @@
             }
         }
 
+        public EnvironmentVariableTarget Target
+        {
+            get
+            {
+                return this._target;
+            }
+        }
+
         public void Refresh()
         {
             this._settings.Clear();
 
             foreach (string key in Environment.GetEnvironmentVariables().Keys)
             {
-                this._settings[key] = Environment.GetEnvironmentVariable(key);
+                this._settings[key] = Environment.GetEnvironmentVariable(key, this._target);
             }
         }
 

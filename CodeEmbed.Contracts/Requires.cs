@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.Contracts
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
@@ -25,6 +26,15 @@
         {
             Contract.Requires<ArgumentNullException>(argument != null);
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(argument));
+        }
+
+        [ContractAbbreviator]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        public static void NotContainNull(IEnumerable collection)
+        {
+            Contract.Requires<ArgumentNullException>(collection != null);
+            Contract.Requires<ArgumentNullException>(Contract.ForAll(collection.Cast<object>(), x => x != null));
         }
     }
 }

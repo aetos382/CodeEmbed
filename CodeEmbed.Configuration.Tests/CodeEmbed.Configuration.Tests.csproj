@@ -50,6 +50,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AppSettingsConfigurationSourceTests.cs" />
+    <Compile Include="ConfigurationStoreTests.cs" />
+    <Compile Include="EnvironmentVariableConfigurationSourceTests.cs" />
+    <Compile Include="FileConfigurationSourceTests.cs" />
+    <Compile Include="MockConfigurationSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +62,12 @@
       <Project>{b8e0ac78-7f88-4770-97aa-5818110d1c1d}</Project>
       <Name>CodeEmbed.Configuration</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="TestData\config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

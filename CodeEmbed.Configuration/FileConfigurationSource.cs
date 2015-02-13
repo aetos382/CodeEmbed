@@ -17,13 +17,16 @@
         IConfigurationSource
     {
         [ContractPublicPropertyName("DefaultConfigurationFilePath")]
-        private static string _defaultConfigurationFilePath;
+        private static string _defaultConfigurationFilePath = GetDefaultConfigurationPath();
 
         [ContractPublicPropertyName("Values")]
         private IDictionary<string, string> _settings = new Dictionary<string, string>();
 
         [ContractPublicPropertyName("ConfigurationFilePath")]
         private string _configurationFilePath;
+
+        [ContractPublicPropertyName("FileMustExist")]
+        private readonly bool _fileMustExist = false;
 
         public FileConfigurationSource()
             : this(DefaultConfigurationFilePath)
@@ -32,26 +35,36 @@
 
         public FileConfigurationSource(
             string configurationFilePath)
+            : this(configurationFilePath, false)
+        {
+            Requires.StringNotNullOrEmpty(configurationFilePath);
+        }
+
+        public FileConfigurationSource(
+            string configurationFilePath,
+            bool fileMustExist)
         {
             Requires.StringNotNullOrEmpty(configurationFilePath);
 
             this._configurationFilePath = configurationFilePath;
+            this._fileMustExist = fileMustExist;
 
             this.Refresh();
         }
 
         public static string DefaultConfigurationFilePath
         {
+            set
+            {
+                Requires.StringNotNullOrEmpty(value);
+
+                _defaultConfigurationFilePath = value;
+            }
+
             [Pure]
             get
             {
                 Ensures.StringIsNotNullOrEmpty();
-
-                if (_defaultConfigurationFilePath == null)
-                {
-                    string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                    _defaultConfigurationFilePath = Path.Combine(dir, "CodeEmbed.config.json");
-                }
 
                 return _defaultConfigurationFilePath;
             }
@@ -82,6 +95,15 @@
             }
         }
 
+        public bool FileMustExist
+        {
+            [Pure]
+            get
+            {
+                return this._fileMustExist;
+            }
+        }
+
         public IDictionary<string, string> Values
         {
             get
@@ -94,17 +116,38 @@
         {
             this._settings.Clear();
 
-            if (!File.Exists(this._configurationFilePath))
+            string json;
+
+            try
             {
+                json = File.ReadAllText(this._configurationFilePath);
+            }
+            catch
+            {
+                if (this._fileMustExist)
+                {
+                    throw;
+                }
+
                 return;
             }
 
-            string json = File.ReadAllText(this._configurationFilePath);
             var settings = JsonConvert.DeserializeObject<IDictionary<string, string>>(json);
             if (settings != null)
             {
                 this._settings = settings;
             }
+        }
+
+        [Pure]
+        private static string GetDefaultConfigurationPath()
+        {
+            Ensures.StringIsNotNullOrEmpty();
+
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string path = Path.Combine(dir, "CodeEmbed.config.json");
+
+            return path;
         }
 
         [Conditional("CONTRACTS_FULL")]
