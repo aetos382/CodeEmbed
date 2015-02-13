@@ -9,8 +9,6 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using CodeEmbed.Contracts;
-
     using Newtonsoft.Json;
 
     public class FileConfigurationSource :
@@ -19,14 +17,14 @@
         [ContractPublicPropertyName("DefaultConfigurationFilePath")]
         private static string _defaultConfigurationFilePath = GetDefaultConfigurationPath();
 
+        [ContractPublicPropertyName("FileMustExist")]
+        private readonly bool _fileMustExist = false;
+
         [ContractPublicPropertyName("Values")]
         private IDictionary<string, string> _settings = new Dictionary<string, string>();
 
         [ContractPublicPropertyName("ConfigurationFilePath")]
         private string _configurationFilePath;
-
-        [ContractPublicPropertyName("FileMustExist")]
-        private readonly bool _fileMustExist = false;
 
         public FileConfigurationSource()
             : this(DefaultConfigurationFilePath)
@@ -37,14 +35,16 @@
             string configurationFilePath)
             : this(configurationFilePath, false)
         {
-            Requires.StringNotNullOrEmpty(configurationFilePath);
+            Contract.Requires<ArgumentNullException>(configurationFilePath != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(configurationFilePath));
         }
 
         public FileConfigurationSource(
             string configurationFilePath,
             bool fileMustExist)
         {
-            Requires.StringNotNullOrEmpty(configurationFilePath);
+            Contract.Requires<ArgumentNullException>(configurationFilePath != null);
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(configurationFilePath));
 
             this._configurationFilePath = configurationFilePath;
             this._fileMustExist = fileMustExist;
@@ -54,19 +54,21 @@
 
         public static string DefaultConfigurationFilePath
         {
-            set
-            {
-                Requires.StringNotNullOrEmpty(value);
-
-                _defaultConfigurationFilePath = value;
-            }
-
             [Pure]
             get
             {
-                Ensures.StringIsNotNullOrEmpty();
+                Contract.Ensures(Contract.Result<string>() != null);
+                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
                 return _defaultConfigurationFilePath;
+            }
+
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(value));
+
+                _defaultConfigurationFilePath = value;
             }
         }
 
@@ -75,14 +77,16 @@
             [Pure]
             get
             {
-                Ensures.StringIsNotNullOrEmpty();
+                Contract.Ensures(Contract.Result<string>() != null);
+                Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
                 return this._configurationFilePath;
             }
 
             set
             {
-                Requires.StringNotNullOrEmpty(value);
+                Contract.Requires<ArgumentNullException>(value != null);
+                Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(value));
 
                 if (string.Equals(this._configurationFilePath, value, StringComparison.OrdinalIgnoreCase))
                 {
@@ -142,7 +146,8 @@
         [Pure]
         private static string GetDefaultConfigurationPath()
         {
-            Ensures.StringIsNotNullOrEmpty();
+            Contract.Ensures(Contract.Result<string>() != null);
+            Contract.Ensures(!string.IsNullOrEmpty(Contract.Result<string>()));
 
             string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             string path = Path.Combine(dir, "CodeEmbed.config.json");

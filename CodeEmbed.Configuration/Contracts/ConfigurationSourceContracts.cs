@@ -8,8 +8,6 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using CodeEmbed.Contracts;
-
     [ContractClassFor(typeof(IConfigurationSource))]
     [DebuggerStepThrough]
     public abstract class ConfigurationSourceContracts :
@@ -21,7 +19,7 @@
             [Pure]
             get
             {
-                Ensures.ResultIsNotNull<IDictionary<string, string>>();
+                Contract.Ensures(Contract.Result<IDictionary<string, string>>() != null);
 
                 throw new NotImplementedException();
             }

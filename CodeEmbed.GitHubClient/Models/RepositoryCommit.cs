@@ -13,7 +13,7 @@
         RepositoryCommitCore
     {
         [JsonProperty("commit")]
-        public RepositoryGitCommit COmmit { get; set; }
+        public RepositoryGitCommit Commit { get; set; }
 
         [JsonProperty("stats")]
         public RepositoryCommitStat Stats { get; set; }

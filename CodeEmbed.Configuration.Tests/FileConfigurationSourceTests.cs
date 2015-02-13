@@ -1,8 +1,6 @@
 ﻿namespace CodeEmbed.Configuration.Tests
 {
     using System;
-    using System.Text;
-    using System.Collections.Generic;
     using System.IO;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;

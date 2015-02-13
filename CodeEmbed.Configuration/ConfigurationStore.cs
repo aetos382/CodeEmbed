@@ -8,19 +8,17 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using CodeEmbed.Contracts;
-
     public class ConfigurationStore
     {
-        [ContractPublicPropertyName("ConfigurationSources")]
-        private readonly IList<IConfigurationSource> _configurationSources;
-
         private static readonly IConfigurationSource[] _defaultConfigurationSources =
             {
                 new AppSettingsConfigurationSource(),
                 new FileConfigurationSource(),
                 new EnvironmentVariableConfigurationSource()
             };
+
+        [ContractPublicPropertyName("ConfigurationSources")]
+        private readonly IList<IConfigurationSource> _configurationSources;
 
         public ConfigurationStore()
             : this(_defaultConfigurationSources)
@@ -30,13 +28,15 @@
         public ConfigurationStore(params IConfigurationSource[] configurationSources)
             : this((IEnumerable<IConfigurationSource>)configurationSources)
         {
-            Requires.NotContainNull(configurationSources);
+            Contract.Requires<ArgumentNullException>(configurationSources != null);
+            Contract.Requires<ArgumentNullException>(Contract.ForAll(configurationSources, x => x != null));
         }
 
         public ConfigurationStore(
             IEnumerable<IConfigurationSource> configurationSources)
         {
-            Requires.NotContainNull(configurationSources);
+            Contract.Requires<ArgumentNullException>(configurationSources != null);
+            Contract.Requires<ArgumentNullException>(Contract.ForAll(configurationSources, x => x != null));
 
             this._configurationSources = configurationSources.ToArray();
         }
@@ -46,7 +46,8 @@
             [Pure]
             get
             {
-                Ensures.ResultIsNotNull<IList<IConfigurationSource>>();
+                Contract.Ensures(Contract.Result<IEnumerable<IConfigurationSource>>() != null);
+                Contract.Ensures(Contract.ForAll(Contract.Result<IEnumerable<IConfigurationSource>>(), x => x != null));
 
                 return this._configurationSources.ToArray();
             }
@@ -55,8 +56,6 @@
         [Pure]
         public string GetConfigurationValue(string valueName)
         {
-            Requires.StringNotNullOrEmpty(valueName);
-
             var source = this._configurationSources.FirstOrDefault(
                 x => x.Values.ContainsKey(valueName));
 

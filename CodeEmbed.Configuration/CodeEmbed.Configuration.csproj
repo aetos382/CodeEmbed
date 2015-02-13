@@ -149,12 +149,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CodeEmbed.Contracts\CodeEmbed.Contracts.csproj">
-      <Project>{89D71FF0-DE64-41EB-9182-A3D51E7789AD}</Project>
-      <Name>CodeEmbed.Contracts</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>

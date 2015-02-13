@@ -69,15 +69,6 @@
             this._resourceUri = (Uri)serializationInfo.GetValue("ResourceUri", typeof(Uri));
         }
 
-        public override void GetObjectData(
-            SerializationInfo info,
-            StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-            info.AddValue("ResourceUri", this._resourceUri);
-        }
-
         public Uri ResourceUri
         {
             [Pure]
@@ -85,6 +76,15 @@
             {
                 return this._resourceUri;
             }
+        }
+
+        public override void GetObjectData(
+            SerializationInfo info,
+            StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("ResourceUri", this._resourceUri);
         }
 
         private static string BuildMessage(

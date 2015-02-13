@@ -19,7 +19,9 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture, "/repos/{0}/{1}", user, repository);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}", user, repository);
+
             var relUri = new Uri(relUriString, UriKind.Relative);
 
             return relUri;
@@ -36,8 +38,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/branches/{2}", user, repository, branch);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/branches/{2}", user, repository, branch);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -53,8 +55,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/branches/{1}", repositoryFullName, branch);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/branches/{1}", repositoryFullName, branch);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -70,8 +72,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/git/refs", user, repository);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs", user, repository);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -89,8 +91,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/git/refs/{2}", user, repository, reference);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/{2}", user, repository, reference);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -108,8 +110,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/git/refs/heads/{2}", user, repository, branch);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/heads/{2}", user, repository, branch);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -127,8 +129,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/git/refs/tags/{2}", user, repository, tag);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/tags/{2}", user, repository, tag);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -144,8 +146,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/git/refs/heads", user, repository);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/heads", user, repository);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -161,8 +163,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/repos/{0}/{1}/git/refs/tags", user, repository);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/tags", user, repository);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 
@@ -176,8 +178,8 @@
 
             Contract.Ensures(Contract.Result<Uri>() != null);
 
-            string relUriString = string.Format(CultureInfo.InvariantCulture,
-                "/gists/{0}", id);
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/gists/{0}", id);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 

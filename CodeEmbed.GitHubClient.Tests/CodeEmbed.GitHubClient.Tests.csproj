@@ -65,7 +65,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="GitHubClientExtensionTests.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

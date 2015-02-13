@@ -64,17 +64,6 @@
             this._fileName = serializationInfo.GetString("FileName");
         }
 
-        public override void GetObjectData(
-            SerializationInfo info,
-            StreamingContext context)
-        {
-            base.GetObjectData(info, context);
-
-            info.AddValue("Id", this._id);
-            info.AddValue("Version", this._version);
-            info.AddValue("FileName", this._fileName);
-        }
-
         public string Id
         {
             [Pure]
@@ -100,6 +89,17 @@
             {
                 return this._fileName;
             }
+        }
+
+        public override void GetObjectData(
+            SerializationInfo info,
+            StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+
+            info.AddValue("Id", this._id);
+            info.AddValue("Version", this._version);
+            info.AddValue("FileName", this._fileName);
         }
 
         private static string BuildMessage(
