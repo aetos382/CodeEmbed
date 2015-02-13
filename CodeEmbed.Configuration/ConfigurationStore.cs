@@ -52,6 +52,7 @@
             }
         }
 
+        [Pure]
         public string GetConfigurationValue(string valueName)
         {
             Requires.StringNotNullOrEmpty(valueName);

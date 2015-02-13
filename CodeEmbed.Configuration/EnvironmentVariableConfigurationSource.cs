@@ -24,6 +24,8 @@
         public EnvironmentVariableConfigurationSource(
             EnvironmentVariableTarget target)
         {
+            this._target = target;
+
             this.Refresh();
         }
 
