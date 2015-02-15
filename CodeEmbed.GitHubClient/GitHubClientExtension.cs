@@ -58,7 +58,7 @@
             return result;
         }
 
-        public static Task<GitReference> GetReference(
+        public static Task<GitReference> GetGitReference(
             this GitHubClient client,
             string user,
             string repository,
@@ -69,13 +69,30 @@
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(reference != null);
 
-            var relUri = GitHubUri.Reference(user, repository, reference);
+            var relUri = GitHubUri.GitReference(user, repository, reference);
             var result = client.GetData<GitReference>(relUri);
 
             return result;
         }
 
-        public static Task<GitReference> GetTagReference(
+        public static Task<GitReference> GetGitBranch(
+            this GitHubClient client,
+            string user,
+            string repository,
+            string branch)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(branch != null);
+
+            var relUri = GitHubUri.GitBranch(user, repository, branch);
+            var result = client.GetData<GitReference>(relUri);
+
+            return result;
+        }
+
+        public static Task<GitReference> GetGitTag(
             this GitHubClient client,
             string user,
             string repository,
@@ -86,7 +103,7 @@
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(tag != null);
 
-            var relUri = GitHubUri.TagReference(user, repository, tag);
+            var relUri = GitHubUri.GitTag(user, repository, tag);
             var result = client.GetData<GitReference>(relUri);
 
             return result;

@@ -5,8 +5,10 @@
     <Recognized>
       <Word>Git</Word>
       <Word>Api</Word>
-      <Word>OAuth</Word>
       <Word>Mvc</Word>
     </Recognized>
+    <DiscreteExceptions>
+      <Word>oAuth</Word>
+    </DiscreteExceptions>
   </Words>
 </Dictionary>

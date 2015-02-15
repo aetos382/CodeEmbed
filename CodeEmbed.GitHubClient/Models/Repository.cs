@@ -1,36 +1,83 @@
 ﻿namespace CodeEmbed.GitHubClient.Models
 {
+    //// GET /repos/:owner/:repo
+    
     using System;
     using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
-    using Newtonsoft.Json;
-
-    [JsonObject]
     public partial class Repository :
-        ModelBase
+        IRepository
     {
-        [JsonProperty("id")]
-        public long Id { get; set; }
+        private readonly IRepository _repository;
 
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        private readonly IConnection _connection;
 
-        [JsonProperty("full_name")]
-        public string FullName { get; set; }
+        public Repository(
+            IRepository repository,
+            IConnection connection)
+        {
+            this._repository = repository;
 
-        [JsonProperty("owner")]
-        public RepositoryUser Owner { get; set; }
+            this._connection = connection;
+        }
 
-        [JsonProperty("description")]
-        public string Description { get; set; }
+        public long Id
+        {
+            get
+            {
+                return this._repository.Id;
+            }
+        }
 
-        [JsonProperty("url")]
-        public Uri Uri { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this._repository.Name;
+            }
+        }
 
-        [JsonProperty("default_branch")]
-        public string DefaultBranch { get; set; }
+        public string FullName
+        {
+            get
+            {
+                return this._repository.FullName;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return this._repository.Description;
+            }
+        }
+
+        public Uri Uri
+        {
+            get
+            {
+                return this._repository.Uri;
+            }
+        }
+
+        public string DefaultBranch
+        {
+            get
+            {
+                return this._repository.DefaultBranch;
+            }
+        }
+
+        public IConnection Connection
+        {
+            get
+            {
+                return this._connection;
+            }
+        }
     }
 }

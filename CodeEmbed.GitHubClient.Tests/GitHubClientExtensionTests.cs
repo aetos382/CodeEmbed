@@ -7,8 +7,6 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    using CodeEmbed.Configuration;
-
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     using Newtonsoft.Json;
@@ -26,7 +24,7 @@
         [ClassInitialize]
         public static void ClassInitialize(TestContext testContext)
         {
-            _oauthToken = new ConfigurationStore().GetConfigurationValue("github_oauth_token");
+            _oauthToken = GetOAuthToken();
         }
 
         [TestInitialize]
@@ -59,6 +57,28 @@
         public void Dispose()
         {
             this._client.Dispose();
+        }
+
+        private static string GetOAuthToken()
+        {
+            string token = Environment.GetEnvironmentVariable("github_oauth_token");
+            if (token != null)
+            {
+                return token;
+            }
+
+            string dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            string path = Path.Combine(dir, "CodeEmbed.config.txt");
+
+            try
+            {
+                token = File.ReadAllText(path, Encoding.UTF8);
+            }
+            catch
+            {
+            }
+
+            return token;
         }
     }
 }

@@ -1,18 +1,29 @@
 ﻿namespace CodeEmbed.GitHubClient.Models
 {
+    //// GET /repos/:owner/:repo/branches[/:branch]
+    
     using System;
     using System.Linq;
+    using System.Runtime.Serialization;
 
-    using Newtonsoft.Json;
-
-    [JsonObject]
-    public class Branch :
-        ModelBase
+    [DataContract]
+    public class Branch
     {
-        [JsonProperty("name")]
-        public string Name { get; set; }
+        private readonly IBranch _branch;
 
-        [JsonProperty("commit")]
-        public RepositoryCommitCore Commit { get; set; }
+        public Branch(
+            IBranch branch)
+        {
+            this._branch = branch;
+        }
+
+        [DataMember]
+        public string Name
+        {
+            get
+            {
+                return this._branch.Name;
+            }
+        }
     }
 }

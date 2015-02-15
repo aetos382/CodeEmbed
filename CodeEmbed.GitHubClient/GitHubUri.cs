@@ -63,7 +63,7 @@
             return relUri;
         }
 
-        public static Uri References(
+        public static Uri GitReferences(
             string user,
             string repository)
         {
@@ -80,7 +80,7 @@
             return relUri;
         }
 
-        public static Uri Reference(
+        public static Uri GitReference(
             string user,
             string repository,
             string reference)
@@ -99,7 +99,7 @@
             return relUri;
         }
 
-        public static Uri BranchReference(
+        public static Uri GitBranch(
             string user,
             string repository,
             string branch)
@@ -118,7 +118,7 @@
             return relUri;
         }
 
-        public static Uri TagReference(
+        public static Uri GitTag(
             string user,
             string repository,
             string tag)
@@ -137,7 +137,7 @@
             return relUri;
         }
 
-        public static Uri BranchReferences(
+        public static Uri GitBranches(
             string user,
             string repository)
         {
@@ -154,7 +154,7 @@
             return relUri;
         }
 
-        public static Uri TagReference(
+        public static Uri GitTags(
             string user,
             string repository)
         {
@@ -165,6 +165,25 @@
 
             string relUriString = string.Format(
                 CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/tags", user, repository);
+
+            var relUri = new Uri(relUriString, UriKind.Relative);
+
+            return relUri;
+        }
+
+        public static Uri GitCommit(
+            string user,
+            string repository,
+            string commit)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(commit != null);
+
+            Contract.Ensures(Contract.Result<Uri>() != null);
+
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/commits/{2}", user, repository, commit);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 

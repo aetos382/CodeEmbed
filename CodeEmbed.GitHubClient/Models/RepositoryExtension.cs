@@ -16,9 +16,7 @@
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(branch != null);
 
-            var result = repository.Client.GetBranch(repository.FullName, branch);
-
-            return result;
+            throw new NotImplementedException();
         }
 
         public static Task<Branch> GetDefaultBranch(

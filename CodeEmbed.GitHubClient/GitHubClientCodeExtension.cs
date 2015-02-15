@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models;
+    using CodeEmbed.GitHubClient.Models.Internal;
 
     public static class GitHubClientCodeExtension
     {

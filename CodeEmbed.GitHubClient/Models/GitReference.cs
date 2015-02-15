@@ -1,24 +1,52 @@
 ﻿namespace CodeEmbed.GitHubClient.Models
 {
+    //// GET /repos/:owner/:repo/git/refs[/:ref]
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
-    using Newtonsoft.Json;
+    using CodeEmbed.GitHubClient.Models.Internal;
 
-    [JsonObject]
     public class GitReference :
-        ModelBase
+        IGitReference
     {
-        [JsonProperty("ref")]
-        public string Reference { get; set; }
+        private readonly IConnection _connection;
 
-        [JsonProperty("url")]
-        public Uri Uri { get; set; }
+        private readonly IGitReference _reference;
 
-        [JsonProperty("object")]
-        public GitReferencedObject Object { get; set; }
+        public GitReference(
+            IConnection connection,
+            IGitReference reference)
+        {
+            this._connection = connection;
+            this._reference = reference;
+        }
+
+        public string Ref
+        {
+            get
+            {
+                return this._reference.Ref;
+            }
+        }
+
+        public Uri Url
+        {
+            get
+            {
+                return this._reference.Url;
+            }
+        }
+
+        IGitRefObject IGitReference.Object
+        {
+            get
+            {
+                return this._reference.Object;
+            }
+        }
     }
 }

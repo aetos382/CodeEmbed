@@ -3,30 +3,25 @@
     using System;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
-    using System.Net.Http.Headers;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
-    using CodeEmbed.GitHubClient.Models;
-
-    using Newtonsoft.Json;
+    using CodeEmbed.GitHubClient.JsonNet;
 
     public class GitHubClient :
+        IGitHubClient,
         IDisposable
     {
-        public static readonly Uri DefaultBaseUri = new Uri("https://api.github.com");
-
         [ContractPublicPropertyName("UserAgent")]
         private readonly string _userAgent;
 
-        [ContractPublicPropertyName("BaseUri")]
-        private readonly Uri _baseUri = DefaultBaseUri;
+        private readonly IConnection _connection;
 
-        private readonly HttpClient _client;
+        private readonly IJsonSerializer _serializer;
 
         private bool _disposed = false;
 
@@ -40,111 +35,44 @@
         public GitHubClient(
             string userAgent,
             string oAuthToken)
-            : this(DefaultBaseUri, userAgent, oAuthToken, null, true)
+            : this(userAgent, oAuthToken, new HttpClientConnection(userAgent, oAuthToken), new JsonNetSerializer())
         {
             Contract.Requires<ArgumentNullException>(userAgent != null);
         }
 
         public GitHubClient(
-            Uri baseUri,
             string userAgent,
             string oAuthToken,
-            HttpClientHandler handler,
-            bool disposeHandler)
+            IConnection connection,
+            IJsonSerializer serializer)
         {
-            Contract.Requires<ArgumentNullException>(baseUri != null);
             Contract.Requires<ArgumentNullException>(userAgent != null);
+            Contract.Requires<ArgumentNullException>(oAuthToken != null);
 
-            this._baseUri = baseUri;
             this._userAgent = userAgent;
-
-            this._client = CreateHttpClient(userAgent, oAuthToken, handler, disposeHandler);
-        }
-
-        public Uri BaseUri
-        {
-            [Pure]
-            get
-            {
-                return this._baseUri;
-            }
-        }
-
-        public string UserAgent
-        {
-            [Pure]
-            get
-            {
-                Contract.Ensures(Contract.Result<string>() != null);
-
-                return this._userAgent;
-            }
+            this._connection = connection;
+            this._serializer = serializer;
         }
 
         public void Dispose()
         {
+            if (this._disposed)
+            {
+                return;
+            }
+
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         public async Task<T> GetData<T>(Uri uri)
-            where T : ModelBase
         {
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            uri = this.EnsureUriAbsolute(uri);
+            var result = await this._connection.GetData(uri, CancellationToken.None).ConfigureAwait(false);
 
-            using (var response = await this._client.GetAsync(uri).ConfigureAwait(false))
-            {
-                try
-                {
-                    response.EnsureSuccessStatusCode();
-                }
-                catch (HttpRequestException ex)
-                {
-                    if (response.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        throw new GitHubNotFoundException(uri, ex);
-                    }
-
-                    throw;
-                }
-
-                string charSet = response.Content.Headers.ContentType.CharSet;
-
-                Encoding encoding;
-
-                try
-                {
-                    encoding = Encoding.GetEncoding(charSet);
-                }
-                catch (Exception)
-                {
-                    encoding = Encoding.UTF8;
-                }
-
-                using (var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false))
-                using (var streamReader = new StreamReader(stream, encoding))
-                using (var jsonReader = new JsonTextReader(streamReader))
-                {
-                    var serializer = new JsonSerializer();
-                    var result = serializer.Deserialize<T>(jsonReader);
-
-                    result.Client = this;
-
-                    return result;
-                }
-            }
-        }
-
-        public Task<byte[]> GetBinary(Uri uri)
-        {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            uri = this.EnsureUriAbsolute(uri);
-
-            var result = this._client.GetByteArrayAsync(uri);
-            return result;
+            var data = this._serializer.Deserialize<T>(
+                result.Stream, result.Encoding, CancellationToken.None).ConfigureAwait(false);
         }
 
         public Task<string> GetString(Uri uri)
@@ -166,78 +94,23 @@
 
             if (disposing)
             {
-                this._client.Dispose();
+                var disposableConnection = this._connection as IDisposable;
+                if (disposableConnection != null)
+                {
+                    disposableConnection.Dispose();
+                }
             }
 
             this._disposed = true;
         }
 
-        private static HttpClient CreateHttpClient(
-            string userAgent,
-            string oAuthToken,
-            HttpClientHandler handler = null,
-            bool disposeHandler = true)
-        {
-            Contract.Requires<ArgumentNullException>(userAgent != null);
-
-            Contract.Ensures(Contract.Result<HttpClient>() != null);
-            
-            HttpClient client = null;
-
-            try
-            {
-                if (handler == null)
-                {
-                    client = new HttpClient();
-                }
-                else
-                {
-                    client = new HttpClient(handler, disposeHandler);
-                }
-
-                var headers = client.DefaultRequestHeaders;
-
-                headers.Add("User-Agent", userAgent);
-                headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-
-                if (string.IsNullOrEmpty(oAuthToken))
-                {
-                    headers.Authorization = new AuthenticationHeaderValue("Token", oAuthToken);
-                }
-
-                return client;
-            }
-            catch
-            {
-                if (client != null)
-                {
-                    client.Dispose();
-                }
-
-                throw;
-            }
-        }
-
-        private Uri EnsureUriAbsolute(Uri uri)
-        {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            Contract.Ensures(Contract.Result<Uri>() != null);
-
-            if (!uri.IsAbsoluteUri)
-            {
-                uri = new Uri(this._baseUri, uri);
-            }
-
-            return uri;
-        }
 
         [Conditional("CONTRACTS_FULL")]
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._userAgent != null);
-            Contract.Invariant(this._client != null);
+            Contract.Invariant(this._connection != null);
         }
     }
 }
