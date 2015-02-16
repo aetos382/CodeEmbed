@@ -73,7 +73,7 @@
             }
         }
 
-        public UriTemplate FollowingUri
+        public string FollowingUri
         {
             get
             {
@@ -81,7 +81,7 @@
             }
         }
 
-        public UriTemplate GistsUri
+        public string GistsUri
         {
             get
             {
@@ -89,7 +89,7 @@
             }
         }
 
-        public UriTemplate StarredUri
+        public string StarredUri
         {
             get
             {
@@ -97,7 +97,7 @@
             }
         }
 
-        public UriTemplate SubscriptionsUri
+        public string SubscriptionsUri
         {
             get
             {
@@ -121,7 +121,7 @@
             }
         }
 
-        public UriTemplate EventsUri
+        public string EventsUri
         {
             get
             {

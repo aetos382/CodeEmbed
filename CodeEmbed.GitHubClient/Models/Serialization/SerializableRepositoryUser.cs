@@ -32,16 +32,16 @@
         public Uri FollowersUri { get; set; }
 
         [JsonProperty("following_url")]
-        public UriTemplate FollowingUri { get; set; }
+        public string FollowingUri { get; set; }
 
         [JsonProperty("gists_url")]
-        public UriTemplate GistsUri { get; set; }
+        public string GistsUri { get; set; }
 
         [JsonProperty("starred_url")]
-        public UriTemplate StarredUri { get; set; }
+        public string StarredUri { get; set; }
 
         [JsonProperty("subscriptions_url")]
-        public UriTemplate SubscriptionsUri { get; set; }
+        public string SubscriptionsUri { get; set; }
 
         [JsonProperty("organizations_url")]
         public Uri OrganizationsUri { get; set; }
@@ -50,7 +50,7 @@
         public Uri RepositoriesUri { get; set; }
 
         [JsonProperty("events_url")]
-        public UriTemplate EventsUri { get; set; }
+        public string EventsUri { get; set; }
 
         [JsonProperty("received_events_url")]
         public Uri ReceiedEventsUri { get; set; }

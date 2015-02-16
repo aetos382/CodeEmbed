@@ -41,10 +41,10 @@
         public Uri ForksUri { get; set; }
 
         [JsonProperty("keys_url")]
-        public UriTemplate KeysUri { get; set; }
+        public string KeysUri { get; set; }
 
         [JsonProperty("collaborators_url")]
-        public UriTemplate CollaboratorsUri { get; set; }
+        public string CollaboratorsUri { get; set; }
 
         [JsonProperty("teams_url")]
         public Uri TeamsUri { get; set; }
@@ -53,34 +53,34 @@
         public Uri HooksUri { get; set; }
 
         [JsonProperty("issue_events_url")]
-        public UriTemplate IssueEventsUri { get; set; }
+        public string IssueEventsUri { get; set; }
 
         [JsonProperty("events_url")]
         public Uri EventsUri { get; set; }
 
         [JsonProperty("assignees_url")]
-        public UriTemplate AssigneesUri { get; set; }
+        public string AssigneesUri { get; set; }
 
         [JsonProperty("branches_url")]
-        public UriTemplate BranchesUri { get; set; }
+        public string BranchesUri { get; set; }
 
         [JsonProperty("tags_url")]
         public Uri TagsUri { get; set; }
 
         [JsonProperty("blobs_url")]
-        public UriTemplate BlobsUri { get; set; }
+        public string BlobsUri { get; set; }
 
         [JsonProperty("git_tags_url")]
-        public UriTemplate GitTagsUri { get; set; }
+        public string GitTagsUri { get; set; }
 
         [JsonProperty("git_refs_url")]
-        public UriTemplate GitReferencesUri { get; set; }
+        public string GitReferencesUri { get; set; }
 
         [JsonProperty("trees_url")]
-        public UriTemplate TreesUri { get; set; }
+        public string TreesUri { get; set; }
 
         [JsonProperty("statuses_url")]
-        public UriTemplate StatusesUri { get; set; }
+        public string StatusesUri { get; set; }
 
         [JsonProperty("labels_url")]
         public Uri LanguagesUri { get; set; }
@@ -98,48 +98,48 @@
         public Uri SubscriptionUri { get; set; }
 
         [JsonProperty("commits_url")]
-        public UriTemplate CommitsUri { get; set; }
+        public string CommitsUri { get; set; }
 
         [JsonProperty("git_commits_url")]
-        public UriTemplate GitCommitsUri { get; set; }
+        public string GitCommitsUri { get; set; }
 
         [JsonProperty("comments_url")]
-        public UriTemplate CommentsUri { get; set; }
+        public string CommentsUri { get; set; }
 
         [JsonProperty("issue_comment_url")]
-        public UriTemplate IssueCommentUri { get; set; }
+        public string IssueCommentUri { get; set; }
 
         [JsonProperty("contents_url")]
-        public UriTemplate ContentsUri { get; set; }
+        public string ContentsUri { get; set; }
 
         [JsonProperty("compare_url")]
-        public UriTemplate CompareUri { get; set; }
+        public string CompareUri { get; set; }
 
         [JsonProperty("merges_url")]
         public Uri MergesUri { get; set; }
 
         [JsonProperty("archive_url")]
-        public UriTemplate ArchiveUri { get; set; }
+        public string ArchiveUri { get; set; }
 
         [JsonProperty("downloads_url")]
         public Uri DownloadsUri { get; set; }
 
         [JsonProperty("issues_url")]
-        public UriTemplate IssuesUri { get; set; }
+        public string IssuesUri { get; set; }
 
         [JsonProperty("pulls_url")]
-        public UriTemplate PullsUri { get; set; }
+        public string PullsUri { get; set; }
 
         [JsonProperty("milestones_url")]
-        public UriTemplate MilestonesUri { get; set; }
+        public string MilestonesUri { get; set; }
 
         [JsonProperty("notofications_url")]
-        public UriTemplate NotificationsUri { get; set; }
+        public string NotificationsUri { get; set; }
 
         [JsonProperty("labels_url")]
-        public UriTemplate LabelsUri { get; set; }
+        public string LabelsUri { get; set; }
 
         [JsonProperty("releases_url")]
-        public UriTemplate ReleasesUri { get; set; }
+        public string ReleasesUri { get; set; }
     }
 }

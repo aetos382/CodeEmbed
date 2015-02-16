@@ -104,7 +104,7 @@
             }
         }
 
-        public UriTemplate KeysUri
+        public string KeysUri
         {
             get
             {
@@ -112,7 +112,7 @@
             }
         }
 
-        public UriTemplate CollaboratorsUri
+        public string CollaboratorsUri
         {
             get
             {
@@ -136,7 +136,7 @@
             }
         }
 
-        public UriTemplate IssueEventsUri
+        public string IssueEventsUri
         {
             get
             {
@@ -152,7 +152,7 @@
             }
         }
 
-        public UriTemplate AssigneesUri
+        public string AssigneesUri
         {
             get
             {
@@ -160,7 +160,7 @@
             }
         }
 
-        public UriTemplate BranchesUri
+        public string BranchesUri
         {
             get
             {
@@ -176,7 +176,7 @@
             }
         }
 
-        public UriTemplate BlobsUri
+        public string BlobsUri
         {
             get
             {
@@ -184,7 +184,7 @@
             }
         }
 
-        public UriTemplate GitTagsUri
+        public string GitTagsUri
         {
             get
             {
@@ -192,7 +192,7 @@
             }
         }
 
-        public UriTemplate GitReferencesUri
+        public string GitReferencesUri
         {
             get
             {
@@ -200,7 +200,7 @@
             }
         }
 
-        public UriTemplate TreesUri
+        public string TreesUri
         {
             get
             {
@@ -208,7 +208,7 @@
             }
         }
 
-        public UriTemplate StatusesUri
+        public string StatusesUri
         {
             get
             {
@@ -256,7 +256,7 @@
             }
         }
 
-        public UriTemplate CommitsUri
+        public string CommitsUri
         {
             get
             {
@@ -264,7 +264,7 @@
             }
         }
 
-        public UriTemplate GitCommitsUri
+        public string GitCommitsUri
         {
             get
             {
@@ -272,7 +272,7 @@
             }
         }
 
-        public UriTemplate CommentsUri
+        public string CommentsUri
         {
             get
             {
@@ -280,7 +280,7 @@
             }
         }
 
-        public UriTemplate IssueCommentUri
+        public string IssueCommentUri
         {
             get
             {
@@ -288,7 +288,7 @@
             }
         }
 
-        public UriTemplate ContentsUri
+        public string ContentsUri
         {
             get
             {
@@ -296,7 +296,7 @@
             }
         }
 
-        public UriTemplate CompareUri
+        public string CompareUri
         {
             get
             {
@@ -312,7 +312,7 @@
             }
         }
 
-        public UriTemplate ArchiveUri
+        public string ArchiveUri
         {
             get
             {
@@ -328,7 +328,7 @@
             }
         }
 
-        public UriTemplate IssuesUri
+        public string IssuesUri
         {
             get
             {
@@ -336,7 +336,7 @@
             }
         }
 
-        public UriTemplate PullsUri
+        public string PullsUri
         {
             get
             {
@@ -344,7 +344,7 @@
             }
         }
 
-        public UriTemplate MilestonesUri
+        public string MilestonesUri
         {
             get
             {
@@ -352,7 +352,7 @@
             }
         }
 
-        public UriTemplate NotificationsUri
+        public string NotificationsUri
         {
             get
             {
@@ -360,7 +360,7 @@
             }
         }
 
-        public UriTemplate LabelsUri
+        public string LabelsUri
         {
             get
             {
@@ -368,7 +368,7 @@
             }
         }
 
-        public UriTemplate ReleasesUri
+        public string ReleasesUri
         {
             get
             {

@@ -27,33 +27,33 @@
 
         Uri ForksUri { [Pure] get; }
 
-        UriTemplate KeysUri { [Pure] get; }
+        string KeysUri { [Pure] get; }
 
-        UriTemplate CollaboratorsUri { [Pure] get; }
+        string CollaboratorsUri { [Pure] get; }
 
         Uri TeamsUri { [Pure] get; }
 
         Uri HooksUri { [Pure] get; }
 
-        UriTemplate IssueEventsUri { [Pure] get; }
+        string IssueEventsUri { [Pure] get; }
 
         Uri EventsUri { [Pure] get; }
 
-        UriTemplate AssigneesUri { [Pure] get; }
+        string AssigneesUri { [Pure] get; }
 
-        UriTemplate BranchesUri { [Pure] get; }
+        string BranchesUri { [Pure] get; }
 
         Uri TagsUri { [Pure] get; }
 
-        UriTemplate BlobsUri { [Pure] get; }
+        string BlobsUri { [Pure] get; }
 
-        UriTemplate GitTagsUri { [Pure] get; }
+        string GitTagsUri { [Pure] get; }
 
-        UriTemplate GitReferencesUri { [Pure] get; }
+        string GitReferencesUri { [Pure] get; }
 
-        UriTemplate TreesUri { [Pure] get; }
+        string TreesUri { [Pure] get; }
 
-        UriTemplate StatusesUri { [Pure] get; }
+        string StatusesUri { [Pure] get; }
 
         Uri LanguagesUri { [Pure] get; }
 
@@ -65,34 +65,34 @@
 
         Uri SubscriptionUri { [Pure] get; }
 
-        UriTemplate CommitsUri { [Pure] get; }
+        string CommitsUri { [Pure] get; }
 
-        UriTemplate GitCommitsUri { [Pure] get; }
+        string GitCommitsUri { [Pure] get; }
 
-        UriTemplate CommentsUri { [Pure] get; }
+        string CommentsUri { [Pure] get; }
 
-        UriTemplate IssueCommentUri { [Pure] get; }
+        string IssueCommentUri { [Pure] get; }
 
-        UriTemplate ContentsUri { [Pure] get; }
+        string ContentsUri { [Pure] get; }
 
-        UriTemplate CompareUri { [Pure] get; }
+        string CompareUri { [Pure] get; }
 
         Uri MergesUri { [Pure] get; }
 
-        UriTemplate ArchiveUri { [Pure] get; }
+        string ArchiveUri { [Pure] get; }
 
         Uri DownloadsUri { [Pure] get; }
 
-        UriTemplate IssuesUri { [Pure] get; }
+        string IssuesUri { [Pure] get; }
 
-        UriTemplate PullsUri { [Pure] get; }
+        string PullsUri { [Pure] get; }
 
-        UriTemplate MilestonesUri { [Pure] get; }
+        string MilestonesUri { [Pure] get; }
 
-        UriTemplate NotificationsUri { [Pure] get; }
+        string NotificationsUri { [Pure] get; }
 
-        UriTemplate LabelsUri { [Pure] get; }
+        string LabelsUri { [Pure] get; }
 
-        UriTemplate ReleasesUri { [Pure] get; }
+        string ReleasesUri { [Pure] get; }
     }
 }

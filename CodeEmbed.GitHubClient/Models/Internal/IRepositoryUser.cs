@@ -20,19 +20,19 @@
 
         Uri FollowersUri { [Pure] get; }
 
-        UriTemplate FollowingUri { [Pure] get; }
+        string FollowingUri { [Pure] get; }
 
-        UriTemplate GistsUri { [Pure] get; }
+        string GistsUri { [Pure] get; }
 
-        UriTemplate StarredUri { [Pure] get; }
+        string StarredUri { [Pure] get; }
 
-        UriTemplate SubscriptionsUri { [Pure] get; }
+        string SubscriptionsUri { [Pure] get; }
 
         Uri OrganizationsUri { [Pure] get; }
 
         Uri RepositoriesUri { [Pure] get; }
 
-        UriTemplate EventsUri { [Pure] get; }
+        string EventsUri { [Pure] get; }
 
         Uri ReceiedEventsUri { [Pure] get; }
 
