@@ -13,36 +13,6 @@
     public class JsonNetSerializer :
         IJsonSerializer
     {
-        private static IEnumerable<JsonConverter> GetDefaultMappers()
-        {
-            var types = Assembly.GetExecutingAssembly().GetTypes();
-
-            foreach (var type in types)
-            {
-                var jsonAttribute = type.GetCustomAttribute<JsonObjectAttribute>();
-                if (jsonAttribute == null)
-                {
-                    continue;
-                }
-
-                if (!type.Name.StartsWith("Serializable"))
-                {
-                    continue;
-                }
-
-                var interfaces = type.GetInterfaces();
-                if (interfaces.Count() != 1)
-                {
-                    continue;
-                }
-
-                var mapperType = typeof(JsonNetModelMapper<,>).MakeGenericType(interfaces.Single(), type);
-                var mapper = (JsonConverter)Activator.CreateInstance(mapperType);
-
-                yield return mapper;
-            }
-        }
-
         private static readonly IEnumerable<JsonConverter> _defaultConverters = GetDefaultMappers().ToArray();
 
         private readonly ICollection<JsonConverter> _converters = new List<JsonConverter>();
@@ -80,6 +50,36 @@
                     }
                 },
                 cancellationToken);
+        }
+
+        private static IEnumerable<JsonConverter> GetDefaultMappers()
+        {
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+
+            foreach (var type in types)
+            {
+                var jsonAttribute = type.GetCustomAttribute<JsonObjectAttribute>();
+                if (jsonAttribute == null)
+                {
+                    continue;
+                }
+
+                if (!type.Name.StartsWith("Serializable"))
+                {
+                    continue;
+                }
+
+                var interfaces = type.GetInterfaces();
+                if (interfaces.Count() != 1)
+                {
+                    continue;
+                }
+
+                var mapperType = typeof(JsonNetModelMapper<,>).MakeGenericType(interfaces.Single(), type);
+                var mapper = (JsonConverter)Activator.CreateInstance(mapperType);
+
+                yield return mapper;
+            }
         }
     }
 }

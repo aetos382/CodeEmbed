@@ -46,23 +46,6 @@
             return relUri;
         }
 
-        public static Uri Branch(
-            string repositoryFullName,
-            string branch)
-        {
-            Contract.Requires<ArgumentNullException>(repositoryFullName != null);
-            Contract.Requires<ArgumentNullException>(branch != null);
-
-            Contract.Ensures(Contract.Result<Uri>() != null);
-
-            string relUriString = string.Format(
-                CultureInfo.InvariantCulture, "/repos/{0}/branches/{1}", repositoryFullName, branch);
-
-            var relUri = new Uri(relUriString, UriKind.Relative);
-
-            return relUri;
-        }
-
         public static Uri GitReferences(
             string user,
             string repository)

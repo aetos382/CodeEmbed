@@ -2,27 +2,42 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
 
-    using CodeEmbed.GitHubClient.Network;
-
     public abstract class ModelBase
     {
-        private readonly IConnection _connection;
+        [ContractPublicPropertyName("Client")]
+        private readonly IGitHubClient _client;
 
-        protected ModelBase(IConnection connection)
+        protected ModelBase(IGitHubClient client)
         {
-            this._connection = connection;
+            Contract.Requires<ArgumentNullException>(client != null);
+
+            this._client = client;
         }
 
-        public IConnection Connection
+        public IGitHubClient Client
         {
+            [Pure]
             get
             {
-                return this._connection;
+                Contract.Ensures(Contract.Result<IGitHubClient>() != null);
+
+                return this._client;
             }
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._client != null);
         }
     }
 }

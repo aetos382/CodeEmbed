@@ -59,24 +59,9 @@
             var relUri = GitHubUri.Repository(user, repository);
             var lawModel = await client.GetData<IRepository>(relUri);
 
-            var wrappedModel = new Repository(lawModel, client.Connection);
+            var wrappedModel = new Repository(lawModel, client);
 
             return wrappedModel;
-        }
-
-        public static Task<IBranch> GetBranch(
-            this IGitHubClient client,
-            string repositoryFullName,
-            string branch)
-        {
-            Contract.Requires<ArgumentNullException>(client != null);
-            Contract.Requires<ArgumentNullException>(repositoryFullName != null);
-            Contract.Requires<ArgumentNullException>(branch != null);
-
-            var relUri = GitHubUri.Branch(repositoryFullName, branch);
-            var result = client.GetData<IBranch>(relUri);
-
-            return result;
         }
 
         public static Task<IBranch> GetBranch(

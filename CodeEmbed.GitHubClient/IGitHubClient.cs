@@ -10,11 +10,14 @@
 
     using CodeEmbed.GitHubClient.Contracts;
     using CodeEmbed.GitHubClient.Network;
+    using CodeEmbed.GitHubClient.Serialization;
 
     [ContractClass(typeof(GitHubClientContracts))]
     public interface IGitHubClient
     {
         IConnection Connection { get; }
+
+        IJsonSerializer Serializer { get; }
 
         Task<T> GetData<T>(
             Uri uri,

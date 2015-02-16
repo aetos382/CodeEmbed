@@ -16,8 +16,10 @@
     {
         private readonly string _userAgent;
 
+        [ContractPublicPropertyName("Connection")]
         private readonly IConnection _connection;
 
+        [ContractPublicPropertyName("Serializer")]
         private readonly IJsonSerializer _serializer;
 
         private bool _disposed = false;
@@ -47,28 +49,8 @@
 
             this._userAgent = userAgent;
 
-            HttpClientConnection tempConnection = null;
-
-            try
-            {
-                this._serializer = serializer ?? new JsonNetSerializer();
-
-                if (connection == null)
-                {
-                    connection = tempConnection = new HttpClientConnection(userAgent, oAuthToken);
-                }
-
-                this._connection = connection;
-
-                tempConnection = null;
-            }
-            finally
-            {
-                if (tempConnection != null)
-                {
-                    tempConnection.Dispose();
-                }
-            }
+            this._serializer = serializer ?? new JsonNetSerializer();
+            this._connection = connection ?? new HttpClientConnection(userAgent, oAuthToken);
         }
 
         public IConnection Connection
@@ -76,6 +58,14 @@
             get
             {
                 return this._connection;
+            }
+        }
+
+        public IJsonSerializer Serializer
+        {
+            get
+            {
+                return this._serializer;
             }
         }
 
@@ -118,12 +108,15 @@
             this._disposed = true;
         }
 
+        [DebuggerStepThrough]
+        [DebuggerHidden]
         [Conditional("CONTRACTS_FULL")]
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._userAgent != null);
             Contract.Invariant(this._connection != null);
+            Contract.Invariant(this._serializer != null);
         }
     }
 }

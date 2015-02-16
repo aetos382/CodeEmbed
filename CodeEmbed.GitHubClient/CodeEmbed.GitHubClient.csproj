@@ -129,6 +129,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -137,7 +138,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\GitHubClientContracts.cs" />
+    <Compile Include="Models\AuthenticatedUser.cs" />
+    <Compile Include="Models\DetailedUser.cs" />
+    <Compile Include="Models\IAuthenticatedUser.cs" />
+    <Compile Include="Models\IDetailedUser.cs" />
+    <Compile Include="Models\Internal\IRepositoryPermissions.cs" />
+    <Compile Include="Models\IRepositorySummary.cs" />
+    <Compile Include="Models\Internal\IRepositoryUser.cs" />
+    <Compile Include="Models\Internal\IUserPlan.cs" />
+    <Compile Include="Models\IUserRepository.cs" />
     <Compile Include="Models\ModelBase.cs" />
+    <Compile Include="Models\Internal\RepositoryPermissions.cs" />
+    <Compile Include="Models\RepositoryExtension.cs" />
+    <Compile Include="Models\RepositorySummary.cs" />
+    <Compile Include="Models\Internal\RepositoryUser.cs" />
+    <Compile Include="Models\Serialization\SerializableAuthenticatedUser.cs" />
+    <Compile Include="Models\Serialization\SerializableDetailedUser.cs" />
+    <Compile Include="Models\Serialization\SerializableRepositoryPermissions.cs" />
+    <Compile Include="Models\Serialization\SerializableRepositorySummary.cs" />
+    <Compile Include="Models\Serialization\SerializableRepositoryUser.cs" />
+    <Compile Include="Models\Serialization\SerializableUserPlan.cs" />
+    <Compile Include="Models\Serialization\SerializableUserRepository.cs" />
+    <Compile Include="Models\Internal\UserPlan.cs" />
+    <Compile Include="Models\UserRepository.cs" />
     <Compile Include="Network\ConnectionExtension.cs" />
     <Compile Include="GistNotFoundException.cs" />
     <Compile Include="GitHubClient.cs" />
@@ -167,7 +190,7 @@
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\Branch.cs" />
-    <Compile Include="Models\RepositoryExtension.cs" />
+    <Compile Include="Models\RepositorySummaryExtension.cs" />
     <Compile Include="Models\Internal\Signature.cs" />
     <Compile Include="Network\HttpClientConnection.cs" />
     <Compile Include="Network\Contracts\ConnectionContracts.cs" />

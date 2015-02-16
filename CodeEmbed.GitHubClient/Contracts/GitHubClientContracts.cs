@@ -11,6 +11,7 @@
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Network;
+    using CodeEmbed.GitHubClient.Serialization;
 
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -29,7 +30,19 @@
                 throw new NotImplementedException();
             }
         }
-        
+
+        [DebuggerHidden]
+        public IJsonSerializer Serializer
+        {
+            [Pure]
+            get
+            {
+                Contract.Ensures(Contract.Result<IJsonSerializer>() != null);
+
+                throw new NotImplementedException();
+            }
+        }
+
         [DebuggerHidden]
         public Task<T> GetData<T>(
             Uri uri,
