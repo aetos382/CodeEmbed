@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Threading;
@@ -12,6 +13,9 @@
             this IConnection connection,
             Uri uri)
         {
+            Contract.Requires<ArgumentNullException>(connection != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
             return connection.GetData(uri, CancellationToken.None);
         }
 
@@ -19,6 +23,9 @@
             this IConnection connection,
             Uri uri)
         {
+            Contract.Requires<ArgumentNullException>(connection != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
             return GetString(connection, uri, CancellationToken.None);
         }
 
@@ -27,6 +34,9 @@
             Uri uri,
             CancellationToken cancellationToken)
         {
+            Contract.Requires<ArgumentNullException>(connection != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
             using (var reader = await connection.GetData(uri, cancellationToken).ConfigureAwait(false))
             {
                 string result = await reader.ReadToEndAsync().ConfigureAwait(false);

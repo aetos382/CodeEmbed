@@ -32,7 +32,7 @@
         public GitHubClient(
             string userAgent,
             string oAuthToken)
-            : this(userAgent, oAuthToken, new HttpClientConnection(userAgent, oAuthToken), new JsonNetSerializer())
+            : this(userAgent, oAuthToken, null, null)
         {
             Contract.Requires<ArgumentNullException>(userAgent != null);
         }
@@ -44,11 +44,39 @@
             IJsonSerializer serializer)
         {
             Contract.Requires<ArgumentNullException>(userAgent != null);
-            Contract.Requires<ArgumentNullException>(oAuthToken != null);
 
             this._userAgent = userAgent;
-            this._connection = connection;
-            this._serializer = serializer;
+
+            HttpClientConnection tempConnection = null;
+
+            try
+            {
+                this._serializer = serializer ?? new JsonNetSerializer();
+
+                if (connection == null)
+                {
+                    connection = tempConnection = new HttpClientConnection(userAgent, oAuthToken);
+                }
+
+                this._connection = connection;
+
+                tempConnection = null;
+            }
+            finally
+            {
+                if (tempConnection != null)
+                {
+                    tempConnection.Dispose();
+                }
+            }
+        }
+
+        public IConnection Connection
+        {
+            get
+            {
+                return this._connection;
+            }
         }
 
         public void Dispose()
@@ -64,21 +92,11 @@
 
         public async Task<T> GetData<T>(Uri uri, CancellationToken cancellationToken)
         {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
             var result = await this._connection.GetData(uri, cancellationToken).ConfigureAwait(false);
 
             var data = await this._serializer.Deserialize<T>(result, cancellationToken).ConfigureAwait(false);
 
             return data;
-        }
-
-        public IConnection Connection
-        {
-            get
-            {
-                return this._connection;
-            }
         }
 
         protected virtual void Dispose(bool disposing)
@@ -99,7 +117,6 @@
 
             this._disposed = true;
         }
-
 
         [Conditional("CONTRACTS_FULL")]
         [ContractInvariantMethod]

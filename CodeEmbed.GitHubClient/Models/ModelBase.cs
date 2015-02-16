@@ -12,7 +12,7 @@
     {
         private readonly IConnection _connection;
 
-        public ModelBase(IConnection connection)
+        protected ModelBase(IConnection connection)
         {
             this._connection = connection;
         }

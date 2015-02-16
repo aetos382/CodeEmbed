@@ -3,6 +3,7 @@
     //// GET /repos/:owner/:repo
     
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Globalization;
     using System.Linq;
@@ -15,16 +16,15 @@
     {
         private readonly IRepository _repository;
 
-        private readonly IConnection _connection;
-
         public Repository(
             IRepository repository,
             IConnection connection)
             : base(connection)
         {
-            this._repository = repository;
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(connection != null);
 
-            this._connection = connection;
+            this._repository = repository;
         }
 
         public long Id
@@ -73,6 +73,15 @@
             {
                 return this._repository.DefaultBranch;
             }
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._repository != null);
         }
     }
 }

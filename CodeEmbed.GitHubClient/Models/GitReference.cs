@@ -4,6 +4,8 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -14,15 +16,13 @@
     public class GitReference :
         IGitReference
     {
-        private readonly IConnection _connection;
-
         private readonly IGitReference _reference;
 
         public GitReference(
-            IConnection connection,
             IGitReference reference)
         {
-            this._connection = connection;
+            Contract.Requires<ArgumentNullException>(reference != null);
+
             this._reference = reference;
         }
 
@@ -42,12 +42,21 @@
             }
         }
 
-        IGitRefObject IGitReference.Object
+        public IGitRefObject Object
         {
             get
             {
                 return this._reference.Object;
             }
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._reference != null);
         }
     }
 }

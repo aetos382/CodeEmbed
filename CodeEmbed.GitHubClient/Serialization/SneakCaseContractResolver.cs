@@ -22,7 +22,7 @@
                         builder.Append("_");
                     }
 
-                    builder.Append(char.ToLower(c));
+                    builder.Append(char.ToLowerInvariant(c));
                 }
                 else
                 {

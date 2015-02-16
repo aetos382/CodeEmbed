@@ -32,8 +32,8 @@
             TextReader reader,
             CancellationToken cancellationToken)
         {
-            return Task.Run(() =>
-                {
+            return Task.Run(
+                () => {
                     using (var jsonReader = new JsonTextReader(reader))
                     {
                         var settings = new JsonSerializerSettings();

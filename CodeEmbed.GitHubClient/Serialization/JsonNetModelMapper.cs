@@ -1,6 +1,8 @@
 ﻿namespace CodeEmbed.GitHubClient.Serialization
 {
     using System;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
 
     using Newtonsoft.Json.Converters;
 
@@ -17,6 +19,8 @@
 
         public JsonNetModelMapper(Func<TRequire> creator)
         {
+            Contract.Requires<ArgumentNullException>(creator != null);
+
             this._creator = creator;
         }
 
@@ -28,6 +32,15 @@
             }
 
             return this._creator();
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._creator != null);
         }
     }
 }

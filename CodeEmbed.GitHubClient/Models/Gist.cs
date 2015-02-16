@@ -4,6 +4,8 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     using CodeEmbed.GitHubClient.Models.Internal;
@@ -11,14 +13,62 @@
     public class Gist :
         IGist
     {
-        public Uri Uri { get; set; }
+        private readonly IGist _gist;
 
-        public string Id { get; set; }
+        public Gist(IGist gist)
+        {
+            Contract.Requires<ArgumentNullException>(gist != null);
 
-        public string Description { get; set; }
+            this._gist = gist;
+        }
 
-        public IDictionary<string, IGistFile> Files { get; set; } 
+        public Uri Uri
+        {
+            get
+            {
+                return this._gist.Uri;
+            }
+        }
 
-        public IList<IGistHistory> Histories { get; set; }
+        public string Id
+        {
+            get
+            {
+                return this._gist.Id;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                return this._gist.Description;
+            }
+        }
+
+        public IDictionary<string, IGistFile> Files
+        {
+            get
+            {
+                return this._gist.Files;
+            }
+        }
+
+        public IList<IGistHistory> Histories
+        {
+            get
+            {
+                return this._gist.Histories;
+            }
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._gist != null);
+        }
     }
 }

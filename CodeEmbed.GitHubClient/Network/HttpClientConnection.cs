@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
@@ -16,6 +17,7 @@
     {
         public static readonly Uri DefaultBaseUri = new Uri("https://api.github.com");
 
+        [ContractPublicPropertyName("BaseUri")]
         private readonly Uri _baseUri;
 
         private readonly HttpClient _client;
@@ -27,6 +29,7 @@
             string oAuthToken)
             : this(DefaultBaseUri, userAgent, oAuthToken, null, false)
         {
+            Contract.Requires<ArgumentNullException>(userAgent != null);
         }
 
         public HttpClientConnection(
@@ -36,7 +39,9 @@
             HttpMessageHandler handler,
             bool disposeHandler)
         {
-            this._baseUri = baseUri;
+            Contract.Requires<ArgumentNullException>(userAgent != null);
+
+            this._baseUri = baseUri ?? DefaultBaseUri;
             this._client = CreateHttpClient(userAgent, oAuthToken, handler, disposeHandler);
         }
 
@@ -110,20 +115,6 @@
             this._disposed = true;
         }
 
-        private Uri EnsureUriAbsolute(Uri uri)
-        {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            Contract.Ensures(Contract.Result<Uri>() != null);
-
-            if (!uri.IsAbsoluteUri)
-            {
-                uri = new Uri(this._baseUri, uri);
-            }
-
-            return uri;
-        }
-
         private static HttpClient CreateHttpClient(
             string userAgent,
             string oAuthToken,
@@ -168,6 +159,30 @@
 
                 throw;
             }
+        }
+
+        private Uri EnsureUriAbsolute(Uri uri)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Uri>() != null);
+
+            if (!uri.IsAbsoluteUri)
+            {
+                uri = new Uri(this._baseUri, uri);
+            }
+
+            return uri;
+        }
+
+        [Conditional("CONTRACTS_FULL")]
+        [ContractInvariantMethod]
+        [DebuggerStepThrough]
+        [DebuggerHidden]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._baseUri != null);
+            Contract.Invariant(this._client != null);
         }
     }
 }

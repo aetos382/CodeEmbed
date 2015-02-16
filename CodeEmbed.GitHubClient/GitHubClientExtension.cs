@@ -17,14 +17,22 @@
             this IGitHubClient client,
             Uri uri)
         {
-            return client.GetData<T>(uri, CancellationToken.None);
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = client.GetData<T>(uri, CancellationToken.None);
+            return result;
         }
 
         public static Task<string> GetString(
-            this GitHubClient client,
+            this IGitHubClient client,
             Uri uri)
         {
-            return client.GetString(uri, CancellationToken.None);
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = client.GetString(uri, CancellationToken.None);
+            return result;
         }
 
         public static Task<string> GetString(
@@ -32,10 +40,10 @@
             Uri uri,
             CancellationToken cancellationToken)
         {
+            Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
             var result = client.Connection.GetString(uri, cancellationToken);
-
             return result;
         }
 

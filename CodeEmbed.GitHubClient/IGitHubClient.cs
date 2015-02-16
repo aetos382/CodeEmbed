@@ -14,10 +14,10 @@
     [ContractClass(typeof(GitHubClientContracts))]
     public interface IGitHubClient
     {
+        IConnection Connection { get; }
+
         Task<T> GetData<T>(
             Uri uri,
             CancellationToken cancellationToken);
-
-        IConnection Connection { get; }
     }
 }

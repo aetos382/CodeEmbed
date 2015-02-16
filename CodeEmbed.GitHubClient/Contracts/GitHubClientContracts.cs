@@ -19,16 +19,6 @@
         IGitHubClient
     {
         [DebuggerHidden]
-        public Task<T> GetData<T>(
-            Uri uri,
-            CancellationToken cancellationToken)
-        {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            throw new NotImplementedException();
-        }
-
-        [DebuggerHidden]
         public IConnection Connection
         {
             [Pure]
@@ -38,6 +28,16 @@
 
                 throw new NotImplementedException();
             }
+        }
+        
+        [DebuggerHidden]
+        public Task<T> GetData<T>(
+            Uri uri,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            throw new NotImplementedException();
         }
     }
 }
