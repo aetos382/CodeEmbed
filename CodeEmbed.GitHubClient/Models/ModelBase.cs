@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
@@ -32,9 +33,10 @@
         }
 
         [Conditional("CONTRACTS_FULL")]
-        [ContractInvariantMethod]
         [DebuggerStepThrough]
         [DebuggerHidden]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._client != null);

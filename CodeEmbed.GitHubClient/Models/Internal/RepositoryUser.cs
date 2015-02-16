@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Models.Internal
 {
     using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
@@ -151,11 +152,12 @@
                 return this._repositoryUser.SiteAdmin;
             }
         }
-        
+
         [Conditional("CONTRACTS_FULL")]
-        [ContractInvariantMethod]
         [DebuggerStepThrough]
         [DebuggerHidden]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._repositoryUser != null);

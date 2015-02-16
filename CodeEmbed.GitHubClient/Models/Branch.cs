@@ -3,6 +3,7 @@
     //// GET /repos/:owner/:repo/branches[/:branch]
     
     using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
@@ -29,9 +30,10 @@
         }
 
         [Conditional("CONTRACTS_FULL")]
-        [ContractInvariantMethod]
         [DebuggerStepThrough]
         [DebuggerHidden]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
         private void ObjectInvariant()
         {
             Contract.Invariant(this._branch != null);

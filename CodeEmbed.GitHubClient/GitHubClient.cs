@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient
 {
     using System;
+    using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
@@ -108,9 +109,10 @@
             this._disposed = true;
         }
 
+        [Conditional("CONTRACTS_FULL")]
         [DebuggerStepThrough]
         [DebuggerHidden]
-        [Conditional("CONTRACTS_FULL")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
