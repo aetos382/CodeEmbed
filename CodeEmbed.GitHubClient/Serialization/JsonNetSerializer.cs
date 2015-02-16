@@ -4,21 +4,46 @@
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using CodeEmbed.GitHubClient.Models;
-    using CodeEmbed.GitHubClient.Models.Serialization;
 
     using Newtonsoft.Json;
 
     public class JsonNetSerializer :
         IJsonSerializer
     {
-        private static readonly IEnumerable<JsonConverter> _defaultConverters = new JsonConverter[]
+        private static IEnumerable<JsonConverter> GetDefaultMappers()
+        {
+            var types = Assembly.GetExecutingAssembly().GetTypes();
+
+            foreach (var type in types)
             {
-                new JsonNetModelMapper<IRepository, SerializableRepository>()
-            };
+                var jsonAttribute = type.GetCustomAttribute<JsonObjectAttribute>();
+                if (jsonAttribute == null)
+                {
+                    continue;
+                }
+
+                if (!type.Name.StartsWith("Serializable"))
+                {
+                    continue;
+                }
+
+                var interfaces = type.GetInterfaces();
+                if (interfaces.Count() != 1)
+                {
+                    continue;
+                }
+
+                var mapperType = typeof(JsonNetModelMapper<,>).MakeGenericType(interfaces.Single(), type);
+                var mapper = (JsonConverter)Activator.CreateInstance(mapperType);
+
+                yield return mapper;
+            }
+        }
+
+        private static readonly IEnumerable<JsonConverter> _defaultConverters = GetDefaultMappers().ToArray();
 
         private readonly ICollection<JsonConverter> _converters = new List<JsonConverter>();
 
@@ -47,8 +72,6 @@
                         {
                             settings.Converters.Add(converter);
                         }
-
-                        settings.ContractResolver = new SneakCaseContractResolver();
 
                         var serializer = JsonSerializer.CreateDefault(settings);
                         var result = serializer.Deserialize<T>(jsonReader);
