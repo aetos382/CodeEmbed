@@ -5,14 +5,42 @@
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models;
+    using CodeEmbed.GitHubClient.Network;
 
     public static class GitHubClientExtension
     {
-        public static Task<IRepository> GetRepository(
+        public static Task<T> GetData<T>(
+            this IGitHubClient client,
+            Uri uri)
+        {
+            return client.GetData<T>(uri, CancellationToken.None);
+        }
+
+        public static Task<string> GetString(
             this GitHubClient client,
+            Uri uri)
+        {
+            return client.GetString(uri, CancellationToken.None);
+        }
+
+        public static Task<string> GetString(
+            this IGitHubClient client,
+            Uri uri,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = client.Connection.GetString(uri, cancellationToken);
+
+            return result;
+        }
+
+        public static async Task<IRepository> GetRepository(
+            this IGitHubClient client,
             string user,
             string repository)
         {
@@ -21,13 +49,15 @@
             Contract.Requires<ArgumentNullException>(repository != null);
 
             var relUri = GitHubUri.Repository(user, repository);
-            var result = client.GetData<IRepository>(relUri);
+            var lawModel = await client.GetData<IRepository>(relUri);
 
-            return result;
+            var wrappedModel = new Repository(lawModel, client.Connection);
+
+            return wrappedModel;
         }
 
         public static Task<IBranch> GetBranch(
-            this GitHubClient client,
+            this IGitHubClient client,
             string repositoryFullName,
             string branch)
         {
@@ -42,7 +72,7 @@
         }
 
         public static Task<IBranch> GetBranch(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string branch)
@@ -59,7 +89,7 @@
         }
 
         public static Task<IGitReference> GetGitReference(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string reference)
@@ -76,7 +106,7 @@
         }
 
         public static Task<IGitReference> GetGitBranch(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string branch)
@@ -93,7 +123,7 @@
         }
 
         public static Task<IGitReference> GetGitTag(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string tag)
@@ -110,7 +140,7 @@
         }
 
         public static async Task<IGist> GetGist(
-            this GitHubClient client,
+            this IGitHubClient client,
             string id)
         {
             Contract.Requires<ArgumentNullException>(client != null);

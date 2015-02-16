@@ -52,8 +52,6 @@
             Uri uri,
             CancellationToken cancellationToken)
         {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
             uri = this.EnsureUriAbsolute(uri);
 
             var response = await this._client.GetAsync(uri).ConfigureAwait(false);

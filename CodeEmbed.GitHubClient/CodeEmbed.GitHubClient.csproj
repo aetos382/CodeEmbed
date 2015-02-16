@@ -136,6 +136,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contracts\GitHubClientContracts.cs" />
+    <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Network\ConnectionExtension.cs" />
     <Compile Include="GistNotFoundException.cs" />
     <Compile Include="GitHubClient.cs" />

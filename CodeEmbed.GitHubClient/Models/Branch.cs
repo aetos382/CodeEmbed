@@ -4,10 +4,9 @@
     
     using System;
     using System.Linq;
-    using System.Runtime.Serialization;
 
-    [DataContract]
-    public class Branch
+    public class Branch :
+        IBranch
     {
         private readonly IBranch _branch;
 
@@ -17,7 +16,6 @@
             this._branch = branch;
         }
 
-        [DataMember]
         public string Name
         {
             get

@@ -10,8 +10,8 @@
 
     using CodeEmbed.GitHubClient.Network;
 
-    public partial class Repository :
-        IRepository
+    public class Repository :
+        ModelBase, IRepository
     {
         private readonly IRepository _repository;
 
@@ -20,6 +20,7 @@
         public Repository(
             IRepository repository,
             IConnection connection)
+            : base(connection)
         {
             this._repository = repository;
 
@@ -71,14 +72,6 @@
             get
             {
                 return this._repository.DefaultBranch;
-            }
-        }
-
-        public IConnection Connection
-        {
-            get
-            {
-                return this._connection;
             }
         }
     }

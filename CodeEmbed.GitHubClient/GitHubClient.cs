@@ -14,7 +14,6 @@
         IGitHubClient,
         IDisposable
     {
-        [ContractPublicPropertyName("UserAgent")]
         private readonly string _userAgent;
 
         private readonly IConnection _connection;
@@ -63,24 +62,23 @@
             GC.SuppressFinalize(this);
         }
 
-        public async Task<T> GetData<T>(Uri uri)
+        public async Task<T> GetData<T>(Uri uri, CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = await this._connection.GetData(uri, CancellationToken.None).ConfigureAwait(false);
+            var result = await this._connection.GetData(uri, cancellationToken).ConfigureAwait(false);
 
-            var data = await this._serializer.Deserialize<T>(result, CancellationToken.None).ConfigureAwait(false);
+            var data = await this._serializer.Deserialize<T>(result, cancellationToken).ConfigureAwait(false);
 
             return data;
         }
 
-        public async Task<string> GetString(Uri uri)
+        public IConnection Connection
         {
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            string result = await this._connection.GetString(uri, CancellationToken.None).ConfigureAwait(false);
-
-            return result;
+            get
+            {
+                return this._connection;
+            }
         }
 
         protected virtual void Dispose(bool disposing)
