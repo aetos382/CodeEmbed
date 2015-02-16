@@ -1,14 +1,14 @@
-﻿namespace CodeEmbed.GitHubClient.Models
+﻿namespace CodeEmbed.GitHubClient.Models.Serialization
 {
-    //// GET /gists/:id
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models.Internal;
 
-    public class Gist :
+    public class SerializableGist :
         IGist
     {
         public Uri Uri { get; set; }
@@ -17,7 +17,7 @@
 
         public string Description { get; set; }
 
-        public IDictionary<string, IGistFile> Files { get; set; } 
+        public IDictionary<string, IGistFile> Files { get; set; }
 
         public IList<IGistHistory> Histories { get; set; }
     }

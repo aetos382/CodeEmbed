@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models.Internal;
+    using CodeEmbed.GitHubClient.Network;
 
     public class GitReference :
         IGitReference

@@ -11,7 +11,7 @@
 
     public static class GitHubClientExtension
     {
-        public static Task<Repository> GetRepository(
+        public static Task<IRepository> GetRepository(
             this GitHubClient client,
             string user,
             string repository)
@@ -21,12 +21,12 @@
             Contract.Requires<ArgumentNullException>(repository != null);
 
             var relUri = GitHubUri.Repository(user, repository);
-            var result = client.GetData<Repository>(relUri);
+            var result = client.GetData<IRepository>(relUri);
 
             return result;
         }
 
-        public static Task<Branch> GetBranch(
+        public static Task<IBranch> GetBranch(
             this GitHubClient client,
             string repositoryFullName,
             string branch)
@@ -36,12 +36,12 @@
             Contract.Requires<ArgumentNullException>(branch != null);
 
             var relUri = GitHubUri.Branch(repositoryFullName, branch);
-            var result = client.GetData<Branch>(relUri);
+            var result = client.GetData<IBranch>(relUri);
 
             return result;
         }
 
-        public static Task<Branch> GetBranch(
+        public static Task<IBranch> GetBranch(
             this GitHubClient client,
             string user,
             string repository,
@@ -53,12 +53,12 @@
             Contract.Requires<ArgumentNullException>(branch != null);
 
             var relUri = GitHubUri.Branch(user, repository, branch);
-            var result = client.GetData<Branch>(relUri);
+            var result = client.GetData<IBranch>(relUri);
 
             return result;
         }
 
-        public static Task<GitReference> GetGitReference(
+        public static Task<IGitReference> GetGitReference(
             this GitHubClient client,
             string user,
             string repository,
@@ -70,12 +70,12 @@
             Contract.Requires<ArgumentNullException>(reference != null);
 
             var relUri = GitHubUri.GitReference(user, repository, reference);
-            var result = client.GetData<GitReference>(relUri);
+            var result = client.GetData<IGitReference>(relUri);
 
             return result;
         }
 
-        public static Task<GitReference> GetGitBranch(
+        public static Task<IGitReference> GetGitBranch(
             this GitHubClient client,
             string user,
             string repository,
@@ -87,12 +87,12 @@
             Contract.Requires<ArgumentNullException>(branch != null);
 
             var relUri = GitHubUri.GitBranch(user, repository, branch);
-            var result = client.GetData<GitReference>(relUri);
+            var result = client.GetData<IGitReference>(relUri);
 
             return result;
         }
 
-        public static Task<GitReference> GetGitTag(
+        public static Task<IGitReference> GetGitTag(
             this GitHubClient client,
             string user,
             string repository,
@@ -104,12 +104,12 @@
             Contract.Requires<ArgumentNullException>(tag != null);
 
             var relUri = GitHubUri.GitTag(user, repository, tag);
-            var result = client.GetData<GitReference>(relUri);
+            var result = client.GetData<IGitReference>(relUri);
 
             return result;
         }
 
-        public static async Task<Gist> GetGist(
+        public static async Task<IGist> GetGist(
             this GitHubClient client,
             string id)
         {
@@ -120,7 +120,7 @@
 
             try
             {
-                var result = await client.GetData<Gist>(relUri).ConfigureAwait(false);
+                var result = await client.GetData<IGist>(relUri).ConfigureAwait(false);
                 return result;
             }
             catch (GitHubNotFoundException ex)

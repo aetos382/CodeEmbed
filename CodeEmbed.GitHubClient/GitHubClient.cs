@@ -4,13 +4,11 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
-    using CodeEmbed.GitHubClient.JsonNet;
+    using CodeEmbed.GitHubClient.Network;
+    using CodeEmbed.GitHubClient.Serialization;
 
     public class GitHubClient :
         IGitHubClient,
@@ -71,17 +69,17 @@
 
             var result = await this._connection.GetData(uri, CancellationToken.None).ConfigureAwait(false);
 
-            var data = this._serializer.Deserialize<T>(
-                result.Stream, result.Encoding, CancellationToken.None).ConfigureAwait(false);
+            var data = await this._serializer.Deserialize<T>(result, CancellationToken.None).ConfigureAwait(false);
+
+            return data;
         }
 
-        public Task<string> GetString(Uri uri)
+        public async Task<string> GetString(Uri uri)
         {
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            uri = this.EnsureUriAbsolute(uri);
+            string result = await this._connection.GetString(uri, CancellationToken.None).ConfigureAwait(false);
 
-            var result = this._client.GetStringAsync(uri);
             return result;
         }
 

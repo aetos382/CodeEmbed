@@ -136,7 +136,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GetDataResult.cs" />
+    <Compile Include="Network\ConnectionExtension.cs" />
     <Compile Include="GistNotFoundException.cs" />
     <Compile Include="GitHubClient.cs" />
     <Compile Include="GitHubClientCodeExtension.cs" />
@@ -145,28 +145,34 @@
     <Compile Include="GitHubNotFoundException.cs" />
     <Compile Include="GitHubUri.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="HttpClientGetDataResult.cs" />
-    <Compile Include="HttpResponseMessageExtension.cs" />
+    <Compile Include="Network\HttpResponseMessageExtension.cs" />
+    <Compile Include="Network\HttpResponseMessageReader.cs" />
     <Compile Include="IGitHubClient.cs" />
-    <Compile Include="IJsonSerializer.cs" />
-    <Compile Include="JsonNetSerializer.cs" />
-    <Compile Include="JsonNetModelMapper.cs" />
+    <Compile Include="Serialization\IJsonSerializer.cs" />
+    <Compile Include="Serialization\JsonNetSerializer.cs" />
+    <Compile Include="Serialization\JsonNetModelMapper.cs" />
     <Compile Include="Models\Gist.cs" />
     <Compile Include="Models\IBranch.cs" />
+    <Compile Include="Models\IGist.cs" />
     <Compile Include="Models\IGitReference.cs" />
     <Compile Include="Models\Internal\GistFile.cs" />
     <Compile Include="Models\Internal\GistHistory.cs" />
     <Compile Include="Models\GitBlob.cs" />
     <Compile Include="Models\GitReference.cs" />
+    <Compile Include="Models\Internal\IGistFile.cs" />
+    <Compile Include="Models\Internal\IGistHistory.cs" />
     <Compile Include="Models\Internal\IGitRefObject.cs" />
     <Compile Include="Models\IRepository.cs" />
     <Compile Include="Models\Repository.cs" />
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\RepositoryExtension.cs" />
     <Compile Include="Models\Internal\Signature.cs" />
-    <Compile Include="HttpClientConnection.cs" />
-    <Compile Include="Contracts\ConnectionContracts.cs" />
-    <Compile Include="IConnection.cs" />
+    <Compile Include="Network\HttpClientConnection.cs" />
+    <Compile Include="Network\Contracts\ConnectionContracts.cs" />
+    <Compile Include="Network\IConnection.cs" />
+    <Compile Include="Models\Serialization\SerializableGist.cs" />
+    <Compile Include="Models\Serialization\SerializableGistFile.cs" />
+    <Compile Include="Models\Serialization\SerializableGistHistory.cs" />
     <Compile Include="Models\Serialization\SerializableRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -174,6 +180,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Serialization\SneakCaseContractResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">

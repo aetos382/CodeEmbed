@@ -8,6 +8,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using CodeEmbed.GitHubClient.Network;
+
     public partial class Repository :
         IRepository
     {

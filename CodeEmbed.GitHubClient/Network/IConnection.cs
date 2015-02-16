@@ -1,4 +1,4 @@
-﻿namespace CodeEmbed.GitHubClient
+﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -6,13 +6,13 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using CodeEmbed.GitHubClient.Contracts;
+    using CodeEmbed.GitHubClient.Network.Contracts;
 
     [ContractClass(typeof(ConnectionContracts))]
     public interface IConnection
     {
         Uri BaseUri { get; }
 
-        Task<GetDataResult> GetData(Uri uri, CancellationToken cancellationToken);
+        Task<TextReader> GetData(Uri uri, CancellationToken cancellationToken);
     }
 }

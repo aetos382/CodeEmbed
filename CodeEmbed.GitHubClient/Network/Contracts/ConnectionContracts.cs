@@ -1,9 +1,14 @@
-﻿namespace CodeEmbed.GitHubClient.Contracts
+﻿namespace CodeEmbed.GitHubClient.Network.Contracts
 {
     using System;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.IO;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using CodeEmbed.GitHubClient.Network;
 
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
@@ -21,6 +26,16 @@
 
                 throw new NotImplementedException();
             }
+        }
+
+        [DebuggerHidden]
+        public Task<TextReader> GetData(
+            Uri uri,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace CodeEmbed.GitHubClient.JsonNet
+﻿namespace CodeEmbed.GitHubClient.Serialization
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -30,14 +29,12 @@
         }
 
         public Task<T> Deserialize<T>(
-            Stream stream,
-            Encoding encoding,
+            TextReader reader,
             CancellationToken cancellationToken)
         {
             return Task.Run(() =>
                 {
-                    using (var streamReader = new StreamReader(stream, encoding))
-                    using (var jsonReader = new JsonTextReader(streamReader))
+                    using (var jsonReader = new JsonTextReader(reader))
                     {
                         var settings = new JsonSerializerSettings();
 
@@ -51,7 +48,9 @@
                             settings.Converters.Add(converter);
                         }
 
-                        var serializer = JsonSerializer.CreateDefault();
+                        settings.ContractResolver = new SneakCaseContractResolver();
+
+                        var serializer = JsonSerializer.CreateDefault(settings);
                         var result = serializer.Deserialize<T>(jsonReader);
 
                         return result;

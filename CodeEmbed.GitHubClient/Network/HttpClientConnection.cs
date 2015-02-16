@@ -1,14 +1,12 @@
-﻿namespace CodeEmbed.GitHubClient
+﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Net.Http.Headers;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -50,7 +48,7 @@
             }
         }
 
-        public async Task<GetDataResult> GetData(
+        public async Task<TextReader> GetData(
             Uri uri,
             CancellationToken cancellationToken)
         {
@@ -64,7 +62,7 @@
             {
                 response.EnsureSuccessStatusCode();
 
-                var result = await HttpClientGetDataResult.Create(response).ConfigureAwait(false);
+                var result = await HttpResponseMessageReader.Create(response).ConfigureAwait(false);
 
                 response = null;
                 return result;

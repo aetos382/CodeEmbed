@@ -41,11 +41,7 @@
             Contract.Requires<ArgumentNullException>(branch != null);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            var bra = await client.GetBranch(user, repository, branch).ConfigureAwait(false);
-
-            var result = await GetGitCodeFromCommit(client, user, repository, bra.Commit.Hash, path).ConfigureAwait(false);
-
-            return result;
+            throw new NotImplementedException();
         }
 
         public static async Task<string> GetGitCodeFromTag(
@@ -120,7 +116,7 @@
                 gist = await client.GetData<Gist>(history.Uri).ConfigureAwait(false);
             }
 
-            GistFile file;
+            IGistFile file;
             if (!gist.Files.TryGetValue(fileName, out file))
             {
                 throw new GistNotFoundException(id, version, fileName);
