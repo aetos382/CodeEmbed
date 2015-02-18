@@ -138,6 +138,11 @@
     <Compile Include="Contracts\GitHubClientContracts.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\DetailedUser.cs" />
+    <Compile Include="Models\GitHubModels.Generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IAuthenticatedUser.cs" />
     <Compile Include="Models\IDetailedUser.cs" />
     <Compile Include="Models\Internal\IRepositoryPermissions.cs" />
