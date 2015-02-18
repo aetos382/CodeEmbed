@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Models>
+
+  <Model name="Repository">
+    
+    <Member name="Name" type="string"/>
+    <Member name="Uri" type="string" json="url"/>
+    
+  </Model>
+
+  <Model name="RepositoryUser" internal="true">
+
+    <Member name="Name" type="string"/>
+    <Member name="Uri" type="string" json="url"/>
+
+  </Model>
+
+</Models>

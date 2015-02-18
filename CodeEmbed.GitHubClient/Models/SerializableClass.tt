@@ -1,0 +1,108 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+
+<#@ include file="ModelGeneratorTool.tt" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="CustomUsings" type="System.Collections.Generic.IEnumerable<System.String>" #>
+<#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="IsInternal" type="System.Boolean" #>
+<#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
+
+<#
+	string className = "Serializable" + ModelName + "Generated";
+	string interfaceName = "I" + ModelName + "Generated";
+	string camelClassModelName = ToCamelCase(ModelName);
+#>
+
+namespace <#= CodeNamespace #>.Serialization
+{
+	using System;
+	using System.CodeDom.Compiler;
+
+	using Newtonsoft.Json;
+	
+<#
+if (!IsInternal)
+{
+#>
+	using <#= CodeNamespace #>;
+<#
+}
+else
+{
+#>
+	using <#= CodeNamespace #>.Internal;
+<#
+}
+#>
+
+<#
+	if (CustomUsings != null)
+	{
+		foreach (string customUsing in CustomUsings)
+		{
+#>
+	using <#= customUsing #>;
+<#
+		}
+	}
+#>
+
+	[GeneratedCode("SerializableClass.tt", "1.0")]
+	[JsonObject]
+	public class <#= className #> :
+		<#= interfaceName #>
+	{
+<#
+foreach (var member in Members)
+{
+#>
+		private readonly <#= member.Item2 #> _<#= member.Item3 #>;
+<#
+}
+#>
+
+		public <#= className #>(
+<#
+foreach (var member in Members.Take(Members.Count() - 1))
+{
+#>
+			<#= member.Item2 #> <#= member.Item3 #>,
+<#
+}
+#>
+			<#= Members.Last().Item2 #> <#= ToCamelCase(Members.Last().Item3) #>)
+		{
+<#
+foreach (var member in Members)
+{
+#>
+			this._<#= ToCamelCase(member.Item3) #> = <#= ToCamelCase(member.Item3) #>;
+<#
+}
+#>
+		}
+
+<#
+	foreach (var member in Members)
+	{
+#>
+		[JsonProperty("<#= member.Item4 #>")]
+		public <#= member.Item2 #> <#= member.Item1 #>
+		{
+			get
+			{
+				return this._<#= member.Item3 #>;
+			}
+		}
+
+<#
+	}
+#>
+	}
+}

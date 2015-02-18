@@ -1,0 +1,59 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+
+<#@ include file="ModelGeneratorTool.tt" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="CustomUsings" type="System.Collections.Generic.IEnumerable<System.String>" #>
+<#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="IsInternal" type="System.Boolean" #>
+<#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
+
+<# if (IsInternal)
+{
+#>
+namespace <#= CodeNamespace #>.Internal
+<#
+}
+else
+{
+#>
+namespace <#= CodeNamespace #>
+<#
+}
+#>
+{
+	using System;
+	using System.CodeDom.Compiler;
+	using System.Diagnostics.Contracts;
+	
+<#
+	if (CustomUsings != null)
+	{
+		foreach (string customUsing in CustomUsings)
+		{
+#>
+	using <#= customUsing #>;
+<#
+		}
+	}
+#>
+
+	[GeneratedCode("ModelInterface.tt", "1.0")]
+	public interface I<#= ModelName #>Generated
+	{
+<#
+	foreach (var member in Members)
+	{
+#>
+		// <#= member.Item4 #>
+		<#= member.Item2 #> <#= member.Item1 #> { [Pure] get; }
+<#
+	}
+#>
+	}
+}

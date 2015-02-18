@@ -1,0 +1,169 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+
+<#@ include file="ModelGeneratorTool.tt" #>
+
+<#@ output extension=".Generated.cs" #>
+
+<#
+    string baseDirectory = Path.GetDirectoryName(this.Host.TemplateFile);
+
+    string sourceFile = this.Host.ResolvePath("GitHubModels.xml");
+
+    using (var streamReader = new StreamReader(sourceFile))
+    {
+        var document = XDocument.Load(streamReader);
+
+        var modelDefs = document.Descendants("Model");
+        foreach (var modelDef in modelDefs)
+        {
+            string modelName = (string)modelDef.Attribute("name");
+
+            bool isInternal = false;
+
+            var internalAttribute = modelDef.Attribute("internal");
+
+            if (internalAttribute != null)
+            {
+                isInternal = (bool)internalAttribute;
+            }
+
+            var memberDefs = modelDef.Descendants("Member");
+
+            var members = new List<Tuple<string, string, string, string>>();
+            foreach (var memberDef in memberDefs)
+            {
+                string memberName = (string)memberDef.Attribute("name");
+				string memberType = (string)memberDef.Attribute("type");
+                string memberJson = (string)memberDef.Attribute("json");
+                string camelcasedName = ToCamelCase(memberName);
+
+                var member = Tuple.Create(memberName, memberType, camelcasedName, memberJson ?? camelcasedName);
+                members.Add(member);
+            }
+
+            string interfaceDef = this.GenerateInterface(modelName, isInternal, members.ToArray(), "CodeEmbed.GitHubClient.Models", null);
+            this.WriteLine(interfaceDef);
+
+            string classDef = this.GenerateClass(modelName, isInternal, members, "CodeEmbed.GitHubClient.Models", null);
+            this.WriteLine(classDef);
+            
+			string serializableClassDef = this.GenerateSerializableClass(modelName, isInternal, members, "CodeEmbed.GitHubClient.Models", null);
+            this.WriteLine(serializableClassDef);
+		}
+    }
+#>
+
+<#+
+    private string GenerateInterface(
+        string modelName,
+        bool isInternal,
+        IEnumerable<Tuple<string, string, string, string>> members,
+        string codeNamespace,
+        IEnumerable<string> customUsings)
+    {
+        string includeContent, location;
+        bool loaded = this.Host.LoadIncludeText("ModelInterface.tt", out includeContent, out location);
+        if (!loaded)
+        {
+            this.Error("Can't load ModelInterface.tt");
+            return null;
+        }
+
+        var sessionHost = (ITextTemplatingSessionHost)this.Host;
+
+        var session = sessionHost.Session ?? sessionHost.CreateSession();
+
+        session["CodeNamespace"] = codeNamespace;
+        session["ModelName"] = modelName;
+        session["IsInternal"] = isInternal;
+        session["CustomUsings"] = customUsings ?? Enumerable.Empty<string>();
+        session["Members"] = members;
+		
+        sessionHost.Session = session;
+
+        var engine = new Engine();
+        string result = engine.ProcessTemplate(includeContent, this.Host);
+
+        return result;
+    }
+
+    private string GenerateClass(
+        string modelName,
+        bool isInternal,
+        IEnumerable<Tuple<string, string, string, string>> members,
+        string codeNamespace,
+        IEnumerable<string> customUsings)
+    {
+        string includeContent, location;
+        bool loaded = this.Host.LoadIncludeText("ModelClass.tt", out includeContent, out location);
+        if (!loaded)
+        {
+            this.Error("Can't load ModelClass.tt");
+            return null;
+        }
+
+        var sessionHost = (ITextTemplatingSessionHost)this.Host;
+
+        var session = sessionHost.Session ?? sessionHost.CreateSession();
+
+        session["CodeNamespace"] = codeNamespace;
+        session["ModelName"] = modelName;
+        session["IsInternal"] = isInternal;
+        session["CustomUsings"] = customUsings ?? Enumerable.Empty<string>();
+        session["Members"] = members;
+
+        sessionHost.Session = session;
+
+        var engine = new Engine();
+        string result = engine.ProcessTemplate(includeContent, this.Host);
+
+        return result;
+    }
+
+    private string GenerateSerializableClass(
+        string modelName,
+		bool isInternal,
+        IEnumerable<Tuple<string, string, string, string>> members,
+        string codeNamespace,
+        IEnumerable<string> customUsings)
+    {
+        string includeContent, location;
+        bool loaded = this.Host.LoadIncludeText("SerializableClass.tt", out includeContent, out location);
+        if (!loaded)
+        {
+            this.Error("Can't load SerializableClass.tt");
+            return null;
+        }
+
+        var sessionHost = (ITextTemplatingSessionHost)this.Host;
+
+        var session = sessionHost.Session ?? sessionHost.CreateSession();
+
+        session["CodeNamespace"] = codeNamespace;
+        session["ModelName"] = modelName;
+        session["IsInternal"] = isInternal;
+        session["CustomUsings"] = customUsings ?? Enumerable.Empty<string>();
+        session["Members"] = members;
+
+        sessionHost.Session = session;
+
+        var engine = new Engine();
+        string result = engine.ProcessTemplate(includeContent, this.Host);
+
+        return result;
+    }
+#>

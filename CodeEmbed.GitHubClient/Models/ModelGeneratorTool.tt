@@ -1,0 +1,10 @@
+﻿<#+
+    private static string ToCamelCase(string value)
+    {
+        var chars = value.ToCharArray();
+
+        chars[0] = char.ToLowerInvariant(value[0]);
+
+		return new string(chars);
+    }
+#>
