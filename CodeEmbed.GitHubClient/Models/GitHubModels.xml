@@ -1,17 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Models>
 
-  <Model name="Repository">
+  <Model name="Repository" hasClient="true">
     
-    <Member name="Name" type="string"/>
+    <Member name="Name" type="string" json="name"/>
     <Member name="Uri" type="string" json="url"/>
     
   </Model>
 
   <Model name="RepositoryUser" internal="true">
 
-    <Member name="Name" type="string"/>
+    <Member name="Name" type="string" json="name"/>
     <Member name="Uri" type="string" json="url"/>
+
+  </Model>
+
+  <Model name="DetailedUser" inherits="RepositoryUser">
+
+    <Member name="Hoge" type="string" json="hoge"/>
 
   </Model>
 

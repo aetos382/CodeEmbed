@@ -138,11 +138,6 @@
     <Compile Include="Contracts\GitHubClientContracts.cs" />
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\DetailedUser.cs" />
-    <Compile Include="Models\GitHubModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\IAuthenticatedUser.cs" />
     <Compile Include="Models\IDetailedUser.cs" />
     <Compile Include="Models\Internal\IRepositoryPermissions.cs" />
@@ -224,7 +219,7 @@
   <ItemGroup>
     <None Include="Models\GitHubModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GitHubModels.cs</LastGenOutput>
+      <LastGenOutput>GitHubModels.Generated.cs</LastGenOutput>
     </None>
     <None Include="Models\ModelClass.tt">
       <LastGenOutput>ModelClass.txt</LastGenOutput>
@@ -242,7 +237,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\GitHubModels.xml" />
+    <Content Include="Models\GitHubModels.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

@@ -18,6 +18,8 @@
 
 <#@ output extension=".Generated.cs" #>
 
+<#@ CleanupBehavior processor="T4VSHost" CleanupAfterProcessingtemplate="true" #>
+
 <#
     string baseDirectory = Path.GetDirectoryName(this.Host.TemplateFile);
 
@@ -25,6 +27,8 @@
 
     using (var streamReader = new StreamReader(sourceFile))
     {
+		IDictionary<string, bool> inheritInternals = new Dictionary<string, bool>();
+
         var document = XDocument.Load(streamReader);
 
         var modelDefs = document.Descendants("Model");
@@ -35,10 +39,28 @@
             bool isInternal = false;
 
             var internalAttribute = modelDef.Attribute("internal");
-
             if (internalAttribute != null)
             {
                 isInternal = (bool)internalAttribute;
+            }
+
+            inheritInternals[modelName] = isInternal;
+
+            string inherits = (string)modelDef.Attribute("inherits");
+
+            bool parentIsInternal = false;
+
+            if (inherits != null)
+            {
+				parentIsInternal = inheritInternals[inherits];
+            }
+
+            bool hasClient = false;
+
+            var hasClientAttribute = modelDef.Attribute("hasClient");
+            if (hasClientAttribute != null)
+            {
+                hasClient = (bool)hasClientAttribute;
             }
 
             var memberDefs = modelDef.Descendants("Member");
@@ -47,118 +69,63 @@
             foreach (var memberDef in memberDefs)
             {
                 string memberName = (string)memberDef.Attribute("name");
-				string memberType = (string)memberDef.Attribute("type");
+                string memberType = (string)memberDef.Attribute("type");
                 string memberJson = (string)memberDef.Attribute("json");
                 string camelcasedName = ToCamelCase(memberName);
 
-                var member = Tuple.Create(memberName, memberType, camelcasedName, memberJson ?? camelcasedName);
+                var member = Tuple.Create(memberName, memberType, camelcasedName, memberJson);
                 members.Add(member);
             }
 
-            string interfaceDef = this.GenerateInterface(modelName, isInternal, members.ToArray(), "CodeEmbed.GitHubClient.Models", null);
+
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", modelName, inherits, isInternal, parentIsInternal, hasClient, members, "CodeEmbed.GitHubClient");
             this.WriteLine(interfaceDef);
 
-            string classDef = this.GenerateClass(modelName, isInternal, members, "CodeEmbed.GitHubClient.Models", null);
+            string classDef = this.GenerateModel("ModelClass.tt", modelName, inherits, isInternal, parentIsInternal, hasClient, members, "CodeEmbed.GitHubClient");
             this.WriteLine(classDef);
             
-			string serializableClassDef = this.GenerateSerializableClass(modelName, isInternal, members, "CodeEmbed.GitHubClient.Models", null);
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", modelName, inherits, isInternal, parentIsInternal, hasClient, members, "CodeEmbed.GitHubClient");
             this.WriteLine(serializableClassDef);
-		}
+        }
     }
 #>
 
 <#+
-    private string GenerateInterface(
+    private string GenerateModel(
+		string templateFile,
         string modelName,
+		string inheritFrom,
         bool isInternal,
+		bool parentIsInternal,
+		bool hasClient,
         IEnumerable<Tuple<string, string, string, string>> members,
-        string codeNamespace,
-        IEnumerable<string> customUsings)
+        string codeNamespace)
     {
         string includeContent, location;
-        bool loaded = this.Host.LoadIncludeText("ModelInterface.tt", out includeContent, out location);
+        bool loaded = this.Host.LoadIncludeText(templateFile, out includeContent, out location);
         if (!loaded)
         {
-            this.Error("Can't load ModelInterface.tt");
+            this.Error(string.Format("Can't load {0}.", templateFile));
             return null;
         }
 
         var sessionHost = (ITextTemplatingSessionHost)this.Host;
 
-        var session = sessionHost.Session ?? sessionHost.CreateSession();
+        var session = sessionHost.CreateSession();
 
         session["CodeNamespace"] = codeNamespace;
         session["ModelName"] = modelName;
-        session["IsInternal"] = isInternal;
-        session["CustomUsings"] = customUsings ?? Enumerable.Empty<string>();
-        session["Members"] = members;
-		
-        sessionHost.Session = session;
 
-        var engine = new Engine();
-        string result = engine.ProcessTemplate(includeContent, this.Host);
-
-        return result;
-    }
-
-    private string GenerateClass(
-        string modelName,
-        bool isInternal,
-        IEnumerable<Tuple<string, string, string, string>> members,
-        string codeNamespace,
-        IEnumerable<string> customUsings)
-    {
-        string includeContent, location;
-        bool loaded = this.Host.LoadIncludeText("ModelClass.tt", out includeContent, out location);
-        if (!loaded)
+        if (inheritFrom != null)
         {
-            this.Error("Can't load ModelClass.tt");
-            return null;
+            session["InheritFrom"] = inheritFrom;
         }
 
-        var sessionHost = (ITextTemplatingSessionHost)this.Host;
-
-        var session = sessionHost.Session ?? sessionHost.CreateSession();
-
-        session["CodeNamespace"] = codeNamespace;
-        session["ModelName"] = modelName;
         session["IsInternal"] = isInternal;
-        session["CustomUsings"] = customUsings ?? Enumerable.Empty<string>();
+        session["ParentIsInternal"] = parentIsInternal;
+        session["HasClient"] = hasClient;
         session["Members"] = members;
-
-        sessionHost.Session = session;
-
-        var engine = new Engine();
-        string result = engine.ProcessTemplate(includeContent, this.Host);
-
-        return result;
-    }
-
-    private string GenerateSerializableClass(
-        string modelName,
-		bool isInternal,
-        IEnumerable<Tuple<string, string, string, string>> members,
-        string codeNamespace,
-        IEnumerable<string> customUsings)
-    {
-        string includeContent, location;
-        bool loaded = this.Host.LoadIncludeText("SerializableClass.tt", out includeContent, out location);
-        if (!loaded)
-        {
-            this.Error("Can't load SerializableClass.tt");
-            return null;
-        }
-
-        var sessionHost = (ITextTemplatingSessionHost)this.Host;
-
-        var session = sessionHost.Session ?? sessionHost.CreateSession();
-
-        session["CodeNamespace"] = codeNamespace;
-        session["ModelName"] = modelName;
-        session["IsInternal"] = isInternal;
-        session["CustomUsings"] = customUsings ?? Enumerable.Empty<string>();
-        session["Members"] = members;
-
+        
         sessionHost.Session = session;
 
         var engine = new Engine();

@@ -8,21 +8,22 @@
 <#@ include file="ModelGeneratorTool.tt" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="CustomUsings" type="System.Collections.Generic.IEnumerable<System.String>" #>
 <#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="InheritFrom" type="System.String" #>
 <#@ parameter name="IsInternal" type="System.Boolean" #>
+<#@ parameter name="ParentIsInternal" type="System.Boolean" #>
 <#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
 
 <# if (IsInternal)
 {
 #>
-namespace <#= CodeNamespace #>.Internal
+namespace <#= CodeNamespace #>.Models.Internal
 <#
 }
 else
 {
 #>
-namespace <#= CodeNamespace #>
+namespace <#= CodeNamespace #>.Models
 <#
 }
 #>
@@ -32,19 +33,24 @@ namespace <#= CodeNamespace #>
 	using System.Diagnostics.Contracts;
 	
 <#
-	if (CustomUsings != null)
-	{
-		foreach (string customUsing in CustomUsings)
-		{
+    if (ParentIsInternal && !IsInternal)
+    {
 #>
-	using <#= customUsing #>;
-<#
-		}
-	}
-#>
+	using <#= CodeNamespace #>.Models.Internal;
 
+<#        
+    }
+#>
 	[GeneratedCode("ModelInterface.tt", "1.0")]
 	public interface I<#= ModelName #>Generated
+<#
+    if (InheritFrom != null)
+    {
+#>
+		: I<#= InheritFrom #>Generated
+<#
+    }
+#>
 	{
 <#
 	foreach (var member in Members)
@@ -52,6 +58,7 @@ namespace <#= CodeNamespace #>
 #>
 		// <#= member.Item4 #>
 		<#= member.Item2 #> <#= member.Item1 #> { [Pure] get; }
+
 <#
 	}
 #>

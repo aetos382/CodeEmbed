@@ -8,9 +8,11 @@
 <#@ include file="ModelGeneratorTool.tt" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="CustomUsings" type="System.Collections.Generic.IEnumerable<System.String>" #>
 <#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="InheritFrom" type="System.String" #>
 <#@ parameter name="IsInternal" type="System.Boolean" #>
+<#@ parameter name="HasClient" type="System.Boolean" #>
+<#@ parameter name="ParentIsInternal" type="System.Boolean" #>
 <#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
 
 <#
@@ -22,13 +24,13 @@
 <# if (IsInternal)
 {
 #>
-namespace <#= CodeNamespace #>.Internal
+namespace <#= CodeNamespace #>.Models.Internal
 <#
 }
 else
 {
 #>
-namespace <#= CodeNamespace #>
+namespace <#= CodeNamespace #>.Models
 <#
 }
 #>
@@ -40,29 +42,103 @@ namespace <#= CodeNamespace #>
 	using System.Diagnostics.Contracts;
 	
 <#
-	if (CustomUsings != null)
-	{
-		foreach (string customUsing in CustomUsings)
-		{
+    if (HasClient)
+    {
 #>
-	using <#= customUsing #>;
-<#
-		}
-	}
-#>
+	using <#= CodeNamespace #>;
 
+<#    
+    }
+
+    if (ParentIsInternal && !IsInternal)
+    {
+#>
+	using <#= CodeNamespace #>.Models.Internal;
+
+<#        
+    }
+#>
 	[GeneratedCode("ModelClass.tt", "1.0")]
 	public class <#= className #> :
+<#
+    if (InheritFrom != null)
+    {
+#>
+		<#= InheritFrom #>Generated,
+<#
+    }
+#>
 		<#= interfaceName #>
 	{
+<#
+    if (HasClient)
+    {
+#>
+		[ContractPublicPropertyName("Client")]
+		private readonly IGitHubClient _client;
+
+<#
+    }
+#>
 		private readonly <#= interfaceName #> _<#= camelClassModelName #>;
 
 		public <#= className #>(
+<#
+    if (HasClient)
+    {
+#>
+			IGitHubClient client,
+<#
+    }
+#>
 			<#= interfaceName #> <#= camelClassModelName #>)
+<#
+    if (InheritFrom != null)
+    {
+#>
+			: base(<#= camelClassModelName #>)
+<#
+    }
+#>
 		{
+<#
+    if (HasClient)
+    {
+#>
+			Contract.Requires<ArgumentNullException>(client != null);
+<#
+    }
+#>
+			Contract.Requires<ArgumentNullException>(<#= camelClassModelName #> != null);
+
+<#
+    if (HasClient)
+    {
+#>
+			this._client = client;
+<#
+    }
+#>
 			this._<#= camelClassModelName #> = <#= camelClassModelName #>;
 		}
 
+<#
+    if (HasClient)
+    {
+#>
+		public IGitHubClient Client
+		{
+			get
+			{
+				Contract.Ensures(Contract.Result<IGitHubClient>() != null);
+
+				return this._client;
+			}
+		}
+
+<#
+    }
+#>
 <#
 	foreach (var member in Members)
 	{
@@ -85,6 +161,14 @@ namespace <#= CodeNamespace #>
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+<#
+    if (HasClient)
+    {
+#>
+			Contract.Invariant(this._client != null);
+<#
+    }
+#>
             Contract.Invariant(this._<#= camelClassModelName #> != null);
         }
 	}

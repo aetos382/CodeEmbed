@@ -8,9 +8,10 @@
 <#@ include file="ModelGeneratorTool.tt" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="CustomUsings" type="System.Collections.Generic.IEnumerable<System.String>" #>
 <#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="InheritFrom" type="System.String" #>
 <#@ parameter name="IsInternal" type="System.Boolean" #>
+<#@ parameter name="ParentIsInternal" type="System.Boolean" #>
 <#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
 
 <#
@@ -19,7 +20,7 @@
 	string camelClassModelName = ToCamelCase(ModelName);
 #>
 
-namespace <#= CodeNamespace #>.Serialization
+namespace <#= CodeNamespace #>.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
@@ -27,35 +28,31 @@ namespace <#= CodeNamespace #>.Serialization
 	using Newtonsoft.Json;
 	
 <#
-if (!IsInternal)
+if (IsInternal || ParentIsInternal)
 {
 #>
-	using <#= CodeNamespace #>;
+	using <#= CodeNamespace #>.Models.Internal;
 <#
 }
 else
 {
 #>
-	using <#= CodeNamespace #>.Internal;
+	using <#= CodeNamespace #>.Models;
 <#
 }
-#>
-
-<#
-	if (CustomUsings != null)
-	{
-		foreach (string customUsing in CustomUsings)
-		{
-#>
-	using <#= customUsing #>;
-<#
-		}
-	}
 #>
 
 	[GeneratedCode("SerializableClass.tt", "1.0")]
 	[JsonObject]
 	public class <#= className #> :
+<#
+    if (InheritFrom != null)
+    {
+#>
+		Serializable<#= InheritFrom #>Generated,
+<#
+    }
+#>
 		<#= interfaceName #>
 	{
 <#
@@ -67,6 +64,7 @@ foreach (var member in Members)
 }
 #>
 
+		[JsonConstructor]
 		public <#= className #>(
 <#
 foreach (var member in Members.Take(Members.Count() - 1))
