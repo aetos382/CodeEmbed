@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Models>
+<Models codeNamespace="CodeEmbed.GitHubClient">
 
   <Model name="Repository" hasClient="true">
     
@@ -15,9 +15,15 @@
 
   </Model>
 
-  <Model name="DetailedUser" inherits="RepositoryUser">
+  <Model name="Foo" inherits="RepositoryUser">
 
     <Member name="Hoge" type="string" json="hoge"/>
+
+  </Model>
+
+  <Model name="Bar" inherits="Foo">
+
+    <Member name="Hige" type="string" json="hige"/>
 
   </Model>
 

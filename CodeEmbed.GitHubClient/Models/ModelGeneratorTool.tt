@@ -7,4 +7,11 @@
 
 		return new string(chars);
     }
+
+    private class MemberDefinition
+    {
+        public string Name { get; set; }
+		public string Type { get; set; }
+		public string Json { get; set; }
+    }
 #>

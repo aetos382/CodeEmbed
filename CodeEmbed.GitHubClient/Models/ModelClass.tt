@@ -1,27 +1,53 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
 
 <#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelDefinitionXml" type="System.String" #>
+<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
 <#@ include file="ModelGeneratorTool.tt" #>
 
-<#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelName" type="System.String" #>
-<#@ parameter name="InheritFrom" type="System.String" #>
-<#@ parameter name="IsInternal" type="System.Boolean" #>
-<#@ parameter name="HasClient" type="System.Boolean" #>
-<#@ parameter name="ParentIsInternal" type="System.Boolean" #>
-<#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
-
 <#
-    string className = ModelName + "Generated";
-	string interfaceName = "I" + ModelName + "Generated";
-    string camelClassModelName = ToCamelCase(ModelName);
+    var modelDefinition = XElement.Parse(ModelDefinitionXml);
+
+    string modelName = (string)modelDefinition.Attribute("name");
+    string inherits = (string)modelDefinition.Attribute("inherits");
+
+	bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
+    bool hasClient = (bool?)modelDefinition.Attribute("hasClient") ?? false;
+
+    string camelCasedModelName = ToCamelCase(modelName);
+
+    var members = modelDefinition.Descendants("Member").Select(
+        x => new MemberDefinition
+            {
+                Name = x.Attribute("name").Value,
+                Type = x.Attribute("type").Value,
+                Json = x.Attribute("json").Value
+            });
+
+    XElement parentModelDefinition = null;
+
+    bool parentIsInternal = false;
+    bool parentHasClient = false;
+
+    if (ParentModelDefinitionXmls.Any())
+    {
+		parentModelDefinition = XElement.Parse(ParentModelDefinitionXmls.First());
+
+        parentIsInternal = (bool?)parentModelDefinition.Attribute("internal") ?? false;
+		parentHasClient = (bool?)parentModelDefinition.Attribute("hasClient") ?? false;
+    }
 #>
 
-<# if (IsInternal)
+<# if (isInternal)
 {
 #>
 namespace <#= CodeNamespace #>.Models.Internal
@@ -42,7 +68,7 @@ namespace <#= CodeNamespace #>.Models
 	using System.Diagnostics.Contracts;
 	
 <#
-    if (HasClient)
+    if (hasClient)
     {
 #>
 	using <#= CodeNamespace #>;
@@ -50,7 +76,7 @@ namespace <#= CodeNamespace #>.Models
 <#    
     }
 
-    if (ParentIsInternal && !IsInternal)
+    if (parentIsInternal && !isInternal)
     {
 #>
 	using <#= CodeNamespace #>.Models.Internal;
@@ -59,19 +85,20 @@ namespace <#= CodeNamespace #>.Models
     }
 #>
 	[GeneratedCode("ModelClass.tt", "1.0")]
-	public class <#= className #> :
+	[DebuggerStepThrough]
+	public class <#= modelName #>Generated :
 <#
-    if (InheritFrom != null)
+    if (inherits != null)
     {
 #>
-		<#= InheritFrom #>Generated,
+		<#= inherits #>Generated,
 <#
     }
 #>
-		<#= interfaceName #>
+		I<#= modelName #>Generated
 	{
 <#
-    if (HasClient)
+    if (hasClient)
     {
 #>
 		[ContractPublicPropertyName("Client")]
@@ -80,50 +107,59 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
-		private readonly <#= interfaceName #> _<#= camelClassModelName #>;
+		private readonly I<#= modelName #>Generated _<#= camelCasedModelName #>;
 
-		public <#= className #>(
+		public <#= modelName #>Generated(
 <#
-    if (HasClient)
+    if (hasClient || parentHasClient)
     {
 #>
 			IGitHubClient client,
 <#
     }
 #>
-			<#= interfaceName #> <#= camelClassModelName #>)
+			I<#= modelName #>Generated <#= camelCasedModelName #>)
 <#
-    if (InheritFrom != null)
+    if (inherits != null)
     {
 #>
-			: base(<#= camelClassModelName #>)
+			: base(
+<#
+	if (parentHasClient)
+	{
+#>
+				client,
+<#
+	}
+#>
+				<#= camelCasedModelName #>)
 <#
     }
 #>
 		{
 <#
-    if (HasClient)
+    if (hasClient || parentHasClient)
     {
 #>
 			Contract.Requires<ArgumentNullException>(client != null);
 <#
     }
 #>
-			Contract.Requires<ArgumentNullException>(<#= camelClassModelName #> != null);
+			Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
 
 <#
-    if (HasClient)
+    if (hasClient)
     {
 #>
 			this._client = client;
 <#
     }
 #>
-			this._<#= camelClassModelName #> = <#= camelClassModelName #>;
+			this._<#= camelCasedModelName #> = <#= camelCasedModelName #>;
 		}
 
 <#
-    if (HasClient)
+    if (hasClient)
     {
 #>
 		public IGitHubClient Client
@@ -140,14 +176,14 @@ namespace <#= CodeNamespace #>.Models
     }
 #>
 <#
-	foreach (var member in Members)
+	foreach (var member in members)
 	{
 #>
-		public <#= member.Item2 #> <#= member.Item1 #>
+		public <#= member.Type #> <#= member.Name #>
 		{
 			get
 			{
-				return this._<#= camelClassModelName #>.<#= member.Item1 #>;
+				return this._<#= camelCasedModelName #>.<#= member.Name #>;
 			}
 		}
 
@@ -156,20 +192,19 @@ namespace <#= CodeNamespace #>.Models
 #>
         [Conditional("CONTRACTS_FULL")]
         [DebuggerStepThrough]
-        [DebuggerHidden]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
 <#
-    if (HasClient)
+    if (hasClient)
     {
 #>
 			Contract.Invariant(this._client != null);
 <#
     }
 #>
-            Contract.Invariant(this._<#= camelClassModelName #> != null);
+            Contract.Invariant(this._<#= camelCasedModelName #> != null);
         }
 	}
 }

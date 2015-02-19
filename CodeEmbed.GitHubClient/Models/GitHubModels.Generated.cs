@@ -8,6 +8,8 @@
 
 
 
+
+
 namespace CodeEmbed.GitHubClient.Models
 {
 	using System;
@@ -31,6 +33,7 @@ namespace CodeEmbed.GitHubClient.Models
 
 
 
+
 namespace CodeEmbed.GitHubClient.Models
 {
 	using System;
@@ -42,6 +45,7 @@ namespace CodeEmbed.GitHubClient.Models
 	using CodeEmbed.GitHubClient;
 
 	[GeneratedCode("ModelClass.tt", "1.0")]
+	[DebuggerStepThrough]
 	public class RepositoryGenerated :
 		IRepositoryGenerated
 	{
@@ -89,7 +93,6 @@ namespace CodeEmbed.GitHubClient.Models
 
         [Conditional("CONTRACTS_FULL")]
         [DebuggerStepThrough]
-        [DebuggerHidden]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
@@ -105,21 +108,27 @@ namespace CodeEmbed.GitHubClient.Models
 
 
 
+
 namespace CodeEmbed.GitHubClient.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Diagnostics;
+	using System.Diagnostics.Contracts;
 
 	using Newtonsoft.Json;
 	
 	using CodeEmbed.GitHubClient.Models;
 
 	[GeneratedCode("SerializableClass.tt", "1.0")]
+	[DebuggerStepThrough]
 	[JsonObject]
 	public class SerializableRepositoryGenerated :
 		IRepositoryGenerated
 	{
+		[ContractPublicPropertyName("Name")]
 		private readonly string _name;
+		[ContractPublicPropertyName("Uri")]
 		private readonly string _uri;
 
 		[JsonConstructor]
@@ -156,6 +165,8 @@ namespace CodeEmbed.GitHubClient.Models.Serialization
 
 
 
+
+
 namespace CodeEmbed.GitHubClient.Models.Internal
 {
 	using System;
@@ -179,6 +190,7 @@ namespace CodeEmbed.GitHubClient.Models.Internal
 
 
 
+
 namespace CodeEmbed.GitHubClient.Models.Internal
 {
 	using System;
@@ -188,6 +200,7 @@ namespace CodeEmbed.GitHubClient.Models.Internal
 	using System.Diagnostics.Contracts;
 	
 	[GeneratedCode("ModelClass.tt", "1.0")]
+	[DebuggerStepThrough]
 	public class RepositoryUserGenerated :
 		IRepositoryUserGenerated
 	{
@@ -219,7 +232,6 @@ namespace CodeEmbed.GitHubClient.Models.Internal
 
         [Conditional("CONTRACTS_FULL")]
         [DebuggerStepThrough]
-        [DebuggerHidden]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
@@ -234,21 +246,27 @@ namespace CodeEmbed.GitHubClient.Models.Internal
 
 
 
+
 namespace CodeEmbed.GitHubClient.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Diagnostics;
+	using System.Diagnostics.Contracts;
 
 	using Newtonsoft.Json;
 	
 	using CodeEmbed.GitHubClient.Models.Internal;
 
 	[GeneratedCode("SerializableClass.tt", "1.0")]
+	[DebuggerStepThrough]
 	[JsonObject]
 	public class SerializableRepositoryUserGenerated :
 		IRepositoryUserGenerated
 	{
+		[ContractPublicPropertyName("Name")]
 		private readonly string _name;
+		[ContractPublicPropertyName("Uri")]
 		private readonly string _uri;
 
 		[JsonConstructor]
@@ -285,6 +303,8 @@ namespace CodeEmbed.GitHubClient.Models.Serialization
 
 
 
+
+
 namespace CodeEmbed.GitHubClient.Models
 {
 	using System;
@@ -294,7 +314,7 @@ namespace CodeEmbed.GitHubClient.Models
 	using CodeEmbed.GitHubClient.Models.Internal;
 
 	[GeneratedCode("ModelInterface.tt", "1.0")]
-	public interface IDetailedUserGenerated
+	public interface IFooGenerated
 		: IRepositoryUserGenerated
 	{
 		// hoge
@@ -302,6 +322,7 @@ namespace CodeEmbed.GitHubClient.Models
 
 	}
 }
+
 
 
 
@@ -319,40 +340,42 @@ namespace CodeEmbed.GitHubClient.Models
 	using CodeEmbed.GitHubClient.Models.Internal;
 
 	[GeneratedCode("ModelClass.tt", "1.0")]
-	public class DetailedUserGenerated :
+	[DebuggerStepThrough]
+	public class FooGenerated :
 		RepositoryUserGenerated,
-		IDetailedUserGenerated
+		IFooGenerated
 	{
-		private readonly IDetailedUserGenerated _detailedUser;
+		private readonly IFooGenerated _foo;
 
-		public DetailedUserGenerated(
-			IDetailedUserGenerated detailedUser)
-			: base(detailedUser)
+		public FooGenerated(
+			IFooGenerated foo)
+			: base(
+				foo)
 		{
-			Contract.Requires<ArgumentNullException>(detailedUser != null);
+			Contract.Requires<ArgumentNullException>(foo != null);
 
-			this._detailedUser = detailedUser;
+			this._foo = foo;
 		}
 
 		public string Hoge
 		{
 			get
 			{
-				return this._detailedUser.Hoge;
+				return this._foo.Hoge;
 			}
 		}
 
         [Conditional("CONTRACTS_FULL")]
         [DebuggerStepThrough]
-        [DebuggerHidden]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this._detailedUser != null);
+            Contract.Invariant(this._foo != null);
         }
 	}
 }
+
 
 
 
@@ -363,22 +386,31 @@ namespace CodeEmbed.GitHubClient.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Diagnostics;
+	using System.Diagnostics.Contracts;
 
 	using Newtonsoft.Json;
 	
 	using CodeEmbed.GitHubClient.Models.Internal;
 
 	[GeneratedCode("SerializableClass.tt", "1.0")]
+	[DebuggerStepThrough]
 	[JsonObject]
-	public class SerializableDetailedUserGenerated :
+	public class SerializableFooGenerated :
 		SerializableRepositoryUserGenerated,
-		IDetailedUserGenerated
+		IFooGenerated
 	{
+		[ContractPublicPropertyName("Hoge")]
 		private readonly string _hoge;
 
 		[JsonConstructor]
-		public SerializableDetailedUserGenerated(
+		public SerializableFooGenerated(
+			string name,
+			string uri,
 			string hoge)
+			: base(
+				name,
+				uri)
 		{
 			this._hoge = hoge;
 		}
@@ -389,6 +421,132 @@ namespace CodeEmbed.GitHubClient.Models.Serialization
 			get
 			{
 				return this._hoge;
+			}
+		}
+
+	}
+}
+
+
+
+
+
+
+
+namespace CodeEmbed.GitHubClient.Models
+{
+	using System;
+	using System.CodeDom.Compiler;
+	using System.Diagnostics.Contracts;
+	
+	[GeneratedCode("ModelInterface.tt", "1.0")]
+	public interface IBarGenerated
+		: IFooGenerated
+	{
+		// hige
+		string Hige { [Pure] get; }
+
+	}
+}
+
+
+
+
+
+
+
+namespace CodeEmbed.GitHubClient.Models
+{
+	using System;
+	using System.CodeDom.Compiler;
+	using System.ComponentModel;
+	using System.Diagnostics;
+	using System.Diagnostics.Contracts;
+	
+	[GeneratedCode("ModelClass.tt", "1.0")]
+	[DebuggerStepThrough]
+	public class BarGenerated :
+		FooGenerated,
+		IBarGenerated
+	{
+		private readonly IBarGenerated _bar;
+
+		public BarGenerated(
+			IBarGenerated bar)
+			: base(
+				bar)
+		{
+			Contract.Requires<ArgumentNullException>(bar != null);
+
+			this._bar = bar;
+		}
+
+		public string Hige
+		{
+			get
+			{
+				return this._bar.Hige;
+			}
+		}
+
+        [Conditional("CONTRACTS_FULL")]
+        [DebuggerStepThrough]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._bar != null);
+        }
+	}
+}
+
+
+
+
+
+
+
+namespace CodeEmbed.GitHubClient.Models.Serialization
+{
+	using System;
+	using System.CodeDom.Compiler;
+	using System.Diagnostics;
+	using System.Diagnostics.Contracts;
+
+	using Newtonsoft.Json;
+	
+	using CodeEmbed.GitHubClient.Models;
+
+	[GeneratedCode("SerializableClass.tt", "1.0")]
+	[DebuggerStepThrough]
+	[JsonObject]
+	public class SerializableBarGenerated :
+		SerializableFooGenerated,
+		IBarGenerated
+	{
+		[ContractPublicPropertyName("Hige")]
+		private readonly string _hige;
+
+		[JsonConstructor]
+		public SerializableBarGenerated(
+			string name,
+			string uri,
+			string hoge,
+			string hige)
+			: base(
+				name,
+				uri,
+				hoge)
+		{
+			this._hige = hige;
+		}
+
+		[JsonProperty("hige")]
+		public string Hige
+		{
+			get
+			{
+				return this._hige;
 			}
 		}
 

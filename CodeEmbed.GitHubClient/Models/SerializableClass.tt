@@ -1,34 +1,70 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
 
 <#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelDefinitionXml" type="System.String" #>
+<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
 <#@ include file="ModelGeneratorTool.tt" #>
 
-<#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelName" type="System.String" #>
-<#@ parameter name="InheritFrom" type="System.String" #>
-<#@ parameter name="IsInternal" type="System.Boolean" #>
-<#@ parameter name="ParentIsInternal" type="System.Boolean" #>
-<#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
-
 <#
-	string className = "Serializable" + ModelName + "Generated";
-	string interfaceName = "I" + ModelName + "Generated";
-	string camelClassModelName = ToCamelCase(ModelName);
+    var modelDefinition = XElement.Parse(ModelDefinitionXml);
+
+    string modelName = (string)modelDefinition.Attribute("name");
+    string inherits = (string)modelDefinition.Attribute("inherits");
+
+    bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
+
+    var members = modelDefinition.Descendants("Member").Select(
+        x => new MemberDefinition
+            {
+                Name = x.Attribute("name").Value,
+                Type = x.Attribute("type").Value,
+                Json = x.Attribute("json").Value
+            });
+
+	var parentModelDefinitions = ParentModelDefinitionXmls.Select(XElement.Parse);
+
+    bool parentIsInternal = false;
+
+    var parentMembers = new MemberDefinition[0];
+
+    if (parentModelDefinitions.Any())
+    {
+        parentIsInternal = (bool?)parentModelDefinitions.First().Attribute("internal") ?? false;
+
+		parentMembers = parentModelDefinitions.Reverse().SelectMany(
+			x => x.Descendants("Member")
+				.Select(
+					y => new MemberDefinition
+					{
+						Name = y.Attribute("name").Value,
+						Type = y.Attribute("type").Value,
+						Json = y.Attribute("json").Value
+					})
+			)
+			.ToArray();
+    }
 #>
 
 namespace <#= CodeNamespace #>.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Diagnostics;
+	using System.Diagnostics.Contracts;
 
 	using Newtonsoft.Json;
 	
 <#
-if (IsInternal || ParentIsInternal)
+if (isInternal || parentIsInternal)
 {
 #>
 	using <#= CodeNamespace #>.Models.Internal;
@@ -43,59 +79,86 @@ else
 #>
 
 	[GeneratedCode("SerializableClass.tt", "1.0")]
+	[DebuggerStepThrough]
 	[JsonObject]
-	public class <#= className #> :
+	public class Serializable<#= modelName #>Generated :
 <#
-    if (InheritFrom != null)
+    if (inherits != null)
     {
 #>
-		Serializable<#= InheritFrom #>Generated,
+		Serializable<#= inherits #>Generated,
 <#
     }
 #>
-		<#= interfaceName #>
+		I<#= modelName #>Generated
 	{
 <#
-foreach (var member in Members)
+foreach (var member in members)
 {
 #>
-		private readonly <#= member.Item2 #> _<#= member.Item3 #>;
+		[ContractPublicPropertyName("<#= member.Name #>")]
+		private readonly <#= member.Type #> _<#= ToCamelCase(member.Name) #>;
 <#
 }
 #>
 
 		[JsonConstructor]
-		public <#= className #>(
+		public Serializable<#= modelName #>Generated(
 <#
-foreach (var member in Members.Take(Members.Count() - 1))
+foreach (var member in parentMembers)
 {
 #>
-			<#= member.Item2 #> <#= member.Item3 #>,
+			<#= member.Type #> <#= ToCamelCase(member.Name) #>,
 <#
 }
 #>
-			<#= Members.Last().Item2 #> <#= ToCamelCase(Members.Last().Item3) #>)
-		{
 <#
-foreach (var member in Members)
+foreach (var member in members.Take(members.Count() - 1))
 {
 #>
-			this._<#= ToCamelCase(member.Item3) #> = <#= ToCamelCase(member.Item3) #>;
+			<#= member.Type #> <#= ToCamelCase(member.Name) #>,
+<#
+}
+#>
+			<#= members.Last().Type #> <#= ToCamelCase(members.Last().Name) #>)
+<#
+    if (inherits != null)
+    {
+#>
+			: base(
+<#
+        foreach (var member in parentMembers.Take(parentMembers.Length - 1))
+        {
+#>
+				<#= ToCamelCase(member.Name) #>,
+<#           
+        }
+#>
+				<#= ToCamelCase(parentMembers.Last().Name) #>)
+<#        
+    }
+#>
+		{
+<#
+foreach (var member in members)
+{
+#>
+			this._<#= ToCamelCase(member.Name) #> = <#= ToCamelCase(member.Name) #>;
 <#
 }
 #>
 		}
 
 <#
-	foreach (var member in Members)
+	foreach (var member in members)
 	{
 #>
-		[JsonProperty("<#= member.Item4 #>")]
-		public <#= member.Item2 #> <#= member.Item1 #>
+		[JsonProperty("<#= member.Json #>")]
+		public <#= member.Type #> <#= member.Name #>
 		{
 			get
 			{
-				return this._<#= member.Item3 #>;
+				return this._<#= ToCamelCase(member.Name) #>;
 			}
 		}
 

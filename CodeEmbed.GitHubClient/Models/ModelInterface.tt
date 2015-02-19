@@ -1,20 +1,47 @@
 ﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
 <#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
 
 <#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelDefinitionXml" type="System.String" #>
+<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
 <#@ include file="ModelGeneratorTool.tt" #>
 
-<#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelName" type="System.String" #>
-<#@ parameter name="InheritFrom" type="System.String" #>
-<#@ parameter name="IsInternal" type="System.Boolean" #>
-<#@ parameter name="ParentIsInternal" type="System.Boolean" #>
-<#@ parameter name="Members" type="System.Collections.Generic.IEnumerable<Tuple<System.String, System.String, System.String, System.String>>" #>
+<#
+    var modelDefinition = XElement.Parse(ModelDefinitionXml);
 
-<# if (IsInternal)
+    string modelName = (string)modelDefinition.Attribute("name");
+    string inherits = (string)modelDefinition.Attribute("inherits");
+
+    bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
+
+    var members = modelDefinition.Descendants("Member").Select(
+        x => new MemberDefinition
+            {
+                Name = x.Attribute("name").Value,
+                Type = x.Attribute("type").Value,
+                Json = x.Attribute("json").Value
+            });
+
+    XElement parentModelDefinition = null;
+
+    bool parentIsInternal = false;
+
+    if (ParentModelDefinitionXmls.Any())
+    {
+		parentModelDefinition = XElement.Parse(ParentModelDefinitionXmls.First());
+        parentIsInternal = (bool?)parentModelDefinition.Attribute("internal") ?? false;
+    }
+#>
+
+<# if (isInternal)
 {
 #>
 namespace <#= CodeNamespace #>.Models.Internal
@@ -33,7 +60,7 @@ namespace <#= CodeNamespace #>.Models
 	using System.Diagnostics.Contracts;
 	
 <#
-    if (ParentIsInternal && !IsInternal)
+    if (parentIsInternal && !isInternal)
     {
 #>
 	using <#= CodeNamespace #>.Models.Internal;
@@ -42,22 +69,22 @@ namespace <#= CodeNamespace #>.Models
     }
 #>
 	[GeneratedCode("ModelInterface.tt", "1.0")]
-	public interface I<#= ModelName #>Generated
+	public interface I<#= modelName #>Generated
 <#
-    if (InheritFrom != null)
+    if (inherits != null)
     {
 #>
-		: I<#= InheritFrom #>Generated
+		: I<#= inherits #>Generated
 <#
     }
 #>
 	{
 <#
-	foreach (var member in Members)
+	foreach (var member in members)
 	{
 #>
-		// <#= member.Item4 #>
-		<#= member.Item2 #> <#= member.Item1 #> { [Pure] get; }
+		// <#= member.Json #>
+		<#= member.Type #> <#= member.Name #> { [Pure] get; }
 
 <#
 	}

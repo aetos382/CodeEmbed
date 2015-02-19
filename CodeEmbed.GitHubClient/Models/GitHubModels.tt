@@ -31,60 +31,31 @@
 
         var document = XDocument.Load(streamReader);
 
-        var modelDefs = document.Descendants("Model");
-        foreach (var modelDef in modelDefs)
+        string codeNamespace = (string)document.Element("Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
+
+        var modelDefs =
+			document.Descendants("Model").ToDictionary(x => x.Attribute("name").Value, x => x);
+
+        foreach (var modelDef in modelDefs.Values)
         {
-            string modelName = (string)modelDef.Attribute("name");
+			var parentElements = new List<XElement>();
+            string parentModel = (string)modelDef.Attribute("inherits");
 
-            bool isInternal = false;
-
-            var internalAttribute = modelDef.Attribute("internal");
-            if (internalAttribute != null)
+            while (parentModel != null)
             {
-                isInternal = (bool)internalAttribute;
+                var parentElement = modelDefs[parentModel];
+				parentElements.Add(parentElement);
+
+				parentModel = (string)parentElement.Attribute("inherits");
             }
 
-            inheritInternals[modelName] = isInternal;
-
-            string inherits = (string)modelDef.Attribute("inherits");
-
-            bool parentIsInternal = false;
-
-            if (inherits != null)
-            {
-				parentIsInternal = inheritInternals[inherits];
-            }
-
-            bool hasClient = false;
-
-            var hasClientAttribute = modelDef.Attribute("hasClient");
-            if (hasClientAttribute != null)
-            {
-                hasClient = (bool)hasClientAttribute;
-            }
-
-            var memberDefs = modelDef.Descendants("Member");
-
-            var members = new List<Tuple<string, string, string, string>>();
-            foreach (var memberDef in memberDefs)
-            {
-                string memberName = (string)memberDef.Attribute("name");
-                string memberType = (string)memberDef.Attribute("type");
-                string memberJson = (string)memberDef.Attribute("json");
-                string camelcasedName = ToCamelCase(memberName);
-
-                var member = Tuple.Create(memberName, memberType, camelcasedName, memberJson);
-                members.Add(member);
-            }
-
-
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", modelName, inherits, isInternal, parentIsInternal, hasClient, members, "CodeEmbed.GitHubClient");
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements);
             this.WriteLine(interfaceDef);
 
-            string classDef = this.GenerateModel("ModelClass.tt", modelName, inherits, isInternal, parentIsInternal, hasClient, members, "CodeEmbed.GitHubClient");
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements);
             this.WriteLine(classDef);
             
-            string serializableClassDef = this.GenerateModel("SerializableClass.tt", modelName, inherits, isInternal, parentIsInternal, hasClient, members, "CodeEmbed.GitHubClient");
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements);
             this.WriteLine(serializableClassDef);
         }
     }
@@ -93,13 +64,9 @@
 <#+
     private string GenerateModel(
 		string templateFile,
-        string modelName,
-		string inheritFrom,
-        bool isInternal,
-		bool parentIsInternal,
-		bool hasClient,
-        IEnumerable<Tuple<string, string, string, string>> members,
-        string codeNamespace)
+		string codeNamespace,
+		XElement modelDefinition,
+		IEnumerable<XElement> parentModelDefinitions)
     {
         string includeContent, location;
         bool loaded = this.Host.LoadIncludeText(templateFile, out includeContent, out location);
@@ -114,18 +81,10 @@
         var session = sessionHost.CreateSession();
 
         session["CodeNamespace"] = codeNamespace;
-        session["ModelName"] = modelName;
+        session["ModelDefinitionXml"] = modelDefinition.ToString(SaveOptions.DisableFormatting);
+        session["ParentModelDefinitionXmls"] =
+            parentModelDefinitions.Select(x => x.ToString(SaveOptions.DisableFormatting)).ToArray();
 
-        if (inheritFrom != null)
-        {
-            session["InheritFrom"] = inheritFrom;
-        }
-
-        session["IsInternal"] = isInternal;
-        session["ParentIsInternal"] = parentIsInternal;
-        session["HasClient"] = hasClient;
-        session["Members"] = members;
-        
         sessionHost.Session = session;
 
         var engine = new Engine();
