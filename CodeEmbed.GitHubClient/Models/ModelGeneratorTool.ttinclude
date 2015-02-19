@@ -22,13 +22,20 @@
 
         public static MemberDefinition Parse(XElement element)
         {
-            return new MemberDefinition
+            var def = new MemberDefinition
                 {
                     Name = element.Attribute("name").Value,
                     Type = element.Attribute("type").Value,
                     Json = element.Attribute("json").Value,
                     ModelType = (bool?)element.Attribute("modelType") ?? false
                 };
+
+            if (def.ModelType)
+            {
+                def.Type = "I" + def.Type;
+            }
+
+            return def;
         }
     }
 #>
