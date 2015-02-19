@@ -2,8 +2,14 @@
 <Models codeNamespace="CodeEmbed.GitHubClient">
 
   <Model name="Repository" hasClient="true">
-    
+
+    <Member name="Id" type="long" json="id"/>
+    <Member name="Owner" type="RepositoryUser" json="owner"/>
     <Member name="Name" type="string" json="name"/>
+    <Member name="FullName" type="string" json="full_name"/>
+    <Member name="Description" type="string" json="description"/>
+    <Member name="Private" type="bool" json="private"/>
+    <Member name="Fork" type="bool" json="fork"/>
     <Member name="Uri" type="string" json="url"/>
     
   </Model>

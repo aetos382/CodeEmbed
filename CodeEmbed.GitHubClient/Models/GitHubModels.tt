@@ -1,11 +1,8 @@
 ﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+
 <#@ assembly name="System.Core" #>
 <#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq" #>
-
-<#@ import namespace="System" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="System.Linq" #>
 
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
@@ -14,21 +11,18 @@
 <#@ import namespace="System.Xml.Linq" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 
-<#@ include file="ModelGeneratorTool.tt" #>
+<#@ include file="MultipleOutputHelper.ttinclude" #>
 
-<#@ output extension=".Generated.cs" #>
+<#@ output extension=".cs" #>
 
 <#@ CleanupBehavior processor="T4VSHost" CleanupAfterProcessingtemplate="true" #>
 
 <#
-    string baseDirectory = Path.GetDirectoryName(this.Host.TemplateFile);
-
+    var manager = Manager.Create(this.Host, this.GenerationEnvironment);
     string sourceFile = this.Host.ResolvePath("GitHubModels.xml");
 
     using (var streamReader = new StreamReader(sourceFile))
     {
-		IDictionary<string, bool> inheritInternals = new Dictionary<string, bool>();
-
         var document = XDocument.Load(streamReader);
 
         string codeNamespace = (string)document.Element("Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
@@ -38,6 +32,8 @@
 
         foreach (var modelDef in modelDefs.Values)
         {
+            string modelName = modelDef.Attribute("name").Value;
+
 			var parentElements = new List<XElement>();
             string parentModel = (string)modelDef.Attribute("inherits");
 
@@ -49,16 +45,39 @@
 				parentModel = (string)parentElement.Attribute("inherits");
             }
 
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements);
-            this.WriteLine(interfaceDef);
+            bool hasInternalMember = false;
 
-            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements);
-            this.WriteLine(classDef);
-            
-            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements);
-            this.WriteLine(serializableClassDef);
+            var memberDefs = modelDef.Descendants("Member");
+            foreach (var memberDef in memberDefs)
+            {
+                string memberType = memberDef.Attribute("type").Value;
+
+                XElement memberTypeDef;
+                if (modelDefs.TryGetValue(memberType, out memberTypeDef))
+                {
+					memberDef.SetAttributeValue("modelType", true);
+                    hasInternalMember = (bool?)memberTypeDef.Attribute("internal") ?? false;
+                }
+            }
+
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements, hasInternalMember);
+			manager.StartNewFile(string.Format("I{0}.Generated.cs", modelName));
+			this.WriteLine(interfaceDef);
+			manager.EndBlock();
+
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements, hasInternalMember);
+			manager.StartNewFile(string.Format("{0}.Generated.cs", modelName));
+			this.WriteLine(classDef);
+			manager.EndBlock();
+
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements, hasInternalMember);
+			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", modelName));
+			this.WriteLine(serializableClassDef);
+			manager.EndBlock();
         }
     }
+
+	manager.Process(true);
 #>
 
 <#+
@@ -66,9 +85,13 @@
 		string templateFile,
 		string codeNamespace,
 		XElement modelDefinition,
-		IEnumerable<XElement> parentModelDefinitions)
+		IEnumerable<XElement> parentModelDefinitions,
+		bool hasInternalMember)
     {
         string includeContent, location;
+
+        templateFile = this.Host.ResolvePath(templateFile);
+
         bool loaded = this.Host.LoadIncludeText(templateFile, out includeContent, out location);
         if (!loaded)
         {
@@ -84,6 +107,7 @@
         session["ModelDefinitionXml"] = modelDefinition.ToString(SaveOptions.DisableFormatting);
         session["ParentModelDefinitionXmls"] =
             parentModelDefinitions.Select(x => x.ToString(SaveOptions.DisableFormatting)).ToArray();
+        session["HasInternalMember"] = hasInternalMember;
 
         sessionHost.Session = session;
 

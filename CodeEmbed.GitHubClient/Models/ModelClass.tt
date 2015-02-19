@@ -11,8 +11,9 @@
 <#@ parameter name="CodeNamespace" type="System.String" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
+<#@ parameter name="HasInternalMember" type="System.Boolean" #>
 
-<#@ include file="ModelGeneratorTool.tt" #>
+<#@ include file="ModelGeneratorTool.ttinclude" #>
 
 <#
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
@@ -30,7 +31,8 @@
             {
                 Name = x.Attribute("name").Value,
                 Type = x.Attribute("type").Value,
-                Json = x.Attribute("json").Value
+                Json = x.Attribute("json").Value,
+				ModelType = (bool?)x.Attribute("modelType") ?? false
             });
 
     XElement parentModelDefinition = null;
@@ -76,7 +78,7 @@ namespace <#= CodeNamespace #>.Models
 <#    
     }
 
-    if (parentIsInternal && !isInternal)
+    if ((parentIsInternal || HasInternalMember) && !isInternal)
     {
 #>
 	using <#= CodeNamespace #>.Models.Internal;
@@ -178,8 +180,14 @@ namespace <#= CodeNamespace #>.Models
 <#
 	foreach (var member in members)
 	{
+		string typeName = member.Type;
+
+	    if (member.ModelType)
+	    {
+	        typeName = "I" + typeName;
+	    }
 #>
-		public <#= member.Type #> <#= member.Name #>
+		public <#= typeName #> <#= member.Name #>
 		{
 			get
 			{

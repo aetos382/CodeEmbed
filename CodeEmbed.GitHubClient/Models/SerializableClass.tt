@@ -11,8 +11,9 @@
 <#@ parameter name="CodeNamespace" type="System.String" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
+<#@ parameter name="HasInternalMember" type="System.Boolean" #>
 
-<#@ include file="ModelGeneratorTool.tt" #>
+<#@ include file="ModelGeneratorTool.ttinclude" #>
 
 <#
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
@@ -27,7 +28,8 @@
             {
                 Name = x.Attribute("name").Value,
                 Type = x.Attribute("type").Value,
-                Json = x.Attribute("json").Value
+                Json = x.Attribute("json").Value,
+				ModelType = (bool?)x.Attribute("modelType") ?? false
             });
 
 	var parentModelDefinitions = ParentModelDefinitionXmls.Select(XElement.Parse);
@@ -64,7 +66,7 @@ namespace <#= CodeNamespace #>.Models.Serialization
 	using Newtonsoft.Json;
 	
 <#
-if (isInternal || parentIsInternal)
+if (isInternal || parentIsInternal || HasInternalMember)
 {
 #>
 	using <#= CodeNamespace #>.Models.Internal;
@@ -95,13 +97,19 @@ else
 <#
 foreach (var member in members)
 {
+	    string typeName = member.Type;
+
+	    if (member.ModelType)
+	    {
+	        typeName = "I" + typeName;
+	    }
 #>
 		[ContractPublicPropertyName("<#= member.Name #>")]
-		private readonly <#= member.Type #> _<#= ToCamelCase(member.Name) #>;
+		private readonly <#= typeName #> _<#= ToCamelCase(member.Name) #>;
+
 <#
 }
 #>
-
 		[JsonConstructor]
 		public Serializable<#= modelName #>Generated(
 <#
