@@ -25,6 +25,7 @@ namespace <#= CodeNamespace #>.Models.Contracts
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Diagnostics;
 	using System.Diagnostics.Contracts;
@@ -32,9 +33,9 @@ namespace <#= CodeNamespace #>.Models.Contracts
 	[GeneratedCode("ModelContract.tt", "1.0")]
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
-	[ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPrefix #>))]
-	public abstract class <#= modelName #>Contract<#= GeneratedModelPrefix #>
-		: I<#= modelName #><#= GeneratedModelPrefix #>
+	[ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPostfix #>))]
+	public abstract class <#= modelName #>Contract<#= GeneratedModelPostfix #>
+		: I<#= modelName #><#= GeneratedModelPostfix #>
 	{
 <#
 	foreach (var member in members)
@@ -42,6 +43,7 @@ namespace <#= CodeNamespace #>.Models.Contracts
 	    if (member.Required)
 	    {
 #>
+		/// <summary>Map to "<#= member.Json #>"</summary>
 		public <#= member.Type #> <#= member.Name #>
 		{
 			get
@@ -56,6 +58,7 @@ namespace <#= CodeNamespace #>.Models.Contracts
 	    else
 	    {
 #>
+		/// <summary>Map to "<#= member.Json #>"</summary>
 		public abstract <#= member.Type #> <#= member.Name #> { get; }
 <#
 	    }

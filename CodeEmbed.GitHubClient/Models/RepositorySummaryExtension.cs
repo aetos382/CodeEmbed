@@ -10,14 +10,14 @@
     public static class RepositorySummaryExtension
     {
         public static Task<IBranch> GetBranch(
-            this RepositorySummary repositorySummary,
+            this PublicRepository publicRepository,
             string branch)
         {
-            Contract.Requires<ArgumentNullException>(repositorySummary != null);
+            Contract.Requires<ArgumentNullException>(publicRepository != null);
             Contract.Requires<ArgumentNullException>(branch != null);
 
-            var relUri = GitHubUri.Branch(repositorySummary.Owner.Login, repositorySummary.Name, branch);
-            var result = repositorySummary.Client.GetData<IBranch>(relUri);
+            var relUri = GitHubUri.Branch(publicRepository.Owner.Login, publicRepository.Name, branch);
+            var result = publicRepository.Client.GetData<IBranch>(relUri);
 
             return result;
         }

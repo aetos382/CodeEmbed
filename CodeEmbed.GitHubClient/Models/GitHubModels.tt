@@ -53,11 +53,17 @@
             foreach (var memberDef in memberDefs)
             {
                 string memberType = memberDef.Attribute("type").Value;
+                var memberTypes = memberType.Split(new []{ '<', '>', ',', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
 
-                XElement memberTypeDef;
-                if (modelDefs.TryGetValue(memberType, out memberTypeDef))
+                foreach (var type in memberTypes)
                 {
-					memberDef.SetAttributeValue("modelType", true);
+                    if (modelDefs.ContainsKey(type))
+                    {
+                        int index = memberType.IndexOf(type);
+                        string position = string.Format("{0},{1}", index, type.Length);
+
+                        memberDef.SetAttributeValue("modelType", position);
+                    }
                 }
 
                 bool required = (bool?)memberDef.Attribute("required") ?? false;

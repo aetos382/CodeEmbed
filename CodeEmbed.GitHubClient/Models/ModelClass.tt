@@ -32,14 +32,15 @@ namespace <#= CodeNamespace #>.Models
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Collections.Generic;
 	using System.ComponentModel;
 	using System.Diagnostics;
 	using System.Diagnostics.Contracts;
-	
 <#
     if (hasClient || ancestorsHasClient)
     {
 #>
+
 	using <#= CodeNamespace #>;
 <#    
     }
@@ -47,18 +48,18 @@ namespace <#= CodeNamespace #>.Models
 
 	[GeneratedCode("ModelClass.tt", "1.0")]
 	[DebuggerStepThrough]
-	public class <#= modelName #><#= GeneratedModelPrefix #> :
+	public class <#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {
 #>
-		<#= inherits #><#= GeneratedModelPrefix #>,
+		<#= inherits #><#= GeneratedModelPostfix #>,
 <#
     }
 #>
-		I<#= modelName #><#= GeneratedModelPrefix #>
+		I<#= modelName #><#= GeneratedModelPostfix #>
 	{
-		private readonly I<#= modelName #><#= GeneratedModelPrefix #> _<#= camelCasedModelName #>;
+		private readonly I<#= modelName #><#= GeneratedModelPostfix #> _<#= camelCasedModelName #>;
 
 <#
     if (hasClient)
@@ -70,8 +71,8 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
-		public <#= modelName #><#= GeneratedModelPrefix #>(
-			I<#= modelName #><#= GeneratedModelPrefix #> <#= camelCasedModelName #><#= (hasClient || ancestorsHasClient ? "," : ")") #>
+		public <#= modelName #><#= GeneratedModelPostfix #>(
+			I<#= modelName #><#= GeneratedModelPostfix #> <#= camelCasedModelName #><#= (hasClient || ancestorsHasClient ? "," : ")") #>
 <#
     if (hasClient || ancestorsHasClient)
     {
@@ -119,11 +120,12 @@ namespace <#= CodeNamespace #>.Models
     }
 #>
 		}
-
 <#
 	foreach (var member in members)
 	{
 #>
+
+		/// <summary>Map to "<#= member.Json #>"</summary>
 		public <#= member.Type #> <#= member.Name #>
 		{
 			get
@@ -131,7 +133,6 @@ namespace <#= CodeNamespace #>.Models
 				return this._<#= camelCasedModelName #>.<#= member.Name #>;
 			}
 		}
-
 <#
 	}
 #>
@@ -152,6 +153,8 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
+
+		/// <summary>Specifies invariant contracts of object.</summary>
         [Conditional("CONTRACTS_FULL")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]

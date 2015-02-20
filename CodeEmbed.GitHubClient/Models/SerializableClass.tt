@@ -48,6 +48,7 @@ namespace <#= CodeNamespace #>.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Collections.Generic;
 <#
 	if (hasRequiredMember)
 	{
@@ -66,16 +67,16 @@ namespace <#= CodeNamespace #>.Models.Serialization
 	[GeneratedCode("SerializableClass.tt", "1.0")]
 	[DebuggerStepThrough]
 	[JsonObject]
-	public class Serializable<#= modelName #><#= GeneratedModelPrefix #> :
+	public class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {
 #>
-		Serializable<#= inherits #><#= GeneratedModelPrefix #>,
+		Serializable<#= inherits #><#= GeneratedModelPostfix #>,
 <#
     }
 #>
-		I<#= modelName #><#= GeneratedModelPrefix #>
+		I<#= modelName #><#= GeneratedModelPostfix #>
 	{
 <#
 foreach (var member in members)
@@ -88,7 +89,7 @@ foreach (var member in members)
 }
 #>
 		[JsonConstructor]
-		public Serializable<#= modelName #><#= GeneratedModelPrefix #>(
+		public Serializable<#= modelName #><#= GeneratedModelPostfix #>(
 <#
 if (inherits != null)
 {
@@ -134,11 +135,12 @@ foreach (var member in members)
 }
 #>
 		}
-
 <#
 	foreach (var member in members)
 	{
 #>
+
+		/// <summary>Map to "<#= member.Json #>"</summary>
 		[JsonProperty("<#= member.Json #>")]
 		public <#= member.Type #> <#= member.Name #>
 		{
@@ -147,7 +149,6 @@ foreach (var member in members)
 				return this._<#= member.CamelCasedName #>;
 			}
 		}
-
 <#
 	}
 #>
@@ -155,6 +156,8 @@ foreach (var member in members)
 	if (hasRequiredMember)
 	{
 #>
+
+		/// <summary>Specifies invariant contracts of object.</summary>
         [Conditional("CONTRACTS_FULL")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]

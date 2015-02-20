@@ -29,6 +29,7 @@ namespace <#= CodeNamespace #>.Models
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.Collections.Generic;
 	using System.Diagnostics.Contracts;
 <#
     if (hasRequiredMember)
@@ -45,16 +46,16 @@ namespace <#= CodeNamespace #>.Models
     if (hasRequiredMember)
     {
 #>
-	[ContractClass(typeof(<#= modelName #>ContractGenerated))]
+	[ContractClass(typeof(<#= modelName #>Contract<#= GeneratedModelPostfix #>))]
 <#        
     }
 #>
-	public interface I<#= modelName #><#= GeneratedModelPrefix #>
+	public interface I<#= modelName #><#= GeneratedModelPostfix #>
 <#
     if (inherits != null)
     {
 #>
-		: I<#= inherits #><#= GeneratedModelPrefix #>
+		: I<#= inherits #><#= GeneratedModelPostfix #>
 <#
     }
 #>
@@ -63,7 +64,7 @@ namespace <#= CodeNamespace #>.Models
 	foreach (var member in members)
 	{
 #>
-		// <#= member.Json #>
+		/// <summary>Map to "<#= member.Json #>"</summary>
 		<#= member.Type #> <#= member.Name #> { [Pure] get; }
 
 <#

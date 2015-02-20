@@ -5,37 +5,200 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://schemas.aerie.jp/codeembed/github-models-v3 GitHubModels.xsd">
 
-  <Model name="Repository" hasClient="true">
-
-    <Member name="Id" type="long" json="id"/>
-    <Member name="Owner" type="RepositoryUser" json="owner" required="true"/>
-    <Member name="Name" type="string" json="name"/>
-    <Member name="FullName" type="string" json="full_name"/>
-    <Member name="Description" type="string" json="description"/>
+  <Model name="PublicRepository" hasClient="true">
+    
+    <Member name="Id" type="long"/>
+    <Member name="Owner" type="RepositoryUser" required="true"/>
+    <Member name="Name" type="string"/>
+    <Member name="FullName" type="string"/>
+    <Member name="Description" type="string"/>
     <Member name="IsPrivate" type="bool" json="private"/>
-    <Member name="Fork" type="bool" json="fork"/>
+    <Member name="Fork" type="bool"/>
     <Member name="Uri" type="Uri" json="url"/>
     <Member name="HtmlUri" type="Uri" json="html_url"/>
+
+  </Model>
+  
+  <Model name="Repository" inherits="PublicRepository" hasClient="true">
+
+    <Member name="CloneUri" type="Uri"/>
+    <Member name="GitUri" type="Uri" json="git_url"/>
+    <Member name="SshUri" type="Uri" json="ssh_url"/>
+    <Member name="SubversionUri" type="Uri" json="svn_url"/>
+    <Member name="MirrorUri" type="Uri" json="mirror_url"/>
+    <Member name="Homepage" type="Uri"/>
+    <Member name="Language" type="string"/>
+    <Member name="ForksCount" type="int"/>
+    <Member name="StargazersCount" type="int"/>
+    <Member name="WatchersCount" type="int"/>
+    <Member name="Size" type="long"/>
+    <Member name="DefaultBranch" type="string"/>
+    <Member name="OpenIssuesCount" type="int"/>
+    <Member name="HasIssues" type="bool"/>
+    <Member name="HasWiki" type="bool"/>
+    <Member name="HasPages" type="bool"/>
+    <Member name="HasDownloads" type="bool"/>
+    <Member name="PushedAt" type="DateTime"/>
+    <Member name="CreatedAt" type="DateTime"/>
+    <Member name="UpdatedAt" type="DateTime"/>
+    <Member name="Permissions" type="Permissions"/>
+    <Member name="SubscribersCount" type="int"/>
+    <Member name="Organization" type="RepositoryUser"/>
+    <Member name="Parent" type="Repository"/>
+    <Member name="Source" type="Repository"/>
   
   </Model>
 
-  <Model name="RepositoryUser" hasClient="true">
+  <Model name="Permissions">
+    
+    <Member name="Administration" type="bool" json="admin"/>
+    <Member name="Push" type="bool"/>
+    <Member name="Pull" type="bool"/>
+  
+  </Model>
+    
+  <Model name="RepositoryUser">
 
-    <Member name="Name" type="string" json="name" required="true"/>
-    <Member name="Uri" type="string" json="url"/>
+    <Member name="Login" type="string"/>
+    <Member name="Id" type="long"/>
+    <Member name="AvatarUri" type="Uri" json="avatar_url"/>
+    <Member name="GravatarId" type="string"/>
+    <Member name="Uri" type="Uri" json="url"/>
+    <Member name="HtmlUri" type="Uri" json="html_url"/>
+    <Member name="FollowersUri" type="Uri" json="followers_url"/>
+    <Member name="FollowingUri" type="string" json="following_url"/>
+    <Member name="GistsUri" type="string" json="gists_url"/>
+    <Member name="StarredUri" type="string" json="starred_url"/>
+    <Member name="SubscriptionsUri" type="Uri" json="subscriptions_url"/>
+    <Member name="OrganizationsUri" type="Uri" json="organizations_url"/>
+    <Member name="RepositoriesUri" type="Uri" json="repos_url"/>
+    <Member name="EventUri" type="string" json="events_url"/>
+    <Member name="ReceivedEventsUri" type="Uri" json="received_events_url"/>
+    <Member name="Type" type="string"/>
+    <Member name="SiteAdministrator" type="bool" json="site_admin"/>
 
   </Model>
 
-  <Model name="Foo" inherits="RepositoryUser">
+  <Model name="GistSummary">
 
-    <Member name="Hoge" type="string" json="hoge"/>
+    <Member name="Uri" type="Uri" json="url"/>
+    <Member name="ForksUri" type="Uri" json="forks_url"/>
+    <Member name="CommitsUri" type="Uri" json="commits_url"/>
+    <Member name="Id" type="string"/>
+    <Member name="Description" type="string"/>
+    <Member name="IsPublic" type="bool" json="public"/>
+    <Member name="Owner" type="RepositoryUser"/>
+    <Member name="User" type="string"/>
+    <Member name="Files" type="IDictionary&lt;string, GistFile&gt;"/>
+    <Member name="Comments" type="int"/>
+    <Member name="CommentsUri" type="Uri" json="comments_url"/>
+    <Member name="HtmlUri" type="Uri" json="html_url"/>
+    <Member name="GitPullUri" type="Uri" json="git_pull_url"/>
+    <Member name="GitPushUri" type="Uri" json="git_push_url"/>
+    <Member name="CreatedAt" type="DateTime"/>
+    <Member name="UpdatedAt" type="DateTime"/>
 
   </Model>
 
-  <Model name="Bar" inherits="Foo">
+  <Model name="Gist" inherits="GistSummary">
+    
+    <Member name="Forks" type="IEnumerable&lt;GistFork&gt;"/>
+    <Member name="Histories" type="IEnumerable&lt;GistHistory&gt;"/>
 
-    <Member name="Hige" type="string" json="hige"/>
-    <Member name="Hage" type="string" json="hige"/>
+  </Model>
+
+  <Model name="GistFile">
+
+    <Member name="Size" type="long"/>
+    <Member name="RawUri" type="Uri" json="raw_url"/>
+    <Member name="ContentType" type="string" json="type"/>
+    <Member name="Truncated" type="bool"/>
+    <Member name="Language" type="string"/>
+    
+    <!-- get single gist only -->
+    <Member name="Content" type="string"/>
+  
+  </Model>
+
+  <Model name="GistFork">
+
+    <Member name="User" type="RepositoryUser"/>
+    <Member name="Uri" type="Uri" json="url"/>
+    <Member name="Id" type="string"/>
+    <Member name="CreatedAt" type="DateTime"/>
+    <Member name="UpdatedAt" type="DateTime"/>
+  
+  </Model>
+  
+  <Model name="GistHistory">
+    
+    <Member name="Uri" type="Uri" json="url"/>
+    <Member name="Version" type="string"/>
+    <Member name="User" type="RepositoryUser"/>
+    <Member name="ChangeStatus" type="GistChangeStatus"/>
+    <Member name="CommittedAt" type="DateTime"/>
+
+  </Model>
+
+  <Model name="GistChangeStatus">
+
+    <Member name="Deletions" type="int"/>
+    <Member name="Additions" type="int"/>
+    <Member name="Total" type="int"/>
+
+  </Model>
+
+  <Model name="GitReference">
+
+    <Member name="Reference" type="string" json="ref"/>
+    <Member name="Uri" type="Uri" json="url"/>
+    <Member name="Target" type="GitObject" json="object"/>
+
+  </Model>
+
+  <Model name="GitObject">
+
+    <Member name="ObjectType" type="GitObjectType" json="type"/>
+    <Member name="Hash" type="string" json="sha"/>
+    <Member name="Uri" type="Uri" json="url"/>
+
+  </Model>
+
+  <Model name="User" inherits="RepositoryUser">
+
+    <Member name="Name" type="string"/>
+    <Member name="Company" type="string"/>
+    <Member name="Blog" type="Uri"/>
+    <Member name="Location" type="string"/>
+    <Member name="Email" type="string"/>
+    <Member name="Hireable" type="bool"/>
+    <Member name="Bio" type="string"/>
+    <Member name="PublicRepositories" type="int" json="public_repos"/>
+    <Member name="PublicGists" type="int"/>
+    <Member name="Followers" type="int"/>
+    <Member name="Following" type="int"/>
+    <Member name="CreatedAt" type="DateTime"/>
+    <Member name="UpdatedAt" type="DateTime"/>
+
+  </Model>
+
+  <Model name="AuthorizedUser" inherits="User">
+    
+    <Member name="TotalPrivateRepositories" type="int" json="total_private_repos"/>
+    <Member name="OwnedPrivateRepositories" type="int" json="owned_private_repos"/>
+    <Member name="PrivateGists" type="int"/>
+    <Member name="DiskUsage" type="long"/>
+    <Member name="Collaborators" type="int"/>
+    <Member name="Plan" type="UserPlan"/>
+  
+  </Model>
+
+  <Model name="UserPlan">
+      
+    <Member name="Name" type="string"/>
+    <Member name="Space" type="long"/>
+    <Member name="PrivateRepositories" type="int" json="private_repos"/>
+    <Member name="Collaborators" type="int"/>
 
   </Model>
 

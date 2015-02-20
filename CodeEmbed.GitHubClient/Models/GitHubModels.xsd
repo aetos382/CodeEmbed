@@ -24,6 +24,10 @@
           <xs:selector xpath="g:Member"/>
           <xs:field xpath="@name"/>
         </xs:key>
+        <xs:unique name="member-json">
+          <xs:selector xpath="g:Member"/>
+          <xs:field xpath="@json"/>
+        </xs:unique>
       </xs:element>
     </xs:sequence>
     <xs:attribute name="codeNamespace" type="xs:NCName"/>
@@ -40,8 +44,8 @@
 
   <xs:complexType name="member">
     <xs:attribute name="name" type="xs:NCName" use="required"/>
-    <xs:attribute name="type" type="xs:NCName" use="required"/>
-    <xs:attribute name="json" type="xs:NCName" use="required"/>
+    <xs:attribute name="type" type="xs:normalizedString" use="required"/>
+    <xs:attribute name="json" type="xs:NCName"/>
     <xs:attribute name="required" type="xs:boolean" default="false"/>
   </xs:complexType>
 
