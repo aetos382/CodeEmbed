@@ -14,20 +14,20 @@
     
   </Model>
 
-  <Model name="RepositoryUser">
+  <Model name="RepositoryUser" hasClient="true">
 
     <Member name="Name" type="string" json="name" required="true"/>
     <Member name="Uri" type="string" json="url"/>
 
   </Model>
 
-  <Model name="Foo" inherits="RepositoryUser" hasClient="true">
+  <Model name="Foo" inherits="RepositoryUser">
 
     <Member name="Hoge" type="string" json="hoge"/>
 
   </Model>
 
-  <Model name="Bar" inherits="Foo" hasClient="true">
+  <Model name="Bar" inherits="Foo">
 
     <Member name="Hige" type="string" json="hige"/>
 
