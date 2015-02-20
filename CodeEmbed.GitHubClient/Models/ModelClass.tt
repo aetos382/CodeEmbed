@@ -11,7 +11,6 @@
 <#@ parameter name="CodeNamespace" type="System.String" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
-<#@ parameter name="HasInternalMember" type="System.Boolean" #>
 
 <#@ include file="ModelGeneratorTool.ttinclude" #>
 
@@ -21,7 +20,6 @@
     string modelName = (string)modelDefinition.Attribute("name");
     string inherits = (string)modelDefinition.Attribute("inherits");
 
-	bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
     bool hasClient = (bool?)modelDefinition.Attribute("hasClient") ?? false;
 
     string camelCasedModelName = ToCamelCase(modelName);
@@ -31,31 +29,16 @@
 
     XElement parentModelDefinition = null;
 
-    bool parentIsInternal = false;
     bool parentHasClient = false;
 
     if (ParentModelDefinitionXmls.Any())
     {
 		parentModelDefinition = XElement.Parse(ParentModelDefinitionXmls.First());
-
-        parentIsInternal = (bool?)parentModelDefinition.Attribute("internal") ?? false;
 		parentHasClient = (bool?)parentModelDefinition.Attribute("hasClient") ?? false;
     }
 #>
 
-<# if (isInternal)
-{
-#>
-namespace <#= CodeNamespace #>.Models.Internal
-<#
-}
-else
-{
-#>
 namespace <#= CodeNamespace #>.Models
-<#
-}
-#>
 {
 	using System;
 	using System.CodeDom.Compiler;
@@ -68,30 +51,23 @@ namespace <#= CodeNamespace #>.Models
     {
 #>
 	using <#= CodeNamespace #>;
-
 <#    
     }
-
-    if ((parentIsInternal || HasInternalMember) && !isInternal)
-    {
 #>
 	using <#= CodeNamespace #>.Models.Internal;
 
-<#        
-    }
-#>
 	[GeneratedCode("ModelClass.tt", "1.0")]
 	[DebuggerStepThrough]
-	public class <#= modelName #>Generated :
+	public class <#= modelName #><#= GeneratedModelPrefix #> :
 <#
     if (inherits != null)
     {
 #>
-		<#= inherits #>Generated,
+		<#= inherits #><#= GeneratedModelPrefix #>,
 <#
     }
 #>
-		I<#= modelName #>Generated
+		I<#= modelName #><#= GeneratedModelPrefix #>
 	{
 <#
     if (hasClient)
@@ -103,9 +79,9 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
-		private readonly I<#= modelName #>Generated _<#= camelCasedModelName #>;
+		private readonly I<#= modelName #><#= GeneratedModelPrefix #> _<#= camelCasedModelName #>;
 
-		public <#= modelName #>Generated(
+		public <#= modelName #><#= GeneratedModelPrefix #>(
 <#
     if (hasClient || parentHasClient)
     {
@@ -114,7 +90,7 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
-			I<#= modelName #>Generated <#= camelCasedModelName #>)
+			I<#= modelName #><#= GeneratedModelPrefix #> <#= camelCasedModelName #>)
 <#
     if (inherits != null)
     {

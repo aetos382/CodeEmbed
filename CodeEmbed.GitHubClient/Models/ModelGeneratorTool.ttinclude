@@ -13,12 +13,15 @@
 		return new string(chars);
     }
 
+    private const string GeneratedModelPrefix = "Generated";
+
     private class MemberDefinition
     {
         public string Name { get; set; }
 		public string Type { get; set; }
 		public string Json { get; set; }
 		public bool ModelType { get; set; }
+		public bool Required { get; set; }
 
         public static MemberDefinition Parse(XElement element)
         {
@@ -27,12 +30,13 @@
                     Name = element.Attribute("name").Value,
                     Type = element.Attribute("type").Value,
                     Json = element.Attribute("json").Value,
-                    ModelType = (bool?)element.Attribute("modelType") ?? false
+                    ModelType = (bool?)element.Attribute("modelType") ?? false,
+					Required = (bool?)element.Attribute("required") ?? false
                 };
 
             if (def.ModelType)
             {
-                def.Type = "I" + def.Type;
+                def.Type = "I" + def.Type + GeneratedModelPrefix;
             }
 
             return def;

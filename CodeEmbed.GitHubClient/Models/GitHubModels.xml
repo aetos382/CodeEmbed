@@ -4,7 +4,7 @@
   <Model name="Repository" hasClient="true">
 
     <Member name="Id" type="long" json="id"/>
-    <Member name="Owner" type="RepositoryUser" json="owner"/>
+    <Member name="Owner" type="RepositoryUser" json="owner" required="true"/>
     <Member name="Name" type="string" json="name"/>
     <Member name="FullName" type="string" json="full_name"/>
     <Member name="Description" type="string" json="description"/>
@@ -14,9 +14,9 @@
     
   </Model>
 
-  <Model name="RepositoryUser" internal="true">
+  <Model name="RepositoryUser">
 
-    <Member name="Name" type="string" json="name"/>
+    <Member name="Name" type="string" json="name" required="true"/>
     <Member name="Uri" type="string" json="url"/>
 
   </Model>

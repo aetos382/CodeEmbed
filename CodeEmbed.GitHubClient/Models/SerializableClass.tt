@@ -11,7 +11,6 @@
 <#@ parameter name="CodeNamespace" type="System.String" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
-<#@ parameter name="HasInternalMember" type="System.Boolean" #>
 
 <#@ include file="ModelGeneratorTool.ttinclude" #>
 
@@ -21,20 +20,14 @@
     string modelName = (string)modelDefinition.Attribute("name");
     string inherits = (string)modelDefinition.Attribute("inherits");
 
-    bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
-
     var members = modelDefinition.Descendants("Member").Select(MemberDefinition.Parse);
 
 	var parentModelDefinitions = ParentModelDefinitionXmls.Select(XElement.Parse);
-
-    bool parentIsInternal = false;
 
     var parentMembers = new MemberDefinition[0];
 
     if (parentModelDefinitions.Any())
     {
-        parentIsInternal = (bool?)parentModelDefinitions.First().Attribute("internal") ?? false;
-
 		parentMembers = parentModelDefinitions
 			.Reverse()
 			.SelectMany(x => x.Descendants("Member")
@@ -42,45 +35,42 @@
 			)
 			.ToArray();
     }
+
+    bool hasRequiredMember = members.Any(x => x.Required);
 #>
 
 namespace <#= CodeNamespace #>.Models.Serialization
 {
 	using System;
 	using System.CodeDom.Compiler;
+<#
+	if (hasRequiredMember)
+	{
+#>
+	using System.ComponentModel;
+<#
+	}
+#>
 	using System.Diagnostics;
 	using System.Diagnostics.Contracts;
 
 	using Newtonsoft.Json;
 	
-<#
-if (isInternal || parentIsInternal || HasInternalMember)
-{
-#>
-	using <#= CodeNamespace #>.Models.Internal;
-<#
-}
-else
-{
-#>
 	using <#= CodeNamespace #>.Models;
-<#
-}
-#>
 
 	[GeneratedCode("SerializableClass.tt", "1.0")]
 	[DebuggerStepThrough]
 	[JsonObject]
-	public class Serializable<#= modelName #>Generated :
+	public class Serializable<#= modelName #><#= GeneratedModelPrefix #> :
 <#
     if (inherits != null)
     {
 #>
-		Serializable<#= inherits #>Generated,
+		Serializable<#= inherits #><#= GeneratedModelPrefix #>,
 <#
     }
 #>
-		I<#= modelName #>Generated
+		I<#= modelName #><#= GeneratedModelPrefix #>
 	{
 <#
 foreach (var member in members)
@@ -93,7 +83,7 @@ foreach (var member in members)
 }
 #>
 		[JsonConstructor]
-		public Serializable<#= modelName #>Generated(
+		public Serializable<#= modelName #><#= GeneratedModelPrefix #>(
 <#
 foreach (var member in parentMembers)
 {
@@ -130,6 +120,23 @@ foreach (var member in members.Take(members.Count() - 1))
 #>
 		{
 <#
+        foreach (var member in parentMembers.Where(x => x.Required))
+        {
+#>
+			Contract.Requires<ArgumentNullException>(<#= ToCamelCase(member.Name) #> != null);
+<#
+        }
+#>
+<#
+        foreach (var member in members.Where(x => x.Required))
+        {
+#>
+			Contract.Requires<ArgumentNullException>(<#= ToCamelCase(member.Name) #> != null);
+<#
+        }
+#>
+
+<#
 foreach (var member in members)
 {
 #>
@@ -152,6 +159,29 @@ foreach (var member in members)
 			}
 		}
 
+<#
+	}
+#>
+<#
+	if (hasRequiredMember)
+	{
+#>
+        [Conditional("CONTRACTS_FULL")]
+        [DebuggerStepThrough]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+<#
+		foreach (var member in members.Where(x => x.Required))
+		{
+
+#>
+			Contract.Invariant(this._<#= ToCamelCase(member.Name) #> != null);
+<#
+		}
+#>
+        }
 <#
 	}
 #>

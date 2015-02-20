@@ -10,7 +10,6 @@
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
-<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
 <#@ include file="ModelGeneratorTool.ttinclude" #>
 
@@ -18,55 +17,51 @@
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
 
     string modelName = (string)modelDefinition.Attribute("name");
-    string inherits = (string)modelDefinition.Attribute("inherits");
 
     var members = modelDefinition.Descendants("Member")
 		.Select(MemberDefinition.Parse);
-
-    bool hasRequiredMember = members.Any(x => x.Required);
 #>
 
-namespace <#= CodeNamespace #>.Models
+namespace <#= CodeNamespace #>.Models.Contracts
 {
 	using System;
 	using System.CodeDom.Compiler;
+	using System.ComponentModel;
+	using System.Diagnostics;
 	using System.Diagnostics.Contracts;
-<#
-    if (hasRequiredMember)
-    {
-#>
-
-	using <#= CodeNamespace #>.Models.Contracts;
-<#
-    }
-#>
-
-	[GeneratedCode("ModelInterface.tt", "1.0")]
-<#
-    if (hasRequiredMember)
-    {
-#>
-	[ContractClass(typeof(<#= modelName #>ContractGenerated))]
-<#        
-    }
-#>
-	public interface I<#= modelName #><#= GeneratedModelPrefix #>
-<#
-    if (inherits != null)
-    {
-#>
-		: I<#= inherits #><#= GeneratedModelPrefix #>
-<#
-    }
-#>
+	
+	[GeneratedCode("ModelContract.tt", "1.0")]
+    [DebuggerStepThrough]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+	[ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPrefix #>))]
+	public abstract class <#= modelName #>Contract<#= GeneratedModelPrefix #>
+		: I<#= modelName #><#= GeneratedModelPrefix #>
 	{
 <#
 	foreach (var member in members)
 	{
+	    if (member.Required)
+	    {
 #>
-		// <#= member.Json #>
-		<#= member.Type #> <#= member.Name #> { [Pure] get; }
+		public <#= member.Type #> <#= member.Name #>
+		{
+			get
+			{
+				Contract.Ensures(Contract.Result<<#= member.Type #>>() != null);
 
+				throw new NotImplementedException();
+			}
+		}
+<#
+	    }
+	    else
+	    {
+#>
+		public abstract <#= member.Type #> <#= member.Name #> { get; }
+<#
+	    }
+#>
+		
 <#
 	}
 #>

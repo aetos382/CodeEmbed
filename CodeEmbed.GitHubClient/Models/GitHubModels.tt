@@ -45,7 +45,7 @@
 				parentModel = (string)parentElement.Attribute("inherits");
             }
 
-            bool hasInternalMember = false;
+            bool hasRequiredMember = false;
 
             var memberDefs = modelDef.Descendants("Member");
             foreach (var memberDef in memberDefs)
@@ -56,21 +56,34 @@
                 if (modelDefs.TryGetValue(memberType, out memberTypeDef))
                 {
 					memberDef.SetAttributeValue("modelType", true);
-                    hasInternalMember = (bool?)memberTypeDef.Attribute("internal") ?? false;
+                }
+
+                bool required = (bool?)memberDef.Attribute("required") ?? false;
+                if (required)
+                {
+                    hasRequiredMember = true;
                 }
             }
 
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements, hasInternalMember);
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements);
 			manager.StartNewFile(string.Format("I{0}.Generated.cs", modelName));
 			this.WriteLine(interfaceDef);
 			manager.EndBlock();
 
-            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements, hasInternalMember);
+            if (hasRequiredMember)
+            {
+				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, modelDef, parentElements);
+				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", modelName));
+				this.WriteLine(contractDef);
+				manager.EndBlock();
+            }
+
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements);
 			manager.StartNewFile(string.Format("{0}.Generated.cs", modelName));
 			this.WriteLine(classDef);
 			manager.EndBlock();
 
-            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements, hasInternalMember);
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements);
 			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", modelName));
 			this.WriteLine(serializableClassDef);
 			manager.EndBlock();
@@ -85,8 +98,7 @@
 		string templateFile,
 		string codeNamespace,
 		XElement modelDefinition,
-		IEnumerable<XElement> parentModelDefinitions,
-		bool hasInternalMember)
+		IEnumerable<XElement> parentModelDefinitions)
     {
         string includeContent, location;
 
@@ -107,7 +119,6 @@
         session["ModelDefinitionXml"] = modelDefinition.ToString(SaveOptions.DisableFormatting);
         session["ParentModelDefinitionXmls"] =
             parentModelDefinitions.Select(x => x.ToString(SaveOptions.DisableFormatting)).ToArray();
-        session["HasInternalMember"] = hasInternalMember;
 
         sessionHost.Session = session;
 

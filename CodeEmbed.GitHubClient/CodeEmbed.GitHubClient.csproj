@@ -173,10 +173,16 @@
     <Compile Include="Models\Repository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RepositoryContracts.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepositoryExtension.cs" />
     <Compile Include="Models\RepositorySummary.cs" />
     <Compile Include="Models\Internal\RepositoryUser.cs" />
     <Compile Include="Models\RepositoryUser.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepositoryUserContracts.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializableBar.Generated.cs">
@@ -262,17 +268,14 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>GitHubModels.cs</LastGenOutput>
     </None>
-    <None Include="Models\ModelClass.tt">
-      <LastGenOutput>ModelClass.txt</LastGenOutput>
-    </None>
+    <None Include="Models\ModelClass.tt" />
+    <None Include="Models\ModelContract.tt" />
     <None Include="Models\ModelGeneratorTool.ttinclude">
       <LastGenOutput>ModelGeneratorTool.txt</LastGenOutput>
     </None>
     <None Include="Models\ModelInterface.tt" />
     <None Include="Models\MultipleOutputHelper.ttinclude" />
-    <None Include="Models\SerializableClass.tt">
-      <LastGenOutput>SerializableClass.txt</LastGenOutput>
-    </None>
+    <None Include="Models\SerializableClass.tt" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
