@@ -17,12 +17,12 @@
 
     private class MemberDefinition
     {
-        public string Name { get; set; }
-		public string Type { get; set; }
-		public string Json { get; set; }
-		public bool ModelType { get; set; }
-		public bool Required { get; set; }
-		public string CamelCasedName { get; set; }
+        public string Name { get; private set; }
+		public string Type { get; private set; }
+		public string Json { get; private set; }
+		public bool ModelType { get; private set; }
+		public bool Required { get; private set; }
+		public string CamelCasedName { get; private set; }
 
         public static MemberDefinition Parse(XElement element)
         {
