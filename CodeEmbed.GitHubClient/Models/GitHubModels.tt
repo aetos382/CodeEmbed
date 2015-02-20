@@ -67,25 +67,25 @@
 
             string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements);
 			manager.StartNewFile(string.Format("I{0}.Generated.cs", modelName));
-			this.WriteLine(interfaceDef);
+			this.Write(interfaceDef);
 			manager.EndBlock();
 
             if (hasRequiredMember)
             {
 				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, modelDef, parentElements);
 				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", modelName));
-				this.WriteLine(contractDef);
+				this.Write(contractDef);
 				manager.EndBlock();
             }
 
             string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements);
 			manager.StartNewFile(string.Format("{0}.Generated.cs", modelName));
-			this.WriteLine(classDef);
+			this.Write(classDef);
 			manager.EndBlock();
 
             string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements);
 			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", modelName));
-			this.WriteLine(serializableClassDef);
+			this.Write(serializableClassDef);
 			manager.EndBlock();
         }
     }
