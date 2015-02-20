@@ -226,8 +226,14 @@
     <Compile Include="Models\Repository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RepositoryContracts.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepositoryExtension.cs" />
     <Compile Include="Models\RepositoryUser.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepositoryUserContracts.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializableAuthorizedUser.Generated.cs">

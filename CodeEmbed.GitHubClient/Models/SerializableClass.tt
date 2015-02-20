@@ -110,15 +110,7 @@ if (inherits != null)
 #>
 		{
 <#
-        foreach (var member in parentMembers.Where(x => x.Required))
-        {
-#>
-			Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
-<#
-        }
-#>
-<#
-        foreach (var member in members.Where(x => x.Required))
+        foreach (var member in parentMembers.Concat(members).Where(x => x.Required))
         {
 #>
 			Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);

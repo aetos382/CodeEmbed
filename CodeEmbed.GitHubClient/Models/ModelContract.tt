@@ -10,6 +10,7 @@
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
+<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
 <#@ include file="ModelGeneratorTool.ttinclude" #>
 
@@ -19,6 +20,13 @@
     string modelName = (string)modelDefinition.Attribute("name");
 
     var members = MemberDefinition.ParseModel(modelDefinition);
+
+	var parentMembers =
+		ParentModelDefinitionXmls
+			.Select(XElement.Parse)
+			.Reverse()
+			.SelectMany(x => MemberDefinition.ParseModel(x))
+			.ToArray();
 #>
 
 namespace <#= CodeNamespace #>.Models.Contracts
@@ -30,13 +38,24 @@ namespace <#= CodeNamespace #>.Models.Contracts
 	using System.Diagnostics;
 	using System.Diagnostics.Contracts;
 	
+	/// <summary>Contract class for I<#= modelName #><#= GeneratedModelPostfix #>.</summary>
 	[GeneratedCode("ModelContract.tt", "1.0")]
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
 	[ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPostfix #>))]
-	public abstract class <#= modelName #>Contract<#= GeneratedModelPostfix #>
-		: I<#= modelName #><#= GeneratedModelPostfix #>
+	public abstract class <#= modelName #>Contract<#= GeneratedModelPostfix #> :
+		I<#= modelName #><#= GeneratedModelPostfix #>
 	{
+<#
+	foreach (var member in parentMembers)
+	{
+#>
+		/// <summary>Map to "<#= member.Json #>"</summary>
+		public abstract <#= member.Type #> <#= member.Name #> { get; }
+
+<#
+	}
+#>
 <#
 	foreach (var member in members)
 	{

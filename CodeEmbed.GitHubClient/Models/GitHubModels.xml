@@ -9,7 +9,7 @@
     
     <Member name="Id" type="long"/>
     <Member name="Owner" type="RepositoryUser" required="true"/>
-    <Member name="Name" type="string"/>
+    <Member name="Name" type="string" required="true"/>
     <Member name="FullName" type="string"/>
     <Member name="Description" type="string"/>
     <Member name="IsPrivate" type="bool" json="private"/>
@@ -32,7 +32,7 @@
     <Member name="StargazersCount" type="int"/>
     <Member name="WatchersCount" type="int"/>
     <Member name="Size" type="long"/>
-    <Member name="DefaultBranch" type="string"/>
+    <Member name="DefaultBranch" type="string" required="true"/>
     <Member name="OpenIssuesCount" type="int"/>
     <Member name="HasIssues" type="bool"/>
     <Member name="HasWiki" type="bool"/>
@@ -59,7 +59,7 @@
     
   <Model name="RepositoryUser">
 
-    <Member name="Login" type="string"/>
+    <Member name="Login" type="string" required="true"/>
     <Member name="Id" type="long"/>
     <Member name="AvatarUri" type="Uri" json="avatar_url"/>
     <Member name="GravatarId" type="string"/>
