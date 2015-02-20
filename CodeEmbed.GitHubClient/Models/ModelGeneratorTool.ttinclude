@@ -51,7 +51,9 @@
 
         public static IEnumerable<MemberDefinition> ParseModel(XElement element)
         {
-            return element.Descendants("Member").Select(Parse).ToArray();
+			var ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
+
+            return element.Descendants(ns + "Member").Select(Parse).ToArray();
         }
     }
 #>

@@ -21,14 +21,16 @@
     var manager = Manager.Create(this.Host, this.GenerationEnvironment);
     string sourceFile = this.Host.ResolvePath("GitHubModels.xml");
 
+    var ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
+
     using (var streamReader = new StreamReader(sourceFile))
     {
         var document = XDocument.Load(streamReader);
 
-        string codeNamespace = (string)document.Element("Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
+        string codeNamespace = (string)document.Element(ns + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
 
         var modelDefs =
-			document.Descendants("Model").ToDictionary(x => x.Attribute("name").Value, x => x);
+			document.Descendants(ns + "Model").ToDictionary(x => x.Attribute("name").Value, x => x);
 
         foreach (var modelDef in modelDefs.Values)
         {
@@ -47,7 +49,7 @@
 
             bool hasRequiredMember = false;
 
-            var memberDefs = modelDef.Descendants("Member");
+            var memberDefs = modelDef.Descendants(ns + "Member");
             foreach (var memberDef in memberDefs)
             {
                 string memberType = memberDef.Attribute("type").Value;

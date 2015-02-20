@@ -1,5 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<Models codeNamespace="CodeEmbed.GitHubClient">
+<Models
+  codeNamespace="CodeEmbed.GitHubClient"
+  xmlns="http://schemas.aerie.jp/codeembed/github-models-v3"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://schemas.aerie.jp/codeembed/github-models-v3 GitHubModels.xsd">
 
   <Model name="Repository" hasClient="true">
 
@@ -10,8 +14,9 @@
     <Member name="Description" type="string" json="description"/>
     <Member name="IsPrivate" type="bool" json="private"/>
     <Member name="Fork" type="bool" json="fork"/>
-    <Member name="Uri" type="string" json="url"/>
-    
+    <Member name="Uri" type="Uri" json="url"/>
+    <Member name="HtmlUri" type="Uri" json="html_url"/>
+  
   </Model>
 
   <Model name="RepositoryUser" hasClient="true">
@@ -30,6 +35,7 @@
   <Model name="Bar" inherits="Foo">
 
     <Member name="Hige" type="string" json="hige"/>
+    <Member name="Hage" type="string" json="hige"/>
 
   </Model>
 
