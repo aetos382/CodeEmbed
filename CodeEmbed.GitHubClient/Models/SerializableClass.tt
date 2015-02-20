@@ -22,19 +22,12 @@
 
     var members = modelDefinition.Descendants("Member").Select(MemberDefinition.Parse);
 
-	var parentModelDefinitions = ParentModelDefinitionXmls.Select(XElement.Parse);
-
-    var parentMembers = new MemberDefinition[0];
-
-    if (parentModelDefinitions.Any())
-    {
-		parentMembers = parentModelDefinitions
+	var parentMembers =
+		ParentModelDefinitionXmls
+			.Select(XElement.Parse)
 			.Reverse()
-			.SelectMany(x => x.Descendants("Member")
-				.Select(MemberDefinition.Parse)
-			)
+			.SelectMany(x => x.Descendants("Member").Select(MemberDefinition.Parse))
 			.ToArray();
-    }
 
     bool hasRequiredMember = members.Any(x => x.Required);
 #>
@@ -167,7 +160,6 @@ foreach (var member in members)
 	{
 #>
         [Conditional("CONTRACTS_FULL")]
-        [DebuggerStepThrough]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()

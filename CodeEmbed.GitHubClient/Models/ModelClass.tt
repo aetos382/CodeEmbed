@@ -27,13 +27,11 @@
     var members = modelDefinition.Descendants("Member")
 		.Select(MemberDefinition.Parse);
 
-    XElement parentModelDefinition = null;
-
     bool parentHasClient = false;
 
     if (ParentModelDefinitionXmls.Any())
     {
-		parentModelDefinition = XElement.Parse(ParentModelDefinitionXmls.First());
+		var parentModelDefinition = XElement.Parse(ParentModelDefinitionXmls.First());
 		parentHasClient = (bool?)parentModelDefinition.Attribute("hasClient") ?? false;
     }
 #>
@@ -163,7 +161,6 @@ namespace <#= CodeNamespace #>.Models
 	}
 #>
         [Conditional("CONTRACTS_FULL")]
-        [DebuggerStepThrough]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
