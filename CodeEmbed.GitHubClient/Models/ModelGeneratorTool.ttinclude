@@ -22,6 +22,7 @@
 		public string Json { get; set; }
 		public bool ModelType { get; set; }
 		public bool Required { get; set; }
+		public string CamelCasedName { get; set; }
 
         public static MemberDefinition Parse(XElement element)
         {
@@ -38,6 +39,8 @@
             {
                 def.Type = "I" + def.Type + GeneratedModelPrefix;
             }
+
+            def.CamelCasedName = ToCamelCase(def.Name);
 
             return def;
         }

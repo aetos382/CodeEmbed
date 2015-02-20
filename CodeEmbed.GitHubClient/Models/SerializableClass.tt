@@ -77,7 +77,7 @@ foreach (var member in members)
 {
 #>
 		[ContractPublicPropertyName("<#= member.Name #>")]
-		private readonly <#= member.Type #> _<#= ToCamelCase(member.Name) #>;
+		private readonly <#= member.Type #> _<#= member.CamelCasedName #>;
 
 <#
 }
@@ -88,7 +88,7 @@ foreach (var member in members)
 foreach (var member in parentMembers)
 {
 #>
-			<#= member.Type #> <#= ToCamelCase(member.Name) #>,
+			<#= member.Type #> <#= member.CamelCasedName #>,
 <#
 }
 #>
@@ -96,7 +96,7 @@ foreach (var member in parentMembers)
 foreach (var member in members.Take(members.Count() - 1))
 {
 #>
-			<#= member.Type #> <#= ToCamelCase(member.Name) #>,
+			<#= member.Type #> <#= member.CamelCasedName #>,
 <#
 }
 #>
@@ -110,7 +110,7 @@ foreach (var member in members.Take(members.Count() - 1))
         foreach (var member in parentMembers.Take(parentMembers.Length - 1))
         {
 #>
-				<#= ToCamelCase(member.Name) #>,
+				<#= member.CamelCasedName #>,
 <#           
         }
 #>
@@ -123,7 +123,7 @@ foreach (var member in members.Take(members.Count() - 1))
         foreach (var member in parentMembers.Where(x => x.Required))
         {
 #>
-			Contract.Requires<ArgumentNullException>(<#= ToCamelCase(member.Name) #> != null);
+			Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
 <#
         }
 #>
@@ -131,7 +131,7 @@ foreach (var member in members.Take(members.Count() - 1))
         foreach (var member in members.Where(x => x.Required))
         {
 #>
-			Contract.Requires<ArgumentNullException>(<#= ToCamelCase(member.Name) #> != null);
+			Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
 <#
         }
 #>
@@ -140,7 +140,7 @@ foreach (var member in members.Take(members.Count() - 1))
 foreach (var member in members)
 {
 #>
-			this._<#= ToCamelCase(member.Name) #> = <#= ToCamelCase(member.Name) #>;
+			this._<#= member.CamelCasedName #> = <#= member.CamelCasedName #>;
 <#
 }
 #>
@@ -155,7 +155,7 @@ foreach (var member in members)
 		{
 			get
 			{
-				return this._<#= ToCamelCase(member.Name) #>;
+				return this._<#= member.CamelCasedName #>;
 			}
 		}
 
@@ -177,7 +177,7 @@ foreach (var member in members)
 		{
 
 #>
-			Contract.Invariant(this._<#= ToCamelCase(member.Name) #> != null);
+			Contract.Invariant(this._<#= member.CamelCasedName #> != null);
 <#
 		}
 #>
