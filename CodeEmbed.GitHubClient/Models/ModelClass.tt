@@ -33,6 +33,11 @@
 		var parentModelDefinition = XElement.Parse(ParentModelDefinitionXmls.First());
 		parentHasClient = (bool?)parentModelDefinition.Attribute("hasClient") ?? false;
     }
+
+    if (parentHasClient)
+    {
+        hasClient = false;
+    }
 #>
 
 namespace <#= CodeNamespace #>.Models

@@ -21,13 +21,13 @@
 
   </Model>
 
-  <Model name="Foo" inherits="RepositoryUser">
+  <Model name="Foo" inherits="RepositoryUser" hasClient="true">
 
     <Member name="Hoge" type="string" json="hoge"/>
 
   </Model>
 
-  <Model name="Bar" inherits="Foo">
+  <Model name="Bar" inherits="Foo" hasClient="true">
 
     <Member name="Hige" type="string" json="hige"/>
 
