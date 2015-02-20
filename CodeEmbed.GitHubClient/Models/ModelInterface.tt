@@ -23,8 +23,8 @@
 
     bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
 
-    var members = modelDefinition.Descendants("Member").Select(
-        x => MemberDefinition.Parse(x));
+    var members = modelDefinition.Descendants("Member")
+		.Select(MemberDefinition.Parse);
 
     XElement parentModelDefinition = null;
 
@@ -78,15 +78,9 @@ namespace <#= CodeNamespace #>.Models
 <#
 	foreach (var member in members)
 	{
-	    string typeName = member.Type;
-
-	    if (member.ModelType)
-	    {
-	        typeName = "I" + typeName;
-	    }
 #>
 		// <#= member.Json #>
-		<#= typeName #> <#= member.Name #> { [Pure] get; }
+		<#= member.Type #> <#= member.Name #> { [Pure] get; }
 
 <#
 	}

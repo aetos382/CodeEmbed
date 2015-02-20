@@ -26,14 +26,8 @@
 
     string camelCasedModelName = ToCamelCase(modelName);
 
-    var members = modelDefinition.Descendants("Member").Select(
-        x => new MemberDefinition
-            {
-                Name = x.Attribute("name").Value,
-                Type = x.Attribute("type").Value,
-                Json = x.Attribute("json").Value,
-				ModelType = (bool?)x.Attribute("modelType") ?? false
-            });
+    var members = modelDefinition.Descendants("Member")
+		.Select(MemberDefinition.Parse);
 
     XElement parentModelDefinition = null;
 
@@ -180,14 +174,8 @@ namespace <#= CodeNamespace #>.Models
 <#
 	foreach (var member in members)
 	{
-		string typeName = member.Type;
-
-	    if (member.ModelType)
-	    {
-	        typeName = "I" + typeName;
-	    }
 #>
-		public <#= typeName #> <#= member.Name #>
+		public <#= member.Type #> <#= member.Name #>
 		{
 			get
 			{

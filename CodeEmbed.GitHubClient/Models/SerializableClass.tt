@@ -13,6 +13,8 @@
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 <#@ parameter name="HasInternalMember" type="System.Boolean" #>
 
+<#@ include file="ModelGeneratorTool.ttinclude" #>
+
 <#
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
 
@@ -21,7 +23,7 @@
 
     bool isInternal = (bool?)modelDefinition.Attribute("internal") ?? false;
 
-    var members = MemberDefinition.Parse(modelDefinition.Descendants("Member"));
+    var members = modelDefinition.Descendants("Member").Select(MemberDefinition.Parse);
 
 	var parentModelDefinitions = ParentModelDefinitionXmls.Select(XElement.Parse);
 
@@ -33,15 +35,10 @@
     {
         parentIsInternal = (bool?)parentModelDefinitions.First().Attribute("internal") ?? false;
 
-		parentMembers = parentModelDefinitions.Reverse().SelectMany(
-			x => x.Descendants("Member")
-				.Select(
-					y => new MemberDefinition
-					{
-						Name = y.Attribute("name").Value,
-						Type = y.Attribute("type").Value,
-						Json = y.Attribute("json").Value
-					})
+		parentMembers = parentModelDefinitions
+			.Reverse()
+			.SelectMany(x => x.Descendants("Member")
+				.Select(MemberDefinition.Parse)
 			)
 			.ToArray();
     }
@@ -90,7 +87,7 @@ foreach (var member in members)
 {
 #>
 		[ContractPublicPropertyName("<#= member.Name #>")]
-		private readonly <#= typeName #> _<#= ToCamelCase(member.Name) #>;
+		private readonly <#= member.Type #> _<#= ToCamelCase(member.Name) #>;
 
 <#
 }
@@ -101,7 +98,7 @@ foreach (var member in members)
 foreach (var member in parentMembers)
 {
 #>
-			<#= typeName #> @<#= ToCamelCase(member.Name) #>,
+			<#= member.Type #> <#= ToCamelCase(member.Name) #>,
 <#
 }
 #>
@@ -109,11 +106,11 @@ foreach (var member in parentMembers)
 foreach (var member in members.Take(members.Count() - 1))
 {
 #>
-			<#= typeName #> @<#= ToCamelCase(member.Name) #>,
+			<#= member.Type #> <#= ToCamelCase(member.Name) #>,
 <#
 }
 #>
-			<#= members.Last().Type #> @<#= ToCamelCase(members.Last().Name) #>)
+			<#= members.Last().Type #> <#= ToCamelCase(members.Last().Name) #>)
 <#
     if (inherits != null)
     {
@@ -123,11 +120,11 @@ foreach (var member in members.Take(members.Count() - 1))
         foreach (var member in parentMembers.Take(parentMembers.Length - 1))
         {
 #>
-				@<#= ToCamelCase(member.Name) #>,
+				<#= ToCamelCase(member.Name) #>,
 <#           
         }
 #>
-				@<#= ToCamelCase(parentMembers.Last().Name) #>)
+				<#= ToCamelCase(parentMembers.Last().Name) #>)
 <#        
     }
 #>
@@ -136,7 +133,7 @@ foreach (var member in members.Take(members.Count() - 1))
 foreach (var member in members)
 {
 #>
-			this._<#= ToCamelCase(member.Name) #> = @<#= ToCamelCase(member.Name) #>;
+			this._<#= ToCamelCase(member.Name) #> = <#= ToCamelCase(member.Name) #>;
 <#
 }
 #>
@@ -160,5 +157,3 @@ foreach (var member in members)
 #>
 	}
 }
-
-<#@ include file="ModelGeneratorTool.ttinclude" #>
