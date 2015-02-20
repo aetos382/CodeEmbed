@@ -139,63 +139,77 @@
     <Compile Include="Models\AuthenticatedUser.cs" />
     <Compile Include="Models\Bar.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\DetailedUser.cs" />
     <Compile Include="Models\Foo.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\GitHubModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Include="Models\IAuthenticatedUser.cs" />
     <Compile Include="Models\IBar.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\IDetailedUser.cs" />
     <Compile Include="Models\IFoo.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Internal\IRepositoryPermissions.cs" />
     <Compile Include="Models\IRepository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\IRepositorySummary.cs" />
     <Compile Include="Models\Internal\IRepositoryUser.cs" />
     <Compile Include="Models\Internal\IUserPlan.cs" />
     <Compile Include="Models\IRepositoryUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\IUserRepository.cs" />
     <Compile Include="Models\ModelBase.cs" />
     <Compile Include="Models\Internal\RepositoryPermissions.cs" />
     <Compile Include="Models\Repository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\RepositoryContracts.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\RepositoryExtension.cs" />
     <Compile Include="Models\RepositorySummary.cs" />
     <Compile Include="Models\Internal\RepositoryUser.cs" />
     <Compile Include="Models\RepositoryUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\RepositoryUserContracts.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\SerializableBar.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\SerializableFoo.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\SerializableRepository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\SerializableRepositoryUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Serialization\SerializableAuthenticatedUser.cs" />
     <Compile Include="Models\Serialization\SerializableDetailedUser.cs" />

@@ -20,16 +20,28 @@
     string modelName = (string)modelDefinition.Attribute("name");
     string inherits = (string)modelDefinition.Attribute("inherits");
 
-    var members = modelDefinition.Descendants("Member").Select(MemberDefinition.Parse);
+    var members = MemberDefinition.ParseModel(modelDefinition);
 
 	var parentMembers =
 		ParentModelDefinitionXmls
 			.Select(XElement.Parse)
 			.Reverse()
-			.SelectMany(x => x.Descendants("Member").Select(MemberDefinition.Parse))
+			.SelectMany(x => MemberDefinition.ParseModel(x))
 			.ToArray();
 
     bool hasRequiredMember = members.Any(x => x.Required);
+
+    string constructorParameters = string.Join(
+        ",\r\n",
+        members.Select(x => string.Format("\t\t\t{0} {1}", x.Type, x.CamelCasedName)));
+
+	string parentConstructorParameters = string.Join(
+        ",\r\n",
+        parentMembers.Select(x => string.Format("\t\t\t{0} {1}", x.Type, x.CamelCasedName)));
+
+	string parentConstructorArguments = string.Join(
+        ",\r\n",
+        parentMembers.Select(x => string.Format("\t\t\t\t{0}", x.CamelCasedName)));
 #>
 
 namespace <#= CodeNamespace #>.Models.Serialization
@@ -78,36 +90,20 @@ foreach (var member in members)
 		[JsonConstructor]
 		public Serializable<#= modelName #><#= GeneratedModelPrefix #>(
 <#
-foreach (var member in parentMembers)
+if (inherits != null)
 {
 #>
-			<#= member.Type #> <#= member.CamelCasedName #>,
+<#= parentConstructorParameters #>,
 <#
 }
 #>
-<#
-foreach (var member in members.Take(members.Count() - 1))
-{
-#>
-			<#= member.Type #> <#= member.CamelCasedName #>,
-<#
-}
-#>
-			<#= members.Last().Type #> <#= ToCamelCase(members.Last().Name) #>)
+<#= constructorParameters #>)
 <#
     if (inherits != null)
     {
 #>
 			: base(
-<#
-        foreach (var member in parentMembers.Take(parentMembers.Length - 1))
-        {
-#>
-				<#= member.CamelCasedName #>,
-<#           
-        }
-#>
-				<#= ToCamelCase(parentMembers.Last().Name) #>)
+<#= parentConstructorArguments #>)
 <#        
     }
 #>

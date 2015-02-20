@@ -24,8 +24,7 @@
 
     string camelCasedModelName = ToCamelCase(modelName);
 
-    var members = modelDefinition.Descendants("Member")
-		.Select(MemberDefinition.Parse);
+    var members = MemberDefinition.ParseModel(modelDefinition);
 
     bool parentHasClient = false;
 

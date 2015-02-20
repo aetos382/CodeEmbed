@@ -18,8 +18,7 @@
 
     string modelName = (string)modelDefinition.Attribute("name");
 
-    var members = modelDefinition.Descendants("Member")
-		.Select(MemberDefinition.Parse);
+    var members = MemberDefinition.ParseModel(modelDefinition);
 #>
 
 namespace <#= CodeNamespace #>.Models.Contracts
