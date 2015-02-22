@@ -8,7 +8,9 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
 <#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Schema" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 
 <#@ include file="MultipleOutputHelper.ttinclude" #>
@@ -20,12 +22,26 @@
 <#
     var manager = Manager.Create(this.Host, this.GenerationEnvironment);
     string sourceFile = this.Host.ResolvePath("GitHubModels.xml");
+    string schemaFile = this.Host.ResolvePath("GitHubModels.xsd");
 
     var ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
 
+    var settings = new XmlReaderSettings();
+    settings.Schemas.Add(ns.NamespaceName, schemaFile);
+
+	settings.ValidationType = ValidationType.Schema;
+    settings.ValidationFlags =
+		XmlSchemaValidationFlags.AllowXmlAttributes |
+		XmlSchemaValidationFlags.ProcessIdentityConstraints |
+        XmlSchemaValidationFlags.ProcessSchemaLocation |
+        XmlSchemaValidationFlags.ReportValidationWarnings;
+
+	var typeNameSpecialChars = new []{ '<', '>', ',', '[', ']' };
+
     using (var streamReader = new StreamReader(sourceFile))
+	using (var xmlReader = XmlReader.Create(streamReader, settings))
     {
-        var document = XDocument.Load(streamReader);
+        var document = XDocument.Load(xmlReader);
 
         string codeNamespace = (string)document.Element(ns + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
 
@@ -52,18 +68,33 @@
             var memberDefs = modelDef.Descendants(ns + "Member");
             foreach (var memberDef in memberDefs)
             {
-                string memberType = memberDef.Attribute("type").Value;
-                var memberTypes = memberType.Split(new []{ '<', '>', ',', '[', ']' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
-
-                foreach (var type in memberTypes)
+				string memberType = memberDef.Attribute("type").Value;
+				if (memberType.IndexOfAny(typeNameSpecialChars) != -1)
                 {
-                    if (modelDefs.ContainsKey(type))
-                    {
-                        int index = memberType.IndexOf(type);
-                        string position = string.Format("{0},{1}", index, type.Length);
+					var modelType = memberDef.Element("ModelType");
+					if (modelType == null)
+					{
+						var memberTypes = memberType.Split(typeNameSpecialChars, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
 
-                        memberDef.SetAttributeValue("modelType", position);
-                    }
+						foreach (var type in memberTypes)
+						{
+							if (modelDefs.ContainsKey(type))
+							{
+								int index = memberType.IndexOf(type);
+								int length = type.Length;
+
+								modelType = 
+									new XElement(
+										ns + "ModelType",
+										new XAttribute("position", index),
+										new XAttribute("length", length));
+
+								memberDef.Add(modelType);
+
+								break;
+							}
+						}
+					}
                 }
 
                 bool required = (bool?)memberDef.Attribute("required") ?? false;

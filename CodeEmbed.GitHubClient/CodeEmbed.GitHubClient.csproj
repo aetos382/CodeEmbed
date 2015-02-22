@@ -68,6 +68,7 @@
     <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -139,11 +140,10 @@
     <Compile Include="Models\AuthorizedUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GistChangeStatus.Generated.cs">
+    <Compile Include="Models\Gist.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GitObjectType.cs" />
-    <Compile Include="Models\Gist.Generated.cs">
+    <Compile Include="Models\GistChangeStatus.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistFile.Generated.cs">
@@ -166,6 +166,7 @@
     <Compile Include="Models\GitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitObjectType.cs" />
     <Compile Include="Models\GitReference.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>

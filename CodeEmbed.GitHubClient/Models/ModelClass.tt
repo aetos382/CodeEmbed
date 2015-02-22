@@ -71,6 +71,7 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
+		/// <summary>Create new instance of <#= modelName #><#= GeneratedModelPostfix #>.</summary>
 		public <#= modelName #><#= GeneratedModelPostfix #>(
 			I<#= modelName #><#= GeneratedModelPostfix #> <#= camelCasedModelName #><#= (hasClient || ancestorsHasClient ? "," : ")") #>
 <#
@@ -104,6 +105,7 @@ namespace <#= CodeNamespace #>.Models
     if (hasClient || ancestorsHasClient)
     {
 #>
+
 			Contract.Requires<ArgumentNullException>(client != null);
 <#
     }

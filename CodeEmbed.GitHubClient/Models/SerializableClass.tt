@@ -88,6 +88,7 @@ foreach (var member in members)
 <#
 }
 #>
+		/// <summary>Create new instance of Serializable<#= modelName #><#= GeneratedModelPostfix #>.</summary>
 		[JsonConstructor]
 		public Serializable<#= modelName #><#= GeneratedModelPostfix #>(
 <#
