@@ -12,7 +12,7 @@
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
-<#@ include file="ModelGeneratorTool.ttinclude" #>
+<#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
@@ -67,7 +67,7 @@ namespace <#= CodeNamespace #>.Models.Serialization
 	[GeneratedCode("SerializableClass.tt", "1.0")]
 	[DebuggerStepThrough]
 	[JsonObject]
-	public class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
+	public partial class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {

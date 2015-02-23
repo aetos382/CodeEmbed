@@ -13,11 +13,10 @@
 <#@ import namespace="System.Xml.Schema" #>
 <#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
 
+<#@ include file="ModelDefinitionParser.ttinclude" #>
 <#@ include file="MultipleOutputHelper.ttinclude" #>
 
-<#@ output extension=".cs" #>
-
-<#@ CleanupBehavior processor="T4VSHost" CleanupAfterProcessingtemplate="true" #>
+<#@ output extension=".txt" #>
 
 <#
     var manager = Manager.Create(this.Host, this.GenerationEnvironment);
@@ -25,6 +24,7 @@
     string schemaFile = this.Host.ResolvePath("GitHubModels.xsd");
 
     var ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
+	var nsi = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3-instance";
 
     var settings = new XmlReaderSettings();
     settings.Schemas.Add(ns.NamespaceName, schemaFile);
@@ -36,8 +36,6 @@
         XmlSchemaValidationFlags.ProcessSchemaLocation |
         XmlSchemaValidationFlags.ReportValidationWarnings;
 
-	var typeNameSpecialChars = new []{ '<', '>', ',', '[', ']' };
-
     using (var streamReader = new StreamReader(sourceFile))
 	using (var xmlReader = XmlReader.Create(streamReader, settings))
     {
@@ -45,87 +43,59 @@
 
         string codeNamespace = (string)document.Element(ns + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
 
-        var modelDefs =
-			document.Descendants(ns + "Model").ToDictionary(x => x.Attribute("name").Value, x => x);
+        var models =
+			document.Descendants(ns + "Model").ToDictionary(x => ParseName(x, x.Attribute("name").Value), x => Model.Parse(x));
 
-        foreach (var modelDef in modelDefs.Values)
+        foreach (var model in models.Values)
         {
-            string modelName = modelDef.Attribute("name").Value;
+			var parentModels = new List<Model>();
 
-			var parentElements = new List<XElement>();
-            string parentModel = (string)modelDef.Attribute("inherits");
-
-            while (parentModel != null)
+			var parentName = model.Inherits;
+			while (parentName != null)
             {
-                var parentElement = modelDefs[parentModel];
-				parentElements.Add(parentElement);
+				if (parentName.Name.NamespaceName != nsi)
+				{
+					this.Error("Invalid namespace.");
+					continue;
+				}
 
-				parentModel = (string)parentElement.Attribute("inherits");
+				Model parentModel;
+				if (!models.TryGetValue(parentName.Name, out parentModel))
+				{
+					this.Error("Invalid name.");
+					continue;
+				}
+
+				parentModels.Add(parentModel);
+				parentName = parentModel.Inherits;
             }
 
-            bool hasRequiredMember = false;
+            bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-            var memberDefs = modelDef.Descendants(ns + "Member");
-            foreach (var memberDef in memberDefs)
-            {
-				string memberType = memberDef.Attribute("type").Value;
-				if (memberType.IndexOfAny(typeNameSpecialChars) != -1)
-                {
-					var modelType = memberDef.Element("ModelType");
-					if (modelType == null)
-					{
-						var memberTypes = memberType.Split(typeNameSpecialChars, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim());
-
-						foreach (var type in memberTypes)
-						{
-							if (modelDefs.ContainsKey(type))
-							{
-								int index = memberType.IndexOf(type);
-								int length = type.Length;
-
-								modelType = 
-									new XElement(
-										ns + "ModelType",
-										new XAttribute("position", index),
-										new XAttribute("length", length));
-
-								memberDef.Add(modelType);
-
-								break;
-							}
-						}
-					}
-                }
-
-                bool required = (bool?)memberDef.Attribute("required") ?? false;
-                if (required)
-                {
-                    hasRequiredMember = true;
-                }
-            }
-
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, modelDef, parentElements);
-			manager.StartNewFile(string.Format("I{0}.Generated.cs", modelName));
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, model, parentModels);
+			manager.StartNewFile(string.Format("I{0}.Generated.cs", model.Name.LocalName));
 			this.Write(interfaceDef);
 			manager.EndBlock();
 
+			/*
             if (hasRequiredMember)
             {
-				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, modelDef, parentElements);
-				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", modelName));
+				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model, parentModels);
+				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", model.Name.LocalName));
 				this.Write(contractDef);
 				manager.EndBlock();
             }
 
-            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, modelDef, parentElements);
-			manager.StartNewFile(string.Format("{0}.Generated.cs", modelName));
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model, parentModels);
+			manager.StartNewFile(string.Format("{0}.Generated.cs", model.Name.LocalName));
 			this.Write(classDef);
 			manager.EndBlock();
 
-            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, modelDef, parentElements);
-			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", modelName));
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, model, parentModels);
+			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", model.Name.LocalName));
 			this.Write(serializableClassDef);
 			manager.EndBlock();
+			*/
         }
     }
 
@@ -136,8 +106,8 @@
     private string GenerateModel(
 		string templateFile,
 		string codeNamespace,
-		XElement modelDefinition,
-		IEnumerable<XElement> parentModelDefinitions)
+		Model model,
+		IEnumerable<Model> parentModels)
     {
         string includeContent, location;
 
@@ -155,15 +125,15 @@
         var session = sessionHost.CreateSession();
 
         session["CodeNamespace"] = codeNamespace;
-        session["ModelDefinitionXml"] = modelDefinition.ToString(SaveOptions.DisableFormatting);
+        session["ModelDefinitionXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
         session["ParentModelDefinitionXmls"] =
-            parentModelDefinitions.Select(x => x.ToString(SaveOptions.DisableFormatting)).ToArray();
+            parentModels.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();
 
         sessionHost.Session = session;
 
         var engine = new Engine();
-        string result = engine.ProcessTemplate(includeContent, this.Host);
 
+        string result = engine.ProcessTemplate(includeContent, this.Host);
         return result;
     }
 #>

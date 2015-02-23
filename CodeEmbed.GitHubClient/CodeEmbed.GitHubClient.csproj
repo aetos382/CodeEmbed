@@ -137,157 +137,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Contracts\GitHubClientContracts.cs" />
-    <Compile Include="Models\AuthorizedUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Gist.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GistChangeStatus.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GistFile.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GistFork.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GistHistory.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GistSummary.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GitHubModels.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\GitObject.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\GitObjectType.cs" />
-    <Compile Include="Models\GitReference.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IAuthorizedUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGist.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGistChangeStatus.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGistFile.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGistFork.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGistHistory.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGistSummary.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGitObject.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IGitReference.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IPermissions.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IPublicRepository.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IRepository.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IRepositoryUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\IUserPlan.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Permissions.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PublicRepository.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\PublicRepositoryContracts.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Repository.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RepositoryContracts.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\RepositoryExtension.cs" />
-    <Compile Include="Models\RepositoryUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\RepositoryUserContracts.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableAuthorizedUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGist.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGistChangeStatus.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGistFile.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGistFork.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGistHistory.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGistSummary.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGitObject.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableGitReference.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializablePermissions.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializablePublicRepository.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableRepository.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableRepositoryUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableUser.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\SerializableUserPlan.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\User.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserPlan.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Network\ConnectionExtension.cs" />
     <Compile Include="GistNotFoundException.cs" />
     <Compile Include="GitHubClient.cs" />
@@ -333,14 +184,14 @@
   <ItemGroup>
     <None Include="Models\GitHubModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GitHubModels.cs</LastGenOutput>
+      <LastGenOutput>GitHubModels.txt</LastGenOutput>
     </None>
     <None Include="Models\GitHubModels.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Models\ModelClass.tt" />
     <None Include="Models\ModelContract.tt" />
-    <None Include="Models\ModelGeneratorTool.ttinclude">
+    <None Include="Models\ModelDefinitionParser.ttinclude">
       <LastGenOutput>ModelGeneratorTool.txt</LastGenOutput>
     </None>
     <None Include="Models\ModelInterface.tt" />

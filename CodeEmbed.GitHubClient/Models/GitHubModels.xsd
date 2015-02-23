@@ -4,6 +4,7 @@
   elementFormDefault="qualified"
   xmlns="http://schemas.aerie.jp/codeembed/github-models-v3"
   xmlns:g="http://schemas.aerie.jp/codeembed/github-models-v3"
+  xmlns:gi="http://schemas.aerie.jp/codeembed/github-models-v3-instance"
   xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <xs:element name="Models" type="g:models">
@@ -13,10 +14,10 @@
     </xs:key>
     <xs:keyref name="inherits-ref" refer="g:model-name">
       <xs:selector xpath="g:Model"/>
-      <xs:field xpath="@inherits"/>
+      <xs:field xpath="g:Inherits/@name"/>
     </xs:keyref>
   </xs:element>
-
+  
   <xs:complexType name="models">
     <xs:sequence>
       <xs:element name="Model" type="g:model" maxOccurs="unbounded">
@@ -32,29 +33,46 @@
     </xs:sequence>
     <xs:attribute name="codeNamespace" type="xs:NCName"/>
   </xs:complexType>
-
+  
   <xs:complexType name="model">
     <xs:sequence>
-      <xs:element name="Member" type="g:member" maxOccurs="unbounded"/>
+      <xs:element name="GenericParameter" type="g:genericParameter" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Inherits" type="g:genericType" minOccurs="0" maxOccurs="1"/>
+      <xs:element name="Member" type="g:member" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="name" type="xs:NCName" use="required"/>
-    <xs:attribute name="inherits" type="xs:NCName"/>
+    <xs:attribute name="name" type="xs:QName" use="required"/>
     <xs:attribute name="hasClient" type="xs:boolean" default="false"/>
+    <xs:attribute name="abstract" type="xs:boolean" default="false"/>
+  </xs:complexType>
+  
+  <xs:complexType name="genericType">
+    <xs:attribute name="name" type="xs:QName" use="required"/>
+    <xs:attribute name="genericArguments">
+      <xs:simpleType>
+        <xs:list itemType="xs:QName"/>
+      </xs:simpleType>
+    </xs:attribute>
   </xs:complexType>
 
-  <xs:complexType name="member">
-    <xs:sequence>
-      <xs:element name="ModelType" type="g:modelType" minOccurs="0" maxOccurs="1"/>
-    </xs:sequence>
+  <xs:complexType name="genericParameter">
     <xs:attribute name="name" type="xs:NCName" use="required"/>
-    <xs:attribute name="type" type="xs:normalizedString" use="required"/>
+    <xs:attribute name="constraints">
+      <xs:simpleType>
+        <xs:list itemType="xs:QName"/>
+      </xs:simpleType>
+    </xs:attribute>
+  </xs:complexType>
+  
+  <xs:complexType name="member">
+    <xs:attribute name="name" type="xs:NCName" use="required"/>
+    <xs:attribute name="type" type="xs:QName" use="required"/>
+    <xs:attribute name="genericArguments">
+      <xs:simpleType>
+        <xs:list itemType="xs:QName"/>
+      </xs:simpleType>
+    </xs:attribute>
     <xs:attribute name="json" type="xs:NCName"/>
     <xs:attribute name="required" type="xs:boolean" default="false"/>
-  </xs:complexType>
-
-  <xs:complexType name="modelType">
-    <xs:attribute name="position" type="xs:nonNegativeInteger" use="required"/>
-    <xs:attribute name="length" type="xs:positiveInteger" use="required"/>
   </xs:complexType>
 
 </xs:schema>

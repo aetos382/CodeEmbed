@@ -12,7 +12,7 @@
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
-<#@ include file="ModelGeneratorTool.ttinclude" #>
+<#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
@@ -43,7 +43,7 @@ namespace <#= CodeNamespace #>.Models.Contracts
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
 	[ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPostfix #>))]
-	public abstract class <#= modelName #>Contract<#= GeneratedModelPostfix #> :
+	public abstract partial class <#= modelName #>Contract<#= GeneratedModelPostfix #> :
 		I<#= modelName #><#= GeneratedModelPostfix #>
 	{
 <#

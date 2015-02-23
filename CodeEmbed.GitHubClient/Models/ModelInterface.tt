@@ -12,17 +12,20 @@
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
-<#@ include file="ModelGeneratorTool.ttinclude" #>
+<#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-    var modelDefinition = XElement.Parse(ModelDefinitionXml);
+    var model = Model.Parse(ModelDefinitionXml);
+	string modelName = model.Name.LocalName;
 
-    string modelName = (string)modelDefinition.Attribute("name");
-    string inherits = (string)modelDefinition.Attribute("inherits");
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-    var members = MemberDefinition.ParseModel(modelDefinition);
+	string genericParameters = string.Empty;
 
-    bool hasRequiredMember = members.Any(x => x.Required);
+	if (model.GenericParameters.Any())
+    {
+		genericParameters = "<" + string.Join(", ", model.GenericParameters.Select(x => x.Name)) + ">";
+    }
 #>
 
 namespace <#= CodeNamespace #>.Models
@@ -50,22 +53,34 @@ namespace <#= CodeNamespace #>.Models
 <#        
     }
 #>
-	public interface I<#= modelName #><#= GeneratedModelPostfix #>
+	public partial interface I<#= modelName #><#= GeneratedModelPostfix #><#= genericParameters #>
 <#
-    if (inherits != null)
+	foreach (var p in model.GenericParameters)
+    {
+		if (!p.Constraints.Any())
+        {
+			continue;
+        }
+#>
+		where <#= p.Name #> : <#= string.Join(", ", p.Constraints.Select(x => x.LocalName)) #>
+<#
+    }
+#>
+<#
+    if (model.Inherits != null)
     {
 #>
-		: I<#= inherits #><#= GeneratedModelPostfix #>
+		: I<#= model.Inherits.ParsedName #><#= GeneratedModelPostfix #>
 <#
     }
 #>
 	{
 <#
-	foreach (var member in members)
+	foreach (var member in model.Members)
 	{
 #>
 		/// <summary>Map to "<#= member.Json #>"</summary>
-		<#= member.Type #> <#= member.Name #> { [Pure] get; }
+		<#= member.ParsedType #> <#= member.Name #> { [Pure] get; }
 
 <#
 	}
