@@ -9,6 +9,7 @@
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models;
+    using CodeEmbed.GitHubClient.Models.Test;
     using CodeEmbed.GitHubClient.Network;
 
     public static class GitHubClientExtension
