@@ -12,23 +12,23 @@ namespace DeserializeTest
         SerializableGistBase,
         IGistSummary<SerializableGistFile>
     {
-        private readonly SerializableGistFile _file;
+        private readonly IOutputDictionary<string, SerializableGistFile> _files;
 
         [JsonConstructor]
         public SerializableGistSummary(
             string id,
-            SerializableGistFile file)
+            IOutputDictionary<string, SerializableGistFile> files)
             : base(id)
         {
-            this._file = file;
+            this._files = files;
         }
 
         [JsonProperty("file")]
-        public SerializableGistFile File
+        public IOutputDictionary<string, SerializableGistFile> Files
         {
             get
             {
-                return this._file;
+                return this._files;
             }
         }
     }

@@ -12,20 +12,21 @@ namespace DeserializeTest
     {
         private readonly IGistSummary<IGistFile> _gistSummary;
 
-        private readonly GistFile _file;
+        private readonly IOutputDictionary<string, GistFile> _files;
 
-        public GistSummary(IGistSummary<IGistFile> gistSummary)
+        public GistSummary(
+            IGistSummary<IGistFile> gistSummary)
             : base(gistSummary)
         {
             this._gistSummary = gistSummary;
-            this._file = new GistFile(gistSummary.File);
+            this._files = gistSummary.Files.ToOutputDictionary(x => x.Key, x => new GistFile(x.Value));
         }
 
-        public GistFile File
+        public IOutputDictionary<string, GistFile> Files
         {
             get
             {
-                return this._file;
+                return this._files;
             }
         }
     }

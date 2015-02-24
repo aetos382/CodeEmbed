@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IGistSummary<out TGistFile> : IGistBase
-        where TGistFile : IGistFile
+    public interface IOutputKeyValuePair<out TKey, out TValue>
     {
-        IOutputDictionary<string, TGistFile> Files { get; }
+        TKey Key { get; }
+
+        TValue Value { get; }
     }
 }

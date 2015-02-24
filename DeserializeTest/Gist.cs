@@ -12,20 +12,20 @@ namespace DeserializeTest
     {
         private readonly IGist<IGistFileContent> _gist;
 
-        private readonly GistFileContent _file;
+        private readonly IOutputDictionary<string, GistFileContent> _files;
 
         public Gist(IGist<IGistFileContent> gist)
             : base(gist)
         {
             this._gist = gist;
-            this._file = new GistFileContent(gist.File);
+            this._files = gist.Files.ToOutputDictionary(x => x.Key, x => new GistFileContent(x.Value));
         }
 
-        public GistFileContent File
+        public IOutputDictionary<string, GistFileContent> Files
         {
             get
             {
-                return this._file;
+                return this._files;
             }
         }
 

@@ -3,17 +3,108 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     using Newtonsoft.Json.Serialization;
 
     public class TypeResolver :
-        DefaultContractResolver,
+        IContractResolver,
         IDictionary<Type, Type>
     {
-        private readonly IDictionary<Type, Type> _typeMap = new Dictionary<Type, Type>(); 
+        [ContractPublicPropertyName("BaseResolver")]
+        private readonly IContractResolver _baseResolver = null;
+
+        private readonly IDictionary<Type, Type> _typeMap = new Dictionary<Type, Type>();
+
+        public TypeResolver()
+            : this(false)
+        {
+        }
+
+        public TypeResolver(bool shareCache)
+        {
+            this._baseResolver = new DefaultContractResolver(shareCache);
+        }
+
+        public TypeResolver(IContractResolver baseResolver)
+        {
+            Contract.Requires<ArgumentNullException>(baseResolver != null);
+
+            this._baseResolver = baseResolver;
+        }
+
+        public IContractResolver BaseResolver
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IContractResolver>() != null);
+
+                return this._baseResolver;
+            }
+        }
+
+        public int Count
+        {
+            get
+            {
+                return this._typeMap.Count;
+            }
+        }
+
+        public bool IsReadOnly
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public ICollection<Type> Keys
+        {
+            get
+            {
+                return this._typeMap.Keys;
+            }
+        }
+
+        public ICollection<Type> Values
+        {
+            get
+            {
+                return this._typeMap.Values;
+            }
+        }
+
+        public Type this[Type key]
+        {
+            get
+            {
+                return this._typeMap[key];
+            }
+
+            set
+            {
+                if (key == null)
+                {
+                    throw new ArgumentNullException("key");
+                }
+
+                if (value == null)
+                {
+                    throw new ArgumentNullException("value");
+                }
+
+                if (!key.IsAssignableFrom(value))
+                {
+                    throw new ArgumentException();
+                }
+
+                this._typeMap[key] = value;
+            }
+        }
 
         public void Map<TRequire, TImplement>()
             where TImplement : TRequire
@@ -21,7 +112,7 @@
             this._typeMap[typeof(TRequire)] = typeof(TImplement);
         }
 
-        public override JsonContract ResolveContract(Type type)
+        public JsonContract ResolveContract(Type type)
         {
             Type concreteType;
             if (this._typeMap.TryGetValue(type, out concreteType))
@@ -29,12 +120,19 @@
                 type = concreteType;
             }
 
-            return base.ResolveContract(type);
+            var contract = this._baseResolver.ResolveContract(type);
+
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IOutputDictionary<,>))
+            {
+                contract.Converter = new OutputDictionaryCoverter<>
+            }
+
+            return contract;
         }
 
         public IEnumerator<KeyValuePair<Type, Type>> GetEnumerator()
         {
-            return _typeMap.GetEnumerator();
+            return this._typeMap.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -44,6 +142,11 @@
 
         public void Add(KeyValuePair<Type, Type> item)
         {
+            if (item.Key == null || item.Value == null)
+            {
+                throw new ArgumentNullException("item");
+            }
+
             if (!item.Key.IsAssignableFrom(item.Value))
             {
                 throw new ArgumentException();
@@ -74,22 +177,6 @@
             return this._typeMap.Remove(item);
         }
 
-        public int Count
-        {
-            get
-            {
-                return this._typeMap.Count;
-            }
-        }
-
-        public bool IsReadOnly
-        {
-            get
-            {
-                return false;
-            }
-        }
-
         public bool ContainsKey(Type key)
         {
             return this._typeMap.ContainsKey(key);
@@ -99,9 +186,19 @@
             Type key,
             Type value)
         {
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            if (value == null)
+            {
+                throw new ArgumentNullException("value");
+            }
+
             if (!key.IsAssignableFrom(value))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentException();
             }
 
             this._typeMap.Add(key, value);
@@ -119,38 +216,15 @@
             return this._typeMap.TryGetValue(key, out value);
         }
 
-        public Type this[Type key]
+        [Conditional("CONTRACTS_FULL")]
+        [DebuggerStepThrough]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            get
-            {
-                return this._typeMap[key];
-            }
+            Contract.Invariant(this._baseResolver != null);
 
-            set
-            {
-                if (!key.IsAssignableFrom(value))
-                {
-                    throw new ArgumentException();
-                }
-
-                this._typeMap[key] = value;
-            }
-        }
-
-        public ICollection<Type> Keys
-        {
-            get
-            {
-                return this._typeMap.Keys;
-            }
-        }
-
-        public ICollection<Type> Values
-        {
-            get
-            {
-                return this._typeMap.Values;
-            }
+            Contract.Invariant(this._typeMap != null);
         }
     }
 }

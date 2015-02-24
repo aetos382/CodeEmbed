@@ -13,27 +13,27 @@ namespace DeserializeTest
         SerializableGistBase,
         IGist<SerializableGistFileContent>
     {
-        private readonly SerializableGistFileContent _file;
+        private readonly IOutputDictionary<string, SerializableGistFileContent> _files;
         
         private readonly DateTime _createdAt;
 
         [JsonConstructor]
         public SerializableGist(
             string id,
-            SerializableGistFileContent file,
+            IOutputDictionary<string, SerializableGistFileContent> files,
             DateTime createdAt)
             : base(id)
         {
-            this._file = file;
+            this._files = files;
             this._createdAt = createdAt;
         }
 
         [JsonProperty("file")]
-        public SerializableGistFileContent File
+        public IOutputDictionary<string, SerializableGistFileContent> Files
         {
             get
             {
-                return this._file;
+                return this._files;
             }
         }
 

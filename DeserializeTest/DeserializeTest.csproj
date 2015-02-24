@@ -134,9 +134,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnumerableExtension.cs" />
     <Compile Include="Foo.cs" />
     <Compile Include="GistBase.cs" />
     <Compile Include="IGistBase.cs" />
+    <Compile Include="IOutputKeyValuePair.cs" />
+    <Compile Include="IOutputDictionary.cs" />
+    <Compile Include="OutputDictionaryCoverter.cs" />
+    <Compile Include="OutputKeyValuePair.cs" />
+    <Compile Include="OutputDictionary.cs" />
     <Compile Include="SerializableGist.cs" />
     <Compile Include="Gist.cs" />
     <Compile Include="SerializableGistBase.cs" />
