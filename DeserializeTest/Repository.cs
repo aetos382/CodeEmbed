@@ -6,10 +6,10 @@
     public class Repository :
         IRepository<RepositoryUser>
     {
-        private readonly IRepository<IRepositoryUser> _repository;
+        private readonly IRepository<IRepositoryUser<IFoo>> _repository;
         private readonly RepositoryUser _user;
 
-        public Repository(IRepository<IRepositoryUser> repository)
+        public Repository(IRepository<IRepositoryUser<IFoo>> repository)
         {
             this._repository = repository;
             this._user = new RepositoryUser(repository.User);

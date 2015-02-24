@@ -154,7 +154,6 @@
     <Compile Include="Serialization\CamelCaseStringEnumConverter.cs" />
     <Compile Include="Serialization\IJsonSerializer.cs" />
     <Compile Include="Serialization\JsonNetSerializer.cs" />
-    <Compile Include="Serialization\JsonNetModelMapper.cs" />
     <Compile Include="Models\RepositorySummaryExtension.cs" />
     <Compile Include="Network\HttpClientConnection.cs" />
     <Compile Include="Network\Contracts\ConnectionContracts.cs" />
@@ -165,6 +164,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Serialization\TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">

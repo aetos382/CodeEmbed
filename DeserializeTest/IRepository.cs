@@ -4,7 +4,7 @@
     using System.Linq;
 
     public interface IRepository<out TRepositoryUser>
-        where TRepositoryUser : IRepositoryUser
+        where TRepositoryUser : IRepositoryUser<IFoo>
     {
         int Id { get; }
 

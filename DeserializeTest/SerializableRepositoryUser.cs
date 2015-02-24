@@ -7,13 +7,36 @@
 
     [JsonObject]
     public class SerializableRepositoryUser :
-        IRepositoryUser
+        IRepositoryUser<SerializableFoo>
     {
-        public SerializableRepositoryUser()
+        private readonly string _name;
+
+        private readonly SerializableFoo _foo;
+
+        [JsonConstructor]
+        public SerializableRepositoryUser(
+            string name,
+            SerializableFoo foo)
         {
+            this._name = name;
+            this._foo = foo;
         }
 
         [JsonProperty("name")]
-        public string Name { get; set; }
+        public string Name
+        {
+            get
+            {
+                return this._name;
+            }
+        }
+
+        public SerializableFoo Foo
+        {
+            get
+            {
+                return this._foo;
+            }
+        }
     }
 }

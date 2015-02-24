@@ -21,10 +21,8 @@
 
   </g:Model>
   
-  <g:Model name="gi:Repository" hasClient="true">
+  <g:Model name="gi:Repository" inherits="gi:PublicRepository" hasClient="true">
 
-    <g:Inherits name="gi:PublicRepository"/>
-    
     <g:Member name="CloneUri" type="Uri"/>
     <g:Member name="GitUri" type="Uri" json="git_url"/>
     <g:Member name="SshUri" type="Uri" json="ssh_url"/>
@@ -84,13 +82,6 @@
   </g:Model>
 
   <g:Model name="gi:GistBase" abstract="true">
-    <g:GenericParameter name="TGistFile" constraints="gi:GistFile"/>
-    <g:Member name="Files" type="IDictionary" genericArguments="string TGistFile"/>
-  </g:Model>
-  
-  <g:Model name="gi:GistSummary">
-
-    <g:Inherits name="gi:GistBase"/>
     
     <g:Member name="Uri" type="Uri" json="url"/>
     <g:Member name="ForksUri" type="Uri" json="forks_url"/>
@@ -100,9 +91,6 @@
     <g:Member name="IsPublic" type="bool" json="public"/>
     <g:Member name="Owner" type="gi:RepositoryUser"/>
     <g:Member name="User" type="string"/>
-    <!--
-    <g:Member name="Files" type="IDictionary&lt;string, TGistFile&gt;"/>
-    -->
     <g:Member name="Comments" type="int"/>
     <g:Member name="CommentsUri" type="Uri" json="comments_url"/>
     <g:Member name="HtmlUri" type="Uri" json="html_url"/>
@@ -110,16 +98,27 @@
     <g:Member name="GitPushUri" type="Uri" json="git_push_url"/>
     <g:Member name="CreatedAt" type="DateTime"/>
     <g:Member name="UpdatedAt" type="DateTime"/>
+    
+  </g:Model>
+  
+  <g:Model name="gi:GistSummary" inherits="gi:GistBase">
+    
+    <g:Member name="Files" type="IDictionary" genericArguments="string gi:GistFile"/>
 
   </g:Model>
 
-  <g:Model name="gi:Gist">
+  <g:Model name="gi:Gist" inherits="gi:GistSummary">
 
-    <g:Inherits name="gi:GistBase"/>
-    
+    <g:Member name="Files" type="IDictionary" genericArguments="string gi:GistFileContent" override="true"/>
     <g:Member name="Forks" type="IEnumerable" genericArguments="gi:GistFork"/>
     <g:Member name="Histories" type="IEnumerable" genericArguments="gi:GistHistory"/>
 
+  </g:Model>
+
+  <g:Model name="gi:GistDetail" inherits="gi:Gist">
+
+    <g:Member name="Hoge" type="string"/>
+    
   </g:Model>
 
   <g:Model name="gi:GistFile">
@@ -132,12 +131,10 @@
   
   </g:Model>
 
-  <g:Model name="gi:GistFileContent">
-
-    <g:Inherits name="gi:GistFile"/>
+  <g:Model name="gi:GistFileContent" inherits="gi:GistFile">
     
     <g:Member name="Content" type="string"/>
-
+    
   </g:Model>
   
   <g:Model name="gi:GistFork">
@@ -184,10 +181,8 @@
 
   </g:Model>
 
-  <g:Model name="gi:User">
+  <g:Model name="gi:User" inherits="gi:RepositoryUser">
 
-    <g:Inherits name="gi:RepositoryUser"/>
-    
     <g:Member name="Name" type="string"/>
     <g:Member name="Company" type="string"/>
     <g:Member name="Blog" type="Uri"/>
@@ -204,9 +199,7 @@
 
   </g:Model>
 
-  <g:Model name="gi:AuthorizedUser">
-
-    <g:Inherits name="gi:User"/>
+  <g:Model name="gi:AuthorizedUser" inherits="gi:User">
     
     <g:Member name="TotalPrivateRepositories" type="int" json="total_private_repos"/>
     <g:Member name="OwnedPrivateRepositories" type="int" json="owned_private_repos"/>

@@ -111,7 +111,6 @@
 
         [Conditional("CONTRACTS_FULL")]
         [DebuggerStepThrough]
-        [DebuggerHidden]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()

@@ -14,7 +14,7 @@
     </xs:key>
     <xs:keyref name="inherits-ref" refer="g:model-name">
       <xs:selector xpath="g:Model"/>
-      <xs:field xpath="g:Inherits/@name"/>
+      <xs:field xpath="@inherits"/>
     </xs:keyref>
   </xs:element>
   
@@ -36,31 +36,12 @@
   
   <xs:complexType name="model">
     <xs:sequence>
-      <xs:element name="GenericParameter" type="g:genericParameter" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="Inherits" type="g:genericType" minOccurs="0" maxOccurs="1"/>
       <xs:element name="Member" type="g:member" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="name" type="xs:QName" use="required"/>
+    <xs:attribute name="inherits" type="xs:QName"/>
     <xs:attribute name="hasClient" type="xs:boolean" default="false"/>
     <xs:attribute name="abstract" type="xs:boolean" default="false"/>
-  </xs:complexType>
-  
-  <xs:complexType name="genericType">
-    <xs:attribute name="name" type="xs:QName" use="required"/>
-    <xs:attribute name="genericArguments">
-      <xs:simpleType>
-        <xs:list itemType="xs:QName"/>
-      </xs:simpleType>
-    </xs:attribute>
-  </xs:complexType>
-
-  <xs:complexType name="genericParameter">
-    <xs:attribute name="name" type="xs:NCName" use="required"/>
-    <xs:attribute name="constraints">
-      <xs:simpleType>
-        <xs:list itemType="xs:QName"/>
-      </xs:simpleType>
-    </xs:attribute>
   </xs:complexType>
   
   <xs:complexType name="member">
@@ -71,6 +52,7 @@
         <xs:list itemType="xs:QName"/>
       </xs:simpleType>
     </xs:attribute>
+    <xs:attribute name="override" type="xs:boolean" default="false"/>
     <xs:attribute name="json" type="xs:NCName"/>
     <xs:attribute name="required" type="xs:boolean" default="false"/>
   </xs:complexType>
