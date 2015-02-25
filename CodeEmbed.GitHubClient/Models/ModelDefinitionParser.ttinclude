@@ -65,14 +65,22 @@
     }
 
 
-	private static string ParseType(XName type, IEnumerable<XName> genericArguments)
+	private static string ParseType(XName type, XElement context, IEnumerable<XName> genericArguments, string prefix)
     {
+		const string clrNamespace = "http://schemas.aerie.jp/codeembed/clr-namespace/";
+
 		var builder = new StringBuilder();
 
 		if (type.NamespaceName == nsi)
         {
-			builder.AppendFormat("I{0}{1}", type.LocalName, GeneratedModelPostfix);
+			builder.AppendFormat("{0}{1}{2}", prefix, type.LocalName, GeneratedModelPostfix);
         }
+/*
+		else if (type.NamespaceName.StartsWith(clrNamespace))
+        {
+			builder.AppendFormat("{0}.{1}", type.NamespaceName.Substring(clrNamespace.Length), type.LocalName);
+        }
+*/
 		else
         {
 			builder.Append(type.LocalName);
@@ -80,10 +88,34 @@
 
 		if (genericArguments != null && genericArguments.Any())
         {
-			builder.AppendFormat("<{0}>", string.Join(", ", genericArguments.Select(x => ParseType(x, null))));
+			builder.AppendFormat("<{0}>", string.Join(", ", genericArguments.Select(x => ParseType(x, context, null, prefix))));
         }
 
 		return builder.ToString();
+    }
+
+	private static IEnumerable<string[]> OrderNamespace(
+		IEnumerable<string> namespaces)
+    {
+		return namespaces
+			.Distinct()
+			.Select(x => new {
+				PrefixLength = x.IndexOf("."),
+				Namespace = x
+			})
+			.Select(x => new {
+				Prefix = (x.PrefixLength == -1 ? x.Namespace : x.Namespace.Substring(0, x.PrefixLength)),
+				x.Namespace
+			})
+			.Select(x => new {
+				Weight = (x.Prefix == "System" ? 0 : x.Prefix == "Microsoft" ? 1 : int.MaxValue),
+				x.Prefix,
+				x.Namespace
+			})
+			.OrderBy(x => x.Weight)
+			.ThenBy(x => x.Namespace)
+			.GroupBy(x => x.Prefix)
+			.Select(x => x.Select(y => y.Namespace).ToArray());
     }
 
 	private const string GeneratedModelPostfix = "";
@@ -91,73 +123,15 @@
 	private readonly static XNamespace ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
 	private readonly static XNamespace nsi = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3-instance";
 
-	private class GenericType
-    {
-		public XName Name { get; private set; }
-		public IEnumerable<XName> GenericArguments { get; private set; }
-		public string ParsedName { get; private set; }
-
-		public static GenericType Parse(string element)
-        {
-			return Parse(XElement.Parse(element));
-        }
-
-		public static GenericType Parse(XElement element)
-        {
-			var result = new GenericType
-            {
-				Name = ParseName(element, element.Attribute("name").Value)
-            };
-
-			string genericArguments = (string)element.Attribute("genericArguments");
-			if (!string.IsNullOrEmpty(genericArguments))
-            {
-				result.GenericArguments = genericArguments.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => ParseName(element, x)).ToArray();
-            }
-
-			result.ParsedName = ParseType(result.Name, result.GenericArguments);
-
-			return result;
-        }
-	}
-
-	private class GenericParameter
-    {
-		public string Name { get; private set; }
-		public IEnumerable<XName> Constraints { get; private set; }
-		
-		public static GenericParameter Parse(string element)
-        {
-			return Parse(XElement.Parse(element));
-        }
-
-		public static GenericParameter Parse(XElement element)
-        {
-			var result = new GenericParameter
-            {
-				Name = element.Attribute("name").Value
-            };
-
-			string constraints = (string)element.Attribute("constraints");
-			if (!string.IsNullOrEmpty(constraints))
-            {
-				result.Constraints = constraints.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => ParseName(element, x)).ToArray();
-            }
-
-			return result;
-        }
-    }
-
 	private class Model
     {
 		public XElement RawXml { get; private set; }
 
 		public XName Name { get; private set; }
-		public GenericType Inherits { get; private set; }
+		public XName Inherits { get; private set; }
 		public bool HasClient { get; private set; }
 		public bool IsAbstract { get; private set; }
 
-		public IEnumerable<GenericParameter> GenericParameters { get; private set; }
 		public IEnumerable<Member> Members { get; private set; }
 		
 		public static Model Parse(string element)
@@ -167,27 +141,6 @@
 
 		public static Model Parse(XElement element)
         {
-			var result = new Model
-            {
-				RawXml = element,
-
-				Name = ParseName(element, element.Attribute("name").Value),
-				HasClient = (bool?)element.Attribute("hasClient") ?? false,
-				IsAbstract = (bool?)element.Attribute("abstract") ?? false
-            };
-
-			var genericParameters = element.Elements(ns + "GenericParameter");
-			result.GenericParameters = genericParameters.Select(GenericParameter.Parse).ToArray();
-
-			var inherits = element.Element(ns + "Inherits");
-			if (inherits != null)
-            {
-				result.Inherits = GenericType.Parse(inherits);
-            }
-
-			var members = element.Elements(ns + "Member");
-			result.Members = members.Select(Member.Parse).ToArray();
-
 			var e = element.Parent;
 			while (e != null)
             {
@@ -207,6 +160,24 @@
 
 				e = e.Parent;
             }
+			
+			var result = new Model
+            {
+				RawXml = element,
+
+				Name = ParseName(element, element.Attribute("name").Value),
+				HasClient = (bool?)element.Attribute("hasClient") ?? false,
+				IsAbstract = (bool?)element.Attribute("abstract") ?? false
+            };
+
+			string inherits = (string)element.Attribute("inherits");
+			if (!string.IsNullOrEmpty(inherits))
+            {
+				result.Inherits = ParseName(element, inherits);
+            }
+
+			var members = element.Elements(ns + "Member");
+			result.Members = members.Select(Member.Parse).ToArray();
 
 			return result;
 		}
@@ -219,6 +190,7 @@
 		public IEnumerable<XName> GenericArguments { get; private set; }
 		public string Json { get; private set; }
 		public bool Required { get; private set; }
+		public bool Overridden { get; private set; }
 		public string CamelCasedName { get; private set; }
 		public string ParsedType { get; private set; }
 		
@@ -233,7 +205,9 @@
                 {
                     Name = element.Attribute("name").Value,
                     Type = ParseName(element, element.Attribute("type").Value),
-					Required = (bool?)element.Attribute("required") ?? false
+					GenericArguments = Enumerable.Empty<XName>(),
+					Required = (bool?)element.Attribute("required") ?? false,
+					Overridden = (bool?)element.Attribute("override") ?? false
                 };
 
 			string genericArguments = (string)element.Attribute("genericArguments");
@@ -245,7 +219,7 @@
             result.Json = (string)element.Attribute("json") ?? ToSnakeCase(result.Name);
             result.CamelCasedName = ToCamelCase(result.Name);
 
-			result.ParsedType = ParseType(result.Type, result.GenericArguments);
+			result.ParsedType = ParseType(result.Type, element, result.GenericArguments, "I");
 
             return result;
         }

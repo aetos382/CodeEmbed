@@ -25,6 +25,7 @@
 
     var ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
 	var nsi = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3-instance";
+	var clrns = "http://schemas.aerie.jp/codeembed/clr-namespace/";
 
     var settings = new XmlReaderSettings();
     settings.Schemas.Add(ns.NamespaceName, schemaFile);
@@ -48,19 +49,26 @@
 
         foreach (var model in models.Values)
         {
+			var namespaces = model.Members
+				.Select(x => x.Type.NamespaceName)
+				.Distinct()
+				.Where(x => x.StartsWith(clrns))
+				.Select(x => x.Substring(clrns.Length))
+				.ToArray();
+
 			var parentModels = new List<Model>();
 
 			var parentName = model.Inherits;
 			while (parentName != null)
             {
-				if (parentName.Name.NamespaceName != nsi)
+				if (parentName.NamespaceName != nsi)
 				{
 					this.Error("Invalid namespace.");
 					continue;
 				}
 
 				Model parentModel;
-				if (!models.TryGetValue(parentName.Name, out parentModel))
+				if (!models.TryGetValue(parentName, out parentModel))
 				{
 					this.Error("Invalid name.");
 					continue;
@@ -72,7 +80,7 @@
 
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, model, parentModels);
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, namespaces, model, parentModels);
 			manager.StartNewFile(string.Format("I{0}.Generated.cs", model.Name.LocalName));
 			this.Write(interfaceDef);
 			manager.EndBlock();
@@ -80,18 +88,18 @@
 			/*
             if (hasRequiredMember)
             {
-				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model, parentModels);
+				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, namespaces, model, parentModels);
 				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", model.Name.LocalName));
 				this.Write(contractDef);
 				manager.EndBlock();
             }
 
-            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model, parentModels);
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, namespaces, model, parentModels);
 			manager.StartNewFile(string.Format("{0}.Generated.cs", model.Name.LocalName));
 			this.Write(classDef);
 			manager.EndBlock();
 
-            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, model, parentModels);
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, namespaces, model, parentModels);
 			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", model.Name.LocalName));
 			this.Write(serializableClassDef);
 			manager.EndBlock();
@@ -106,6 +114,7 @@
     private string GenerateModel(
 		string templateFile,
 		string codeNamespace,
+		IEnumerable<string> additionalNamespaces,
 		Model model,
 		IEnumerable<Model> parentModels)
     {
@@ -125,6 +134,7 @@
         var session = sessionHost.CreateSession();
 
         session["CodeNamespace"] = codeNamespace;
+		session["AdditionalNamespaces"] = additionalNamespaces.ToArray();
         session["ModelDefinitionXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
         session["ParentModelDefinitionXmls"] =
             parentModels.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();

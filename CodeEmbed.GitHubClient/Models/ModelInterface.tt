@@ -9,6 +9,7 @@
 <#@ import namespace="System.Xml.Linq" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="AdditionalNamespaces" type="System.String[]" #>
 <#@ parameter name="ModelDefinitionXml" type="System.String" #>
 <#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
 
@@ -19,31 +20,48 @@
 	string modelName = model.Name.LocalName;
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
+	
+	var modelTypes = model.Members.SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments)).Where(x => x.Namespace == nsi).Select(x => x.LocalName).Distinct().ToArray();
 
 	string genericParameters = string.Empty;
-
-	if (model.GenericParameters.Any())
+	if (modelTypes.Any())
     {
-		genericParameters = "<" + string.Join(", ", model.GenericParameters.Select(x => x.Name)) + ">";
+		var ps = modelTypes.Select(x => "out T" + x);
+		genericParameters = "<" + string.Join(", ", ps) + ">";
     }
+
+	var namespaces = new List<string> {
+			"System",
+			"System.CodeDom.Compiler",
+			"System.Diagnostics.Contracts"
+        };
+
+	namespaces.AddRange(AdditionalNamespaces);
+
+	if (hasRequiredMember)
+    {
+		namespaces.Add(string.Format("{0}.Models.Contracts", CodeNamespace));
+    }
+
+	var orderedNamespaces = OrderNamespace(namespaces);
 #>
 
 namespace <#= CodeNamespace #>.Models
 {
-	using System;
-	using System.CodeDom.Compiler;
-	using System.Collections.Generic;
-	using System.Diagnostics.Contracts;
 <#
-    if (hasRequiredMember)
+	foreach (var nss in orderedNamespaces)
     {
+		foreach (var ns in nss)
+        {
 #>
-
-	using <#= CodeNamespace #>.Models.Contracts;
+	using <#= ns #>;
+<#
+		}
+#>
+	
 <#
     }
 #>
-
 	[GeneratedCode("ModelInterface.tt", "1.0")]
 <#
     if (hasRequiredMember)
@@ -55,22 +73,18 @@ namespace <#= CodeNamespace #>.Models
 #>
 	public partial interface I<#= modelName #><#= GeneratedModelPostfix #><#= genericParameters #>
 <#
-	foreach (var p in model.GenericParameters)
+    if (model.Inherits != null)
     {
-		if (!p.Constraints.Any())
-        {
-			continue;
-        }
 #>
-		where <#= p.Name #> : <#= string.Join(", ", p.Constraints.Select(x => x.LocalName)) #>
+		: I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #>
 <#
     }
 #>
 <#
-    if (model.Inherits != null)
+	foreach (var modelType in modelTypes)
     {
 #>
-		: I<#= model.Inherits.ParsedName #><#= GeneratedModelPostfix #>
+		where T<#= modelType #> : I<#= modelType #>
 <#
     }
 #>

@@ -40,7 +40,7 @@
             Contract.Requires<ArgumentNullException>(source != null);
 
             this._innerDictionary = new ReadOnlyDictionary<TKey, TValue>(source);
-            this._keyComparer = source.Comparer ?? _defaultKeyComparer;
+            this._keyComparer = source.Comparer;
         }
 
         public OutputDictionary(IEnumerable<IOutputKeyValuePair<TKey, TValue>> source)
@@ -147,6 +147,8 @@
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(_defaultKeyComparer != null);
+
             Contract.Invariant(this._innerDictionary != null);
             Contract.Invariant(this._keyComparer != null);
         }
