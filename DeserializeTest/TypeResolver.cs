@@ -121,12 +121,6 @@
             }
 
             var contract = this._baseResolver.ResolveContract(type);
-
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IOutputDictionary<,>))
-            {
-                contract.Converter = new OutputDictionaryCoverter<>
-            }
-
             return contract;
         }
 

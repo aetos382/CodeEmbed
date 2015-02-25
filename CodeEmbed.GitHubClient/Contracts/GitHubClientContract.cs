@@ -16,10 +16,9 @@
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [ContractClassFor(typeof(IGitHubClient))]
-    public abstract class GitHubClientContracts :
+    public abstract class GitHubClientContract :
         IGitHubClient
     {
-        [DebuggerHidden]
         public IConnection Connection
         {
             [Pure]
@@ -31,7 +30,6 @@
             }
         }
 
-        [DebuggerHidden]
         public IJsonSerializer Serializer
         {
             [Pure]
@@ -43,7 +41,6 @@
             }
         }
 
-        [DebuggerHidden]
         public Task<T> GetData<T>(
             Uri uri,
             CancellationToken cancellationToken)

@@ -8,7 +8,7 @@
 
     using CodeEmbed.GitHubClient.Network.Contracts;
 
-    [ContractClass(typeof(ConnectionContracts))]
+    [ContractClass(typeof(ConnectionContract))]
     public interface IConnection
     {
         Uri BaseUri { get; }

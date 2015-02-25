@@ -216,7 +216,6 @@
         private void ObjectInvariant()
         {
             Contract.Invariant(this._baseResolver != null);
-
             Contract.Invariant(this._typeMap != null);
         }
     }

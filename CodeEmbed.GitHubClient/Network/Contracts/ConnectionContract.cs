@@ -13,10 +13,9 @@
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
     [ContractClassFor(typeof(IConnection))]
-    public abstract class ConnectionContracts :
+    public abstract class ConnectionContract :
         IConnection
     {
-        [DebuggerHidden]
         public Uri BaseUri
         {
             [Pure]
@@ -28,7 +27,6 @@
             }
         }
 
-        [DebuggerHidden]
         public Task<TextReader> GetData(
             Uri uri,
             CancellationToken cancellationToken)

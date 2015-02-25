@@ -1,4 +1,4 @@
-﻿namespace DeserializeTest
+﻿namespace CodeEmbed.GitHubClient.Collections
 {
     using System;
     using System.Collections;
@@ -8,8 +8,6 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class OutputDictionary<TKey, TValue> :
         IOutputDictionary<TKey, TValue>

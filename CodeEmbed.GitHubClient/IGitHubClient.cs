@@ -12,7 +12,7 @@
     using CodeEmbed.GitHubClient.Network;
     using CodeEmbed.GitHubClient.Serialization;
 
-    [ContractClass(typeof(GitHubClientContracts))]
+    [ContractClass(typeof(GitHubClientContract))]
     public interface IGitHubClient
     {
         IConnection Connection { get; }

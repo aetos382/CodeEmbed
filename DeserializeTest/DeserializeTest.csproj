@@ -134,7 +134,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EnumerableExtension.cs" />
+    <Compile Include="Contracts\OutputDictionaryContract.cs" />
+    <Compile Include="Contracts\OutputKeyValuePairContract.cs" />
+    <Compile Include="OutputDictionaryExtension.cs" />
     <Compile Include="Foo.cs" />
     <Compile Include="GistBase.cs" />
     <Compile Include="IGistBase.cs" />

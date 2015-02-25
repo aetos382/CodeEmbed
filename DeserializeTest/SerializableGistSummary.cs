@@ -23,7 +23,7 @@ namespace DeserializeTest
             this._files = files;
         }
 
-        [JsonProperty("file")]
+        [JsonProperty("files")]
         public IOutputDictionary<string, SerializableGistFile> Files
         {
             get

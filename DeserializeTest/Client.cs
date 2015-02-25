@@ -19,8 +19,13 @@
 @"{
 
     ""id"": ""gist1"",
-    ""file"": {
-        ""file_name"": ""foo.txt""
+    ""files"": {
+        ""foo.txt"": {
+            ""file_name"": ""foo.txt""
+        },
+        ""bar.txt"": {
+            ""file_name"": ""bar.txt""
+        }
     }
 }";
 
@@ -33,6 +38,7 @@
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
+            settings.Converters.Add(new OutputDictionaryCoverter());
 
             var deserialized = JsonConvert.DeserializeObject<IGistSummary>(json, settings);
             var result = new GistSummary(deserialized);
@@ -47,9 +53,15 @@
 
     ""id"": ""gist1"",
     ""created_at"": ""2015-02-24"",
-    ""file"": {
-        ""file_name"": ""foo.txt"",
-        ""content"": ""FOOOOOOOOOOOOOOOO""
+    ""files"": {
+        ""foo.txt"": {
+            ""file_name"": ""foo.txt"",
+            ""content"": ""FOOOOOOOOOOOOOOOOOOO""
+        },
+        ""bar.txt"": {
+            ""file_name"": ""bar.txt"",
+            ""content"": ""BARRRRRRRRRRRRRRRRRR""
+        }
     }
 }";
 
@@ -62,9 +74,12 @@
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
+            settings.Converters.Add(new OutputDictionaryCoverter());
 
             var deserialized = JsonConvert.DeserializeObject<IGist>(json, settings);
             var result = new Gist(deserialized);
+
+            var serialized = JsonConvert.SerializeObject(deserialized, Formatting.Indented, settings);
 
             return result;
         }

@@ -28,7 +28,7 @@ namespace DeserializeTest
             this._createdAt = createdAt;
         }
 
-        [JsonProperty("file")]
+        [JsonProperty("files")]
         public IOutputDictionary<string, SerializableGistFileContent> Files
         {
             get
