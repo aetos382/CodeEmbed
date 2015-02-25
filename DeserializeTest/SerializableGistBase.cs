@@ -9,7 +9,7 @@ namespace DeserializeTest
     using Newtonsoft.Json;
 
     abstract class SerializableGistBase :
-        IGistBase
+        IGistBase<SerializableFoo>
     {
         private readonly string _id;
 
@@ -23,6 +23,14 @@ namespace DeserializeTest
             get
             {
                 return this._id;
+            }
+        }
+
+        public SerializableFoo Foo
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
     }

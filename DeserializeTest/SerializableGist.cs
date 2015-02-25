@@ -11,7 +11,7 @@ namespace DeserializeTest
     [JsonObject]
     class SerializableGist :
         SerializableGistBase,
-        IGist<SerializableGistFileContent>
+        IGist<SerializableGistFileContent, SerializableFoo>
     {
         private readonly IOutputDictionary<string, SerializableGistFileContent> _files;
         

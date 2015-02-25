@@ -10,7 +10,7 @@ namespace DeserializeTest
 
     class SerializableGistSummary :
         SerializableGistBase,
-        IGistSummary<SerializableGistFile>
+        IGistSummary<SerializableGistFile, SerializableFoo>
     {
         private readonly IOutputDictionary<string, SerializableGistFile> _files;
 

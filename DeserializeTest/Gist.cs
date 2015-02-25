@@ -8,13 +8,13 @@ namespace DeserializeTest
 {
     class Gist :
         GistBase,
-        IGist<GistFileContent>
+        IGist<GistFileContent, Foo>
     {
-        private readonly IGist<IGistFileContent> _gist;
+        private readonly IGist<IGistFileContent, IFoo> _gist;
 
         private readonly IOutputDictionary<string, GistFileContent> _files;
 
-        public Gist(IGist<IGistFileContent> gist)
+        public Gist(IGist<IGistFileContent, IFoo> gist)
             : base(gist)
         {
             this._gist = gist;

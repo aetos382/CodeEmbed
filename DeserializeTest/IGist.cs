@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IGist<out TGistFile> :
-        IGistSummary<TGistFile>
+    interface IGist<out TGistFile, out TFoo> :
+        IGistSummary<TGistFile, TFoo>
         where TGistFile : IGistFileContent
+        where TFoo : IFoo
     {
         DateTime CreatedAt { get; }
     }

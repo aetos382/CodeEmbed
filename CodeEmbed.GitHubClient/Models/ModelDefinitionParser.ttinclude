@@ -65,22 +65,14 @@
     }
 
 
-	private static string ParseType(XName type, XElement context, IEnumerable<XName> genericArguments, string prefix)
+	private static string ParseType(XName type, IEnumerable<XName> genericArguments, string prefix)
     {
-		const string clrNamespace = "http://schemas.aerie.jp/codeembed/clr-namespace/";
-
 		var builder = new StringBuilder();
 
 		if (type.NamespaceName == nsi)
         {
 			builder.AppendFormat("{0}{1}{2}", prefix, type.LocalName, GeneratedModelPostfix);
         }
-/*
-		else if (type.NamespaceName.StartsWith(clrNamespace))
-        {
-			builder.AppendFormat("{0}.{1}", type.NamespaceName.Substring(clrNamespace.Length), type.LocalName);
-        }
-*/
 		else
         {
 			builder.Append(type.LocalName);
@@ -88,7 +80,7 @@
 
 		if (genericArguments != null && genericArguments.Any())
         {
-			builder.AppendFormat("<{0}>", string.Join(", ", genericArguments.Select(x => ParseType(x, context, null, prefix))));
+			builder.AppendFormat("<{0}>", string.Join(", ", genericArguments.Select(x => ParseType(x, null, prefix))));
         }
 
 		return builder.ToString();
@@ -192,7 +184,6 @@
 		public bool Required { get; private set; }
 		public bool Overridden { get; private set; }
 		public string CamelCasedName { get; private set; }
-		public string ParsedType { get; private set; }
 		
 		public static Member Parse(string element)
         {
@@ -219,9 +210,12 @@
             result.Json = (string)element.Attribute("json") ?? ToSnakeCase(result.Name);
             result.CamelCasedName = ToCamelCase(result.Name);
 
-			result.ParsedType = ParseType(result.Type, element, result.GenericArguments, "I");
-
             return result;
+        }
+
+		public string GetTypeName(string prefix)
+        {
+			return ParseType(this.Type, this.GenericArguments, prefix);
         }
     }
 #>

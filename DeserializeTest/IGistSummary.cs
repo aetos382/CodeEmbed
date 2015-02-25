@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IGistSummary<out TGistFile> : IGistBase
+    interface IGistSummary<out TGistFile, out TFoo> : IGistBase<TFoo>
         where TGistFile : IGistFile
+        where TFoo : IFoo
     {
         IOutputDictionary<string, TGistFile> Files { get; }
     }

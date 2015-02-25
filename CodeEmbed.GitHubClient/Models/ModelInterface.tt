@@ -17,87 +17,87 @@
 
 <#
     var model = Model.Parse(ModelDefinitionXml);
-	string modelName = model.Name.LocalName;
+    string modelName = model.Name.LocalName;
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
-	
-	var modelTypes = model.Members.SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments)).Where(x => x.Namespace == nsi).Select(x => x.LocalName).Distinct().ToArray();
+    
+    var modelTypes = model.Members.SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments)).Where(x => x.Namespace == nsi).Select(x => x.LocalName).Distinct().ToArray();
 
-	string genericParameters = string.Empty;
-	if (modelTypes.Any())
+    string genericParameters = string.Empty;
+    if (modelTypes.Any())
     {
-		var ps = modelTypes.Select(x => "out T" + x);
-		genericParameters = "<" + string.Join(", ", ps) + ">";
+        var ps = modelTypes.Select(x => "out T" + x);
+        genericParameters = "<" + string.Join(", ", ps) + ">";
     }
 
-	var namespaces = new List<string> {
-			"System",
-			"System.CodeDom.Compiler",
-			"System.Diagnostics.Contracts"
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.Diagnostics.Contracts"
         };
 
-	namespaces.AddRange(AdditionalNamespaces);
+    namespaces.AddRange(AdditionalNamespaces);
 
-	if (hasRequiredMember)
+    if (hasRequiredMember)
     {
-		namespaces.Add(string.Format("{0}.Models.Contracts", CodeNamespace));
+        namespaces.Add(string.Format("{0}.Models.Contracts", CodeNamespace));
     }
 
-	var orderedNamespaces = OrderNamespace(namespaces);
+    var orderedNamespaces = OrderNamespace(namespaces);
 #>
 
 namespace <#= CodeNamespace #>.Models
 {
 <#
-	foreach (var nss in orderedNamespaces)
+    foreach (var nss in orderedNamespaces)
     {
-		foreach (var ns in nss)
+        foreach (var ns in nss)
         {
 #>
-	using <#= ns #>;
+    using <#= ns #>;
 <#
-		}
+        }
 #>
-	
+    
 <#
     }
 #>
-	[GeneratedCode("ModelInterface.tt", "1.0")]
+    [GeneratedCode("ModelInterface.tt", "1.0")]
 <#
     if (hasRequiredMember)
     {
 #>
-	[ContractClass(typeof(<#= modelName #>Contract<#= GeneratedModelPostfix #>))]
+    [ContractClass(typeof(<#= modelName #>Contract<#= GeneratedModelPostfix #>))]
 <#        
     }
 #>
-	public partial interface I<#= modelName #><#= GeneratedModelPostfix #><#= genericParameters #>
+    public partial interface I<#= modelName #><#= GeneratedModelPostfix #><#= genericParameters #>
 <#
     if (model.Inherits != null)
     {
 #>
-		: I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #>
+        : I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #>
 <#
     }
 #>
 <#
-	foreach (var modelType in modelTypes)
+    foreach (var modelType in modelTypes)
     {
 #>
-		where T<#= modelType #> : I<#= modelType #>
+        where T<#= modelType #> : I<#= modelType #>
 <#
     }
 #>
-	{
+    {
 <#
-	foreach (var member in model.Members)
-	{
+    foreach (var member in model.Members)
+    {
 #>
-		/// <summary>Map to "<#= member.Json #>"</summary>
-		<#= member.ParsedType #> <#= member.Name #> { [Pure] get; }
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        <#= member.GetTypeName("T") #> <#= member.Name #> { [Pure] get; }
 
 <#
-	}
+    }
 #>
-	}
+    }
 }

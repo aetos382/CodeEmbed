@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 namespace DeserializeTest
 {
     abstract class GistBase
+        : IGistBase<Foo>
     {
-        private readonly IGistBase _gistBase;
+        private readonly IGistBase<IFoo> _gistBase;
 
-        protected GistBase(IGistBase gistBase)
+        protected GistBase(IGistBase<IFoo> gistBase)
         {
             this._gistBase = gistBase;
         }
@@ -20,6 +21,14 @@ namespace DeserializeTest
             get
             {
                 return this._gistBase.Id;
+            }
+        }
+
+        public Foo Foo
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
     }
