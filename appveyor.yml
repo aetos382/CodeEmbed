@@ -8,6 +8,9 @@ version: 0.2.{build}                 # You can use {branch} to, for example
 # Do not build on tags (GitHub only)
 skip_tags: true
 
+skip_commits:
+  message: /nobuild/
+
 # fetch repository as zip archive
 shallow_clone: true
 

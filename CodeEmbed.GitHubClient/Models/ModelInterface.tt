@@ -17,17 +17,48 @@
 
 <#
     var model = Model.Parse(ModelDefinitionXml);
+	var parentModels = ParentModelDefinitionXmls.Select(Model.Parse).ToArray();
+
     string modelName = model.Name.LocalName;
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
     
-    var modelTypes = model.Members.SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments)).Where(x => x.Namespace == nsi).Select(x => x.LocalName).Distinct().ToArray();
+    var modelTypes = parentModels
+		.SelectMany(m => m.Members
+			.Select(n => new {
+				Member = n,
+				Inherited = true
+            }))
+		.Concat(model.Members
+			.Select(n => new {
+				Member = n,
+				Inherited = false
+            }))
+		.Select(m => new {
+			m.Member.Name,
+			Type = new[] { m.Member.Type }.Concat(m.Member.GenericArguments).SingleOrDefault(t => t.Namespace == nsi),
+			m.Inherited
+        })
+		.Where(m => m.Type != null)
+		.GroupBy(m => m.Name)
+		.Select(g => new {
+			Name = g.Key,
+			TypeParameter = g.First().Type.LocalName,
+			Constraint = g.Last().Type.LocalName,
+			Inherited = g.Any(n => n.Inherited)
+        });
 
     string genericParameters = string.Empty;
     if (modelTypes.Any())
     {
-        var ps = modelTypes.Select(x => "out T" + x);
+        var ps = modelTypes.Select(x => "out T" + x.TypeParameter);
         genericParameters = "<" + string.Join(", ", ps) + ">";
+    }
+
+	string parentParameters = string.Empty;
+	if (modelTypes.Any(t => t.Inherited))
+    {
+		parentParameters = "<" + string.Join(", ", modelTypes.Where(t => t.Inherited).Select(t => "T" + t.TypeParameter)) + ">";
     }
 
     var namespaces = new List<string> {
@@ -76,7 +107,7 @@ namespace <#= CodeNamespace #>.Models
     if (model.Inherits != null)
     {
 #>
-        : I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #>
+        : I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #><#= parentParameters #>
 <#
     }
 #>
@@ -84,7 +115,7 @@ namespace <#= CodeNamespace #>.Models
     foreach (var modelType in modelTypes)
     {
 #>
-        where T<#= modelType #> : I<#= modelType #>
+        where T<#= modelType.TypeParameter #> : I<#= modelType.Constraint #>
 <#
     }
 #>

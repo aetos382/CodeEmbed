@@ -78,6 +78,8 @@
 				parentName = parentModel.Inherits;
             }
 
+			parentModels.Reverse();
+
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
             string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, namespaces, model, parentModels);
