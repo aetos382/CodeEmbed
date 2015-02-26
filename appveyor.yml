@@ -9,7 +9,7 @@ version: 0.2.{build}                 # You can use {branch} to, for example
 skip_tags: true
 
 skip_commits:
-  message: /nobuild/
+  message: /#nobuild/
 
 # fetch repository as zip archive
 shallow_clone: true
