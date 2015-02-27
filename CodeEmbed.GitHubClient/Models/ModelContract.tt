@@ -8,13 +8,14 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml.Linq" #>
 
-<#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelDefinitionXml" type="System.String" #>
-<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
+<#@ parameter name="Models" type="System.String" #>
+<#@ parameter name="ModelName" type="System.String" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
+	var models = XDocument.Parse(Models);
+
     var modelDefinition = XElement.Parse(ModelDefinitionXml);
 
     string modelName = (string)modelDefinition.Attribute("name");

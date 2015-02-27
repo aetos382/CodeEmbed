@@ -23,12 +23,8 @@
     string sourceFile = this.Host.ResolvePath("GitHubModels.xml");
     string schemaFile = this.Host.ResolvePath("GitHubModels.xsd");
 
-    var ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
-	var nsi = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3-instance";
-	var clrns = "http://schemas.aerie.jp/codeembed/clr-namespace/";
-
     var settings = new XmlReaderSettings();
-    settings.Schemas.Add(ns.NamespaceName, schemaFile);
+    settings.Schemas.Add(SchemaNamespace.NamespaceName, schemaFile);
 
 	settings.ValidationType = ValidationType.Schema;
     settings.ValidationFlags =
@@ -42,47 +38,18 @@
     {
         var document = XDocument.Load(xmlReader);
 
-        string codeNamespace = (string)document.Element(ns + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
+        string codeNamespace = (string)document.Element(SchemaNamespace + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
 
         var models =
-			document.Descendants(ns + "Model").ToDictionary(x => ParseName(x, x.Attribute("name").Value), x => Model.Parse(x));
+			document.Descendants(SchemaNamespace + "Model").ToDictionary(x => ParseName(x, x.Attribute("name").Value), x => Model.Parse(x));
 
         foreach (var model in models.Values)
         {
-			var namespaces = model.Members
-				.Select(x => x.Type.NamespaceName)
-				.Distinct()
-				.Where(x => x.StartsWith(clrns))
-				.Select(x => x.Substring(clrns.Length))
-				.ToArray();
-
-			var parentModels = new List<Model>();
-
-			var parentName = model.Inherits;
-			while (parentName != null)
-            {
-				if (parentName.NamespaceName != nsi)
-				{
-					this.Error("Invalid namespace.");
-					continue;
-				}
-
-				Model parentModel;
-				if (!models.TryGetValue(parentName, out parentModel))
-				{
-					this.Error("Invalid name.");
-					continue;
-				}
-
-				parentModels.Add(parentModel);
-				parentName = parentModel.Inherits;
-            }
-
-			parentModels.Reverse();
+			string modelName = model.Name.LocalName;
 
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, namespaces, model, parentModels);
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", document, modelName);
 			manager.StartNewFile(string.Format("I{0}.Generated.cs", model.Name.LocalName));
 			this.Write(interfaceDef);
 			manager.EndBlock();
@@ -115,10 +82,8 @@
 <#+
     private string GenerateModel(
 		string templateFile,
-		string codeNamespace,
-		IEnumerable<string> additionalNamespaces,
-		Model model,
-		IEnumerable<Model> parentModels)
+		XDocument document,
+		string modelName)
     {
         string includeContent, location;
 
@@ -135,11 +100,8 @@
 
         var session = sessionHost.CreateSession();
 
-        session["CodeNamespace"] = codeNamespace;
-		session["AdditionalNamespaces"] = additionalNamespaces.ToArray();
-        session["ModelDefinitionXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
-        session["ParentModelDefinitionXmls"] =
-            parentModels.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();
+        session["Models"] = document.ToString(SaveOptions.DisableFormatting);
+		session["ModelName"] = modelName;
 
         sessionHost.Session = session;
 

@@ -69,7 +69,7 @@
     {
 		var builder = new StringBuilder();
 
-		if (type.NamespaceName == nsi)
+		if (type.NamespaceName == ModelNamespace)
         {
 			builder.AppendFormat("{0}{1}{2}", prefix, type.LocalName, GeneratedModelPostfix);
         }
@@ -112,8 +112,9 @@
 
 	private const string GeneratedModelPostfix = "";
 
-	private readonly static XNamespace ns = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
-	private readonly static XNamespace nsi = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3-instance";
+	private readonly static XNamespace SchemaNamespace = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
+	private readonly static XNamespace ModelNamespace = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3-instance";
+	private readonly static XNamespace ClrNamespace = (XNamespace)"http://schemas.aerie.jp/codeembed/clr-namespace/";
 
 	private class Model
     {
@@ -124,6 +125,7 @@
 		public bool HasClient { get; private set; }
 		public bool IsAbstract { get; private set; }
 
+		public IEnumerable<Model> Ancestors { get; private set; }
 		public IEnumerable<Member> Members { get; private set; }
 		
 		public static Model Parse(string element)
@@ -168,11 +170,47 @@
 				result.Inherits = ParseName(element, inherits);
             }
 
-			var members = element.Elements(ns + "Member");
+			var members = element.Elements(SchemaNamespace + "Member");
 			result.Members = members.Select(Member.Parse).ToArray();
 
 			return result;
 		}
+
+		public static IEnumerable<Model> ParseModels(string document)
+        {
+			return ParseModels(XDocument.Parse(document));
+        }
+
+		public static IEnumerable<Model> ParseModels(XDocument document)
+        {
+			var models =
+				document.Descendants(SchemaNamespace + "Model").ToDictionary(m => ParseName(m, m.Attribute("name").Value), m => Model.Parse(m));
+
+			foreach (var model in models.Values)
+            {
+				var ancestors = new List<Model>();
+
+				var parent = model.Inherits;
+				while (parent != null)
+                {
+					if (parent.Namespace != ModelNamespace)
+                    {
+						continue;
+                    }
+
+					var parentModel = models[parent];
+					ancestors.Add(parentModel);
+
+					parent = parentModel.Inherits;
+                }
+
+				ancestors.Reverse();
+
+				model.Ancestors = ancestors.ToArray();
+
+				yield return model;
+            }
+        }
     }
 
     private class Member
