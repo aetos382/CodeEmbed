@@ -1,13 +1,15 @@
-﻿namespace DeserializeTest.Contracts
+﻿namespace CodeEmbed.GitHubClient.Collections.Contracts
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
+    [DebuggerStepThrough]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [ContractClassFor(typeof(IOutputDictionary<,>))]
     public abstract class OutputDictionaryContract<TKey, TValue> :
         IOutputDictionary<TKey, TValue>

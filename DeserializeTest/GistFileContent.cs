@@ -10,19 +10,19 @@ namespace DeserializeTest
         GistFile,
         IGistFileContent
     {
-        private readonly IGistFileContent _gistFileContent;
+        private readonly IGistFileContent _content;
 
-        public GistFileContent(IGistFileContent gistFileContent)
-            : base(gistFileContent)
+        public GistFileContent(IGistFileContent content)
+            : base(content)
         {
-            this._gistFileContent = gistFileContent;
+            this._content = content;
         }
-        
+
         public string Content
         {
             get
             {
-                return this._gistFileContent.Content;
+                return _content.Content;
             }
         }
     }

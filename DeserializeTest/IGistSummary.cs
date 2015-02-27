@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IGistSummary<out TGistFile, out TFoo> : IGistBase<TFoo>
+    using CodeEmbed.GitHubClient.Collections;
+
+    interface IGistSummary<out TGistFile>
         where TGistFile : IGistFile
-        where TFoo : IFoo
     {
+        string Id { get; }
+
         IOutputDictionary<string, TGistFile> Files { get; }
     }
 }

@@ -6,20 +6,28 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
+    using CodeEmbed.GitHubClient.Collections;
+
     class GistSummary :
-        GistBase,
-        IGistSummary<GistFile, Foo>
+        IGistSummary<GistFile>
     {
-        private readonly IGistSummary<IGistFile, IFoo> _gistSummary;
+        private readonly IGistSummary<IGistFile> _gistSummary;
 
-        private readonly IOutputDictionary<string, GistFile> _files;
+        private readonly IOutputDictionary<string, GistFile> _files; 
 
-        public GistSummary(
-            IGistSummary<IGistFile, IFoo> gistSummary)
-            : base(gistSummary)
+        public GistSummary(IGistSummary<IGistFile> gistSummary)
         {
             this._gistSummary = gistSummary;
+
             this._files = gistSummary.Files.ToOutputDictionary(x => x.Key, x => new GistFile(x.Value));
+        }
+
+        public string Id
+        {
+            get
+            {
+                return this._gistSummary.Id;
+            }
         }
 
         public IOutputDictionary<string, GistFile> Files

@@ -6,19 +6,30 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
+    using CodeEmbed.GitHubClient.Collections;
+
     class Gist :
-        GistBase,
-        IGist<GistFileContent, Foo>
+        IGist<GistFileContent, GistFork, RepositoryUser>
     {
-        private readonly IGist<IGistFileContent, IFoo> _gist;
+        private readonly IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser> _gist;
 
         private readonly IOutputDictionary<string, GistFileContent> _files;
 
-        public Gist(IGist<IGistFileContent, IFoo> gist)
-            : base(gist)
+        private readonly IEnumerable<GistFork> _forks; 
+
+        public Gist(IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser> gist)
         {
             this._gist = gist;
             this._files = gist.Files.ToOutputDictionary(x => x.Key, x => new GistFileContent(x.Value));
+            this._forks = gist.Forks.Select(x => new GistFork(x));
+        }
+
+        public string Id
+        {
+            get
+            {
+                return this._gist.Id;
+            }
         }
 
         public IOutputDictionary<string, GistFileContent> Files
@@ -29,11 +40,11 @@ namespace DeserializeTest
             }
         }
 
-        public DateTime CreatedAt
+        public IEnumerable<GistFork> Forks
         {
             get
             {
-                return this._gist.CreatedAt;
+                return this._forks;
             }
         }
     }

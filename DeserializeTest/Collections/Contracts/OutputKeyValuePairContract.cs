@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest.Contracts
+﻿namespace CodeEmbed.GitHubClient.Collections.Contracts
 {
+    using System;
+    using System.ComponentModel;
+    using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
+    [DebuggerStepThrough]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     [ContractClassFor(typeof(IOutputKeyValuePair<,>))]
     public abstract class OutputKeyValuePairContract<TKey, TValue> :
         IOutputKeyValuePair<TKey, TValue>

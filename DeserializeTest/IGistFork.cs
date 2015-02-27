@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    public interface IFoo
+    interface IGistFork<out TRepositoryUser>
+        where TRepositoryUser : IRepositoryUser
     {
+        TRepositoryUser User { get; }
     }
 }

@@ -6,21 +6,35 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
+    using CodeEmbed.GitHubClient.Collections;
+
     using Newtonsoft.Json;
 
+    [JsonObject]
     class SerializableGistSummary :
-        SerializableGistBase,
-        IGistSummary<SerializableGistFile, SerializableFoo>
+        IGistSummary<SerializableGistFile>
     {
+        private string _id;
+
         private readonly IOutputDictionary<string, SerializableGistFile> _files;
 
         [JsonConstructor]
         public SerializableGistSummary(
             string id,
             IOutputDictionary<string, SerializableGistFile> files)
-            : base(id)
         {
+            this._id = id;
+
             this._files = files;
+        }
+
+        [JsonProperty("id")]
+        public string Id
+        {
+            get
+            {
+                return this._id;
+            }
         }
 
         [JsonProperty("files")]

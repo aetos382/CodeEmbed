@@ -8,6 +8,7 @@ namespace DeserializeTest
 {
     using Newtonsoft.Json;
 
+    [JsonObject]
     class SerializableGistFileContent :
         SerializableGistFile,
         IGistFileContent
@@ -22,7 +23,7 @@ namespace DeserializeTest
         {
             this._content = content;
         }
-        
+
         [JsonProperty("content")]
         public string Content
         {

@@ -1,4 +1,4 @@
-﻿namespace DeserializeTest
+﻿namespace CodeEmbed.GitHubClient.Collections
 {
     using System;
     using System.Collections;
@@ -8,8 +8,6 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class OutputDictionary<TKey, TValue> :
         IOutputDictionary<TKey, TValue>
@@ -42,7 +40,7 @@
             Contract.Requires<ArgumentNullException>(source != null);
 
             this._innerDictionary = new ReadOnlyDictionary<TKey, TValue>(source);
-            this._keyComparer = source.Comparer ?? _defaultKeyComparer;
+            this._keyComparer = source.Comparer;
         }
 
         public OutputDictionary(IEnumerable<IOutputKeyValuePair<TKey, TValue>> source)
@@ -149,6 +147,8 @@
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(_defaultKeyComparer != null);
+
             Contract.Invariant(this._innerDictionary != null);
             Contract.Invariant(this._keyComparer != null);
         }

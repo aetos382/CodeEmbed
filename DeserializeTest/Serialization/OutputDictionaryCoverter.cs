@@ -1,11 +1,11 @@
-﻿namespace DeserializeTest
+﻿namespace CodeEmbed.GitHubClient.Serialization
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+
+    using CodeEmbed.GitHubClient.Collections;
 
     using Newtonsoft.Json;
 
@@ -27,7 +27,7 @@
             var arguments = objectType.GetGenericArguments();
 
             var method = typeof(OutputDictionaryExtension).GetMethod("ToDictionary").MakeGenericMethod(arguments);
-            var result = method.Invoke(null, new [] { value });
+            var result = method.Invoke(null, new[] { value });
 
             serializer.Serialize(writer, result);
         }
@@ -50,7 +50,7 @@
 
             var concreteType = typeof(OutputDictionary<,>).MakeGenericType(arguments);
             var constructor = concreteType.GetConstructor(new[] { dictionaryType });
-            
+
             var result = constructor.Invoke(new[] { deserialized });
 
             return result;

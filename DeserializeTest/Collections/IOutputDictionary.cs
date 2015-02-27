@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest
+﻿namespace CodeEmbed.GitHubClient.Collections
 {
+    using System;
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
-    using DeserializeTest.Contracts;
+    using CodeEmbed.GitHubClient.Collections.Contracts;
 
     [ContractClass(typeof(OutputDictionaryContract<,>))]
     public interface IOutputDictionary<TKey, out TValue> :

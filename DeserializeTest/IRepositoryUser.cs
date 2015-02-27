@@ -1,13 +1,13 @@
-﻿namespace DeserializeTest
-{
-    using System;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-    public interface IRepositoryUser<out TFoo>
-        where TFoo : IFoo
+namespace DeserializeTest
+{
+    interface IRepositoryUser
     {
         string Name { get; }
-
-        TFoo Foo { get; }
     }
 }

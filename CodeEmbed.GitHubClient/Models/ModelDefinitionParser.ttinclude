@@ -127,7 +127,8 @@
 
 		public IEnumerable<Model> Ancestors { get; private set; }
 		public IEnumerable<Member> Members { get; private set; }
-		
+		public IEnumerable<XName> MemberTypes { get; private set; }
+
 		public static Model Parse(string element)
         {
 			return Parse(XElement.Parse(element));
@@ -170,8 +171,9 @@
 				result.Inherits = ParseName(element, inherits);
             }
 
-			var members = element.Elements(SchemaNamespace + "Member");
-			result.Members = members.Select(Member.Parse).ToArray();
+			var members = element.Elements(SchemaNamespace + "Member").Select(Member.Parse).ToArray();
+			result.Members = members;
+			result.MemberTypes = members.SelectMany(m => new[] { m.Type }.Concat(m.GenericArguments)).Where(t => t.Namespace == ModelNamespace).Distinct().ToArray();
 
 			return result;
 		}

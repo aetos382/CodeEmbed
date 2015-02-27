@@ -1,4 +1,4 @@
-﻿namespace DeserializeTest
+﻿namespace CodeEmbed.GitHubClient.Serialization
 {
     using System;
     using System.Collections;
@@ -91,10 +91,10 @@
                 {
                     throw new ArgumentNullException("key");
                 }
-
+                
                 if (value == null)
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException("value");    
                 }
 
                 if (!key.IsAssignableFrom(value))
@@ -120,8 +120,7 @@
                 type = concreteType;
             }
 
-            var contract = this._baseResolver.ResolveContract(type);
-            return contract;
+            return this._baseResolver.ResolveContract(type);
         }
 
         public IEnumerator<KeyValuePair<Type, Type>> GetEnumerator()
@@ -138,7 +137,7 @@
         {
             if (item.Key == null || item.Value == null)
             {
-                throw new ArgumentNullException("item");
+                throw new ArgumentNullException("item");    
             }
 
             if (!item.Key.IsAssignableFrom(item.Value))
@@ -182,7 +181,7 @@
         {
             if (key == null)
             {
-                throw new ArgumentNullException("key");
+                throw new ArgumentNullException("key");    
             }
 
             if (value == null)
@@ -217,7 +216,6 @@
         private void ObjectInvariant()
         {
             Contract.Invariant(this._baseResolver != null);
-
             Contract.Invariant(this._typeMap != null);
         }
     }

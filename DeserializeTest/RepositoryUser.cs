@@ -1,34 +1,26 @@
-﻿namespace DeserializeTest
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DeserializeTest
 {
-    using System;
-    using System.Linq;
-
-    public class RepositoryUser :
-        IRepositoryUser<Foo>
+    class RepositoryUser :
+        IRepositoryUser
     {
-        private readonly IRepositoryUser<IFoo> _user;
+        private readonly IRepositoryUser _user;
 
-        private readonly Foo _foo;
-
-        public RepositoryUser(IRepositoryUser<IFoo> user)
+        public RepositoryUser(IRepositoryUser user)
         {
             this._user = user;
-            this._foo = new Foo(user.Foo);
         }
 
         public string Name
         {
             get
             {
-                return this._user.Name;
-            }
-        }
-
-        public Foo Foo
-        {
-            get
-            {
-                return this._foo;
+                return _user.Name;
             }
         }
     }

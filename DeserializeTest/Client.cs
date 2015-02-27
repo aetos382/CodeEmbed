@@ -3,13 +3,13 @@
     using System;
     using System.Linq;
 
+    using CodeEmbed.GitHubClient.Serialization;
+
     using Newtonsoft.Json;
     
-    using IRepository = IRepository<IRepositoryUser<IFoo>>;
-    using IRepositoryUser = IRepositoryUser<IFoo>;
-
-    using IGist = IGist<IGistFileContent>;
+    using IGist = IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser>;
     using IGistSummary = IGistSummary<IGistFile>;
+    using IGistFork = IGistFork<IRepositoryUser>;
 
     class Client
     {
@@ -35,6 +35,8 @@
             resolver.Map<IGistFileContent, SerializableGistFileContent>();
             resolver.Map<IGistSummary, SerializableGistSummary>();
             resolver.Map<IGist, SerializableGist>();
+            resolver.Map<IGistFork, SerializableGistFork>();
+            resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
@@ -52,7 +54,6 @@
 @"{
 
     ""id"": ""gist1"",
-    ""created_at"": ""2015-02-24"",
     ""files"": {
         ""foo.txt"": {
             ""file_name"": ""foo.txt"",
@@ -62,7 +63,19 @@
             ""file_name"": ""bar.txt"",
             ""content"": ""BARRRRRRRRRRRRRRRRRR""
         }
-    }
+    },
+    ""forks"": [
+        {
+            ""user"": {
+                ""name"": ""Alice""
+            }
+        },
+        {
+            ""user"": {
+                ""name"": ""Bob""
+            }
+        }
+    ]
 }";
 
             var resolver = new TypeResolver();
@@ -71,6 +84,8 @@
             resolver.Map<IGistFileContent, SerializableGistFileContent>();
             resolver.Map<IGistSummary, SerializableGistSummary>();
             resolver.Map<IGist, SerializableGist>();
+            resolver.Map<IGistFork, SerializableGistFork>();
+            resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
@@ -80,34 +95,6 @@
             var result = new Gist(deserialized);
 
             var serialized = JsonConvert.SerializeObject(deserialized, Formatting.Indented, settings);
-
-            return result;
-        }
-
-        public static Repository GetRepository()
-        {
-            string json =
-@"{
-
-    ""id"": ""2769"",
-    ""name"": ""FooBar"",
-    ""user"": {
-        ""name"": ""Alice"",
-        ""foo"": {}
-    }
-}";
-
-            var resolver = new TypeResolver();
-
-            resolver.Map<IRepository, SerializableRepository>();
-            resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
-            resolver.Map<IFoo, SerializableFoo>();
-
-            var settings = new JsonSerializerSettings();
-            settings.ContractResolver = resolver;
-
-            var deserialized = JsonConvert.DeserializeObject<IRepository>(json, settings);
-            var result = new Repository(deserialized);
 
             return result;
         }

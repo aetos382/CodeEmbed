@@ -1,25 +1,24 @@
-﻿namespace DeserializeTest
-{
-    using System;
-    using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
+namespace DeserializeTest
+{
     using Newtonsoft.Json;
 
     [JsonObject]
-    public class SerializableRepositoryUser :
-        IRepositoryUser<SerializableFoo>
+    class SerializableRepositoryUser :
+        IRepositoryUser
     {
         private readonly string _name;
 
-        private readonly SerializableFoo _foo;
-
         [JsonConstructor]
         public SerializableRepositoryUser(
-            string name,
-            SerializableFoo foo)
+            string name)
         {
             this._name = name;
-            this._foo = foo;
         }
 
         [JsonProperty("name")]
@@ -28,14 +27,6 @@
             get
             {
                 return this._name;
-            }
-        }
-
-        public SerializableFoo Foo
-        {
-            get
-            {
-                return this._foo;
             }
         }
     }

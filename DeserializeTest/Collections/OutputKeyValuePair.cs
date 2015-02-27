@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest
+﻿namespace CodeEmbed.GitHubClient.Collections
 {
+    using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     public class OutputKeyValuePair<TKey, TValue> :
         IOutputKeyValuePair<TKey, TValue>

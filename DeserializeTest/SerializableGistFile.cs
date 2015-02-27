@@ -15,7 +15,8 @@ namespace DeserializeTest
         private readonly string _fileName;
 
         [JsonConstructor]
-        public SerializableGistFile(string fileName)
+        public SerializableGistFile(
+            string fileName)
         {
             this._fileName = fileName;
         }

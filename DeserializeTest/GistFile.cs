@@ -9,18 +9,18 @@ namespace DeserializeTest
     class GistFile :
         IGistFile
     {
-        private readonly IGistFile _gistFile;
+        private readonly IGistFile _file;
 
-        public GistFile(IGistFile gistFile)
+        public GistFile(IGistFile file)
         {
-            this._gistFile = gistFile;
+            this._file = file;
         }
 
         public string FileName
         {
             get
             {
-                return this._gistFile.FileName;
+                return _file.FileName;
             }
         }
     }
