@@ -9,15 +9,15 @@ namespace DeserializeTest
     using CodeEmbed.GitHubClient.Collections;
 
     class Gist :
-        IGist<GistFileContent, GistFork, RepositoryUser>
+        IGist<GistFileContent, GistFork>
     {
-        private readonly IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser> _gist;
+        private readonly IGist<IGistFileContent, IGistFork<IRepositoryUser>> _gist;
 
         private readonly IOutputDictionary<string, GistFileContent> _files;
 
         private readonly IEnumerable<GistFork> _forks; 
 
-        public Gist(IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser> gist)
+        public Gist(IGist<IGistFileContent, IGistFork<IRepositoryUser>> gist)
         {
             this._gist = gist;
             this._files = gist.Files.ToOutputDictionary(x => x.Key, x => new GistFileContent(x.Value));

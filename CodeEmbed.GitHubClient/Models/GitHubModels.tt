@@ -45,11 +45,9 @@
 
         foreach (var model in models.Values)
         {
-			string modelName = model.Name.LocalName;
-
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", document, modelName);
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", document, model.Name);
 			manager.StartNewFile(string.Format("I{0}.Generated.cs", model.Name.LocalName));
 			this.Write(interfaceDef);
 			manager.EndBlock();
@@ -83,7 +81,7 @@
     private string GenerateModel(
 		string templateFile,
 		XDocument document,
-		string modelName)
+		XName modelName)
     {
         string includeContent, location;
 
@@ -101,7 +99,7 @@
         var session = sessionHost.CreateSession();
 
         session["Models"] = document.ToString(SaveOptions.DisableFormatting);
-		session["ModelName"] = modelName;
+		session["ModelName"] = modelName.ToString();
 
         sessionHost.Session = session;
 

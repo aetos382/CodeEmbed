@@ -118,12 +118,6 @@
 
   </g:Model>
 
-  <g:Model name="gi:GistDetail" inherits="gi:Gist">
-
-    <g:Member name="Hoge" type="sys:String"/>
-    
-  </g:Model>
-
   <g:Model name="gi:GistFile">
 
     <g:Member name="Size" type="sys:Int64"/>

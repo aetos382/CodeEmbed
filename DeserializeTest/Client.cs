@@ -7,7 +7,7 @@
 
     using Newtonsoft.Json;
     
-    using IGist = IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser>;
+    using IGist = IGist<IGistFileContent, IGistFork<IRepositoryUser>>;
     using IGistSummary = IGistSummary<IGistFile>;
     using IGistFork = IGistFork<IRepositoryUser>;
 

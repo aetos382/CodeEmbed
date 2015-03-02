@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IGist<out TGistFile, out TGistFork, out TRepositoryUser> :
+    interface IGist<out TGistFile, out TGistFork> :
         IGistSummary<TGistFile>
         where TGistFile : IGistFileContent
-        where TGistFork : IGistFork<TRepositoryUser>
-        where TRepositoryUser : IRepositoryUser
+        where TGistFork : IGistFork<IRepositoryUser>
     {
         IEnumerable<TGistFork> Forks { get; }
     }

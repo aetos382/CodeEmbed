@@ -16,8 +16,8 @@
 <#
 	string codeNamespace = (string)XDocument.Parse(Models).Element(SchemaNamespace + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
 
-    var models = Model.ParseModels(Models).ToArray();
-	var model = models.SingleOrDefault(m => m.Name.LocalName == ModelName);
+    var models = Model.ParseModels(Models);
+	var model = models[(XName)ModelName];
 
     string modelName = model.Name.LocalName;
 
@@ -42,24 +42,31 @@
 		.Where(m => m.Type != null)
 		.GroupBy(m => m.Name)
 		.Select(g => new {
-			Name = g.Key,
-			TypeParameter = g.First().Type.LocalName,
-			Constraint = g.Last().Type.LocalName,
+			TypeParameter = g.First().Type,
+			Constraint = g.Last().Type,
 			Inherited = g.Any(n => n.Inherited)
-        });
+        })
+		.Select(x => new {
+			x.TypeParameter,
+			x.Constraint,
+			x.Inherited,
+			MemberTypes = models[x.Constraint].MemberTypes
+		});
 
     string genericParameters = string.Empty;
     if (modelTypes.Any())
     {
-        var ps = modelTypes.Select(x => "out T" + x.TypeParameter);
+        var ps = modelTypes.Select(x => "out T" + x.TypeParameter.LocalName);
         genericParameters = "<" + string.Join(", ", ps) + ">";
     }
 
 	string parentParameters = string.Empty;
 	if (modelTypes.Any(t => t.Inherited))
     {
-		parentParameters = "<" + string.Join(", ", modelTypes.Where(t => t.Inherited).Select(t => "T" + t.TypeParameter)) + ">";
+		parentParameters = "<" + string.Join(", ", modelTypes.Where(t => t.Inherited).Select(t => "T" + t.TypeParameter.LocalName)) + ">";
     }
+
+	var members = model.Members.Where(m => !model.Ancestors.Any(a => a.Members.Any(n => n.Name == m.Name)));
 
     var namespaces = new List<string> {
             "System",
@@ -67,7 +74,7 @@
             "System.Diagnostics.Contracts"
         };
 
-	var additionalNamespaces = model.Members
+	var additionalNamespaces = members
 		.Select(x => x.Type.NamespaceName)
 		.Distinct()
 		.Where(x => x.StartsWith(ClrNamespace.NamespaceName))
@@ -121,13 +128,13 @@ namespace <#= codeNamespace #>.Models
     foreach (var modelType in modelTypes)
     {
 #>
-        where T<#= modelType.TypeParameter #> : I<#= modelType.Constraint #>
+        where T<#= modelType.TypeParameter.LocalName #> : <#= ParseType(modelType.Constraint, modelType.MemberTypes, "I") #>
 <#
     }
 #>
     {
 <#
-    foreach (var member in model.Members)
+    foreach (var member in members)
     {
 #>
         /// <summary>Map to "<#= member.Json #>"</summary>

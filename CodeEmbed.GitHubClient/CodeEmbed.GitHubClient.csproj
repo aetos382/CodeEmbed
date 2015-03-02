@@ -157,9 +157,6 @@
     <Compile Include="Models\IGistChangeStatus.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\IGistDetail.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\IGistFile.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>

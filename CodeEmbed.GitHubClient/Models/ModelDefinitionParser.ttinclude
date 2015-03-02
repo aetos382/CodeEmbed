@@ -178,12 +178,12 @@
 			return result;
 		}
 
-		public static IEnumerable<Model> ParseModels(string document)
+		public static IDictionary<XName, Model> ParseModels(string document)
         {
 			return ParseModels(XDocument.Parse(document));
         }
 
-		public static IEnumerable<Model> ParseModels(XDocument document)
+		public static IDictionary<XName, Model> ParseModels(XDocument document)
         {
 			var models =
 				document.Descendants(SchemaNamespace + "Model").ToDictionary(m => ParseName(m, m.Attribute("name").Value), m => Model.Parse(m));
@@ -209,9 +209,9 @@
 				ancestors.Reverse();
 
 				model.Ancestors = ancestors.ToArray();
-
-				yield return model;
             }
+
+			return models;
         }
     }
 
@@ -222,9 +222,8 @@
 		public IEnumerable<XName> GenericArguments { get; private set; }
 		public string Json { get; private set; }
 		public bool Required { get; private set; }
-		public bool Overridden { get; private set; }
 		public string CamelCasedName { get; private set; }
-		
+
 		public static Member Parse(string element)
         {
 			return Parse(XElement.Parse(element));
@@ -237,8 +236,7 @@
                     Name = element.Attribute("name").Value,
                     Type = ParseName(element, element.Attribute("type").Value),
 					GenericArguments = Enumerable.Empty<XName>(),
-					Required = (bool?)element.Attribute("required") ?? false,
-					Overridden = (bool?)element.Attribute("override") ?? false
+					Required = (bool?)element.Attribute("required") ?? false
                 };
 
 			string genericArguments = (string)element.Attribute("genericArguments");
