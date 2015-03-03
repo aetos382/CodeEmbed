@@ -30,6 +30,14 @@ namespace DeserializeTest
             }
         }
 
+        public string Name
+        {
+            get
+            {
+                return this._repository.Name;
+            }
+        }
+
         public RepositoryUser User
         {
             get

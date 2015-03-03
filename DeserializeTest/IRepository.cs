@@ -10,6 +10,8 @@ namespace DeserializeTest
         where TRepository : IRepository<TRepository, TRepositoryUser>
         where TRepositoryUser : IRepositoryUser
     {
+        string Name { get; }
+
         TRepositoryUser User { get; }
 
         TRepository Parent { get; }

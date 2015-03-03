@@ -17,11 +17,12 @@
         {
             string json =
 @"{
-
+    ""name"": ""RepoA"",
     ""user"": {
         ""name"": ""Alice""
     },
     ""parent"": {
+        ""name"": ""RepoB"",
         ""user"": {
             ""name"": ""Bob""
         }
