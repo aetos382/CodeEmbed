@@ -13,6 +13,35 @@
 
     class Client
     {
+        public static Repository<SerializableRepository, SerializableRepositoryUser> GetRepository()
+        {
+            string json =
+@"{
+
+    ""user"": {
+        ""name"": ""Alice""
+    },
+    ""parent"": {
+        ""user"": {
+            ""name"": ""Bob""
+        }
+    }
+}";
+
+            var resolver = new TypeResolver();
+
+            resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
+            resolver.Map<IRepository<SerializableRepository, SerializableRepositoryUser>, SerializableRepository>();
+
+            var settings = new JsonSerializerSettings();
+            settings.ContractResolver = resolver;
+
+            var deserialized = JsonConvert.DeserializeObject<IRepository<SerializableRepository, SerializableRepositoryUser>>(json, settings);
+            var result = new Repository<SerializableRepository, SerializableRepositoryUser>(deserialized);
+
+            return result;
+        }
+
         public static GistSummary GetGistSummary()
         {
             string json =

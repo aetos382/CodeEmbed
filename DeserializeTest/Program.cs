@@ -10,6 +10,8 @@ namespace DeserializeTest
     {
         static void Main(string[] args)
         {
+            var repository = Client.GetRepository();
+
             var gistSummary = Client.GetGistSummary();
             var gist = Client.GetGist();
         }
