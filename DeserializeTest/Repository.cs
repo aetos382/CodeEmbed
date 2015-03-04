@@ -6,19 +6,17 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    class Repository<TRepository, TRepositoryUser> :
-        IRepository<Repository<TRepository, TRepositoryUser>, RepositoryUser>
-        where TRepository : IRepository<TRepository, TRepositoryUser>
-        where TRepositoryUser : IRepositoryUser
+    class Repository :
+        IRepository<Repository, RepositoryUser>
     {
-        private readonly IRepository<TRepository, TRepositoryUser> _repository;
+        private readonly IRepository<IRepository, IRepositoryUser> _repository;
 
         private readonly RepositoryUser _user;
 
-        private readonly Repository<TRepository, TRepositoryUser> _parent;
+        private readonly Repository _parent;
 
         public Repository(
-            IRepository<TRepository, TRepositoryUser> repository)
+            IRepository<IRepository, IRepositoryUser> repository)
         {
             this._repository = repository;
 
@@ -26,7 +24,7 @@ namespace DeserializeTest
 
             if (repository.Parent != null)
             {
-                this._parent = new Repository<TRepository, TRepositoryUser>(repository.Parent);
+                this._parent = new Repository(repository.Parent);
             }
         }
 
@@ -46,7 +44,7 @@ namespace DeserializeTest
             }
         }
 
-        public Repository<TRepository, TRepositoryUser> Parent
+        public Repository Parent
         {
             get
             {

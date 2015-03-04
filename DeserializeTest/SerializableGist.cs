@@ -12,7 +12,7 @@ namespace DeserializeTest
 
     [JsonObject]
     class SerializableGist :
-        IGist<SerializableGistFileContent, SerializableGistFork>
+        IGist<SerializableGistFileContent, SerializableGistFork, SerializableRepositoryUser>
     {
         private readonly string _id;
 
