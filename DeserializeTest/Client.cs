@@ -13,7 +13,7 @@
 
     class Client
     {
-        public static Repository<SerializableRepository, SerializableRepositoryUser> GetRepository()
+        public static Repository GetRepository()
         {
             string json =
 @"{
@@ -38,7 +38,7 @@
             settings.ContractResolver = resolver;
 
             var deserialized = JsonConvert.DeserializeObject<IRepository<SerializableRepository, SerializableRepositoryUser>>(json, settings);
-            var result = new Repository<SerializableRepository, SerializableRepositoryUser>(deserialized);
+            var result = new Repository(deserialized);
 
             return result;
         }
