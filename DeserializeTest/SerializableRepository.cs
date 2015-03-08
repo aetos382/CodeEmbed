@@ -1,28 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest
+﻿namespace DeserializeTest
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     using Newtonsoft.Json;
 
     [JsonObject]
     class SerializableRepository :
-        IRepository<SerializableRepository, SerializableRepositoryUser>
+        IRepository
     {
         private readonly string _name;
 
-        private readonly SerializableRepositoryUser _user;
+        private readonly IRepositoryUser _user;
 
-        private readonly SerializableRepository _parent;
+        private readonly IRepository _parent;
 
         [JsonConstructor]
         public SerializableRepository(
             string name,
-            SerializableRepositoryUser user,
-            SerializableRepository parent)
+            IRepositoryUser user,
+            IRepository parent)
         {
             this._name = name;
             this._user = user;
@@ -39,7 +39,7 @@ namespace DeserializeTest
         }
 
         [JsonProperty("user")]
-        public SerializableRepositoryUser User
+        public IRepositoryUser User
         {
             get
             {
@@ -48,7 +48,7 @@ namespace DeserializeTest
         }
 
         [JsonProperty("parent")]
-        public SerializableRepository Parent
+        public IRepository Parent
         {
             get
             {

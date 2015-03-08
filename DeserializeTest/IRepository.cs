@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IRepository<out TRepository, out TRepositoryUser>
-        where TRepository : IRepository<TRepository, TRepositoryUser>
-        where TRepositoryUser : IRepositoryUser
+    interface IRepository
     {
         string Name { get; }
 
-        TRepositoryUser User { get; }
+        IRepositoryUser User { get; }
 
-        TRepository Parent { get; }
+        IRepository Parent { get; }
     }
 }

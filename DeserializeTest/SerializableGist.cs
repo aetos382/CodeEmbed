@@ -6,25 +6,23 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    using CodeEmbed.GitHubClient.Collections;
-
     using Newtonsoft.Json;
 
     [JsonObject]
     class SerializableGist :
-        IGist<SerializableGistFileContent, SerializableGistFork, SerializableRepositoryUser>
+        IGist
     {
         private readonly string _id;
 
-        private readonly IOutputDictionary<string, SerializableGistFileContent> _files;
+        private readonly IReadOnlyDictionary<string, IGistFileContent> _files;
 
-        private readonly IEnumerable<SerializableGistFork> _forks;
+        private readonly IEnumerable<IGistFork> _forks;
 
         [JsonConstructor]
         public SerializableGist(
             string id,
-            IOutputDictionary<string, SerializableGistFileContent> files,
-            IEnumerable<SerializableGistFork> forks)
+            IReadOnlyDictionary<string, IGistFileContent> files,
+            IEnumerable<IGistFork> forks)
         {
             this._id = id;
 
@@ -43,7 +41,7 @@ namespace DeserializeTest
         }
 
         [JsonProperty("files")]
-        public IOutputDictionary<string, SerializableGistFileContent> Files
+        public IReadOnlyDictionary<string, IGistFileContent> Files
         {
             get
             {
@@ -52,7 +50,7 @@ namespace DeserializeTest
         }
 
         [JsonProperty("forks")]
-        public IEnumerable<SerializableGistFork> Forks
+        public IEnumerable<IGistFork> Forks
         {
             get
             {

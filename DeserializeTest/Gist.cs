@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest
+﻿namespace DeserializeTest
 {
-    using CodeEmbed.GitHubClient.Collections;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     class Gist :
-        IGist<GistFileContent, GistFork, RepositoryUser>
+        IGist
     {
-        private readonly IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser> _gist;
+        private readonly IGist _gist;
 
-        private readonly IOutputDictionary<string, GistFileContent> _files;
+        private readonly IReadOnlyDictionary<string, GistFileContent> _files;
 
         private readonly IEnumerable<GistFork> _forks; 
 
-        public Gist(IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser> gist)
+        public Gist(IGist gist)
         {
             this._gist = gist;
-            this._files = gist.Files.ToOutputDictionary(x => x.Key, x => new GistFileContent(x.Value));
+            this._files = gist.Files.ToDictionary(x => x.Key, x => new GistFileContent(x.Value));
             this._forks = gist.Forks.Select(x => new GistFork(x));
         }
 
@@ -32,7 +30,7 @@ namespace DeserializeTest
             }
         }
 
-        public IOutputDictionary<string, GistFileContent> Files
+        public IReadOnlyDictionary<string, GistFileContent> Files
         {
             get
             {
@@ -45,6 +43,22 @@ namespace DeserializeTest
             get
             {
                 return this._forks;
+            }
+        }
+
+        IReadOnlyDictionary<string, IGistFileContent> IGist.Files
+        {
+            get
+            {
+                return this._gist.Files;
+            }
+        }
+
+        IEnumerable<IGistFork> IGist.Forks
+        {
+            get
+            {
+                return this._gist.Forks;
             }
         }
     }

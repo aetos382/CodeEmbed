@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 namespace DeserializeTest
 {
     class Repository :
-        IRepository<Repository, RepositoryUser>
+        IRepository
     {
-        private readonly IRepository<IRepository, IRepositoryUser> _repository;
+        private readonly IRepository _repository;
 
         private readonly RepositoryUser _user;
 
         private readonly Repository _parent;
 
         public Repository(
-            IRepository<IRepository, IRepositoryUser> repository)
+            IRepository repository)
         {
             this._repository = repository;
 
@@ -49,6 +49,22 @@ namespace DeserializeTest
             get
             {
                 return this._parent;
+            }
+        }
+
+        IRepositoryUser IRepository.User
+        {
+            get
+            {
+                return this._repository.User;
+            }
+        }
+
+        IRepository IRepository.Parent
+        {
+            get
+            {
+                return this._repository.Parent;
             }
         }
     }

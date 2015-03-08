@@ -10,19 +10,19 @@ namespace DeserializeTest
 
     [JsonObject]
     class SerializableGistFork :
-        IGistFork<SerializableRepositoryUser>
+        IGistFork
     {
-        private SerializableRepositoryUser _user;
+        private IRepositoryUser _user;
 
         [JsonConstructor]
         public SerializableGistFork(
-            SerializableRepositoryUser user)
+            IRepositoryUser user)
         {
             this._user = user;
         }
 
         [JsonProperty("user")]
-        public SerializableRepositoryUser User
+        public IRepositoryUser User
         {
             get
             {

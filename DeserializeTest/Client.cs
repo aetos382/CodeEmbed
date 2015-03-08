@@ -6,10 +6,6 @@
     using CodeEmbed.GitHubClient.Serialization;
 
     using Newtonsoft.Json;
-    
-    using IGist = IGist<IGistFileContent, IGistFork<IRepositoryUser>, IRepositoryUser>;
-    using IGistSummary = IGistSummary<IGistFile>;
-    using IGistFork = IGistFork<IRepositoryUser>;
 
     class Client
     {
@@ -32,12 +28,12 @@
             var resolver = new TypeResolver();
 
             resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
-            resolver.Map<IRepository<SerializableRepository, SerializableRepositoryUser>, SerializableRepository>();
+            resolver.Map<IRepository, SerializableRepository>();
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
 
-            var deserialized = JsonConvert.DeserializeObject<IRepository<SerializableRepository, SerializableRepositoryUser>>(json, settings);
+            var deserialized = JsonConvert.DeserializeObject<IRepository>(json, settings);
             var result = new Repository(deserialized);
 
             return result;
@@ -70,7 +66,6 @@
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
-            settings.Converters.Add(new OutputDictionaryCoverter());
 
             var deserialized = JsonConvert.DeserializeObject<IGistSummary>(json, settings);
             var result = new GistSummary(deserialized);
@@ -119,7 +114,6 @@
 
             var settings = new JsonSerializerSettings();
             settings.ContractResolver = resolver;
-            settings.Converters.Add(new OutputDictionaryCoverter());
 
             var deserialized = JsonConvert.DeserializeObject<IGist>(json, settings);
             var result = new Gist(deserialized);

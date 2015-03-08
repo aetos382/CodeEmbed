@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DeserializeTest
 {
-    interface IGistFork
+    interface IGistBase
     {
-        IRepositoryUser User { get; }
+        string Id { get; }
     }
 }

@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest
+﻿namespace DeserializeTest
 {
-    using CodeEmbed.GitHubClient.Collections;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
-    interface IGistSummary<out TGistFile>
-        where TGistFile : IGistFile
+    interface IGistSummary : IGistBase
     {
-        string Id { get; }
-
-        IOutputDictionary<string, TGistFile> Files { get; }
+        IReadOnlyDictionary<string, IGistFile> Files { get; }
     }
 }

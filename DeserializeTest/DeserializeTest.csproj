@@ -134,19 +134,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Contracts\OutputDictionaryContract.cs" />
-    <Compile Include="Collections\Contracts\OutputKeyValuePairContract.cs" />
-    <Compile Include="Collections\IOutputDictionary.cs" />
-    <Compile Include="Collections\IOutputKeyValuePair.cs" />
-    <Compile Include="Collections\OutputDictionary.cs" />
-    <Compile Include="Collections\OutputDictionaryExtension.cs" />
-    <Compile Include="Collections\OutputKeyValuePair.cs" />
     <Compile Include="Gist.cs" />
     <Compile Include="GistFile.cs" />
     <Compile Include="GistFileContent.cs" />
     <Compile Include="GistFork.cs" />
     <Compile Include="GistSummary.cs" />
     <Compile Include="IGist.cs" />
+    <Compile Include="IGistBase.cs" />
     <Compile Include="IGistFile.cs" />
     <Compile Include="IGistFileContent.cs" />
     <Compile Include="IGistFork.cs" />
@@ -165,7 +159,6 @@
     <Compile Include="SerializableGistSummary.cs" />
     <Compile Include="SerializableRepository.cs" />
     <Compile Include="SerializableRepositoryUser.cs" />
-    <Compile Include="Serialization\OutputDictionaryCoverter.cs" />
     <Compile Include="Serialization\TypeResolver.cs" />
   </ItemGroup>
   <ItemGroup>

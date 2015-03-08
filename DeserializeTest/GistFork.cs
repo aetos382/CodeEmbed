@@ -1,19 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DeserializeTest
+﻿namespace DeserializeTest
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
     class GistFork :
-        IGistFork<RepositoryUser>
+        IGistFork
     {
-        private readonly IGistFork<IRepositoryUser> _fork;
+        private readonly IGistFork _fork;
 
         private readonly RepositoryUser _user;
 
-        public GistFork(IGistFork<IRepositoryUser> fork)
+        public GistFork(IGistFork fork)
         {
             this._fork = fork;
             this._user = new RepositoryUser(fork.User);
@@ -24,6 +24,14 @@ namespace DeserializeTest
             get
             {
                 return this._user;
+            }
+        }
+
+        IRepositoryUser IGistFork.User
+        {
+            get
+            {
+                return this._fork.User;
             }
         }
     }
