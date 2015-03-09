@@ -122,7 +122,6 @@
 
 		public XName Name { get; private set; }
 		public XName Inherits { get; private set; }
-		public bool HasClient { get; private set; }
 		public bool IsAbstract { get; private set; }
 
 		public IEnumerable<Model> Ancestors { get; private set; }
@@ -161,7 +160,6 @@
 				RawXml = element,
 
 				Name = ParseName(element, element.Attribute("name").Value),
-				HasClient = (bool?)element.Attribute("hasClient") ?? false,
 				IsAbstract = (bool?)element.Attribute("abstract") ?? false
             };
 
@@ -178,12 +176,12 @@
 			return result;
 		}
 
-		public static IDictionary<XName, Model> ParseModels(string document)
+		public static IEnumerable<Model> ParseModels(string document)
         {
 			return ParseModels(XDocument.Parse(document));
         }
 
-		public static IDictionary<XName, Model> ParseModels(XDocument document)
+		public static IEnumerable<Model> ParseModels(XDocument document)
         {
 			var models =
 				document.Descendants(SchemaNamespace + "Model").ToDictionary(m => ParseName(m, m.Attribute("name").Value), m => Model.Parse(m));
@@ -211,7 +209,7 @@
 				model.Ancestors = ancestors.ToArray();
             }
 
-			return models;
+			return models.Values;
         }
     }
 

@@ -9,16 +9,38 @@
 <#@ import namespace="System.Xml.Linq" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelDefinitionXml" type="System.String" #>
-<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
+<#@ parameter name="ModelDefinition" type="System.String" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-    var modelDefinition = XElement.Parse(ModelDefinitionXml);
+    var model = Model.Parse(ModelDefinition);
 
-    string modelName = (string)modelDefinition.Attribute("name");
-    string inherits = (string)modelDefinition.Attribute("inherits");
+    string modelName = model.Name.LocalName;
+
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.Diagnostics.Contracts",
+			CodeNamespace
+        };
+
+    if (hasRequiredMember)
+    {
+        namespaces.Add(CodeNamespace + ".Models.Contracts");
+    }
+	
+	var additionalNamespaces = model.Members
+		.Select(x => x.Type.NamespaceName)
+		.Distinct()
+		.Where(x => x.StartsWith(ClrNamespace.NamespaceName))
+		.Select(x => x.Substring(ClrNamespace.NamespaceName.Length));
+
+	namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
 
     string camelCasedModelName = ToCamelCase(modelName);
 

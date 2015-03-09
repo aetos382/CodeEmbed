@@ -8,73 +8,31 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml.Linq" #>
 
-<#@ parameter name="Models" type="System.String" #>
-<#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelDefinition" type="System.String" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-	string codeNamespace = (string)XDocument.Parse(Models).Element(SchemaNamespace + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
-
-    var models = Model.ParseModels(Models);
-	var model = models[(XName)ModelName];
+    var model = Model.Parse(ModelDefinition);
 
     string modelName = model.Name.LocalName;
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
-    
-    var modelTypes = model.Ancestors
-		.SelectMany(m => m.Members
-			.Select(n => new {
-				Member = n,
-				Inherited = true
-            }))
-		.Concat(model.Members
-			.Select(n => new {
-				Member = n,
-				Inherited = false
-            }))
-		.Select(m => new {
-			m.Member.Name,
-			Type = new[] { m.Member.Type }.Concat(m.Member.GenericArguments).SingleOrDefault(t => t.Namespace == ModelNamespace),
-			m.Inherited
-        })
-		.Where(m => m.Type != null)
-		.GroupBy(m => m.Name)
-		.Select(g => new {
-			TypeParameter = g.First().Type,
-			Constraint = g.Last().Type,
-			Inherited = g.Any(n => n.Inherited)
-        })
-		.Select(x => new {
-			x.TypeParameter,
-			x.Constraint,
-			x.Inherited,
-			MemberTypes = models[x.Constraint].MemberTypes
-		});
-
-    string genericParameters = string.Empty;
-    if (modelTypes.Any())
-    {
-        var ps = modelTypes.Select(x => "out T" + x.TypeParameter.LocalName);
-        genericParameters = "<" + string.Join(", ", ps) + ">";
-    }
-
-	string parentParameters = string.Empty;
-	if (modelTypes.Any(t => t.Inherited))
-    {
-		parentParameters = "<" + string.Join(", ", modelTypes.Where(t => t.Inherited).Select(t => "T" + t.TypeParameter.LocalName)) + ">";
-    }
-
-	var members = model.Members.Where(m => !model.Ancestors.Any(a => a.Members.Any(n => n.Name == m.Name)));
 
     var namespaces = new List<string> {
             "System",
             "System.CodeDom.Compiler",
-            "System.Diagnostics.Contracts"
+            "System.Diagnostics.Contracts",
+			CodeNamespace
         };
 
-	var additionalNamespaces = members
+    if (hasRequiredMember)
+    {
+        namespaces.Add(CodeNamespace + ".Models.Contracts");
+    }
+	
+	var additionalNamespaces = model.Members
 		.Select(x => x.Type.NamespaceName)
 		.Distinct()
 		.Where(x => x.StartsWith(ClrNamespace.NamespaceName))
@@ -82,15 +40,10 @@
 
 	namespaces.AddRange(additionalNamespaces);
 
-    if (hasRequiredMember)
-    {
-        namespaces.Add(codeNamespace + ".Models.Contracts");
-    }
-
     var orderedNamespaces = OrderNamespace(namespaces);
 #>
 
-namespace <#= codeNamespace #>.Models
+namespace <#= CodeNamespace #>.Models
 {
 <#
     foreach (var nss in orderedNamespaces)
@@ -115,30 +68,22 @@ namespace <#= codeNamespace #>.Models
 <#        
     }
 #>
-    public partial interface I<#= modelName #><#= GeneratedModelPostfix #><#= genericParameters #>
+    public partial interface I<#= modelName #><#= GeneratedModelPostfix #>
 <#
     if (model.Inherits != null)
     {
 #>
-        : I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #><#= parentParameters #>
-<#
-    }
-#>
-<#
-    foreach (var modelType in modelTypes)
-    {
-#>
-        where T<#= modelType.TypeParameter.LocalName #> : <#= ParseType(modelType.Constraint, modelType.MemberTypes, "I") #>
+        : I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #>
 <#
     }
 #>
     {
 <#
-    foreach (var member in members)
+    foreach (var member in model.Members)
     {
 #>
         /// <summary>Map to "<#= member.Json #>"</summary>
-        <#= member.GetTypeName("T") #> <#= member.Name #> { [Pure] get; }
+        <#= member.GetTypeName("I") #> <#= member.Name #> { [Pure] get; }
 
 <#
     }

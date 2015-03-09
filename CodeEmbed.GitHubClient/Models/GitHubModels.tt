@@ -40,14 +40,13 @@
 
         string codeNamespace = (string)document.Element(SchemaNamespace + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
 
-        var models =
-			document.Descendants(SchemaNamespace + "Model").ToDictionary(x => ParseName(x, x.Attribute("name").Value), x => Model.Parse(x));
+        var models = Model.ParseModels(document);
 
-        foreach (var model in models.Values)
+        foreach (var model in models)
         {
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-            string interfaceDef = this.GenerateModel("ModelInterface.tt", document, model.Name);
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, model);
 			manager.StartNewFile(string.Format("I{0}.Generated.cs", model.Name.LocalName));
 			this.Write(interfaceDef);
 			manager.EndBlock();
@@ -80,8 +79,8 @@
 <#+
     private string GenerateModel(
 		string templateFile,
-		XDocument document,
-		XName modelName)
+		string codeNamespace,
+		Model model)
     {
         string includeContent, location;
 
@@ -98,8 +97,8 @@
 
         var session = sessionHost.CreateSession();
 
-        session["Models"] = document.ToString(SaveOptions.DisableFormatting);
-		session["ModelName"] = modelName.ToString();
+		session["CodeNamespace"] = codeNamespace;
+		session["ModelDefinition"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
 
         sessionHost.Session = session;
 
