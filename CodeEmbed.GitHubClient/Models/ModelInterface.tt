@@ -24,21 +24,21 @@
             "System",
             "System.CodeDom.Compiler",
             "System.Diagnostics.Contracts",
-			CodeNamespace
+            CodeNamespace
         };
 
     if (hasRequiredMember)
     {
         namespaces.Add(CodeNamespace + ".Models.Contracts");
     }
-	
-	var additionalNamespaces = model.Members
-		.Select(x => x.Type.NamespaceName)
-		.Distinct()
-		.Where(x => x.StartsWith(ClrNamespace.NamespaceName))
-		.Select(x => x.Substring(ClrNamespace.NamespaceName.Length));
+    
+    var additionalNamespaces = model.Members
+        .Select(x => x.Type.Namespace)
+        .Distinct()
+		.Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
 
-	namespaces.AddRange(additionalNamespaces);
+    namespaces.AddRange(additionalNamespaces);
 
     var orderedNamespaces = OrderNamespace(namespaces);
 #>

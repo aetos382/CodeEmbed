@@ -18,167 +18,231 @@
 
     string modelName = model.Name.LocalName;
 
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+    bool inherited = inherits != null;
+
     bool hasRequiredMember = model.Members.Any(x => x.Required);
 
     var namespaces = new List<string> {
             "System",
             "System.CodeDom.Compiler",
+            "System.ComponentModel",
+            "System.Diagnostics",
             "System.Diagnostics.Contracts",
-			CodeNamespace
+            CodeNamespace
         };
-
-    if (hasRequiredMember)
+    
+	if (model.Members.Any(x => x.IsEnumerable || x.IsDictionary))
     {
-        namespaces.Add(CodeNamespace + ".Models.Contracts");
+		namespaces.Add("System.Linq");
     }
-	
-	var additionalNamespaces = model.Members
-		.Select(x => x.Type.NamespaceName)
-		.Distinct()
-		.Where(x => x.StartsWith(ClrNamespace.NamespaceName))
-		.Select(x => x.Substring(ClrNamespace.NamespaceName.Length));
 
-	namespaces.AddRange(additionalNamespaces);
+    var additionalNamespaces = model.Members
+        .Select(x => x.Type.Namespace)
+        .Distinct()
+		.Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
 
     var orderedNamespaces = OrderNamespace(namespaces);
 
     string camelCasedModelName = ToCamelCase(modelName);
-
-    var members = MemberDefinition.ParseModel(modelDefinition);
-
-    bool ancestorsHasClient = ParentModelDefinitionXmls.Select(x => (bool?)XElement.Parse(x).Attribute("hasClient") ?? false).Any(x => x);
-    bool hasClient = !ancestorsHasClient && ((bool?)modelDefinition.Attribute("hasClient") ?? false);
 #>
 
 namespace <#= CodeNamespace #>.Models
 {
-	using System;
-	using System.CodeDom.Compiler;
-	using System.Collections.Generic;
-	using System.ComponentModel;
-	using System.Diagnostics;
-	using System.Diagnostics.Contracts;
 <#
-    if (hasClient || ancestorsHasClient)
+    foreach (var nss in orderedNamespaces)
     {
+        foreach (var ns in nss)
+        {
 #>
-
-	using <#= CodeNamespace #>;
-<#    
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
     }
 #>
-
-	[GeneratedCode("ModelClass.tt", "1.0")]
-	[DebuggerStepThrough]
-	public partial class <#= modelName #><#= GeneratedModelPostfix #> :
+    [GeneratedCode("ModelClass.tt", "1.0")]
+    [DebuggerStepThrough]
+    public partial class <#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {
 #>
-		<#= inherits #><#= GeneratedModelPostfix #>,
+        <#= inherits #><#= GeneratedModelPostfix #>,
 <#
     }
 #>
-		I<#= modelName #><#= GeneratedModelPostfix #>
-	{
-		private readonly I<#= modelName #><#= GeneratedModelPostfix #> _<#= camelCasedModelName #>;
-
-<#
-    if (hasClient)
+        I<#= modelName #><#= GeneratedModelPostfix #>
     {
-#>
-		[ContractPublicPropertyName("Client")]
-		private readonly IGitHubClient _client;
-
+        private readonly I<#= modelName #><#= GeneratedModelPostfix #> _<#= camelCasedModelName #> = null;
 <#
-    }
-#>
-		/// <summary>Create new instance of <#= modelName #><#= GeneratedModelPostfix #>.</summary>
-		public <#= modelName #><#= GeneratedModelPostfix #>(
-			I<#= modelName #><#= GeneratedModelPostfix #> <#= camelCasedModelName #><#= (hasClient || ancestorsHasClient ? "," : ")") #>
-<#
-    if (hasClient || ancestorsHasClient)
-    {
-#>
-			IGitHubClient client)
-<#
-    }
-#>
-<#
-    if (inherits != null)
-    {
-#>
-			: base(
-				<#= camelCasedModelName #><#= (ancestorsHasClient ? "," : ")") #>
-<#
-	if (ancestorsHasClient)
-	{
-#>
-				client)
-<#
-	}
-#>
-<#
-    }
-#>
-		{
-			Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
-<#
-    if (hasClient || ancestorsHasClient)
+    foreach (var member in model.Members.Where(x => x.IsModelType))
     {
 #>
 
-			Contract.Requires<ArgumentNullException>(client != null);
+		[ContractPublicPropertyName("<#= member.Name #>")]
+		private readonly <#= member.GetTypeName("") #> _<#= ToCamelCase(member.Name) #> = null;
 <#
     }
 #>
-
-			this._<#= camelCasedModelName #> = <#= camelCasedModelName #>;
 <#
-    if (hasClient)
+    if (!inherited)
     {
 #>
 
-			this._client = client;
+        [ContractPublicPropertyName("Client")]
+        private readonly IGitHubClient _client = null;
 <#
     }
 #>
-		}
+
+        /// <summary>Create new instance of <#= modelName #><#= GeneratedModelPostfix #>.</summary>
+        public <#= modelName #><#= GeneratedModelPostfix #>(
+            I<#= modelName #><#= GeneratedModelPostfix #> <#= camelCasedModelName #>,
+            IGitHubClient client)
 <#
-	foreach (var member in members)
-	{
+    if (inherited)
+    {
+#>
+            : base(
+                <#= camelCasedModelName #>,
+                client)
+<#
+    }
+#>
+        {
+            Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
+
+            Contract.Requires<ArgumentNullException>(client != null);
+
+            this._<#= camelCasedModelName #> = <#= camelCasedModelName #>;
+<#
+    foreach (var member in model.Members.Where(x => x.IsModelType))
+    {
 #>
 
-		/// <summary>Map to "<#= member.Json #>"</summary>
-		public <#= member.Type #> <#= member.Name #>
-		{
-			get
+<#
+		string indent = string.Empty;
+
+		if (!member.Required)
+        {
+			indent = "    ";
+#>
+			if (<#= camelCasedModelName #>.<#= member.Name #> != null)
 			{
-				return this._<#= camelCasedModelName #>.<#= member.Name #>;
-			}
-		}
 <#
-	}
+        }
+
+		if (member.IsEnumerable)
+        {
 #>
+			<#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.Select(x => new <#= member.ModelType.LocalName #>(x, client));
 <#
-    if (hasClient)
+        }
+		else if (member.IsDictionary)
+        {
+#>
+			<#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.ToDictionary(x => x.Key, x => new <#= member.ModelType.LocalName #>(x.Value, client));
+<#
+        }
+		else
+        {
+#>
+			<#= indent #>this._<#= ToCamelCase(member.Name) #> = new <#= member.GetTypeName("") #>(<#= camelCasedModelName #>.<#= member.Name #>, client);
+<#
+        }
+
+		if (!member.Required)
+        {
+#>
+			}
+<#
+        }
+    }
+
+	if (!inherited)
     {
 #>
-		public IGitHubClient Client
-		{
-			get
-			{
-				Contract.Ensures(Contract.Result<IGitHubClient>() != null);
 
-				return this._client;
-			}
+            this._client = client;
+<#
+    }
+#>
+        }
+<#
+    foreach (var member in model.Members)
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public <#= member.GetTypeName("") #> <#= member.Name #>
+        {
+            get
+            {
+<#
+		if (member.IsModelType)
+        {
+			if (member.Required)
+            {
+#>
+				Contract.Ensures(Contract.Result<<#= member.GetTypeName("") #>>() != null);
+
+<#
+            }
+#>
+				return this._<#= ToCamelCase(member.Name) #>;
+<#
 		}
+		else
+        {
+#>
+                return this._<#= camelCasedModelName #>.<#= member.Name #>;
+<#
+        }
+#>
+            }
+        }
+<#
+    }
 
+    foreach (var member in model.Members.Where(x => x.IsModelType))
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        <#= member.GetTypeName("I") #> I<#= modelName #><#= GeneratedModelPostfix #>.<#= member.Name #>
+        {
+            get
+            {
+                return this._<#= camelCasedModelName #>.<#= member.Name #>;
+            }
+        }
+<#
+    }
+
+    if (!inherited)
+    {
+#>
+
+        public IGitHubClient Client
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IGitHubClient>() != null);
+
+                return this._client;
+            }
+        }
 <#
     }
 #>
 
-		/// <summary>Specifies invariant contracts of object.</summary>
+        /// <summary>Specifies invariant contracts of object.</summary>
         [Conditional("CONTRACTS_FULL")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
@@ -186,14 +250,22 @@ namespace <#= CodeNamespace #>.Models
         {
             Contract.Invariant(this._<#= camelCasedModelName #> != null);
 <#
-    if (hasClient)
+    foreach (var member in model.Members.Where(x => x.IsModelType && x.Required))
     {
 #>
 
-			Contract.Invariant(this._client != null);
+			Contract.Invariant(this._<#= ToCamelCase(member.Name) #> != null);
+<#
+    }
+
+	if (!inherited)
+    {
+#>
+
+            Contract.Invariant(this._client != null);
 <#
     }
 #>
         }
-	}
+    }
 }

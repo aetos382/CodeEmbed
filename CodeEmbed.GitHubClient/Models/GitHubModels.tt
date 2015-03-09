@@ -59,12 +59,14 @@
 				this.Write(contractDef);
 				manager.EndBlock();
             }
+			*/
 
-            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, namespaces, model, parentModels);
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model);
 			manager.StartNewFile(string.Format("{0}.Generated.cs", model.Name.LocalName));
 			this.Write(classDef);
 			manager.EndBlock();
 
+			/*
             string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, namespaces, model, parentModels);
 			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", model.Name.LocalName));
 			this.Write(serializableClassDef);

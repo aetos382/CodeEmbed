@@ -6,11 +6,10 @@
   xmlns:gi="http://schemas.aerie.jp/codeembed/github-models-v3-instance"
   xmlns:sys="http://schemas.aerie.jp/codeembed/clr-namespace/System"
   xmlns:col="http://schemas.aerie.jp/codeembed/clr-namespace/System.Collections.Generic"
-  xmlns:gcol="http://schemas.aerie.jp/codeembed/clr-namespace/CodeEmbed.GitHubClient.Collections"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://schemas.aerie.jp/codeembed/github-models-v3 GitHubModels.xsd">
 
-  <g:Model name="gi:PublicRepository" hasClient="true">
+  <g:Model name="gi:PublicRepository">
 
     <g:Member name="Id" type="sys:Int64"/>
     <g:Member name="Owner" type="gi:RepositoryUser" required="true"/>
@@ -24,7 +23,7 @@
 
   </g:Model>
   
-  <g:Model name="gi:Repository" inherits="gi:PublicRepository" hasClient="true">
+  <g:Model name="gi:Repository" inherits="gi:PublicRepository">
 
     <g:Member name="CloneUri" type="sys:Uri"/>
     <g:Member name="GitUri" type="sys:Uri" json="git_url"/>
@@ -106,13 +105,13 @@
   
   <g:Model name="gi:GistSummary" inherits="gi:GistBase">
     
-    <g:Member name="Files" type="gcol:IOutputDictionary" genericArguments="sys:String gi:GistFile"/>
+    <g:Member name="Files" type="col:IDictionary" genericArguments="sys:String gi:GistFile"/>
 
   </g:Model>
 
-  <g:Model name="gi:Gist" inherits="gi:GistSummary">
+  <g:Model name="gi:Gist" inherits="gi:GistBase">
 
-    <g:Member name="Files" type="gcol:IOutputDictionary" genericArguments="sys:String gi:GistFileContent"/>
+    <g:Member name="Files" type="col:IDictionary" genericArguments="sys:String gi:GistFileContent"/>
     <g:Member name="Forks" type="col:IEnumerable" genericArguments="gi:GistFork"/>
     <g:Member name="Histories" type="col:IEnumerable" genericArguments="gi:GistHistory"/>
 

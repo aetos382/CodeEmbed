@@ -110,6 +110,21 @@
 			.Select(x => x.Select(y => y.Namespace).ToArray());
     }
 
+	public static string GetClrNamespace(XName name)
+    {
+		return GetClrNamespace(name.Namespace);
+    }
+	
+	public static string GetClrNamespace(XNamespace ns)
+    {
+		if (!ns.NamespaceName.StartsWith(ClrNamespace.NamespaceName))
+        {
+			return null;
+        }
+
+		return ns.NamespaceName.Substring(ClrNamespace.NamespaceName.Length);
+    }
+
 	private const string GeneratedModelPostfix = "";
 
 	private readonly static XNamespace SchemaNamespace = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";
@@ -221,6 +236,10 @@
 		public string Json { get; private set; }
 		public bool Required { get; private set; }
 		public string CamelCasedName { get; private set; }
+		public bool IsModelType { get; private set; }
+		public XName ModelType { get; private set; }
+		public bool IsEnumerable { get; private set; }
+		public bool IsDictionary { get; private set; }
 
 		public static Member Parse(string element)
         {
@@ -234,14 +253,28 @@
                     Name = element.Attribute("name").Value,
                     Type = ParseName(element, element.Attribute("type").Value),
 					GenericArguments = Enumerable.Empty<XName>(),
-					Required = (bool?)element.Attribute("required") ?? false
+					Required = (bool?)element.Attribute("required") ?? false,
+					IsEnumerable = false,
+					IsDictionary = false
                 };
 
 			string genericArguments = (string)element.Attribute("genericArguments");
 			if (!string.IsNullOrEmpty(genericArguments))
             {
 				result.GenericArguments = genericArguments.Split(new[] { ' '}, StringSplitOptions.RemoveEmptyEntries).Select(x => ParseName(element, x)).ToArray();
+
+				string clrns = GetClrNamespace(result.Type);
+				if (clrns != null)
+                {
+					result.IsEnumerable = (clrns == "System.Collections.Generic" && result.Type.LocalName == "IEnumerable");
+					result.IsDictionary = (clrns == "System.Collections.Generic" && result.Type.LocalName == "IDictionary");
+                }
             }
+
+			var types = new[] { result.Type }.Concat(result.GenericArguments);
+
+			result.IsModelType = types.Any(x => x.Namespace == ModelNamespace);
+			result.ModelType = types.FirstOrDefault(x => x.Namespace == ModelNamespace);
 
             result.Json = (string)element.Attribute("json") ?? ToSnakeCase(result.Name);
             result.CamelCasedName = ToCamelCase(result.Name);
