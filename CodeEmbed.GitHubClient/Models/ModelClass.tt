@@ -109,9 +109,7 @@ namespace <#= CodeNamespace #>.Models
     if (inherited)
     {
 #>
-            : base(
-                <#= camelCasedModelName #>,
-                client)
+            : base(<#= camelCasedModelName #>, client)
 <#
     }
 #>

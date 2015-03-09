@@ -29,5 +29,3 @@ UpgradeLog*.htm
 *.vspscc
 *.vssscc
 StyleCop.Cache
-
-*.Generated.cs
