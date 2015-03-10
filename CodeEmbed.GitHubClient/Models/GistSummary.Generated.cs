@@ -28,7 +28,7 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly IGistSummary _gistSummary = null;
 
 		[ContractPublicPropertyName("Files")]
-		private readonly IDictionary<String, GistFile> _files = null;
+		private readonly IReadOnlyDictionary<String, GistFile> _files = null;
 
         /// <summary>Create new instance of GistSummary.</summary>
         public GistSummary(
@@ -49,7 +49,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "files"</summary>
-        public IDictionary<String, GistFile> Files
+        public IReadOnlyDictionary<String, GistFile> Files
         {
             get
             {
@@ -58,7 +58,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "files"</summary>
-        IDictionary<String, IGistFile> IGistSummary.Files
+        IReadOnlyDictionary<String, IGistFile> IGistSummary.Files
         {
             get
             {

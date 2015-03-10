@@ -261,13 +261,15 @@
 			string genericArguments = (string)element.Attribute("genericArguments");
 			if (!string.IsNullOrEmpty(genericArguments))
             {
-				result.GenericArguments = genericArguments.Split(new[] { ' '}, StringSplitOptions.RemoveEmptyEntries).Select(x => ParseName(element, x)).ToArray();
+				result.GenericArguments = genericArguments.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Select(x => ParseName(element, x)).ToArray();
 
 				string clrns = GetClrNamespace(result.Type);
-				if (clrns != null)
+				if (clrns != null && clrns == "System.Collections.Generic")
                 {
-					result.IsEnumerable = (clrns == "System.Collections.Generic" && result.Type.LocalName == "IEnumerable");
-					result.IsDictionary = (clrns == "System.Collections.Generic" && result.Type.LocalName == "IDictionary");
+					string localName = result.Type.LocalName;
+
+					result.IsEnumerable = (localName == "IEnumerable");
+					result.IsDictionary = (localName == "IDictionary" || localName == "IReadOnlyDictionary");
                 }
             }
 

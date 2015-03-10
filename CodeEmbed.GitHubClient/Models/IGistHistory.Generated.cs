@@ -13,8 +13,6 @@ namespace CodeEmbed.GitHubClient.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics.Contracts;
     
-    using CodeEmbed.GitHubClient;
-    
     [GeneratedCode("ModelInterface.tt", "1.0")]
     public partial interface IGistHistory
     {

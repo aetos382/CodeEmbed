@@ -9,12 +9,13 @@
 <#@ import namespace="System.Xml.Linq" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelDefinition" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-    var model = Model.Parse(ModelDefinition);
+    var model = Model.Parse(ModelXml);
 
     string modelName = model.Name.LocalName;
 
@@ -23,14 +24,8 @@
     var namespaces = new List<string> {
             "System",
             "System.CodeDom.Compiler",
-            "System.Diagnostics.Contracts",
-            CodeNamespace
+            "System.Diagnostics.Contracts"
         };
-
-    if (hasRequiredMember)
-    {
-        namespaces.Add(CodeNamespace + ".Models.Contracts");
-    }
     
     var additionalNamespaces = model.Members
         .Select(x => x.Type.Namespace)

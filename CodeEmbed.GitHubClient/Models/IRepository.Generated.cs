@@ -13,9 +13,6 @@ namespace CodeEmbed.GitHubClient.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics.Contracts;
     
-    using CodeEmbed.GitHubClient;
-    using CodeEmbed.GitHubClient.Models.Contracts;
-    
     [GeneratedCode("ModelInterface.tt", "1.0")]
     [ContractClass(typeof(RepositoryContract))]
     public partial interface IRepository

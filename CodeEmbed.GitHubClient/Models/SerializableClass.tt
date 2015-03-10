@@ -9,65 +9,79 @@
 <#@ import namespace="System.Xml.Linq" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelDefinitionXml" type="System.String" #>
-<#@ parameter name="ParentModelDefinitionXmls" type="System.String[]" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-    var modelDefinition = XElement.Parse(ModelDefinitionXml);
+    var model = Model.Parse(ModelXml);
+	var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
 
-    string modelName = (string)modelDefinition.Attribute("name");
-    string inherits = (string)modelDefinition.Attribute("inherits");
+    string modelName = model.Name.LocalName;
+	string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
 
-    var members = MemberDefinition.ParseModel(modelDefinition);
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-	var parentMembers =
-		ParentModelDefinitionXmls
-			.Select(XElement.Parse)
-			.Reverse()
-			.SelectMany(x => MemberDefinition.ParseModel(x))
-			.ToArray();
-
-    bool hasRequiredMember = members.Any(x => x.Required);
-
-    string constructorParameters = string.Join(
+	string constructorParameters = string.Join(
         ",\r\n",
-        members.Select(x => string.Format("\t\t\t{0} {1}", x.Type, x.CamelCasedName)));
+        model.Members.Select(x => string.Format("\t\t\t{0} {1}", x.GetTypeName("I"), x.CamelCasedName)));
 
 	string parentConstructorParameters = string.Join(
         ",\r\n",
-        parentMembers.Select(x => string.Format("\t\t\t{0} {1}", x.Type, x.CamelCasedName)));
+        ancestorMembers.Select(x => string.Format("\t\t\t{0} {1}", x.GetTypeName("I"), x.CamelCasedName)));
 
 	string parentConstructorArguments = string.Join(
         ",\r\n",
-        parentMembers.Select(x => string.Format("\t\t\t\t{0}", x.CamelCasedName)));
+        ancestorMembers.Select(x => string.Format("\t\t\t\t{0}", x.CamelCasedName)));
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+			"System.Diagnostics",
+            "System.Diagnostics.Contracts",
+			"Newtonsoft.Json"
+        };
+
+    if (hasRequiredMember)
+    {
+		namespaces.Add("System.ComponentModel");
+    }
+    
+    var additionalNamespaces = model.Members
+        .Select(x => x.Type.Namespace)
+        .Distinct()
+		.Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+
+	string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+	string constructorModifier = model.IsAbstract ? "protected" : "public";
 #>
 
-namespace <#= CodeNamespace #>.Models.Serialization
+namespace <#= CodeNamespace #>.Models
 {
-	using System;
-	using System.CodeDom.Compiler;
-	using System.Collections.Generic;
 <#
-	if (hasRequiredMember)
-	{
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
 #>
-	using System.ComponentModel;
+    using <#= ns #>;
 <#
-	}
+        }
 #>
-	using System.Diagnostics;
-	using System.Diagnostics.Contracts;
-
-	using Newtonsoft.Json;
-	
-	using <#= CodeNamespace #>.Models;
-
+    
+<#
+    }
+#>
 	[GeneratedCode("SerializableClass.tt", "1.0")]
 	[DebuggerStepThrough]
 	[JsonObject]
-	public partial class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
+	public <#= abstractModifier #>partial class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {
@@ -79,18 +93,18 @@ namespace <#= CodeNamespace #>.Models.Serialization
 		I<#= modelName #><#= GeneratedModelPostfix #>
 	{
 <#
-foreach (var member in members)
+foreach (var member in model.Members)
 {
 #>
 		[ContractPublicPropertyName("<#= member.Name #>")]
-		private readonly <#= member.Type #> _<#= member.CamelCasedName #>;
+		private readonly <#= member.GetTypeName("I") #> _<#= member.CamelCasedName #>;
 
 <#
 }
 #>
 		/// <summary>Create new instance of Serializable<#= modelName #><#= GeneratedModelPostfix #>.</summary>
 		[JsonConstructor]
-		public Serializable<#= modelName #><#= GeneratedModelPostfix #>(
+		<#= constructorModifier #> Serializable<#= modelName #><#= GeneratedModelPostfix #>(
 <#
 if (inherits != null)
 {
@@ -111,7 +125,7 @@ if (inherits != null)
 #>
 		{
 <#
-        foreach (var member in parentMembers.Concat(members).Where(x => x.Required))
+        foreach (var member in ancestorMembers.Concat(model.Members).Where(x => x.Required))
         {
 #>
 			Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
@@ -120,7 +134,7 @@ if (inherits != null)
 #>
 
 <#
-foreach (var member in members)
+foreach (var member in model.Members)
 {
 #>
 			this._<#= member.CamelCasedName #> = <#= member.CamelCasedName #>;
@@ -129,13 +143,13 @@ foreach (var member in members)
 #>
 		}
 <#
-	foreach (var member in members)
+	foreach (var member in model.Members)
 	{
 #>
 
 		/// <summary>Map to "<#= member.Json #>"</summary>
 		[JsonProperty("<#= member.Json #>")]
-		public <#= member.Type #> <#= member.Name #>
+		public <#= member.GetTypeName("I") #> <#= member.Name #>
 		{
 			get
 			{
@@ -157,7 +171,7 @@ foreach (var member in members)
         private void ObjectInvariant()
         {
 <#
-		foreach (var member in members.Where(x => x.Required))
+		foreach (var member in model.Members.Where(x => x.Required))
 		{
 
 #>

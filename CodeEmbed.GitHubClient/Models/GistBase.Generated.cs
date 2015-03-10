@@ -19,7 +19,7 @@ namespace CodeEmbed.GitHubClient.Models
     
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
-    public partial class GistBase :
+    public abstract partial class GistBase :
         IGistBase
     {
         private readonly IGistBase _gistBase = null;
@@ -31,7 +31,7 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly IGitHubClient _client = null;
 
         /// <summary>Create new instance of GistBase.</summary>
-        public GistBase(
+        protected GistBase(
             IGistBase gistBase,
             IGitHubClient client)
         {

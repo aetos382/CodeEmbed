@@ -105,13 +105,13 @@
   
   <g:Model name="gi:GistSummary" inherits="gi:GistBase">
     
-    <g:Member name="Files" type="col:IDictionary" genericArguments="sys:String gi:GistFile"/>
+    <g:Member name="Files" type="col:IReadOnlyDictionary" genericArguments="sys:String gi:GistFile"/>
 
   </g:Model>
 
   <g:Model name="gi:Gist" inherits="gi:GistBase">
 
-    <g:Member name="Files" type="col:IDictionary" genericArguments="sys:String gi:GistFileContent"/>
+    <g:Member name="Files" type="col:IReadOnlyDictionary" genericArguments="sys:String gi:GistFileContent"/>
     <g:Member name="Forks" type="col:IEnumerable" genericArguments="gi:GistFork"/>
     <g:Member name="Histories" type="col:IEnumerable" genericArguments="gi:GistHistory"/>
 

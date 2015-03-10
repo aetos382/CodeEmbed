@@ -9,12 +9,13 @@
 <#@ import namespace="System.Xml.Linq" #>
 
 <#@ parameter name="CodeNamespace" type="System.String" #>
-<#@ parameter name="ModelDefinition" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-    var model = Model.Parse(ModelDefinition);
+    var model = Model.Parse(ModelXml);
 
     string modelName = model.Name.LocalName;
 
@@ -48,6 +49,9 @@
     var orderedNamespaces = OrderNamespace(namespaces);
 
     string camelCasedModelName = ToCamelCase(modelName);
+
+	string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+	string constructorModifier = model.IsAbstract ? "protected" : "public";
 #>
 
 namespace <#= CodeNamespace #>.Models
@@ -68,7 +72,7 @@ namespace <#= CodeNamespace #>.Models
 #>
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
-    public partial class <#= modelName #><#= GeneratedModelPostfix #> :
+    public <#= abstractModifier #>partial class <#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {
@@ -102,7 +106,7 @@ namespace <#= CodeNamespace #>.Models
 #>
 
         /// <summary>Create new instance of <#= modelName #><#= GeneratedModelPostfix #>.</summary>
-        public <#= modelName #><#= GeneratedModelPostfix #>(
+        <#= constructorModifier #> <#= modelName #><#= GeneratedModelPostfix #>(
             I<#= modelName #><#= GeneratedModelPostfix #> <#= camelCasedModelName #>,
             IGitHubClient client)
 <#

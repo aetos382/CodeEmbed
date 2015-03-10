@@ -28,7 +28,7 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly IGist _gist = null;
 
 		[ContractPublicPropertyName("Files")]
-		private readonly IDictionary<String, GistFileContent> _files = null;
+		private readonly IReadOnlyDictionary<String, GistFileContent> _files = null;
 
 		[ContractPublicPropertyName("Forks")]
 		private readonly IEnumerable<GistFork> _forks = null;
@@ -65,7 +65,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "files"</summary>
-        public IDictionary<String, GistFileContent> Files
+        public IReadOnlyDictionary<String, GistFileContent> Files
         {
             get
             {
@@ -92,7 +92,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "files"</summary>
-        IDictionary<String, IGistFileContent> IGist.Files
+        IReadOnlyDictionary<String, IGistFileContent> IGist.Files
         {
             get
             {

@@ -51,27 +51,23 @@
 			this.Write(interfaceDef);
 			manager.EndBlock();
 
-			/*
             if (hasRequiredMember)
             {
-				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, namespaces, model, parentModels);
+				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model);
 				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", model.Name.LocalName));
 				this.Write(contractDef);
 				manager.EndBlock();
             }
-			*/
 
             string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model);
 			manager.StartNewFile(string.Format("{0}.Generated.cs", model.Name.LocalName));
 			this.Write(classDef);
 			manager.EndBlock();
 
-			/*
-            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, namespaces, model, parentModels);
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, model);
 			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", model.Name.LocalName));
 			this.Write(serializableClassDef);
 			manager.EndBlock();
-			*/
         }
     }
 
@@ -100,7 +96,8 @@
         var session = sessionHost.CreateSession();
 
 		session["CodeNamespace"] = codeNamespace;
-		session["ModelDefinition"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
+		session["ModelXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
+		session["AncestorXmls"] = model.Ancestors.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();
 
         sessionHost.Session = session;
 

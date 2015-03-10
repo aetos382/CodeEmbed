@@ -8,37 +8,56 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml.Linq" #>
 
-<#@ parameter name="Models" type="System.String" #>
-<#@ parameter name="ModelName" type="System.String" #>
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
 
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 
 <#
-	var models = XDocument.Parse(Models);
+    var model = Model.Parse(ModelXml);
+	var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
 
-    var modelDefinition = XElement.Parse(ModelDefinitionXml);
+    string modelName = model.Name.LocalName;
+	string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
 
-    string modelName = (string)modelDefinition.Attribute("name");
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-    var members = MemberDefinition.ParseModel(modelDefinition);
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+			"System.ComponentModel",
+			"System.Diagnostics",
+            "System.Diagnostics.Contracts"
+        };
+    
+    var additionalNamespaces = model.Members
+        .Select(x => x.Type.Namespace)
+        .Distinct()
+		.Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
 
-	var parentMembers =
-		ParentModelDefinitionXmls
-			.Select(XElement.Parse)
-			.Reverse()
-			.SelectMany(x => MemberDefinition.ParseModel(x))
-			.ToArray();
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
 #>
 
-namespace <#= CodeNamespace #>.Models.Contracts
+namespace <#= CodeNamespace #>.Models
 {
-	using System;
-	using System.CodeDom.Compiler;
-	using System.Collections.Generic;
-	using System.ComponentModel;
-	using System.Diagnostics;
-	using System.Diagnostics.Contracts;
-	
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
 	/// <summary>Contract class for I<#= modelName #><#= GeneratedModelPostfix #>.</summary>
 	[GeneratedCode("ModelContract.tt", "1.0")]
     [DebuggerStepThrough]
@@ -48,27 +67,27 @@ namespace <#= CodeNamespace #>.Models.Contracts
 		I<#= modelName #><#= GeneratedModelPostfix #>
 	{
 <#
-	foreach (var member in parentMembers)
+	foreach (var member in ancestorMembers)
 	{
 #>
 		/// <summary>Map to "<#= member.Json #>"</summary>
-		public abstract <#= member.Type #> <#= member.Name #> { get; }
+		public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
 
 <#
 	}
 #>
 <#
-	foreach (var member in members)
+	foreach (var member in model.Members)
 	{
 	    if (member.Required)
 	    {
 #>
 		/// <summary>Map to "<#= member.Json #>"</summary>
-		public <#= member.Type #> <#= member.Name #>
+		public <#= member.GetTypeName("I") #> <#= member.Name #>
 		{
 			get
 			{
-				Contract.Ensures(Contract.Result<<#= member.Type #>>() != null);
+				Contract.Ensures(Contract.Result<<#= member.GetTypeName("I") #>>() != null);
 
 				throw new NotImplementedException();
 			}
@@ -79,7 +98,7 @@ namespace <#= CodeNamespace #>.Models.Contracts
 	    {
 #>
 		/// <summary>Map to "<#= member.Json #>"</summary>
-		public abstract <#= member.Type #> <#= member.Name #> { get; }
+		public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
 <#
 	    }
 #>
