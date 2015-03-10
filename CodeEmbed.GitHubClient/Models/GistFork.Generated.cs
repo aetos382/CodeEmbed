@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class GistFork :
@@ -24,8 +15,8 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IGistFork _gistFork = null;
 
-		[ContractPublicPropertyName("User")]
-		private readonly RepositoryUser _user = null;
+        [ContractPublicPropertyName("User")]
+        private readonly RepositoryUser _user = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
@@ -41,10 +32,10 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._gistFork = gistFork;
 
-			if (gistFork.User != null)
-			{
-			    this._user = new RepositoryUser(gistFork.User, client);
-			}
+            if (gistFork.User != null)
+            {
+                this._user = new RepositoryUser(gistFork.User, client);
+            }
 
             this._client = client;
         }
@@ -54,7 +45,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._user;
+                return this._user;
             }
         }
 

@@ -30,7 +30,7 @@
     var additionalNamespaces = model.Members
         .Select(x => x.Type.Namespace)
         .Distinct()
-		.Select(x => GetClrNamespace(x))
+        .Select(x => GetClrNamespace(x))
         .Where(x => x != null);
 
     namespaces.AddRange(additionalNamespaces);

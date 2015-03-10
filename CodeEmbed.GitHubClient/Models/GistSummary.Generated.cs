@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -16,9 +7,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class GistSummary :
@@ -27,8 +18,8 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IGistSummary _gistSummary = null;
 
-		[ContractPublicPropertyName("Files")]
-		private readonly IReadOnlyDictionary<String, GistFile> _files = null;
+        [ContractPublicPropertyName("Files")]
+        private readonly IReadOnlyDictionary<String, GistFile> _files = null;
 
         /// <summary>Create new instance of GistSummary.</summary>
         public GistSummary(
@@ -42,10 +33,10 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._gistSummary = gistSummary;
 
-			if (gistSummary.Files != null)
-			{
-			    this._files = gistSummary.Files.ToDictionary(x => x.Key, x => new GistFile(x.Value, client));
-			}
+            if (gistSummary.Files != null)
+            {
+                this._files = gistSummary.Files.ToDictionary(x => x.Key, x => new GistFile(x.Value, client));
+            }
         }
 
         /// <summary>Map to "files"</summary>
@@ -53,7 +44,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._files;
+                return this._files;
             }
         }
 

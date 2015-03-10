@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public abstract partial class GistBase :
@@ -24,8 +15,8 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IGistBase _gistBase = null;
 
-		[ContractPublicPropertyName("Owner")]
-		private readonly RepositoryUser _owner = null;
+        [ContractPublicPropertyName("Owner")]
+        private readonly RepositoryUser _owner = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
@@ -41,10 +32,10 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._gistBase = gistBase;
 
-			if (gistBase.Owner != null)
-			{
-			    this._owner = new RepositoryUser(gistBase.Owner, client);
-			}
+            if (gistBase.Owner != null)
+            {
+                this._owner = new RepositoryUser(gistBase.Owner, client);
+            }
 
             this._client = client;
         }
@@ -108,7 +99,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._owner;
+                return this._owner;
             }
         }
 

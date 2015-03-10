@@ -16,25 +16,25 @@
 
 <#
     var model = Model.Parse(ModelXml);
-	var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
+    var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
 
     string modelName = model.Name.LocalName;
-	string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
 
     var namespaces = new List<string> {
             "System",
             "System.CodeDom.Compiler",
-			"System.ComponentModel",
-			"System.Diagnostics",
+            "System.ComponentModel",
+            "System.Diagnostics",
             "System.Diagnostics.Contracts"
         };
     
     var additionalNamespaces = model.Members
         .Select(x => x.Type.Namespace)
         .Distinct()
-		.Select(x => GetClrNamespace(x))
+        .Select(x => GetClrNamespace(x))
         .Where(x => x != null);
 
     namespaces.AddRange(additionalNamespaces);
@@ -58,53 +58,53 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
-	/// <summary>Contract class for I<#= modelName #><#= GeneratedModelPostfix #>.</summary>
-	[GeneratedCode("ModelContract.tt", "1.0")]
+    /// <summary>Contract class for I<#= modelName #><#= GeneratedModelPostfix #>.</summary>
+    [GeneratedCode("ModelContract.tt", "1.0")]
     [DebuggerStepThrough]
     [EditorBrowsable(EditorBrowsableState.Never)]
-	[ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPostfix #>))]
-	public abstract partial class <#= modelName #>Contract<#= GeneratedModelPostfix #> :
-		I<#= modelName #><#= GeneratedModelPostfix #>
-	{
+    [ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPostfix #>))]
+    public abstract partial class <#= modelName #>Contract<#= GeneratedModelPostfix #> :
+        I<#= modelName #><#= GeneratedModelPostfix #>
+    {
 <#
-	foreach (var member in ancestorMembers)
-	{
+    foreach (var member in ancestorMembers)
+    {
 #>
-		/// <summary>Map to "<#= member.Json #>"</summary>
-		public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
 
 <#
-	}
+    }
 #>
 <#
-	foreach (var member in model.Members)
-	{
-	    if (member.Required)
-	    {
+    foreach (var member in model.Members)
+    {
+        if (member.Required)
+        {
 #>
-		/// <summary>Map to "<#= member.Json #>"</summary>
-		public <#= member.GetTypeName("I") #> <#= member.Name #>
-		{
-			get
-			{
-				Contract.Ensures(Contract.Result<<#= member.GetTypeName("I") #>>() != null);
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public <#= member.GetTypeName("I") #> <#= member.Name #>
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<<#= member.GetTypeName("I") #>>() != null);
 
-				throw new NotImplementedException();
-			}
-		}
+                throw new NotImplementedException();
+            }
+        }
 <#
-	    }
-	    else
-	    {
+        }
+        else
+        {
 #>
-		/// <summary>Map to "<#= member.Json #>"</summary>
-		public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
 <#
-	    }
+        }
 #>
-		
+        
 <#
-	}
+    }
 #>
-	}
+    }
 }

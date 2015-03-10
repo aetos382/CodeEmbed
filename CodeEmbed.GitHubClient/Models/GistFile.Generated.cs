@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class GistFile :

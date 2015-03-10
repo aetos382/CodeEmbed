@@ -167,7 +167,6 @@
     <Compile Include="Models\GitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\GitObjectType.cs" />
     <Compile Include="Models\GitReference.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>

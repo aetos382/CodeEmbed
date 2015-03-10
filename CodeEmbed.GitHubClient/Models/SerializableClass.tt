@@ -16,50 +16,50 @@
 
 <#
     var model = Model.Parse(ModelXml);
-	var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
+    var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
 
     string modelName = model.Name.LocalName;
-	string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-	string constructorParameters = string.Join(
+    string constructorParameters = string.Join(
         ",\r\n",
         model.Members.Select(x => string.Format("\t\t\t{0} {1}", x.GetTypeName("I"), x.CamelCasedName)));
 
-	string parentConstructorParameters = string.Join(
+    string parentConstructorParameters = string.Join(
         ",\r\n",
         ancestorMembers.Select(x => string.Format("\t\t\t{0} {1}", x.GetTypeName("I"), x.CamelCasedName)));
 
-	string parentConstructorArguments = string.Join(
+    string parentConstructorArguments = string.Join(
         ",\r\n",
         ancestorMembers.Select(x => string.Format("\t\t\t\t{0}", x.CamelCasedName)));
 
     var namespaces = new List<string> {
             "System",
             "System.CodeDom.Compiler",
-			"System.Diagnostics",
+            "System.Diagnostics",
             "System.Diagnostics.Contracts",
-			"Newtonsoft.Json"
+            "Newtonsoft.Json"
         };
 
     if (hasRequiredMember)
     {
-		namespaces.Add("System.ComponentModel");
+        namespaces.Add("System.ComponentModel");
     }
     
     var additionalNamespaces = model.Members
         .Select(x => x.Type.Namespace)
         .Distinct()
-		.Select(x => GetClrNamespace(x))
+        .Select(x => GetClrNamespace(x))
         .Where(x => x != null);
 
     namespaces.AddRange(additionalNamespaces);
 
     var orderedNamespaces = OrderNamespace(namespaces);
 
-	string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
-	string constructorModifier = model.IsAbstract ? "protected" : "public";
+    string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+    string constructorModifier = model.IsAbstract ? "protected" : "public";
 #>
 
 namespace <#= CodeNamespace #>.Models
@@ -78,33 +78,33 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 #>
-	[GeneratedCode("SerializableClass.tt", "1.0")]
-	[DebuggerStepThrough]
-	[JsonObject]
-	public <#= abstractModifier #>partial class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
+    [GeneratedCode("SerializableClass.tt", "1.0")]
+    [DebuggerStepThrough]
+    [JsonObject]
+    public <#= abstractModifier #>partial class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
 <#
     if (inherits != null)
     {
 #>
-		Serializable<#= inherits #><#= GeneratedModelPostfix #>,
+        Serializable<#= inherits #><#= GeneratedModelPostfix #>,
 <#
     }
 #>
-		I<#= modelName #><#= GeneratedModelPostfix #>
-	{
+        I<#= modelName #><#= GeneratedModelPostfix #>
+    {
 <#
 foreach (var member in model.Members)
 {
 #>
-		[ContractPublicPropertyName("<#= member.Name #>")]
-		private readonly <#= member.GetTypeName("I") #> _<#= member.CamelCasedName #>;
+        [ContractPublicPropertyName("<#= member.Name #>")]
+        private readonly <#= member.GetTypeName("I") #> _<#= member.CamelCasedName #>;
 
 <#
 }
 #>
-		/// <summary>Create new instance of Serializable<#= modelName #><#= GeneratedModelPostfix #>.</summary>
-		[JsonConstructor]
-		<#= constructorModifier #> Serializable<#= modelName #><#= GeneratedModelPostfix #>(
+        /// <summary>Create new instance of Serializable<#= modelName #><#= GeneratedModelPostfix #>.</summary>
+        [JsonConstructor]
+        <#= constructorModifier #> Serializable<#= modelName #><#= GeneratedModelPostfix #>(
 <#
 if (inherits != null)
 {
@@ -118,17 +118,17 @@ if (inherits != null)
     if (inherits != null)
     {
 #>
-			: base(
+            : base(
 <#= parentConstructorArguments #>)
 <#        
     }
 #>
-		{
+        {
 <#
         foreach (var member in ancestorMembers.Concat(model.Members).Where(x => x.Required))
         {
 #>
-			Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
+            Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
 <#
         }
 #>
@@ -137,51 +137,51 @@ if (inherits != null)
 foreach (var member in model.Members)
 {
 #>
-			this._<#= member.CamelCasedName #> = <#= member.CamelCasedName #>;
+            this._<#= member.CamelCasedName #> = <#= member.CamelCasedName #>;
 <#
 }
 #>
-		}
+        }
 <#
-	foreach (var member in model.Members)
-	{
+    foreach (var member in model.Members)
+    {
 #>
 
-		/// <summary>Map to "<#= member.Json #>"</summary>
-		[JsonProperty("<#= member.Json #>")]
-		public <#= member.GetTypeName("I") #> <#= member.Name #>
-		{
-			get
-			{
-				return this._<#= member.CamelCasedName #>;
-			}
-		}
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        [JsonProperty("<#= member.Json #>")]
+        public <#= member.GetTypeName("I") #> <#= member.Name #>
+        {
+            get
+            {
+                return this._<#= member.CamelCasedName #>;
+            }
+        }
 <#
-	}
+    }
 #>
 <#
-	if (hasRequiredMember)
-	{
+    if (hasRequiredMember)
+    {
 #>
 
-		/// <summary>Specifies invariant contracts of object.</summary>
+        /// <summary>Specifies invariant contracts of object.</summary>
         [Conditional("CONTRACTS_FULL")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
 <#
-		foreach (var member in model.Members.Where(x => x.Required))
-		{
+        foreach (var member in model.Members.Where(x => x.Required))
+        {
 
 #>
-			Contract.Invariant(this._<#= member.CamelCasedName #> != null);
+            Contract.Invariant(this._<#= member.CamelCasedName #> != null);
 <#
-		}
+        }
 #>
         }
 <#
-	}
+    }
 #>
-	}
+    }
 }

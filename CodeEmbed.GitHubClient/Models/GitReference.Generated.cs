@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class GitReference :
@@ -24,8 +15,8 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IGitReference _gitReference = null;
 
-		[ContractPublicPropertyName("Target")]
-		private readonly GitObject _target = null;
+        [ContractPublicPropertyName("Target")]
+        private readonly GitObject _target = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
@@ -41,10 +32,10 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._gitReference = gitReference;
 
-			if (gitReference.Target != null)
-			{
-			    this._target = new GitObject(gitReference.Target, client);
-			}
+            if (gitReference.Target != null)
+            {
+                this._target = new GitObject(gitReference.Target, client);
+            }
 
             this._client = client;
         }
@@ -72,7 +63,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._target;
+                return this._target;
             }
         }
 

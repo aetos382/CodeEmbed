@@ -1,70 +1,61 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
     using System.CodeDom.Compiler;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using Newtonsoft.Json;
-    
-	[GeneratedCode("SerializableClass.tt", "1.0")]
-	[DebuggerStepThrough]
-	[JsonObject]
-	public partial class SerializableUser :
-		SerializableRepositoryUser,
-		IUser
-	{
-		[ContractPublicPropertyName("Name")]
-		private readonly String _name;
 
-		[ContractPublicPropertyName("Company")]
-		private readonly String _company;
+    [GeneratedCode("SerializableClass.tt", "1.0")]
+    [DebuggerStepThrough]
+    [JsonObject]
+    public partial class SerializableUser :
+        SerializableRepositoryUser,
+        IUser
+    {
+        [ContractPublicPropertyName("Name")]
+        private readonly String _name;
 
-		[ContractPublicPropertyName("Blog")]
-		private readonly Uri _blog;
+        [ContractPublicPropertyName("Company")]
+        private readonly String _company;
 
-		[ContractPublicPropertyName("Location")]
-		private readonly String _location;
+        [ContractPublicPropertyName("Blog")]
+        private readonly Uri _blog;
 
-		[ContractPublicPropertyName("Email")]
-		private readonly String _email;
+        [ContractPublicPropertyName("Location")]
+        private readonly String _location;
 
-		[ContractPublicPropertyName("Hireable")]
-		private readonly Boolean _hireable;
+        [ContractPublicPropertyName("Email")]
+        private readonly String _email;
 
-		[ContractPublicPropertyName("Bio")]
-		private readonly String _bio;
+        [ContractPublicPropertyName("Hireable")]
+        private readonly Boolean _hireable;
 
-		[ContractPublicPropertyName("PublicRepositories")]
-		private readonly Int32 _publicRepositories;
+        [ContractPublicPropertyName("Bio")]
+        private readonly String _bio;
 
-		[ContractPublicPropertyName("PublicGists")]
-		private readonly Int32 _publicGists;
+        [ContractPublicPropertyName("PublicRepositories")]
+        private readonly Int32 _publicRepositories;
 
-		[ContractPublicPropertyName("Followers")]
-		private readonly Int32 _followers;
+        [ContractPublicPropertyName("PublicGists")]
+        private readonly Int32 _publicGists;
 
-		[ContractPublicPropertyName("Following")]
-		private readonly Int32 _following;
+        [ContractPublicPropertyName("Followers")]
+        private readonly Int32 _followers;
 
-		[ContractPublicPropertyName("CreatedAt")]
-		private readonly DateTime _createdAt;
+        [ContractPublicPropertyName("Following")]
+        private readonly Int32 _following;
 
-		[ContractPublicPropertyName("UpdatedAt")]
-		private readonly DateTime _updatedAt;
+        [ContractPublicPropertyName("CreatedAt")]
+        private readonly DateTime _createdAt;
 
-		/// <summary>Create new instance of SerializableUser.</summary>
-		[JsonConstructor]
-		public SerializableUser(
+        [ContractPublicPropertyName("UpdatedAt")]
+        private readonly DateTime _updatedAt;
+
+        /// <summary>Create new instance of SerializableUser.</summary>
+        [JsonConstructor]
+        public SerializableUser(
 			String login,
 			Int64 id,
 			Uri avatarUri,
@@ -95,7 +86,7 @@ namespace CodeEmbed.GitHubClient.Models
 			Int32 following,
 			DateTime createdAt,
 			DateTime updatedAt)
-			: base(
+            : base(
 				login,
 				id,
 				avatarUri,
@@ -113,152 +104,152 @@ namespace CodeEmbed.GitHubClient.Models
 				receivedEventsUri,
 				type,
 				siteAdministrator)
-		{
-			Contract.Requires<ArgumentNullException>(login != null);
+        {
+            Contract.Requires<ArgumentNullException>(login != null);
 
-			this._name = name;
-			this._company = company;
-			this._blog = blog;
-			this._location = location;
-			this._email = email;
-			this._hireable = hireable;
-			this._bio = bio;
-			this._publicRepositories = publicRepositories;
-			this._publicGists = publicGists;
-			this._followers = followers;
-			this._following = following;
-			this._createdAt = createdAt;
-			this._updatedAt = updatedAt;
-		}
+            this._name = name;
+            this._company = company;
+            this._blog = blog;
+            this._location = location;
+            this._email = email;
+            this._hireable = hireable;
+            this._bio = bio;
+            this._publicRepositories = publicRepositories;
+            this._publicGists = publicGists;
+            this._followers = followers;
+            this._following = following;
+            this._createdAt = createdAt;
+            this._updatedAt = updatedAt;
+        }
 
-		/// <summary>Map to "name"</summary>
-		[JsonProperty("name")]
-		public String Name
-		{
-			get
-			{
-				return this._name;
-			}
-		}
+        /// <summary>Map to "name"</summary>
+        [JsonProperty("name")]
+        public String Name
+        {
+            get
+            {
+                return this._name;
+            }
+        }
 
-		/// <summary>Map to "company"</summary>
-		[JsonProperty("company")]
-		public String Company
-		{
-			get
-			{
-				return this._company;
-			}
-		}
+        /// <summary>Map to "company"</summary>
+        [JsonProperty("company")]
+        public String Company
+        {
+            get
+            {
+                return this._company;
+            }
+        }
 
-		/// <summary>Map to "blog"</summary>
-		[JsonProperty("blog")]
-		public Uri Blog
-		{
-			get
-			{
-				return this._blog;
-			}
-		}
+        /// <summary>Map to "blog"</summary>
+        [JsonProperty("blog")]
+        public Uri Blog
+        {
+            get
+            {
+                return this._blog;
+            }
+        }
 
-		/// <summary>Map to "location"</summary>
-		[JsonProperty("location")]
-		public String Location
-		{
-			get
-			{
-				return this._location;
-			}
-		}
+        /// <summary>Map to "location"</summary>
+        [JsonProperty("location")]
+        public String Location
+        {
+            get
+            {
+                return this._location;
+            }
+        }
 
-		/// <summary>Map to "email"</summary>
-		[JsonProperty("email")]
-		public String Email
-		{
-			get
-			{
-				return this._email;
-			}
-		}
+        /// <summary>Map to "email"</summary>
+        [JsonProperty("email")]
+        public String Email
+        {
+            get
+            {
+                return this._email;
+            }
+        }
 
-		/// <summary>Map to "hireable"</summary>
-		[JsonProperty("hireable")]
-		public Boolean Hireable
-		{
-			get
-			{
-				return this._hireable;
-			}
-		}
+        /// <summary>Map to "hireable"</summary>
+        [JsonProperty("hireable")]
+        public Boolean Hireable
+        {
+            get
+            {
+                return this._hireable;
+            }
+        }
 
-		/// <summary>Map to "bio"</summary>
-		[JsonProperty("bio")]
-		public String Bio
-		{
-			get
-			{
-				return this._bio;
-			}
-		}
+        /// <summary>Map to "bio"</summary>
+        [JsonProperty("bio")]
+        public String Bio
+        {
+            get
+            {
+                return this._bio;
+            }
+        }
 
-		/// <summary>Map to "public_repos"</summary>
-		[JsonProperty("public_repos")]
-		public Int32 PublicRepositories
-		{
-			get
-			{
-				return this._publicRepositories;
-			}
-		}
+        /// <summary>Map to "public_repos"</summary>
+        [JsonProperty("public_repos")]
+        public Int32 PublicRepositories
+        {
+            get
+            {
+                return this._publicRepositories;
+            }
+        }
 
-		/// <summary>Map to "public_gists"</summary>
-		[JsonProperty("public_gists")]
-		public Int32 PublicGists
-		{
-			get
-			{
-				return this._publicGists;
-			}
-		}
+        /// <summary>Map to "public_gists"</summary>
+        [JsonProperty("public_gists")]
+        public Int32 PublicGists
+        {
+            get
+            {
+                return this._publicGists;
+            }
+        }
 
-		/// <summary>Map to "followers"</summary>
-		[JsonProperty("followers")]
-		public Int32 Followers
-		{
-			get
-			{
-				return this._followers;
-			}
-		}
+        /// <summary>Map to "followers"</summary>
+        [JsonProperty("followers")]
+        public Int32 Followers
+        {
+            get
+            {
+                return this._followers;
+            }
+        }
 
-		/// <summary>Map to "following"</summary>
-		[JsonProperty("following")]
-		public Int32 Following
-		{
-			get
-			{
-				return this._following;
-			}
-		}
+        /// <summary>Map to "following"</summary>
+        [JsonProperty("following")]
+        public Int32 Following
+        {
+            get
+            {
+                return this._following;
+            }
+        }
 
-		/// <summary>Map to "created_at"</summary>
-		[JsonProperty("created_at")]
-		public DateTime CreatedAt
-		{
-			get
-			{
-				return this._createdAt;
-			}
-		}
+        /// <summary>Map to "created_at"</summary>
+        [JsonProperty("created_at")]
+        public DateTime CreatedAt
+        {
+            get
+            {
+                return this._createdAt;
+            }
+        }
 
-		/// <summary>Map to "updated_at"</summary>
-		[JsonProperty("updated_at")]
-		public DateTime UpdatedAt
-		{
-			get
-			{
-				return this._updatedAt;
-			}
-		}
-	}
+        /// <summary>Map to "updated_at"</summary>
+        [JsonProperty("updated_at")]
+        public DateTime UpdatedAt
+        {
+            get
+            {
+                return this._updatedAt;
+            }
+        }
+    }
 }

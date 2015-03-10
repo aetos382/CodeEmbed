@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -16,9 +7,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class Gist :
@@ -27,14 +18,14 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IGist _gist = null;
 
-		[ContractPublicPropertyName("Files")]
-		private readonly IReadOnlyDictionary<String, GistFileContent> _files = null;
+        [ContractPublicPropertyName("Files")]
+        private readonly IReadOnlyDictionary<String, GistFileContent> _files = null;
 
-		[ContractPublicPropertyName("Forks")]
-		private readonly IEnumerable<GistFork> _forks = null;
+        [ContractPublicPropertyName("Forks")]
+        private readonly IEnumerable<GistFork> _forks = null;
 
-		[ContractPublicPropertyName("Histories")]
-		private readonly IEnumerable<GistHistory> _histories = null;
+        [ContractPublicPropertyName("Histories")]
+        private readonly IEnumerable<GistHistory> _histories = null;
 
         /// <summary>Create new instance of Gist.</summary>
         public Gist(
@@ -48,20 +39,20 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._gist = gist;
 
-			if (gist.Files != null)
-			{
-			    this._files = gist.Files.ToDictionary(x => x.Key, x => new GistFileContent(x.Value, client));
-			}
+            if (gist.Files != null)
+            {
+                this._files = gist.Files.ToDictionary(x => x.Key, x => new GistFileContent(x.Value, client));
+            }
 
-			if (gist.Forks != null)
-			{
-			    this._forks = gist.Forks.Select(x => new GistFork(x, client));
-			}
+            if (gist.Forks != null)
+            {
+                this._forks = gist.Forks.Select(x => new GistFork(x, client));
+            }
 
-			if (gist.Histories != null)
-			{
-			    this._histories = gist.Histories.Select(x => new GistHistory(x, client));
-			}
+            if (gist.Histories != null)
+            {
+                this._histories = gist.Histories.Select(x => new GistHistory(x, client));
+            }
         }
 
         /// <summary>Map to "files"</summary>
@@ -69,7 +60,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._files;
+                return this._files;
             }
         }
 
@@ -78,7 +69,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._forks;
+                return this._forks;
             }
         }
 
@@ -87,7 +78,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._histories;
+                return this._histories;
             }
         }
 

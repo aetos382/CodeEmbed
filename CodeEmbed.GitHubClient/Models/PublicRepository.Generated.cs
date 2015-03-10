@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class PublicRepository :
@@ -24,8 +15,8 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IPublicRepository _publicRepository = null;
 
-		[ContractPublicPropertyName("Owner")]
-		private readonly RepositoryUser _owner = null;
+        [ContractPublicPropertyName("Owner")]
+        private readonly RepositoryUser _owner = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
@@ -41,7 +32,7 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._publicRepository = publicRepository;
 
-			this._owner = new RepositoryUser(publicRepository.Owner, client);
+            this._owner = new RepositoryUser(publicRepository.Owner, client);
 
             this._client = client;
         }
@@ -60,9 +51,9 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				Contract.Ensures(Contract.Result<RepositoryUser>() != null);
+                Contract.Ensures(Contract.Result<RepositoryUser>() != null);
 
-				return this._owner;
+                return this._owner;
             }
         }
 
@@ -156,7 +147,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Invariant(this._publicRepository != null);
 
-			Contract.Invariant(this._owner != null);
+            Contract.Invariant(this._owner != null);
 
             Contract.Invariant(this._client != null);
         }

@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class GistHistory :
@@ -24,11 +15,11 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IGistHistory _gistHistory = null;
 
-		[ContractPublicPropertyName("User")]
-		private readonly RepositoryUser _user = null;
+        [ContractPublicPropertyName("User")]
+        private readonly RepositoryUser _user = null;
 
-		[ContractPublicPropertyName("ChangeStatus")]
-		private readonly GistChangeStatus _changeStatus = null;
+        [ContractPublicPropertyName("ChangeStatus")]
+        private readonly GistChangeStatus _changeStatus = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
@@ -44,15 +35,15 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._gistHistory = gistHistory;
 
-			if (gistHistory.User != null)
-			{
-			    this._user = new RepositoryUser(gistHistory.User, client);
-			}
+            if (gistHistory.User != null)
+            {
+                this._user = new RepositoryUser(gistHistory.User, client);
+            }
 
-			if (gistHistory.ChangeStatus != null)
-			{
-			    this._changeStatus = new GistChangeStatus(gistHistory.ChangeStatus, client);
-			}
+            if (gistHistory.ChangeStatus != null)
+            {
+                this._changeStatus = new GistChangeStatus(gistHistory.ChangeStatus, client);
+            }
 
             this._client = client;
         }
@@ -80,7 +71,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._user;
+                return this._user;
             }
         }
 
@@ -89,7 +80,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._changeStatus;
+                return this._changeStatus;
             }
         }
 

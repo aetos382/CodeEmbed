@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,22 +5,22 @@ namespace CodeEmbed.GitHubClient.Models
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
-    using Newtonsoft.Json;
-    
-	[GeneratedCode("SerializableClass.tt", "1.0")]
-	[DebuggerStepThrough]
-	[JsonObject]
-	public partial class SerializableGistSummary :
-		SerializableGistBase,
-		IGistSummary
-	{
-		[ContractPublicPropertyName("Files")]
-		private readonly IReadOnlyDictionary<String, IGistFile> _files;
 
-		/// <summary>Create new instance of SerializableGistSummary.</summary>
-		[JsonConstructor]
-		public SerializableGistSummary(
+    using Newtonsoft.Json;
+
+    [GeneratedCode("SerializableClass.tt", "1.0")]
+    [DebuggerStepThrough]
+    [JsonObject]
+    public partial class SerializableGistSummary :
+        SerializableGistBase,
+        IGistSummary
+    {
+        [ContractPublicPropertyName("Files")]
+        private readonly IReadOnlyDictionary<String, IGistFile> _files;
+
+        /// <summary>Create new instance of SerializableGistSummary.</summary>
+        [JsonConstructor]
+        public SerializableGistSummary(
 			Uri uri,
 			Uri forksUri,
 			Uri commitsUri,
@@ -46,7 +37,7 @@ namespace CodeEmbed.GitHubClient.Models
 			DateTime createdAt,
 			DateTime updatedAt,
 			IReadOnlyDictionary<String, IGistFile> files)
-			: base(
+            : base(
 				uri,
 				forksUri,
 				commitsUri,
@@ -62,19 +53,19 @@ namespace CodeEmbed.GitHubClient.Models
 				gitPushUri,
 				createdAt,
 				updatedAt)
-		{
+        {
 
-			this._files = files;
-		}
+            this._files = files;
+        }
 
-		/// <summary>Map to "files"</summary>
-		[JsonProperty("files")]
-		public IReadOnlyDictionary<String, IGistFile> Files
-		{
-			get
-			{
-				return this._files;
-			}
-		}
-	}
+        /// <summary>Map to "files"</summary>
+        [JsonProperty("files")]
+        public IReadOnlyDictionary<String, IGistFile> Files
+        {
+            get
+            {
+                return this._files;
+            }
+        }
+    }
 }

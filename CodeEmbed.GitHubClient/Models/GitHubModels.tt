@@ -104,6 +104,32 @@
         var engine = new Engine();
 
         string result = engine.ProcessTemplate(includeContent, this.Host);
-        return result;
+
+		var resultBuilder = new StringBuilder(result.Length);
+
+		bool leadingBlank = true;
+
+		using (var reader = new StringReader(result))
+        {
+			string line = reader.ReadLine();
+			while (line != null)
+            {
+				line = line.TrimEnd();
+
+				if (leadingBlank && line.Length > 0)
+                {
+					leadingBlank = false;
+                }
+
+				if (!leadingBlank)
+                {
+					resultBuilder.AppendLine(line);
+                }
+
+				line = reader.ReadLine();
+            }
+        }
+
+        return resultBuilder.ToString();
     }
 #>

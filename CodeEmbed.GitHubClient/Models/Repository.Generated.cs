@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class Repository :
@@ -25,17 +16,17 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IRepository _repository = null;
 
-		[ContractPublicPropertyName("Permissions")]
-		private readonly Permissions _permissions = null;
+        [ContractPublicPropertyName("Permissions")]
+        private readonly Permissions _permissions = null;
 
-		[ContractPublicPropertyName("Organization")]
-		private readonly RepositoryUser _organization = null;
+        [ContractPublicPropertyName("Organization")]
+        private readonly RepositoryUser _organization = null;
 
-		[ContractPublicPropertyName("Parent")]
-		private readonly Repository _parent = null;
+        [ContractPublicPropertyName("Parent")]
+        private readonly Repository _parent = null;
 
-		[ContractPublicPropertyName("Source")]
-		private readonly Repository _source = null;
+        [ContractPublicPropertyName("Source")]
+        private readonly Repository _source = null;
 
         /// <summary>Create new instance of Repository.</summary>
         public Repository(
@@ -49,25 +40,25 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._repository = repository;
 
-			if (repository.Permissions != null)
-			{
-			    this._permissions = new Permissions(repository.Permissions, client);
-			}
+            if (repository.Permissions != null)
+            {
+                this._permissions = new Permissions(repository.Permissions, client);
+            }
 
-			if (repository.Organization != null)
-			{
-			    this._organization = new RepositoryUser(repository.Organization, client);
-			}
+            if (repository.Organization != null)
+            {
+                this._organization = new RepositoryUser(repository.Organization, client);
+            }
 
-			if (repository.Parent != null)
-			{
-			    this._parent = new Repository(repository.Parent, client);
-			}
+            if (repository.Parent != null)
+            {
+                this._parent = new Repository(repository.Parent, client);
+            }
 
-			if (repository.Source != null)
-			{
-			    this._source = new Repository(repository.Source, client);
-			}
+            if (repository.Source != null)
+            {
+                this._source = new Repository(repository.Source, client);
+            }
         }
 
         /// <summary>Map to "clone_uri"</summary>
@@ -255,7 +246,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._permissions;
+                return this._permissions;
             }
         }
 
@@ -273,7 +264,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._organization;
+                return this._organization;
             }
         }
 
@@ -282,7 +273,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._parent;
+                return this._parent;
             }
         }
 
@@ -291,7 +282,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._source;
+                return this._source;
             }
         }
 

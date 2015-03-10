@@ -1,12 +1,3 @@
-
-
-
-
-
-
-
-
-
 namespace CodeEmbed.GitHubClient.Models
 {
     using System;
@@ -14,9 +5,9 @@ namespace CodeEmbed.GitHubClient.Models
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    
+
     using CodeEmbed.GitHubClient;
-    
+
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
     public partial class AuthorizedUser :
@@ -25,8 +16,8 @@ namespace CodeEmbed.GitHubClient.Models
     {
         private readonly IAuthorizedUser _authorizedUser = null;
 
-		[ContractPublicPropertyName("Plan")]
-		private readonly UserPlan _plan = null;
+        [ContractPublicPropertyName("Plan")]
+        private readonly UserPlan _plan = null;
 
         /// <summary>Create new instance of AuthorizedUser.</summary>
         public AuthorizedUser(
@@ -40,10 +31,10 @@ namespace CodeEmbed.GitHubClient.Models
 
             this._authorizedUser = authorizedUser;
 
-			if (authorizedUser.Plan != null)
-			{
-			    this._plan = new UserPlan(authorizedUser.Plan, client);
-			}
+            if (authorizedUser.Plan != null)
+            {
+                this._plan = new UserPlan(authorizedUser.Plan, client);
+            }
         }
 
         /// <summary>Map to "total_private_repos"</summary>
@@ -96,7 +87,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-				return this._plan;
+                return this._plan;
             }
         }
 

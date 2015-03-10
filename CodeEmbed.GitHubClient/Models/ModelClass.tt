@@ -33,15 +33,15 @@
             CodeNamespace
         };
     
-	if (model.Members.Any(x => x.IsEnumerable || x.IsDictionary))
+    if (model.Members.Any(x => x.IsEnumerable || x.IsDictionary))
     {
-		namespaces.Add("System.Linq");
+        namespaces.Add("System.Linq");
     }
 
     var additionalNamespaces = model.Members
         .Select(x => x.Type.Namespace)
         .Distinct()
-		.Select(x => GetClrNamespace(x))
+        .Select(x => GetClrNamespace(x))
         .Where(x => x != null);
 
     namespaces.AddRange(additionalNamespaces);
@@ -50,8 +50,8 @@
 
     string camelCasedModelName = ToCamelCase(modelName);
 
-	string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
-	string constructorModifier = model.IsAbstract ? "protected" : "public";
+    string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+    string constructorModifier = model.IsAbstract ? "protected" : "public";
 #>
 
 namespace <#= CodeNamespace #>.Models
@@ -89,8 +89,8 @@ namespace <#= CodeNamespace #>.Models
     {
 #>
 
-		[ContractPublicPropertyName("<#= member.Name #>")]
-		private readonly <#= member.GetTypeName("") #> _<#= ToCamelCase(member.Name) #> = null;
+        [ContractPublicPropertyName("<#= member.Name #>")]
+        private readonly <#= member.GetTypeName("") #> _<#= ToCamelCase(member.Name) #> = null;
 <#
     }
 #>
@@ -129,45 +129,45 @@ namespace <#= CodeNamespace #>.Models
 #>
 
 <#
-		string indent = string.Empty;
+        string indent = string.Empty;
 
-		if (!member.Required)
+        if (!member.Required)
         {
-			indent = "    ";
+            indent = "    ";
 #>
-			if (<#= camelCasedModelName #>.<#= member.Name #> != null)
-			{
-<#
-        }
-
-		if (member.IsEnumerable)
-        {
-#>
-			<#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.Select(x => new <#= member.ModelType.LocalName #>(x, client));
-<#
-        }
-		else if (member.IsDictionary)
-        {
-#>
-			<#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.ToDictionary(x => x.Key, x => new <#= member.ModelType.LocalName #>(x.Value, client));
-<#
-        }
-		else
-        {
-#>
-			<#= indent #>this._<#= ToCamelCase(member.Name) #> = new <#= member.GetTypeName("") #>(<#= camelCasedModelName #>.<#= member.Name #>, client);
+            if (<#= camelCasedModelName #>.<#= member.Name #> != null)
+            {
 <#
         }
 
-		if (!member.Required)
+        if (member.IsEnumerable)
         {
 #>
-			}
+            <#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.Select(x => new <#= member.ModelType.LocalName #>(x, client));
+<#
+        }
+        else if (member.IsDictionary)
+        {
+#>
+            <#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.ToDictionary(x => x.Key, x => new <#= member.ModelType.LocalName #>(x.Value, client));
+<#
+        }
+        else
+        {
+#>
+            <#= indent #>this._<#= ToCamelCase(member.Name) #> = new <#= member.GetTypeName("") #>(<#= camelCasedModelName #>.<#= member.Name #>, client);
+<#
+        }
+
+        if (!member.Required)
+        {
+#>
+            }
 <#
         }
     }
 
-	if (!inherited)
+    if (!inherited)
     {
 #>
 
@@ -187,20 +187,20 @@ namespace <#= CodeNamespace #>.Models
             get
             {
 <#
-		if (member.IsModelType)
+        if (member.IsModelType)
         {
-			if (member.Required)
+            if (member.Required)
             {
 #>
-				Contract.Ensures(Contract.Result<<#= member.GetTypeName("") #>>() != null);
+                Contract.Ensures(Contract.Result<<#= member.GetTypeName("") #>>() != null);
 
 <#
             }
 #>
-				return this._<#= ToCamelCase(member.Name) #>;
+                return this._<#= ToCamelCase(member.Name) #>;
 <#
-		}
-		else
+        }
+        else
         {
 #>
                 return this._<#= camelCasedModelName #>.<#= member.Name #>;
@@ -256,11 +256,11 @@ namespace <#= CodeNamespace #>.Models
     {
 #>
 
-			Contract.Invariant(this._<#= ToCamelCase(member.Name) #> != null);
+            Contract.Invariant(this._<#= ToCamelCase(member.Name) #> != null);
 <#
     }
 
-	if (!inherited)
+    if (!inherited)
     {
 #>
 
