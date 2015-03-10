@@ -16,7 +16,7 @@
 <#@ include file="ModelDefinitionParser.ttinclude" #>
 <#@ include file="MultipleOutputHelper.ttinclude" #>
 
-<#@ output extension=".txt" #>
+<#@ output extension=".Generated.txt" #>
 
 <#
     var manager = Manager.Create(this.Host, this.GenerationEnvironment);
@@ -47,27 +47,39 @@
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
             string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, model);
-			manager.StartNewFile(string.Format("I{0}.Generated.cs", model.Name.LocalName));
+			string interfaceFileName = string.Format("I{0}.Generated.cs", model.Name.LocalName);
+			manager.StartNewFile(interfaceFileName);
 			this.Write(interfaceDef);
 			manager.EndBlock();
+
+			this.WriteLine(string.Format("Generated {0} from {1}.", interfaceFileName, model.Name.LocalName));
 
             if (hasRequiredMember)
             {
 				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model);
-				manager.StartNewFile(string.Format("{0}Contracts.Generated.cs", model.Name.LocalName));
+				string contractFileName = string.Format("{0}Contracts.Generated.cs", model.Name.LocalName);
+				manager.StartNewFile(contractFileName);
 				this.Write(contractDef);
 				manager.EndBlock();
+
+				this.WriteLine(string.Format("Generated {0} from {1}.", contractFileName, model.Name.LocalName));
             }
 
             string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model);
-			manager.StartNewFile(string.Format("{0}.Generated.cs", model.Name.LocalName));
+			string classFileName = string.Format("{0}.Generated.cs", model.Name.LocalName);
+			manager.StartNewFile(classFileName);
 			this.Write(classDef);
 			manager.EndBlock();
 
+			this.WriteLine(string.Format("Generated {0} from {1}.", classFileName, model.Name.LocalName));
+
             string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, model);
-			manager.StartNewFile(string.Format("Serializable{0}.Generated.cs", model.Name.LocalName));
+			string serializableClassFileName = string.Format("Serializable{0}.Generated.cs", model.Name.LocalName);
+			manager.StartNewFile(serializableClassFileName);
 			this.Write(serializableClassDef);
 			manager.EndBlock();
+
+			this.WriteLine(string.Format("Generated {0} from {1}.", serializableClassFileName, model.Name.LocalName));
         }
     }
 

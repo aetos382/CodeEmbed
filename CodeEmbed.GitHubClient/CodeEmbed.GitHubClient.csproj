@@ -343,7 +343,7 @@
   <ItemGroup>
     <None Include="Models\GitHubModels.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>GitHubModels.txt</LastGenOutput>
+      <LastGenOutput>GitHubModels.Generated.txt</LastGenOutput>
     </None>
     <None Include="Models\GitHubModels.xsd">
       <SubType>Designer</SubType>
@@ -362,7 +362,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Models\GitHubModels.txt">
+    <Content Include="Models\GitHubModels.Generated.txt">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>GitHubModels.tt</DependentUpon>

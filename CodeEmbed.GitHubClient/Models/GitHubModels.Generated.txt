@@ -1,0 +1,63 @@
+﻿
+
+
+
+
+
+
+
+Generated IPublicRepository.Generated.cs from PublicRepository.
+Generated PublicRepositoryContracts.Generated.cs from PublicRepository.
+Generated PublicRepository.Generated.cs from PublicRepository.
+Generated SerializablePublicRepository.Generated.cs from PublicRepository.
+Generated IRepository.Generated.cs from Repository.
+Generated RepositoryContracts.Generated.cs from Repository.
+Generated Repository.Generated.cs from Repository.
+Generated SerializableRepository.Generated.cs from Repository.
+Generated IPermissions.Generated.cs from Permissions.
+Generated Permissions.Generated.cs from Permissions.
+Generated SerializablePermissions.Generated.cs from Permissions.
+Generated IRepositoryUser.Generated.cs from RepositoryUser.
+Generated RepositoryUserContracts.Generated.cs from RepositoryUser.
+Generated RepositoryUser.Generated.cs from RepositoryUser.
+Generated SerializableRepositoryUser.Generated.cs from RepositoryUser.
+Generated IGistBase.Generated.cs from GistBase.
+Generated GistBase.Generated.cs from GistBase.
+Generated SerializableGistBase.Generated.cs from GistBase.
+Generated IGistSummary.Generated.cs from GistSummary.
+Generated GistSummary.Generated.cs from GistSummary.
+Generated SerializableGistSummary.Generated.cs from GistSummary.
+Generated IGist.Generated.cs from Gist.
+Generated Gist.Generated.cs from Gist.
+Generated SerializableGist.Generated.cs from Gist.
+Generated IGistFile.Generated.cs from GistFile.
+Generated GistFile.Generated.cs from GistFile.
+Generated SerializableGistFile.Generated.cs from GistFile.
+Generated IGistFileContent.Generated.cs from GistFileContent.
+Generated GistFileContent.Generated.cs from GistFileContent.
+Generated SerializableGistFileContent.Generated.cs from GistFileContent.
+Generated IGistFork.Generated.cs from GistFork.
+Generated GistFork.Generated.cs from GistFork.
+Generated SerializableGistFork.Generated.cs from GistFork.
+Generated IGistHistory.Generated.cs from GistHistory.
+Generated GistHistory.Generated.cs from GistHistory.
+Generated SerializableGistHistory.Generated.cs from GistHistory.
+Generated IGistChangeStatus.Generated.cs from GistChangeStatus.
+Generated GistChangeStatus.Generated.cs from GistChangeStatus.
+Generated SerializableGistChangeStatus.Generated.cs from GistChangeStatus.
+Generated IGitReference.Generated.cs from GitReference.
+Generated GitReference.Generated.cs from GitReference.
+Generated SerializableGitReference.Generated.cs from GitReference.
+Generated IGitObject.Generated.cs from GitObject.
+Generated GitObject.Generated.cs from GitObject.
+Generated SerializableGitObject.Generated.cs from GitObject.
+Generated IUser.Generated.cs from User.
+Generated User.Generated.cs from User.
+Generated SerializableUser.Generated.cs from User.
+Generated IAuthorizedUser.Generated.cs from AuthorizedUser.
+Generated AuthorizedUser.Generated.cs from AuthorizedUser.
+Generated SerializableAuthorizedUser.Generated.cs from AuthorizedUser.
+Generated IUserPlan.Generated.cs from UserPlan.
+Generated UserPlan.Generated.cs from UserPlan.
+Generated SerializableUserPlan.Generated.cs from UserPlan.
+
