@@ -7,9 +7,9 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    using Newtonsoft.Json.Serialization;
+    using CodeEmbed.GitHubClient.Serialization.Contracts;
 
-    [ContractClass(typeof(JsonISerializableContract))]
+    [ContractClass(typeof(JsonSerializerContract))]
     public interface IJsonSerializer
     {
         Task<T> Deserialize<T>(
