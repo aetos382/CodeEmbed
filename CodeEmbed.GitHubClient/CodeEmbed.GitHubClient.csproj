@@ -140,6 +140,9 @@
     <Compile Include="Models\AuthorizedUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorizedUserExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Gist.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -149,25 +152,52 @@
     <Compile Include="Models\GistChangeStatus.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistChangeStatusExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GistFile.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistFileContent.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistFileContentExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistFileExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GistFork.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistForkExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistHistory.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistHistoryExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GistSummary.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistSummaryExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitObjectExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GitReference.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitReferenceExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IAuthorizedUser.Generated.cs">
@@ -224,10 +254,16 @@
     <Compile Include="Models\Permissions.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PermissionsExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PublicRepository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PublicRepositoryContracts.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PublicRepositoryExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repository.Generated.cs">
@@ -237,10 +273,16 @@
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepositoryExtension.cs" />
+    <Compile Include="Models\RepositoryExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepositoryUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\RepositoryUserContracts.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\RepositoryUserExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializableAuthorizedUser.Generated.cs">
@@ -297,7 +339,13 @@
     <Compile Include="Models\User.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserPlan.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserPlanExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Network\ConnectionExtension.cs" />
@@ -314,9 +362,10 @@
     <Compile Include="IGitHubClient.cs" />
     <Compile Include="Serialization\CamelCaseStringEnumConverter.cs" />
     <Compile Include="Serialization\Contracts\JsonSerializerContract.cs" />
+    <Compile Include="Serialization\DefaultModelResolver.cs" />
     <Compile Include="Serialization\IJsonSerializer.cs" />
     <Compile Include="Serialization\JsonNetSerializer.cs" />
-    <Compile Include="Models\RepositorySummaryExtension.cs" />
+    <Compile Include="Models\PublicRepositoryExtension.cs" />
     <Compile Include="Network\HttpClientConnection.cs" />
     <Compile Include="Network\Contracts\ConnectionContract.cs" />
     <Compile Include="Network\IConnection.cs" />
@@ -348,6 +397,7 @@
     <None Include="Models\GitHubModels.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Models\ModelExtension.tt" />
     <None Include="Models\ModelClass.tt" />
     <None Include="Models\ModelContract.tt" />
     <None Include="Models\ModelDefinitionParser.ttinclude">

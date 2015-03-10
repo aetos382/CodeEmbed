@@ -80,6 +80,17 @@
 			manager.EndBlock();
 
 			this.WriteLine(string.Format("Generated {0} from {1}.", serializableClassFileName, model.Name.LocalName));
+
+			if (!model.IsAbstract)
+            {
+				string extensionClassDef = this.GenerateModel("ModelExtension.tt", codeNamespace, model);
+				string extensionClassFileName = string.Format("{0}Extension.Generated.cs", model.Name.LocalName);
+				manager.StartNewFile(extensionClassFileName);
+				this.Write(extensionClassDef);
+				manager.EndBlock();
+
+				this.WriteLine(string.Format("Generated {0} from {1}.", extensionClassFileName, model.Name.LocalName));
+            }
         }
     }
 

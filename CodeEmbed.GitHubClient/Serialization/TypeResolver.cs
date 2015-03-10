@@ -112,6 +112,15 @@
             this._typeMap[typeof(TRequire)] = typeof(TImplement);
         }
 
+        public void Map(Type requiredType, Type implementType)
+        {
+            Contract.Requires<ArgumentNullException>(requiredType != null);
+            Contract.Requires<ArgumentNullException>(implementType != null);
+            Contract.Requires<ArgumentException>(requiredType.IsAssignableFrom(implementType));
+
+            this._typeMap[requiredType] = implementType;
+        }
+
         public JsonContract ResolveContract(Type type)
         {
             Type concreteType;

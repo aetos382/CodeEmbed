@@ -4,14 +4,15 @@
     using System.Diagnostics.Contracts;
     using System.Threading.Tasks;
 
-    public static class RepositoryExtension
+    public static partial class RepositoryExtension
     {
-        public static Task<IBranch> GetDefaultBranch(
+        public static Task<GitReference> GetDefaultBranchReference(
             this Repository repository)
         {
             Contract.Requires<ArgumentNullException>(repository != null);
 
-            var result = repository.GetBranch(repository.DefaultBranch);
+            var result = repository.GetBranchReference(repository.DefaultBranch);
+
             return result;
         }
     }

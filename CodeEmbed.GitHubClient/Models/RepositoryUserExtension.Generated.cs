@@ -1,0 +1,37 @@
+namespace CodeEmbed.GitHubClient.Models
+{
+    using System;
+    using System.CodeDom.Compiler;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
+    using System.Threading.Tasks;
+
+    using CodeEmbed.GitHubClient;
+
+    [GeneratedCode("ModelExtension.tt", "1.0")]
+    [DebuggerStepThrough]
+    public static partial class RepositoryUserExtension
+    {
+		public static RepositoryUser Wrap(
+			this IRepositoryUser repositoryUser,
+			IGitHubClient client)
+		{
+			Contract.Requires<ArgumentNullException>(repositoryUser != null);
+			Contract.Requires<ArgumentNullException>(client != null);
+
+			Contract.Ensures(Contract.Result<RepositoryUser>() != null);
+
+			return new RepositoryUser(repositoryUser, client);
+		}
+
+		public static async Task<RepositoryUser> Wrap(
+			this Task<IRepositoryUser> repositoryUser,
+			IGitHubClient client)
+		{
+			Contract.Requires<ArgumentNullException>(repositoryUser != null);
+			Contract.Requires<ArgumentNullException>(client != null);
+
+			return new RepositoryUser(await repositoryUser.ConfigureAwait(false), client);
+		}
+	}
+}

@@ -1,0 +1,91 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+
+<#
+    var model = Model.Parse(ModelXml);
+
+    string modelName = model.Name.LocalName;
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.Diagnostics",
+			"System.Diagnostics.Contracts",
+            "System.Threading.Tasks",
+            CodeNamespace
+        };
+    
+    if (model.Members.Any(x => x.IsEnumerable || x.IsDictionary))
+    {
+        namespaces.Add("System.Linq");
+    }
+
+    var additionalNamespaces = model.Members
+        .Select(x => x.Type.Namespace)
+        .Distinct()
+        .Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+
+    string camelCasedModelName = ToCamelCase(modelName);
+#>
+
+namespace <#= CodeNamespace #>.Models
+{
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
+    [GeneratedCode("ModelExtension.tt", "1.0")]
+    [DebuggerStepThrough]
+    public static partial class <#= modelName #>Extension<#= GeneratedModelPostfix #>
+    {
+		public static <#= modelName #> Wrap(
+			this I<#= modelName #> <#= camelCasedModelName #>,
+			IGitHubClient client)
+		{
+			Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
+			Contract.Requires<ArgumentNullException>(client != null);
+
+			Contract.Ensures(Contract.Result<<#= modelName #>>() != null);
+
+			return new <#= modelName #>(<#= camelCasedModelName #>, client);
+		}
+
+		public static async Task<<#= modelName #>> Wrap(
+			this Task<I<#= modelName #>> <#= camelCasedModelName #>,
+			IGitHubClient client)
+		{
+			Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
+			Contract.Requires<ArgumentNullException>(client != null);
+
+			return new <#= modelName #>(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
+		}
+	}
+}

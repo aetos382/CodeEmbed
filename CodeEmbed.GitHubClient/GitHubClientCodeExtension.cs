@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models;
-    using CodeEmbed.GitHubClient.Models.Internal;
 
     public static class GitHubClientCodeExtension
     {
@@ -113,10 +112,10 @@
                     throw new GistNotFoundException(id, version, fileName);
                 }
 
-                gist = await client.GetData<Gist>(history.Uri).ConfigureAwait(false);
+                gist = await client.GetData<IGist>(history.Uri).Wrap(client).ConfigureAwait(false);
             }
 
-            IGistFile file;
+            GistFileContent file;
             if (!gist.Files.TryGetValue(fileName, out file))
             {
                 throw new GistNotFoundException(id, version, fileName);
