@@ -32,6 +32,8 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistFileContent != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<GistFileContent>>() != null);
+
             return new GistFileContent(await gistFileContent.ConfigureAwait(false), client);
         }
 
@@ -42,6 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<GistFileContent>>() != null);
 
             var result = await client.GetData<IGistFileContent>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -55,6 +59,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<GistFileContent>>() != null);
 
             var result = GetGistFileContent(client, uri, CancellationToken.None);
 

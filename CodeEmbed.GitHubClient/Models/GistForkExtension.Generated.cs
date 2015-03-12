@@ -32,6 +32,8 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistFork != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
+
             return new GistFork(await gistFork.ConfigureAwait(false), client);
         }
 
@@ -42,6 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
 
             var result = await client.GetData<IGistFork>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -55,6 +59,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
 
             var result = GetGistFork(client, uri, CancellationToken.None);
 

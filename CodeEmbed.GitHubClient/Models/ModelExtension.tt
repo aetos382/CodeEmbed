@@ -19,50 +19,20 @@
 
     string modelName = model.Name.LocalName;
 
-    var namespaces = new List<string> {
-            "System",
-            "System.CodeDom.Compiler",
-            "System.Diagnostics",
-            "System.Diagnostics.Contracts",
-            "System.Threading",
-            "System.Threading.Tasks",
-            CodeNamespace
-        };
-    
-    if (model.Members.Any(x => x.IsEnumerable || x.IsDictionary))
-    {
-        namespaces.Add("System.Linq");
-    }
-
-    var additionalNamespaces = model.Members
-        .Select(x => x.Type.Namespace)
-        .Distinct()
-        .Select(x => GetClrNamespace(x))
-        .Where(x => x != null);
-
-    namespaces.AddRange(additionalNamespaces);
-
-    var orderedNamespaces = OrderNamespace(namespaces);
-
     string camelCasedModelName = ToCamelCase(modelName);
 #>
 
 namespace <#= CodeNamespace #>.Models
 {
-<#
-    foreach (var nss in orderedNamespaces)
-    {
-        foreach (var ns in nss)
-        {
-#>
-    using <#= ns #>;
-<#
-        }
-#>
-    
-<#
-    }
-#>
+    using System;
+    using System.CodeDom.Compiler;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using <#= CodeNamespace #>;
+
     [GeneratedCode("ModelExtension.tt", "1.0")]
     [DebuggerStepThrough]
     public static partial class <#= modelName #>Extension<#= GeneratedModelPostfix #>
@@ -86,6 +56,8 @@ namespace <#= CodeNamespace #>.Models
             Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
+
             return new <#= modelName #>(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
         }
 
@@ -96,6 +68,8 @@ namespace <#= CodeNamespace #>.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
 
             var result = await client.GetData<I<#= modelName #>>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -109,6 +83,8 @@ namespace <#= CodeNamespace #>.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
 
             var result = Get<#= modelName #>(client, uri, CancellationToken.None);
 

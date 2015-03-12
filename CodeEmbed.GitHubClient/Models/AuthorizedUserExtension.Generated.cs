@@ -32,6 +32,8 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(authorizedUser != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<AuthorizedUser>>() != null);
+
             return new AuthorizedUser(await authorizedUser.ConfigureAwait(false), client);
         }
 
@@ -42,6 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<AuthorizedUser>>() != null);
 
             var result = await client.GetData<IAuthorizedUser>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -55,6 +59,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<AuthorizedUser>>() != null);
 
             var result = GetAuthorizedUser(client, uri, CancellationToken.None);
 

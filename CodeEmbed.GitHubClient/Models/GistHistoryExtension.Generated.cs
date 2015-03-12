@@ -32,6 +32,8 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistHistory != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
+
             return new GistHistory(await gistHistory.ConfigureAwait(false), client);
         }
 
@@ -42,6 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
 
             var result = await client.GetData<IGistHistory>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -55,6 +59,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
 
             var result = GetGistHistory(client, uri, CancellationToken.None);
 

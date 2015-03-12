@@ -32,6 +32,8 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(permissions != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<Permissions>>() != null);
+
             return new Permissions(await permissions.ConfigureAwait(false), client);
         }
 
@@ -42,6 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<Permissions>>() != null);
 
             var result = await client.GetData<IPermissions>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -55,6 +59,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<Permissions>>() != null);
 
             var result = GetPermissions(client, uri, CancellationToken.None);
 

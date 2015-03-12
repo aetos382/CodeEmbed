@@ -18,9 +18,7 @@
 
             var relUri = GitHubUri.GitBranch(publicRepository.Owner.Login, publicRepository.Name, branch);
 
-            var result = await publicRepository.Client.GetData<IGitReference>(relUri)
-                .Wrap(publicRepository.Client)
-                .ConfigureAwait(false);
+            var result = await publicRepository.Client.GetGitReference(relUri).ConfigureAwait(false);
 
             return result;
         }

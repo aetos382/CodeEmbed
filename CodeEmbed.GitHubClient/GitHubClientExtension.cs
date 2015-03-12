@@ -57,7 +57,7 @@
             Contract.Requires<ArgumentNullException>(repository != null);
 
             var relUri = GitHubUri.Repository(user, repository);
-            var result = await client.GetData<IRepository>(relUri).Wrap(client).ConfigureAwait(false);
+            var result = await client.GetRepository(relUri).ConfigureAwait(false);
 
             return result;
         }
@@ -74,7 +74,7 @@
             Contract.Requires<ArgumentNullException>(reference != null);
 
             var relUri = GitHubUri.GitReference(user, repository, reference);
-            var result = await client.GetData<IGitReference>(relUri).Wrap(client).ConfigureAwait(false);
+            var result = await client.GetGitReference(relUri).ConfigureAwait(false);
 
             return result;
         }
@@ -91,7 +91,7 @@
             Contract.Requires<ArgumentNullException>(branch != null);
 
             var relUri = GitHubUri.GitBranch(user, repository, branch);
-            var result = await client.GetData<IGitReference>(relUri).Wrap(client).ConfigureAwait(false);
+            var result = await client.GetGitReference(relUri).ConfigureAwait(false);
 
             return result;
         }
@@ -108,7 +108,7 @@
             Contract.Requires<ArgumentNullException>(tag != null);
 
             var relUri = GitHubUri.GitTag(user, repository, tag);
-            var result = await client.GetData<IGitReference>(relUri).Wrap(client).ConfigureAwait(false);
+            var result = await client.GetGitReference(relUri).ConfigureAwait(false);
 
             return result;
         }
@@ -124,7 +124,7 @@
 
             try
             {
-                var result = await client.GetData<IGist>(relUri).Wrap(client).ConfigureAwait(false);
+                var result = await client.GetGist(relUri).ConfigureAwait(false);
 
                 return result;
             }

@@ -2,10 +2,8 @@ namespace CodeEmbed.GitHubClient.Models
 {
     using System;
     using System.CodeDom.Compiler;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -34,6 +32,8 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gist != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
+            Contract.Ensures(Contract.Result<Task<Gist>>() != null);
+
             return new Gist(await gist.ConfigureAwait(false), client);
         }
 
@@ -44,6 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<Gist>>() != null);
 
             var result = await client.GetData<IGist>(uri, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
@@ -57,6 +59,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
+
+            Contract.Ensures(Contract.Result<Task<Gist>>() != null);
 
             var result = GetGist(client, uri, CancellationToken.None);
 
