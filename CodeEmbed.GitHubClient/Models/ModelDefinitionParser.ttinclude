@@ -154,12 +154,6 @@
         return type.Namespace == ModelNamespace;
     }
 
-	
-    private static bool IsModelType(Member member)
-    {
-        return IsModelType(member.Type) || member.GenericArguments.Any(IsModelType);
-    }
-
     private const string GeneratedModelPostfix = "";
 
     private readonly static XNamespace SchemaNamespace = (XNamespace)"http://schemas.aerie.jp/codeembed/github-models-v3";

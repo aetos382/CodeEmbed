@@ -85,7 +85,7 @@ namespace <#= CodeNamespace #>.Models
     {
         private readonly I<#= modelName #><#= GeneratedModelPostfix #> _<#= camelCasedModelName #> = null;
 <#
-    foreach (var member in model.Members.Where(IsModelType))
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
     {
 #>
 
@@ -124,7 +124,7 @@ namespace <#= CodeNamespace #>.Models
 
             this._<#= camelCasedModelName #> = <#= camelCasedModelName #>;
 <#
-    foreach (var member in model.Members.Where(IsModelType))
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
     {
 #>
 
@@ -187,7 +187,7 @@ namespace <#= CodeNamespace #>.Models
             get
             {
 <#
-        if (IsModelType(member))
+        if (member.ModelType != null)
         {
             if (member.Required)
             {
@@ -212,7 +212,7 @@ namespace <#= CodeNamespace #>.Models
 <#
     }
 
-    foreach (var member in model.Members.Where(IsModelType))
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
     {
 #>
 
@@ -252,7 +252,7 @@ namespace <#= CodeNamespace #>.Models
         {
             Contract.Invariant(this._<#= camelCasedModelName #> != null);
 <#
-    foreach (var member in model.Members.Where(x => IsModelType(x) && x.Required))
+    foreach (var member in model.Members.Where(x => x.ModelType != null && x.Required))
     {
 #>
 
