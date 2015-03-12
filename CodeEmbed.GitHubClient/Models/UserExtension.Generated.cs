@@ -4,6 +4,7 @@ namespace CodeEmbed.GitHubClient.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient;
@@ -12,26 +13,52 @@ namespace CodeEmbed.GitHubClient.Models
     [DebuggerStepThrough]
     public static partial class UserExtension
     {
-		public static User Wrap(
-			this IUser user,
-			IGitHubClient client)
-		{
-			Contract.Requires<ArgumentNullException>(user != null);
-			Contract.Requires<ArgumentNullException>(client != null);
+        public static User Wrap(
+            this IUser user,
+            IGitHubClient client)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(client != null);
 
-			Contract.Ensures(Contract.Result<User>() != null);
+            Contract.Ensures(Contract.Result<User>() != null);
 
-			return new User(user, client);
-		}
+            return new User(user, client);
+        }
 
-		public static async Task<User> Wrap(
-			this Task<IUser> user,
-			IGitHubClient client)
-		{
-			Contract.Requires<ArgumentNullException>(user != null);
-			Contract.Requires<ArgumentNullException>(client != null);
+        public static async Task<User> Wrap(
+            this Task<IUser> user,
+            IGitHubClient client)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(client != null);
 
-			return new User(await user.ConfigureAwait(false), client);
-		}
-	}
+            return new User(await user.ConfigureAwait(false), client);
+        }
+
+        public static async Task<User> GetUser(
+            this IGitHubClient client,
+            Uri uri,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = await client.GetData<IUser>(uri, cancellationToken).ConfigureAwait(false);
+            var wrapped = Wrap(result, client);
+
+            return wrapped;
+        }
+
+        public static Task<User> GetUser(
+            this IGitHubClient client,
+            Uri uri)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = GetUser(client, uri, CancellationToken.None);
+
+            return result;
+        }
+    }
 }

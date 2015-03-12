@@ -23,7 +23,8 @@
             "System",
             "System.CodeDom.Compiler",
             "System.Diagnostics",
-			"System.Diagnostics.Contracts",
+            "System.Diagnostics.Contracts",
+            "System.Threading",
             "System.Threading.Tasks",
             CodeNamespace
         };
@@ -66,26 +67,52 @@ namespace <#= CodeNamespace #>.Models
     [DebuggerStepThrough]
     public static partial class <#= modelName #>Extension<#= GeneratedModelPostfix #>
     {
-		public static <#= modelName #> Wrap(
-			this I<#= modelName #> <#= camelCasedModelName #>,
-			IGitHubClient client)
-		{
-			Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
-			Contract.Requires<ArgumentNullException>(client != null);
+        public static <#= modelName #> Wrap(
+            this I<#= modelName #> <#= camelCasedModelName #>,
+            IGitHubClient client)
+        {
+            Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
+            Contract.Requires<ArgumentNullException>(client != null);
 
-			Contract.Ensures(Contract.Result<<#= modelName #>>() != null);
+            Contract.Ensures(Contract.Result<<#= modelName #>>() != null);
 
-			return new <#= modelName #>(<#= camelCasedModelName #>, client);
-		}
+            return new <#= modelName #>(<#= camelCasedModelName #>, client);
+        }
 
-		public static async Task<<#= modelName #>> Wrap(
-			this Task<I<#= modelName #>> <#= camelCasedModelName #>,
-			IGitHubClient client)
-		{
-			Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
-			Contract.Requires<ArgumentNullException>(client != null);
+        public static async Task<<#= modelName #>> Wrap(
+            this Task<I<#= modelName #>> <#= camelCasedModelName #>,
+            IGitHubClient client)
+        {
+            Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
+            Contract.Requires<ArgumentNullException>(client != null);
 
-			return new <#= modelName #>(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
-		}
-	}
+            return new <#= modelName #>(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
+        }
+
+        public static async Task<<#= modelName #>> Get<#= modelName #>(
+            this IGitHubClient client,
+            Uri uri,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = await client.GetData<I<#= modelName #>>(uri, cancellationToken).ConfigureAwait(false);
+            var wrapped = Wrap(result, client);
+
+            return wrapped;
+        }
+
+        public static Task<<#= modelName #>> Get<#= modelName #>(
+            this IGitHubClient client,
+            Uri uri)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = Get<#= modelName #>(client, uri, CancellationToken.None);
+
+            return result;
+        }
+    }
 }

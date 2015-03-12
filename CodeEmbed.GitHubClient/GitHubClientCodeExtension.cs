@@ -112,7 +112,7 @@
                     throw new GistNotFoundException(id, version, fileName);
                 }
 
-                gist = await client.GetData<IGist>(history.Uri).Wrap(client).ConfigureAwait(false);
+                gist = await client.GetGist(history.Uri).ConfigureAwait(false);
             }
 
             GistFileContent file;
