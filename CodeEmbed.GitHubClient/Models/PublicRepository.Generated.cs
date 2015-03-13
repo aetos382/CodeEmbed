@@ -46,17 +46,6 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "owner"</summary>
-        public RepositoryUser Owner
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<RepositoryUser>() != null);
-
-                return this._owner;
-            }
-        }
-
         /// <summary>Map to "name"</summary>
         public String Name
         {
@@ -75,12 +64,14 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "description"</summary>
-        public String Description
+        /// <summary>Map to "owner"</summary>
+        public RepositoryUser Owner
         {
             get
             {
-                return this._publicRepository.Description;
+                Contract.Ensures(Contract.Result<RepositoryUser>() != null);
+
+                return this._owner;
             }
         }
 
@@ -90,6 +81,24 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._publicRepository.IsPrivate;
+            }
+        }
+
+        /// <summary>Map to "html_url"</summary>
+        public Uri HtmlUri
+        {
+            get
+            {
+                return this._publicRepository.HtmlUri;
+            }
+        }
+
+        /// <summary>Map to "description"</summary>
+        public String Description
+        {
+            get
+            {
+                return this._publicRepository.Description;
             }
         }
 
@@ -111,12 +120,309 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "html_url"</summary>
-        public Uri HtmlUri
+        /// <summary>Map to "forks_url"</summary>
+        public Uri ForksUri
         {
             get
             {
-                return this._publicRepository.HtmlUri;
+                return this._publicRepository.ForksUri;
+            }
+        }
+
+        /// <summary>Map to "keys_url"</summary>
+        public String KeysUri
+        {
+            get
+            {
+                return this._publicRepository.KeysUri;
+            }
+        }
+
+        /// <summary>Map to "collaborators_url"</summary>
+        public String CollaboratorsUri
+        {
+            get
+            {
+                return this._publicRepository.CollaboratorsUri;
+            }
+        }
+
+        /// <summary>Map to "teams_url"</summary>
+        public Uri TeamsUri
+        {
+            get
+            {
+                return this._publicRepository.TeamsUri;
+            }
+        }
+
+        /// <summary>Map to "hooks_url"</summary>
+        public Uri HooksUri
+        {
+            get
+            {
+                return this._publicRepository.HooksUri;
+            }
+        }
+
+        /// <summary>Map to "issue_events_url"</summary>
+        public String IssueEventsUri
+        {
+            get
+            {
+                return this._publicRepository.IssueEventsUri;
+            }
+        }
+
+        /// <summary>Map to "events_url"</summary>
+        public Uri EventsUri
+        {
+            get
+            {
+                return this._publicRepository.EventsUri;
+            }
+        }
+
+        /// <summary>Map to "assignee_url"</summary>
+        public String AssigneesUri
+        {
+            get
+            {
+                return this._publicRepository.AssigneesUri;
+            }
+        }
+
+        /// <summary>Map to "branches_url"</summary>
+        public String BranchesUri
+        {
+            get
+            {
+                return this._publicRepository.BranchesUri;
+            }
+        }
+
+        /// <summary>Map to "tags_url"</summary>
+        public Uri TagsUri
+        {
+            get
+            {
+                return this._publicRepository.TagsUri;
+            }
+        }
+
+        /// <summary>Map to "blobs_url"</summary>
+        public String BlobsUri
+        {
+            get
+            {
+                return this._publicRepository.BlobsUri;
+            }
+        }
+
+        /// <summary>Map to "git_tags_url"</summary>
+        public String GitTagsUri
+        {
+            get
+            {
+                return this._publicRepository.GitTagsUri;
+            }
+        }
+
+        /// <summary>Map to "git_refs_url"</summary>
+        public String GitReferenesUri
+        {
+            get
+            {
+                return this._publicRepository.GitReferenesUri;
+            }
+        }
+
+        /// <summary>Map to "statuses_url"</summary>
+        public String StatusesUri
+        {
+            get
+            {
+                return this._publicRepository.StatusesUri;
+            }
+        }
+
+        /// <summary>Map to "languages_url"</summary>
+        public Uri LanguagesUri
+        {
+            get
+            {
+                return this._publicRepository.LanguagesUri;
+            }
+        }
+
+        /// <summary>Map to "stargazers_url"</summary>
+        public Uri StargazersUri
+        {
+            get
+            {
+                return this._publicRepository.StargazersUri;
+            }
+        }
+
+        /// <summary>Map to "contributos_url"</summary>
+        public Uri ContributorsUri
+        {
+            get
+            {
+                return this._publicRepository.ContributorsUri;
+            }
+        }
+
+        /// <summary>Map to "subscribers_url"</summary>
+        public Uri SubscribersUri
+        {
+            get
+            {
+                return this._publicRepository.SubscribersUri;
+            }
+        }
+
+        /// <summary>Map to "subscription_url"</summary>
+        public Uri SubscriptionUri
+        {
+            get
+            {
+                return this._publicRepository.SubscriptionUri;
+            }
+        }
+
+        /// <summary>Map to "commits_url"</summary>
+        public String CommitsUri
+        {
+            get
+            {
+                return this._publicRepository.CommitsUri;
+            }
+        }
+
+        /// <summary>Map to "git_commits_url"</summary>
+        public String GitCommitsUri
+        {
+            get
+            {
+                return this._publicRepository.GitCommitsUri;
+            }
+        }
+
+        /// <summary>Map to "comments_url"</summary>
+        public string CommentsUri
+        {
+            get
+            {
+                return this._publicRepository.CommentsUri;
+            }
+        }
+
+        /// <summary>Map to "issue_comment_url"</summary>
+        public String IssueCommentUri
+        {
+            get
+            {
+                return this._publicRepository.IssueCommentUri;
+            }
+        }
+
+        /// <summary>Map to "contents_url"</summary>
+        public String ContentsUri
+        {
+            get
+            {
+                return this._publicRepository.ContentsUri;
+            }
+        }
+
+        /// <summary>Map to "compare_url"</summary>
+        public String CompareUri
+        {
+            get
+            {
+                return this._publicRepository.CompareUri;
+            }
+        }
+
+        /// <summary>Map to "merges_url"</summary>
+        public Uri MergesUri
+        {
+            get
+            {
+                return this._publicRepository.MergesUri;
+            }
+        }
+
+        /// <summary>Map to "archive_url"</summary>
+        public String ArchiveUri
+        {
+            get
+            {
+                return this._publicRepository.ArchiveUri;
+            }
+        }
+
+        /// <summary>Map to "downloads_url"</summary>
+        public Uri DownloadsUri
+        {
+            get
+            {
+                return this._publicRepository.DownloadsUri;
+            }
+        }
+
+        /// <summary>Map to "issues_url"</summary>
+        public String IssuesUri
+        {
+            get
+            {
+                return this._publicRepository.IssuesUri;
+            }
+        }
+
+        /// <summary>Map to "pulls_url"</summary>
+        public String PullsUri
+        {
+            get
+            {
+                return this._publicRepository.PullsUri;
+            }
+        }
+
+        /// <summary>Map to "milestones_url"</summary>
+        public String MilestonesUri
+        {
+            get
+            {
+                return this._publicRepository.MilestonesUri;
+            }
+        }
+
+        /// <summary>Map to "notifications_url"</summary>
+        public String NotificationsUri
+        {
+            get
+            {
+                return this._publicRepository.NotificationsUri;
+            }
+        }
+
+        /// <summary>Map to "labels_url"</summary>
+        public String LabelsUri
+        {
+            get
+            {
+                return this._publicRepository.LabelsUri;
+            }
+        }
+
+        /// <summary>Map to "releases_url"</summary>
+        public String ReleasesUri
+        {
+            get
+            {
+                return this._publicRepository.ReleasesUri;
             }
         }
 

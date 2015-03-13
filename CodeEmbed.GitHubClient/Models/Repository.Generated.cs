@@ -61,12 +61,30 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "clone_uri"</summary>
-        public Uri CloneUri
+        /// <summary>Map to "created_at"</summary>
+        public DateTime CreatedAt
         {
             get
             {
-                return this._repository.CloneUri;
+                return this._repository.CreatedAt;
+            }
+        }
+
+        /// <summary>Map to "updated_at"</summary>
+        public DateTime UpdatedAt
+        {
+            get
+            {
+                return this._repository.UpdatedAt;
+            }
+        }
+
+        /// <summary>Map to "pushed_at"</summary>
+        public DateTime PushedAt
+        {
+            get
+            {
+                return this._repository.PushedAt;
             }
         }
 
@@ -80,11 +98,20 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "ssh_url"</summary>
-        public Uri SshUri
+        public String SshUri
         {
             get
             {
                 return this._repository.SshUri;
+            }
+        }
+
+        /// <summary>Map to "clone_uri"</summary>
+        public Uri CloneUri
+        {
+            get
+            {
+                return this._repository.CloneUri;
             }
         }
 
@@ -97,17 +124,8 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "mirror_url"</summary>
-        public Uri MirrorUri
-        {
-            get
-            {
-                return this._repository.MirrorUri;
-            }
-        }
-
         /// <summary>Map to "homepage"</summary>
-        public Uri Homepage
+        public String Homepage
         {
             get
             {
@@ -115,21 +133,12 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "language"</summary>
-        public String Language
+        /// <summary>Map to "size"</summary>
+        public Int64 Size
         {
             get
             {
-                return this._repository.Language;
-            }
-        }
-
-        /// <summary>Map to "forks_count"</summary>
-        public Int32 ForksCount
-        {
-            get
-            {
-                return this._repository.ForksCount;
+                return this._repository.Size;
             }
         }
 
@@ -151,30 +160,12 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "size"</summary>
-        public Int64 Size
+        /// <summary>Map to "language"</summary>
+        public String Language
         {
             get
             {
-                return this._repository.Size;
-            }
-        }
-
-        /// <summary>Map to "default_branch"</summary>
-        public String DefaultBranch
-        {
-            get
-            {
-                return this._repository.DefaultBranch;
-            }
-        }
-
-        /// <summary>Map to "open_issues_count"</summary>
-        public Int32 OpenIssuesCount
-        {
-            get
-            {
-                return this._repository.OpenIssuesCount;
+                return this._repository.Language;
             }
         }
 
@@ -184,6 +175,15 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._repository.HasIssues;
+            }
+        }
+
+        /// <summary>Map to "has_downloads"</summary>
+        public Boolean HasDownloads
+        {
+            get
+            {
+                return this._repository.HasDownloads;
             }
         }
 
@@ -205,39 +205,66 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "has_downloads"</summary>
-        public Boolean HasDownloads
+        /// <summary>Map to "forks_count"</summary>
+        public Int32 ForksCount
         {
             get
             {
-                return this._repository.HasDownloads;
+                return this._repository.ForksCount;
             }
         }
 
-        /// <summary>Map to "pushed_at"</summary>
-        public DateTime PushedAt
+        /// <summary>Map to "mirror_url"</summary>
+        public Uri MirrorUri
         {
             get
             {
-                return this._repository.PushedAt;
+                return this._repository.MirrorUri;
             }
         }
 
-        /// <summary>Map to "created_at"</summary>
-        public DateTime CreatedAt
+        /// <summary>Map to "open_issues_count"</summary>
+        public Int32 OpenIssuesCount
         {
             get
             {
-                return this._repository.CreatedAt;
+                return this._repository.OpenIssuesCount;
             }
         }
 
-        /// <summary>Map to "updated_at"</summary>
-        public DateTime UpdatedAt
+        /// <summary>Map to "forks"</summary>
+        public Int32 Forks
         {
             get
             {
-                return this._repository.UpdatedAt;
+                return this._repository.Forks;
+            }
+        }
+
+        /// <summary>Map to "open_issues"</summary>
+        public Int32 OpenIssues
+        {
+            get
+            {
+                return this._repository.OpenIssues;
+            }
+        }
+
+        /// <summary>Map to "watchers"</summary>
+        public Int32 Watchers
+        {
+            get
+            {
+                return this._repository.Watchers;
+            }
+        }
+
+        /// <summary>Map to "default_branch"</summary>
+        public String DefaultBranch
+        {
+            get
+            {
+                return this._repository.DefaultBranch;
             }
         }
 
@@ -247,15 +274,6 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._permissions;
-            }
-        }
-
-        /// <summary>Map to "subscribers_count"</summary>
-        public Int32 SubscribersCount
-        {
-            get
-            {
-                return this._repository.SubscribersCount;
             }
         }
 
@@ -283,6 +301,24 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._source;
+            }
+        }
+
+        /// <summary>Map to "network_count"</summary>
+        public Int32 NetworkCount
+        {
+            get
+            {
+                return this._repository.NetworkCount;
+            }
+        }
+
+        /// <summary>Map to "subscribers_count"</summary>
+        public Int32 SubscribersCount
+        {
+            get
+            {
+                return this._repository.SubscribersCount;
             }
         }
 

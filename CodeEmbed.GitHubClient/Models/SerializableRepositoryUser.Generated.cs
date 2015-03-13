@@ -53,8 +53,8 @@ namespace CodeEmbed.GitHubClient.Models
         [ContractPublicPropertyName("RepositoriesUri")]
         private readonly Uri _repositoriesUri;
 
-        [ContractPublicPropertyName("EventUri")]
-        private readonly String _eventUri;
+        [ContractPublicPropertyName("EventsUri")]
+        private readonly String _eventsUri;
 
         [ContractPublicPropertyName("ReceivedEventsUri")]
         private readonly Uri _receivedEventsUri;
@@ -81,7 +81,7 @@ namespace CodeEmbed.GitHubClient.Models
 			Uri subscriptionsUri,
 			Uri organizationsUri,
 			Uri repositoriesUri,
-			String eventUri,
+			String eventsUri,
 			Uri receivedEventsUri,
 			String type,
 			Boolean siteAdministrator)
@@ -101,7 +101,7 @@ namespace CodeEmbed.GitHubClient.Models
             this._subscriptionsUri = subscriptionsUri;
             this._organizationsUri = organizationsUri;
             this._repositoriesUri = repositoriesUri;
-            this._eventUri = eventUri;
+            this._eventsUri = eventsUri;
             this._receivedEventsUri = receivedEventsUri;
             this._type = type;
             this._siteAdministrator = siteAdministrator;
@@ -239,11 +239,11 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "events_url"</summary>
         [JsonProperty("events_url")]
-        public String EventUri
+        public String EventsUri
         {
             get
             {
-                return this._eventUri;
+                return this._eventsUri;
             }
         }
 

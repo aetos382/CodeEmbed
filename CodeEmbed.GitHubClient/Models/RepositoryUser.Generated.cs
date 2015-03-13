@@ -150,11 +150,11 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "events_url"</summary>
-        public String EventUri
+        public String EventsUri
         {
             get
             {
-                return this._repositoryUser.EventUri;
+                return this._repositoryUser.EventsUri;
             }
         }
 

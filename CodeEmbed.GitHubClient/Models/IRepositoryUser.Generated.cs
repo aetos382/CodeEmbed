@@ -48,7 +48,7 @@ namespace CodeEmbed.GitHubClient.Models
         Uri RepositoriesUri { [Pure] get; }
 
         /// <summary>Map to "events_url"</summary>
-        String EventUri { [Pure] get; }
+        String EventsUri { [Pure] get; }
 
         /// <summary>Map to "received_events_url"</summary>
         Uri ReceivedEventsUri { [Pure] get; }

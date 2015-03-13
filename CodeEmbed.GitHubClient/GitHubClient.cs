@@ -50,8 +50,26 @@
 
             this._userAgent = userAgent;
 
-            this._serializer = serializer ?? new JsonNetSerializer();
-            this._connection = connection ?? new HttpClientConnection(userAgent, oAuthToken);
+            if (serializer != null)
+            {
+                this._serializer = serializer;
+            }
+            else
+            {
+                var defaultSerializer = new JsonNetSerializer();
+                defaultSerializer.MapAllTypes();
+
+                this._serializer = defaultSerializer;
+            }
+
+            if (connection != null)
+            {
+                this._connection = connection;
+            }
+            else
+            {
+                this._connection = new HttpClientConnection(userAgent, oAuthToken);
+            }
         }
 
         public IConnection Connection

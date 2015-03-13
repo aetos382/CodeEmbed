@@ -66,7 +66,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisIgnoreGeneratedCode>true</CodeAnalysisIgnoreGeneratedCode>
   </PropertyGroup>
@@ -362,7 +362,6 @@
     <Compile Include="IGitHubClient.cs" />
     <Compile Include="Serialization\CamelCaseStringEnumConverter.cs" />
     <Compile Include="Serialization\Contracts\JsonSerializerContract.cs" />
-    <Compile Include="Serialization\DefaultModelResolver.cs" />
     <Compile Include="Serialization\IJsonSerializer.cs" />
     <Compile Include="Serialization\JsonNetSerializer.cs" />
     <Compile Include="Models\PublicRepositoryExtension.cs" />

@@ -69,7 +69,7 @@ namespace CodeEmbed.GitHubClient.Models
 			Uri subscriptionsUri,
 			Uri organizationsUri,
 			Uri repositoriesUri,
-			String eventUri,
+			String eventsUri,
 			Uri receivedEventsUri,
 			String type,
 			Boolean siteAdministrator,
@@ -100,7 +100,7 @@ namespace CodeEmbed.GitHubClient.Models
 				subscriptionsUri,
 				organizationsUri,
 				repositoriesUri,
-				eventUri,
+				eventsUri,
 				receivedEventsUri,
 				type,
 				siteAdministrator)
