@@ -20,7 +20,7 @@ shallow_clone: true
 
 # Operating system (build VM template)
 # os: Windows Server 2012 R2
-os: Previous Windows Server 2012 R2
+os: Windows Server 2012 R2
 
 # environment variables
 environment:
@@ -58,7 +58,7 @@ build:
   project: CodeEmbed.sln   # path to Visual Studio solution or project
 
   # MSBuild verbosity level
-  verbosity: minimal
+  verbosity: normal
 
 # scripts to run before build
 before_build:
