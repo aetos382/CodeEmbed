@@ -80,6 +80,9 @@ after_build:
 artifacts:
   - path: Publish
 
+  - path: .
+    name: all
+
 #---------------------------------#
 #     deployment configuration    #
 #---------------------------------#
