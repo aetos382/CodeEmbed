@@ -1,1 +1,1 @@
-/m /v:m /t:WebPublish /p:OutputPath="bin" /p:RestorePackages=false /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True
+/m /v:m /t:WebPublish /p:OutputPath="bin" /p:RestorePackages=false /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /v:n
