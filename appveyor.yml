@@ -79,9 +79,8 @@ after_build:
 
 artifacts:
   - path: Publish
-
-  - path: $(APPVEYOR_BUILD_FOLDER)
-    name: all
+  - path: CodeEmbed.Web.Http
+  - path: CodeEmbed.Web.Api
 
 #---------------------------------#
 #     deployment configuration    #
