@@ -80,7 +80,7 @@ after_build:
 artifacts:
   - path: Publish
 
-  - path: .
+  - path: $(APPVEYOR_BUILD_FOLDER)
     name: all
 
 #---------------------------------#
