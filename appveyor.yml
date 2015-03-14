@@ -34,6 +34,8 @@ matrix:
 
 # scripts that run after cloning repository
 install:
+  - ps: Start-FileDownload 'https://visualstudiogallery.msdn.microsoft.com/1ec7db13-3363-46c9-851f-1ce455f66970/file/93972/16/Contracts.devlab9ts.msi'
+  - msiexec.exe /i Contracts.devlab9ts.msi /quiet /norestart
   - cinst WAWSDeploy
 
 # enable patching of AssemblyInfo.* files
