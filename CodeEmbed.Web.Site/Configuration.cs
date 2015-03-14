@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.Diagnostics.Contracts;
     using System.Linq;
     
     public static class Configuration
@@ -12,8 +11,6 @@
         {
             get
             {
-                Contract.Ensures(Contract.Result<Uri>() != null);
-
                 string value = ConfigurationManager.AppSettings["apiEndpoint"];
                 if (value == null)
                 {

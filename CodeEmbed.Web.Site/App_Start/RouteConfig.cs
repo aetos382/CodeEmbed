@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Web.Mvc;
     using System.Web.Routing;
@@ -11,8 +10,6 @@
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-            Contract.Requires<ArgumentNullException>(routes != null);
-
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(

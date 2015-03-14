@@ -1,7 +1,6 @@
 ﻿namespace CodeEmbed.Web.Site
 {
     using System;
-    using System.Diagnostics.Contracts;
     using System.Web.Optimization;
 
     public static class BundleConfig
@@ -9,8 +8,6 @@
         // バンドルの詳細については、http://go.microsoft.com/fwlink/?LinkId=301862  を参照してください
         public static void RegisterBundles(BundleCollection bundles)
         {
-            Contract.Requires<ArgumentNullException>(bundles != null);
-
             bundles.Add(
                 new ScriptBundle("~/bundles/jquery").Include(
                     "~/Scripts/jquery-{version}.js"));
