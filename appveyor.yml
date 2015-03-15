@@ -28,8 +28,6 @@ environment:
     secure: jqtdWF2szgieS3RJDDjtE6Ttj0QXORa+kmLJkHCCBpKsyMz/UeFOZSfIP2jHu9L2
   deploy_password:
     secure: KgSo90aar4SKwjJH91cbxC+fn0ZXhzRnr29DflE9jJ2cm2Y4EzdLkKy7C2stLYfYcGsXxb41VUQiwjHFtSvXTA==
-  msbuild_logger:
-    /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 # this is how to allow failing jobs in the matrix
 matrix:
@@ -63,12 +61,12 @@ build:
   verbosity: normal
 
 build_script:
-  - msbuild.exe CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
-  - msbuild.exe CodeEmbed.GitHubClient.Tests\CodeEmbed.GitHubClient.Tests.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
-  - msbuild.exe CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
-  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /t:Build;WebPublish /nologo /l:"$(msbuild_logger)" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
-  - msbuild.exe CodeEmbed.Web.Api.Tests\CodeEmbed.Web.Api.Tests.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
-  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /t:Build;WebPublish /nologo /l:"$(msbuild_logger)" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:AspNetBuildViews=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
+  - msbuild.exe CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
+  - msbuild.exe CodeEmbed.GitHubClient.Tests\CodeEmbed.GitHubClient.Tests.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
+  - msbuild.exe CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
+  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /t:Build;WebPublish /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
+  - msbuild.exe CodeEmbed.Web.Api.Tests\CodeEmbed.Web.Api.Tests.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
+  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /t:Build;WebPublish /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:AspNetBuildViews=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
 
 # scripts to run before build
 before_build:
@@ -84,8 +82,6 @@ before_build:
 
 artifacts:
   - path: Publish
-  - path: CodeEmbed.Web.Http
-  - path: CodeEmbed.Web.Api
 
 #---------------------------------#
 #     deployment configuration    #
