@@ -55,7 +55,7 @@ configuration:
 
 build:
   parallel: true           # enable MSBuild parallel builds
-  project: CodeEmbed.AppVeyor.sln   # path to Visual Studio solution or project
+  project: CodeEmbed.sln   # path to Visual Studio solution or project
 
   # MSBuild verbosity level
   verbosity: normal
@@ -63,6 +63,8 @@ build:
 # scripts to run before build
 before_build:
   - ps: .\beforeBuild.ps1
+  - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /p:Transform=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj.transform
+  - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /p:Transform=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj.transform
 
 #---------------------------------#
 #       tests configuration       #
