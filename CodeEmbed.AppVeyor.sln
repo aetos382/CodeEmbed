@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.GitHubClient.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Http", "CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj", "{67DE14A6-ED41-4C0E-A98F-4A522437266C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Api", "CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj", "{B400D6C1-80B6-4BF4-8BCF-3DFA81024326}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Api", "CodeEmbed.Web.Api\CodeEmbed.Web.Api.AppVeyor.csproj", "{B400D6C1-80B6-4BF4-8BCF-3DFA81024326}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Api.Tests", "CodeEmbed.Web.Api.Tests\CodeEmbed.Web.Api.Tests.csproj", "{EBA19781-B2C1-45D4-9E05-E58971F86AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Site", "CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj", "{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeEmbed.Web.Site", "CodeEmbed.Web.Site\CodeEmbed.Web.Site.AppVeyor.csproj", "{B22C57B1-5211-4AEF-B96B-DA165DFFBBF5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{197F83A0-A55D-4F26-A1C3-73B667CD3E99}"
 	ProjectSection(SolutionItems) = preProject

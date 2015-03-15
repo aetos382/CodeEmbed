@@ -55,13 +55,10 @@ configuration:
 
 build:
   parallel: true           # enable MSBuild parallel builds
-  project: CodeEmbed.sln   # path to Visual Studio solution or project
+  project: CodeEmbed.AppVeyor.sln   # path to Visual Studio solution or project
 
   # MSBuild verbosity level
   verbosity: normal
-
-# build_script:
-#   - build.cmd
 
 # scripts to run before build
 before_build:
