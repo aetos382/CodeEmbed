@@ -1,7 +1,7 @@
 @echo on
 
 set logger=C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll
-set outputPath=bin\%Platform%\%Configuration%\
+set outputPath=bin\%Configuration%\
 set publishParams=/p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True
 
 msbuild.exe CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj /t:Build /l:"%logger%" /m /p:OutputPath="%outputPath%"
