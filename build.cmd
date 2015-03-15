@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 set logger=C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll
 set outputPath=bin\%Platform%\%Configuration%\
