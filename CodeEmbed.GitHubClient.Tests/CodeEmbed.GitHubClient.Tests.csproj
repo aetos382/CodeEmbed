@@ -66,11 +66,13 @@
   <ItemGroup>
     <Compile Include="GitHubClientExtensionTests.cs" />
     <Compile Include="Models\RepositoryTests.cs" />
-    <Compile Include="Models\PublicRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Models\Data\PublicRepository.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Models\Data\RepositoryUser.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Models\Data\Repository.json">

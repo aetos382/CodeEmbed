@@ -80,6 +80,9 @@ namespace CodeEmbed.GitHubClient.Models
         [ContractPublicPropertyName("GitReferenesUri")]
         private readonly String _gitReferenesUri;
 
+        [ContractPublicPropertyName("TreesUri")]
+        private readonly String _treesUri;
+
         [ContractPublicPropertyName("StatusesUri")]
         private readonly String _statusesUri;
 
@@ -168,6 +171,7 @@ namespace CodeEmbed.GitHubClient.Models
 			String blobsUri,
 			String gitTagsUri,
 			String gitReferenesUri,
+			String treesUri,
 			String statusesUri,
 			Uri languagesUri,
 			Uri stargazersUri,
@@ -215,6 +219,7 @@ namespace CodeEmbed.GitHubClient.Models
             this._blobsUri = blobsUri;
             this._gitTagsUri = gitTagsUri;
             this._gitReferenesUri = gitReferenesUri;
+            this._treesUri = treesUri;
             this._statusesUri = statusesUri;
             this._languagesUri = languagesUri;
             this._stargazersUri = stargazersUri;
@@ -398,8 +403,8 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "assignee_url"</summary>
-        [JsonProperty("assignee_url")]
+        /// <summary>Map to "assignees_url"</summary>
+        [JsonProperty("assignees_url")]
         public String AssigneesUri
         {
             get
@@ -455,6 +460,16 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._gitReferenesUri;
+            }
+        }
+
+        /// <summary>Map to "trees_url"</summary>
+        [JsonProperty("trees_url")]
+        public String TreesUri
+        {
+            get
+            {
+                return this._treesUri;
             }
         }
 

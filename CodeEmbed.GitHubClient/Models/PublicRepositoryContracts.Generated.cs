@@ -78,7 +78,7 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Map to "events_url"</summary>
         public abstract Uri EventsUri { get; }
 
-        /// <summary>Map to "assignee_url"</summary>
+        /// <summary>Map to "assignees_url"</summary>
         public abstract String AssigneesUri { get; }
 
         /// <summary>Map to "branches_url"</summary>
@@ -95,6 +95,9 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "git_refs_url"</summary>
         public abstract String GitReferenesUri { get; }
+
+        /// <summary>Map to "trees_url"</summary>
+        public abstract String TreesUri { get; }
 
         /// <summary>Map to "statuses_url"</summary>
         public abstract String StatusesUri { get; }

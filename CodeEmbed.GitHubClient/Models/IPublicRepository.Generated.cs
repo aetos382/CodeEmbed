@@ -56,7 +56,7 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Map to "events_url"</summary>
         Uri EventsUri { [Pure] get; }
 
-        /// <summary>Map to "assignee_url"</summary>
+        /// <summary>Map to "assignees_url"</summary>
         String AssigneesUri { [Pure] get; }
 
         /// <summary>Map to "branches_url"</summary>
@@ -73,6 +73,9 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "git_refs_url"</summary>
         String GitReferenesUri { [Pure] get; }
+
+        /// <summary>Map to "trees_url"</summary>
+        String TreesUri { [Pure] get; }
 
         /// <summary>Map to "statuses_url"</summary>
         String StatusesUri { [Pure] get; }

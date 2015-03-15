@@ -183,7 +183,7 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "assignee_url"</summary>
+        /// <summary>Map to "assignees_url"</summary>
         public String AssigneesUri
         {
             get
@@ -234,6 +234,15 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._publicRepository.GitReferenesUri;
+            }
+        }
+
+        /// <summary>Map to "trees_url"</summary>
+        public String TreesUri
+        {
+            get
+            {
+                return this._publicRepository.TreesUri;
             }
         }
 

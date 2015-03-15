@@ -27,12 +27,13 @@
     <g:Member name="HooksUri" type="sys:Uri" json="hooks_url"/>
     <g:Member name="IssueEventsUri" type="sys:String" json="issue_events_url"/>
     <g:Member name="EventsUri" type="sys:Uri" json="events_url"/>
-    <g:Member name="AssigneesUri" type="sys:String" json="assignee_url"/>
+    <g:Member name="AssigneesUri" type="sys:String" json="assignees_url"/>
     <g:Member name="BranchesUri" type="sys:String" json="branches_url"/>
     <g:Member name="TagsUri" type="sys:Uri" json="tags_url"/>
     <g:Member name="BlobsUri" type="sys:String" json="blobs_url"/>
     <g:Member name="GitTagsUri" type="sys:String" json="git_tags_url"/>
     <g:Member name="GitReferenesUri" type="sys:String" json="git_refs_url"/>
+    <g:Member name="TreesUri" type="sys:String" json="trees_url"/>
     <g:Member name="StatusesUri" type="sys:String" json="statuses_url"/>
     <g:Member name="LanguagesUri" type="sys:Uri" json="languages_url"/>
     <g:Member name="StargazersUri" type="sys:Uri" json="stargazers_url"/>
