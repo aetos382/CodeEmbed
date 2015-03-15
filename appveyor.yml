@@ -59,6 +59,9 @@ build:
   parallel: true           # enable MSBuild parallel builds
 #  project: CodeEmbed.sln   # path to Visual Studio solution or project
 
+  # MSBuild verbosity level
+  verbosity: normal
+
 build_script:
   - msbuild.exe CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
   - msbuild.exe CodeEmbed.GitHubClient.Tests\CodeEmbed.GitHubClient.Tests.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
@@ -66,9 +69,6 @@ build_script:
   - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /t:Build;WebPublish /nologo /l:"$(msbuild_logger)" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
   - msbuild.exe CodeEmbed.Web.Api.Tests\CodeEmbed.Web.Api.Tests.csproj /t:Build /nologo /l:"$(msbuild_logger)" /noconlog
   - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /t:Build;WebPublish /nologo /l:"$(msbuild_logger)" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:AspNetBuildViews=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
-
-  # MSBuild verbosity level
-  verbosity: normal
 
 # scripts to run before build
 before_build:
