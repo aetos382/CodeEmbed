@@ -37,7 +37,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46
 		beforeBuild.ps1 = beforeBuild.ps1
 		codeembed-dev.PublishSettings = codeembed-dev.PublishSettings
 		deploy.cmd = deploy.cmd
-		publish.rsp = publish.rsp
 	EndProjectSection
 EndProject
 Global

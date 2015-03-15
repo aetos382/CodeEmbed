@@ -29,3 +29,4 @@ UpgradeLog*.htm
 *.vspscc
 *.vssscc
 StyleCop.Cache
+Publish/
