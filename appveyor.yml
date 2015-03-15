@@ -61,12 +61,7 @@ build:
   verbosity: normal
 
 build_script:
-  - msbuild.exe CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
-  - msbuild.exe CodeEmbed.GitHubClient.Tests\CodeEmbed.GitHubClient.Tests.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
-  - msbuild.exe CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
-  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /t:Build;WebPublish /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
-  - msbuild.exe CodeEmbed.Web.Api.Tests\CodeEmbed.Web.Api.Tests.csproj /t:Build /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog
-  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /t:Build;WebPublish /nologo /l:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll" /noconlog /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /p:PrecompileBeforePublish=True /p:AspNetBuildViews=True /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
+  - build.cmd
 
 # scripts to run before build
 before_build:
