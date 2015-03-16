@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<GistFork>() != null);
 
-            return new GistFork(gistFork, client);
+            var wrapped = new GistFork(gistFork, client);
+
+            return wrapped;
         }
 
         public static async Task<GistFork> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
 
-            return new GistFork(await gistFork.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gistFork.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<GistFork> GetGistFork(

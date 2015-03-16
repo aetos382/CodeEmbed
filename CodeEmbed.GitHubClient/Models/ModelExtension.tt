@@ -46,7 +46,9 @@ namespace <#= CodeNamespace #>.Models
 
             Contract.Ensures(Contract.Result<<#= modelName #>>() != null);
 
-            return new <#= modelName #>(<#= camelCasedModelName #>, client);
+            var wrapped = new <#= modelName #>(<#= camelCasedModelName #>, client);
+
+            return wrapped;
         }
 
         public static async Task<<#= modelName #>> Wrap(
@@ -58,7 +60,9 @@ namespace <#= CodeNamespace #>.Models
 
             Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
 
-            return new <#= modelName #>(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
+            var wrapped = Wrap(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<<#= modelName #>> Get<#= modelName #>(

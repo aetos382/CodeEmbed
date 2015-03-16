@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<UserPlan>() != null);
 
-            return new UserPlan(userPlan, client);
+            var wrapped = new UserPlan(userPlan, client);
+
+            return wrapped;
         }
 
         public static async Task<UserPlan> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<UserPlan>>() != null);
 
-            return new UserPlan(await userPlan.ConfigureAwait(false), client);
+            var wrapped = Wrap(await userPlan.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<UserPlan> GetUserPlan(

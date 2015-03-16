@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<GitReference>() != null);
 
-            return new GitReference(gitReference, client);
+            var wrapped = new GitReference(gitReference, client);
+
+            return wrapped;
         }
 
         public static async Task<GitReference> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<GitReference>>() != null);
 
-            return new GitReference(await gitReference.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gitReference.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<GitReference> GetGitReference(

@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<GistChangeStatus>() != null);
 
-            return new GistChangeStatus(gistChangeStatus, client);
+            var wrapped = new GistChangeStatus(gistChangeStatus, client);
+
+            return wrapped;
         }
 
         public static async Task<GistChangeStatus> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<GistChangeStatus>>() != null);
 
-            return new GistChangeStatus(await gistChangeStatus.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gistChangeStatus.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<GistChangeStatus> GetGistChangeStatus(

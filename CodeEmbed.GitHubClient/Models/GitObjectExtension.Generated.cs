@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<GitObject>() != null);
 
-            return new GitObject(gitObject, client);
+            var wrapped = new GitObject(gitObject, client);
+
+            return wrapped;
         }
 
         public static async Task<GitObject> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<GitObject>>() != null);
 
-            return new GitObject(await gitObject.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gitObject.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<GitObject> GetGitObject(

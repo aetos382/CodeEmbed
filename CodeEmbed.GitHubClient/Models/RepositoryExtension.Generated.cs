@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Repository>() != null);
 
-            return new Repository(repository, client);
+            var wrapped = new Repository(repository, client);
+
+            return wrapped;
         }
 
         public static async Task<Repository> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<Repository>>() != null);
 
-            return new Repository(await repository.ConfigureAwait(false), client);
+            var wrapped = Wrap(await repository.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<Repository> GetRepository(

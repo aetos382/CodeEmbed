@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<GistHistory>() != null);
 
-            return new GistHistory(gistHistory, client);
+            var wrapped = new GistHistory(gistHistory, client);
+
+            return wrapped;
         }
 
         public static async Task<GistHistory> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
 
-            return new GistHistory(await gistHistory.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gistHistory.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<GistHistory> GetGistHistory(

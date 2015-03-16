@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Permissions>() != null);
 
-            return new Permissions(permissions, client);
+            var wrapped = new Permissions(permissions, client);
+
+            return wrapped;
         }
 
         public static async Task<Permissions> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<Permissions>>() != null);
 
-            return new Permissions(await permissions.ConfigureAwait(false), client);
+            var wrapped = Wrap(await permissions.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<Permissions> GetPermissions(

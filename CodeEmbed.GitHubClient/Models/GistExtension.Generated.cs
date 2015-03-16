@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Gist>() != null);
 
-            return new Gist(gist, client);
+            var wrapped = new Gist(gist, client);
+
+            return wrapped;
         }
 
         public static async Task<Gist> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<Gist>>() != null);
 
-            return new Gist(await gist.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gist.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<Gist> GetGist(

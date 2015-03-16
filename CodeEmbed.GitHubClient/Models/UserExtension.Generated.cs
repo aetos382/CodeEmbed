@@ -22,7 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<User>() != null);
 
-            return new User(user, client);
+            var wrapped = new User(user, client);
+
+            return wrapped;
         }
 
         public static async Task<User> Wrap(
@@ -34,7 +36,9 @@ namespace CodeEmbed.GitHubClient.Models
 
             Contract.Ensures(Contract.Result<Task<User>>() != null);
 
-            return new User(await user.ConfigureAwait(false), client);
+            var wrapped = Wrap(await user.ConfigureAwait(false), client);
+
+            return wrapped;
         }
 
         public static async Task<User> GetUser(
