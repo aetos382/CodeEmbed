@@ -23,18 +23,6 @@
 
     bool hasRequiredMember = model.Members.Any(x => x.Required);
 
-    string constructorParameters = string.Join(
-        ",\r\n",
-        model.Members.Select(x => string.Format("\t\t\t{0} {1}", x.GetTypeName("I"), x.CamelCasedName)));
-
-    string parentConstructorParameters = string.Join(
-        ",\r\n",
-        ancestorMembers.Select(x => string.Format("\t\t\t{0} {1}", x.GetTypeName("I"), x.CamelCasedName)));
-
-    string parentConstructorArguments = string.Join(
-        ",\r\n",
-        ancestorMembers.Select(x => string.Format("\t\t\t\t{0}", x.CamelCasedName)));
-
     var namespaces = new List<string> {
             "System",
             "System.CodeDom.Compiler",
@@ -47,12 +35,18 @@
     {
         namespaces.Add("System.ComponentModel");
     }
-    
-    var additionalNamespaces = model.Members
-        .Select(x => x.Type.Namespace)
-        .Distinct()
-        .Select(x => GetClrNamespace(x))
-        .Where(x => x != null);
+
+    if (model.Members.Any(x => IsEnumerable(x.Type) || IsDictionary(x.Type)))
+    {
+        namespaces.Add("System.Linq");
+    }
+
+    var additionalNamespaces = 
+        ancestorMembers.Concat(model.Members)
+            .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+            .Distinct()
+            .Select(x => GetClrNamespace(x))
+            .Where(x => x != null);
 
     namespaces.AddRange(additionalNamespaces);
 
@@ -97,7 +91,7 @@ foreach (var member in model.Members)
 {
 #>
         [ContractPublicPropertyName("<#= member.Name #>")]
-        private readonly <#= member.GetTypeName("I") #> _<#= member.CamelCasedName #>;
+        private readonly <#= member.GetTypeName("Serializable") #> _<#= member.CamelCasedName #>;
 
 <#
 }
@@ -108,19 +102,41 @@ foreach (var member in model.Members)
 <#
 if (inherits != null)
 {
+    foreach (var m in ancestorMembers)
+    {
 #>
-<#= parentConstructorParameters #>,
+            <#= m.GetTypeName("Serializable") #> <#= m.CamelCasedName #>,
+<#
+    }
+}
+
+foreach (var m in model.Members.Take(model.Members.Count() - 1))
+{
+#>
+            <#= m.GetTypeName("Serializable") #> <#= m.CamelCasedName #>,
 <#
 }
+
+var lm = model.Members.Last();
 #>
-<#= constructorParameters #>)
+            <#= lm.GetTypeName("Serializable") #> <#= lm.CamelCasedName #>)
 <#
     if (inherits != null)
     {
 #>
             : base(
-<#= parentConstructorArguments #>)
-<#        
+<#
+        foreach (var m in ancestorMembers.Take(ancestorMembers.Length - 1))
+        {
+#>
+                <#= m.CamelCasedName #>,
+<#
+        }
+
+        var alm = ancestorMembers[ancestorMembers.Length - 1];
+#>
+                <#= alm.CamelCasedName #>)
+<#
     }
 #>
         {
@@ -149,17 +165,53 @@ foreach (var member in model.Members)
 
         /// <summary>Map to "<#= member.Json #>"</summary>
         [JsonProperty("<#= member.Json #>")]
-        public <#= member.GetTypeName("I") #> <#= member.Name #>
+        public <#= member.GetTypeName("Serializable") #> <#= member.Name #>
         {
             get
             {
+<#
+        if (member.Required)
+        {
+#>
+                Contract.Ensures(Contract.Result<<#= member.GetTypeName("Serializable") #>>() != null);
+
+<#
+        }
+#>
                 return this._<#= member.CamelCasedName #>;
             }
         }
 <#
     }
+
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
+    {
 #>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        <#= member.GetTypeName("I") #> I<#= modelName #><#= GeneratedModelPostfix #>.<#= member.Name #>
+        {
+            get
+            {
 <#
+        if (IsDictionary(member.Type))
+        {
+#>
+                return this._<#= member.CamelCasedName #>.ToDictionary(x => x.Key, x => (<#= ParseType(member.ModelType, null, "I") #>)x.Value);
+<#
+        }
+        else
+        {
+#>
+                return this.<#= member.Name #>;
+<#
+        }
+#>
+            }
+        }
+<#
+    }
+
     if (hasRequiredMember)
     {
 #>

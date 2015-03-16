@@ -20,14 +20,14 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly Uri _uri;
 
         [ContractPublicPropertyName("Target")]
-        private readonly IGitObject _target;
+        private readonly SerializableGitObject _target;
 
         /// <summary>Create new instance of SerializableGitReference.</summary>
         [JsonConstructor]
         public SerializableGitReference(
-			String reference,
-			Uri uri,
-			IGitObject target)
+            String reference,
+            Uri uri,
+            SerializableGitObject target)
         {
 
             this._reference = reference;
@@ -57,11 +57,20 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "object"</summary>
         [JsonProperty("object")]
-        public IGitObject Target
+        public SerializableGitObject Target
         {
             get
             {
                 return this._target;
+            }
+        }
+
+        /// <summary>Map to "object"</summary>
+        IGitObject IGitReference.Target
+        {
+            get
+            {
+                return this.Target;
             }
         }
     }

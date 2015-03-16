@@ -28,10 +28,10 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableUserPlan.</summary>
         [JsonConstructor]
         public SerializableUserPlan(
-			String name,
-			Int64 space,
-			Int32 privateRepositories,
-			Int32 collaborators)
+            String name,
+            Int64 space,
+            Int32 privateRepositories,
+            Int32 collaborators)
         {
 
             this._name = name;

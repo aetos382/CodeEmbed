@@ -85,16 +85,16 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly String _defaultBranch;
 
         [ContractPublicPropertyName("Permissions")]
-        private readonly IPermissions _permissions;
+        private readonly SerializablePermissions _permissions;
 
         [ContractPublicPropertyName("Organization")]
-        private readonly IRepositoryUser _organization;
+        private readonly SerializableRepositoryUser _organization;
 
         [ContractPublicPropertyName("Parent")]
-        private readonly IRepository _parent;
+        private readonly SerializableRepository _parent;
 
         [ContractPublicPropertyName("Source")]
-        private readonly IRepository _source;
+        private readonly SerializableRepository _source;
 
         [ContractPublicPropertyName("NetworkCount")]
         private readonly Int32 _networkCount;
@@ -105,124 +105,124 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableRepository.</summary>
         [JsonConstructor]
         public SerializableRepository(
-			Int64 id,
-			String name,
-			String fullName,
-			IRepositoryUser owner,
-			Boolean isPrivate,
-			Uri htmlUri,
-			String description,
-			Boolean fork,
-			Uri uri,
-			Uri forksUri,
-			String keysUri,
-			String collaboratorsUri,
-			Uri teamsUri,
-			Uri hooksUri,
-			String issueEventsUri,
-			Uri eventsUri,
-			String assigneesUri,
-			String branchesUri,
-			Uri tagsUri,
-			String blobsUri,
-			String gitTagsUri,
-			String gitReferenesUri,
-			String treesUri,
-			String statusesUri,
-			Uri languagesUri,
-			Uri stargazersUri,
-			Uri contributorsUri,
-			Uri subscribersUri,
-			Uri subscriptionUri,
-			String commitsUri,
-			String gitCommitsUri,
-			string commentsUri,
-			String issueCommentUri,
-			String contentsUri,
-			String compareUri,
-			Uri mergesUri,
-			String archiveUri,
-			Uri downloadsUri,
-			String issuesUri,
-			String pullsUri,
-			String milestonesUri,
-			String notificationsUri,
-			String labelsUri,
-			String releasesUri,
-			DateTime createdAt,
-			DateTime updatedAt,
-			DateTime pushedAt,
-			Uri gitUri,
-			String sshUri,
-			Uri cloneUri,
-			Uri subversionUri,
-			String homepage,
-			Int64 size,
-			Int32 stargazersCount,
-			Int32 watchersCount,
-			String language,
-			Boolean hasIssues,
-			Boolean hasDownloads,
-			Boolean hasWiki,
-			Boolean hasPages,
-			Int32 forksCount,
-			Uri mirrorUri,
-			Int32 openIssuesCount,
-			Int32 forks,
-			Int32 openIssues,
-			Int32 watchers,
-			String defaultBranch,
-			IPermissions permissions,
-			IRepositoryUser organization,
-			IRepository parent,
-			IRepository source,
-			Int32 networkCount,
-			Int32 subscribersCount)
+            Int64 id,
+            String name,
+            String fullName,
+            SerializableRepositoryUser owner,
+            Boolean isPrivate,
+            Uri htmlUri,
+            String description,
+            Boolean fork,
+            Uri uri,
+            Uri forksUri,
+            String keysUri,
+            String collaboratorsUri,
+            Uri teamsUri,
+            Uri hooksUri,
+            String issueEventsUri,
+            Uri eventsUri,
+            String assigneesUri,
+            String branchesUri,
+            Uri tagsUri,
+            String blobsUri,
+            String gitTagsUri,
+            String gitReferenesUri,
+            String treesUri,
+            String statusesUri,
+            Uri languagesUri,
+            Uri stargazersUri,
+            Uri contributorsUri,
+            Uri subscribersUri,
+            Uri subscriptionUri,
+            String commitsUri,
+            String gitCommitsUri,
+            string commentsUri,
+            String issueCommentUri,
+            String contentsUri,
+            String compareUri,
+            Uri mergesUri,
+            String archiveUri,
+            Uri downloadsUri,
+            String issuesUri,
+            String pullsUri,
+            String milestonesUri,
+            String notificationsUri,
+            String labelsUri,
+            String releasesUri,
+            DateTime createdAt,
+            DateTime updatedAt,
+            DateTime pushedAt,
+            Uri gitUri,
+            String sshUri,
+            Uri cloneUri,
+            Uri subversionUri,
+            String homepage,
+            Int64 size,
+            Int32 stargazersCount,
+            Int32 watchersCount,
+            String language,
+            Boolean hasIssues,
+            Boolean hasDownloads,
+            Boolean hasWiki,
+            Boolean hasPages,
+            Int32 forksCount,
+            Uri mirrorUri,
+            Int32 openIssuesCount,
+            Int32 forks,
+            Int32 openIssues,
+            Int32 watchers,
+            String defaultBranch,
+            SerializablePermissions permissions,
+            SerializableRepositoryUser organization,
+            SerializableRepository parent,
+            SerializableRepository source,
+            Int32 networkCount,
+            Int32 subscribersCount)
             : base(
-				id,
-				name,
-				fullName,
-				owner,
-				isPrivate,
-				htmlUri,
-				description,
-				fork,
-				uri,
-				forksUri,
-				keysUri,
-				collaboratorsUri,
-				teamsUri,
-				hooksUri,
-				issueEventsUri,
-				eventsUri,
-				assigneesUri,
-				branchesUri,
-				tagsUri,
-				blobsUri,
-				gitTagsUri,
-				gitReferenesUri,
-				treesUri,
-				statusesUri,
-				languagesUri,
-				stargazersUri,
-				contributorsUri,
-				subscribersUri,
-				subscriptionUri,
-				commitsUri,
-				gitCommitsUri,
-				commentsUri,
-				issueCommentUri,
-				contentsUri,
-				compareUri,
-				mergesUri,
-				archiveUri,
-				downloadsUri,
-				issuesUri,
-				pullsUri,
-				milestonesUri,
-				notificationsUri,
-				labelsUri,
-				releasesUri)
+                id,
+                name,
+                fullName,
+                owner,
+                isPrivate,
+                htmlUri,
+                description,
+                fork,
+                uri,
+                forksUri,
+                keysUri,
+                collaboratorsUri,
+                teamsUri,
+                hooksUri,
+                issueEventsUri,
+                eventsUri,
+                assigneesUri,
+                branchesUri,
+                tagsUri,
+                blobsUri,
+                gitTagsUri,
+                gitReferenesUri,
+                treesUri,
+                statusesUri,
+                languagesUri,
+                stargazersUri,
+                contributorsUri,
+                subscribersUri,
+                subscriptionUri,
+                commitsUri,
+                gitCommitsUri,
+                commentsUri,
+                issueCommentUri,
+                contentsUri,
+                compareUri,
+                mergesUri,
+                archiveUri,
+                downloadsUri,
+                issuesUri,
+                pullsUri,
+                milestonesUri,
+                notificationsUri,
+                labelsUri,
+                releasesUri)
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentNullException>(owner != null);
@@ -485,13 +485,15 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
+                Contract.Ensures(Contract.Result<String>() != null);
+
                 return this._defaultBranch;
             }
         }
 
         /// <summary>Map to "permissions"</summary>
         [JsonProperty("permissions")]
-        public IPermissions Permissions
+        public SerializablePermissions Permissions
         {
             get
             {
@@ -501,7 +503,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "organization"</summary>
         [JsonProperty("organization")]
-        public IRepositoryUser Organization
+        public SerializableRepositoryUser Organization
         {
             get
             {
@@ -511,7 +513,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "parent"</summary>
         [JsonProperty("parent")]
-        public IRepository Parent
+        public SerializableRepository Parent
         {
             get
             {
@@ -521,7 +523,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "source"</summary>
         [JsonProperty("source")]
-        public IRepository Source
+        public SerializableRepository Source
         {
             get
             {
@@ -546,6 +548,42 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._subscribersCount;
+            }
+        }
+
+        /// <summary>Map to "permissions"</summary>
+        IPermissions IRepository.Permissions
+        {
+            get
+            {
+                return this.Permissions;
+            }
+        }
+
+        /// <summary>Map to "organization"</summary>
+        IRepositoryUser IRepository.Organization
+        {
+            get
+            {
+                return this.Organization;
+            }
+        }
+
+        /// <summary>Map to "parent"</summary>
+        IRepository IRepository.Parent
+        {
+            get
+            {
+                return this.Parent;
+            }
+        }
+
+        /// <summary>Map to "source"</summary>
+        IRepository IRepository.Source
+        {
+            get
+            {
+                return this.Source;
             }
         }
 

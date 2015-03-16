@@ -32,7 +32,7 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly Boolean _isPublic;
 
         [ContractPublicPropertyName("Owner")]
-        private readonly IRepositoryUser _owner;
+        private readonly SerializableRepositoryUser _owner;
 
         [ContractPublicPropertyName("User")]
         private readonly String _user;
@@ -61,21 +61,21 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGistBase.</summary>
         [JsonConstructor]
         protected SerializableGistBase(
-			Uri uri,
-			Uri forksUri,
-			Uri commitsUri,
-			String id,
-			String description,
-			Boolean isPublic,
-			IRepositoryUser owner,
-			String user,
-			Int32 comments,
-			Uri commentsUri,
-			Uri htmlUri,
-			Uri gitPullUri,
-			Uri gitPushUri,
-			DateTime createdAt,
-			DateTime updatedAt)
+            Uri uri,
+            Uri forksUri,
+            Uri commitsUri,
+            String id,
+            String description,
+            Boolean isPublic,
+            SerializableRepositoryUser owner,
+            String user,
+            Int32 comments,
+            Uri commentsUri,
+            Uri htmlUri,
+            Uri gitPullUri,
+            Uri gitPushUri,
+            DateTime createdAt,
+            DateTime updatedAt)
         {
 
             this._uri = uri;
@@ -157,7 +157,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "owner"</summary>
         [JsonProperty("owner")]
-        public IRepositoryUser Owner
+        public SerializableRepositoryUser Owner
         {
             get
             {
@@ -242,6 +242,15 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._updatedAt;
+            }
+        }
+
+        /// <summary>Map to "owner"</summary>
+        IRepositoryUser IGistBase.Owner
+        {
+            get
+            {
+                return this.Owner;
             }
         }
     }

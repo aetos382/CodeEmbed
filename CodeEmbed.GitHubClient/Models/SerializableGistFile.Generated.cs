@@ -31,11 +31,11 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGistFile.</summary>
         [JsonConstructor]
         public SerializableGistFile(
-			Int64 size,
-			Uri rawUri,
-			String contentType,
-			Boolean truncated,
-			String language)
+            Int64 size,
+            Uri rawUri,
+            String contentType,
+            Boolean truncated,
+            String language)
         {
 
             this._size = size;

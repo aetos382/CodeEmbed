@@ -20,10 +20,10 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly String _version;
 
         [ContractPublicPropertyName("User")]
-        private readonly IRepositoryUser _user;
+        private readonly SerializableRepositoryUser _user;
 
         [ContractPublicPropertyName("ChangeStatus")]
-        private readonly IGistChangeStatus _changeStatus;
+        private readonly SerializableGistChangeStatus _changeStatus;
 
         [ContractPublicPropertyName("CommittedAt")]
         private readonly DateTime _committedAt;
@@ -31,11 +31,11 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGistHistory.</summary>
         [JsonConstructor]
         public SerializableGistHistory(
-			Uri uri,
-			String version,
-			IRepositoryUser user,
-			IGistChangeStatus changeStatus,
-			DateTime committedAt)
+            Uri uri,
+            String version,
+            SerializableRepositoryUser user,
+            SerializableGistChangeStatus changeStatus,
+            DateTime committedAt)
         {
 
             this._uri = uri;
@@ -67,7 +67,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "user"</summary>
         [JsonProperty("user")]
-        public IRepositoryUser User
+        public SerializableRepositoryUser User
         {
             get
             {
@@ -77,7 +77,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "change_status"</summary>
         [JsonProperty("change_status")]
-        public IGistChangeStatus ChangeStatus
+        public SerializableGistChangeStatus ChangeStatus
         {
             get
             {
@@ -92,6 +92,24 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._committedAt;
+            }
+        }
+
+        /// <summary>Map to "user"</summary>
+        IRepositoryUser IGistHistory.User
+        {
+            get
+            {
+                return this.User;
+            }
+        }
+
+        /// <summary>Map to "change_status"</summary>
+        IGistChangeStatus IGistHistory.ChangeStatus
+        {
+            get
+            {
+                return this.ChangeStatus;
             }
         }
     }

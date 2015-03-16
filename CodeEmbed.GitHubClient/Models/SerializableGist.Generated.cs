@@ -5,6 +5,7 @@ namespace CodeEmbed.GitHubClient.Models
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     using Newtonsoft.Json;
 
@@ -16,51 +17,51 @@ namespace CodeEmbed.GitHubClient.Models
         IGist
     {
         [ContractPublicPropertyName("Files")]
-        private readonly IReadOnlyDictionary<String, IGistFileContent> _files;
+        private readonly IReadOnlyDictionary<String, SerializableGistFileContent> _files;
 
         [ContractPublicPropertyName("Forks")]
-        private readonly IEnumerable<IGistFork> _forks;
+        private readonly IEnumerable<SerializableGistFork> _forks;
 
         [ContractPublicPropertyName("Histories")]
-        private readonly IEnumerable<IGistHistory> _histories;
+        private readonly IEnumerable<SerializableGistHistory> _histories;
 
         /// <summary>Create new instance of SerializableGist.</summary>
         [JsonConstructor]
         public SerializableGist(
-			Uri uri,
-			Uri forksUri,
-			Uri commitsUri,
-			String id,
-			String description,
-			Boolean isPublic,
-			IRepositoryUser owner,
-			String user,
-			Int32 comments,
-			Uri commentsUri,
-			Uri htmlUri,
-			Uri gitPullUri,
-			Uri gitPushUri,
-			DateTime createdAt,
-			DateTime updatedAt,
-			IReadOnlyDictionary<String, IGistFileContent> files,
-			IEnumerable<IGistFork> forks,
-			IEnumerable<IGistHistory> histories)
+            Uri uri,
+            Uri forksUri,
+            Uri commitsUri,
+            String id,
+            String description,
+            Boolean isPublic,
+            SerializableRepositoryUser owner,
+            String user,
+            Int32 comments,
+            Uri commentsUri,
+            Uri htmlUri,
+            Uri gitPullUri,
+            Uri gitPushUri,
+            DateTime createdAt,
+            DateTime updatedAt,
+            IReadOnlyDictionary<String, SerializableGistFileContent> files,
+            IEnumerable<SerializableGistFork> forks,
+            IEnumerable<SerializableGistHistory> histories)
             : base(
-				uri,
-				forksUri,
-				commitsUri,
-				id,
-				description,
-				isPublic,
-				owner,
-				user,
-				comments,
-				commentsUri,
-				htmlUri,
-				gitPullUri,
-				gitPushUri,
-				createdAt,
-				updatedAt)
+                uri,
+                forksUri,
+                commitsUri,
+                id,
+                description,
+                isPublic,
+                owner,
+                user,
+                comments,
+                commentsUri,
+                htmlUri,
+                gitPullUri,
+                gitPushUri,
+                createdAt,
+                updatedAt)
         {
 
             this._files = files;
@@ -70,7 +71,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "files"</summary>
         [JsonProperty("files")]
-        public IReadOnlyDictionary<String, IGistFileContent> Files
+        public IReadOnlyDictionary<String, SerializableGistFileContent> Files
         {
             get
             {
@@ -80,7 +81,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "forks"</summary>
         [JsonProperty("forks")]
-        public IEnumerable<IGistFork> Forks
+        public IEnumerable<SerializableGistFork> Forks
         {
             get
             {
@@ -90,11 +91,38 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "histories"</summary>
         [JsonProperty("histories")]
-        public IEnumerable<IGistHistory> Histories
+        public IEnumerable<SerializableGistHistory> Histories
         {
             get
             {
                 return this._histories;
+            }
+        }
+
+        /// <summary>Map to "files"</summary>
+        IReadOnlyDictionary<String, IGistFileContent> IGist.Files
+        {
+            get
+            {
+                return this._files.ToDictionary(x => x.Key, x => (IGistFileContent)x.Value);
+            }
+        }
+
+        /// <summary>Map to "forks"</summary>
+        IEnumerable<IGistFork> IGist.Forks
+        {
+            get
+            {
+                return this.Forks;
+            }
+        }
+
+        /// <summary>Map to "histories"</summary>
+        IEnumerable<IGistHistory> IGist.Histories
+        {
+            get
+            {
+                return this.Histories;
             }
         }
     }

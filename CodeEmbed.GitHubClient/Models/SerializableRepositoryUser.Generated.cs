@@ -68,23 +68,23 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableRepositoryUser.</summary>
         [JsonConstructor]
         public SerializableRepositoryUser(
-			String login,
-			Int64 id,
-			Uri avatarUri,
-			String gravatarId,
-			Uri uri,
-			Uri htmlUri,
-			Uri followersUri,
-			String followingUri,
-			String gistsUri,
-			String starredUri,
-			Uri subscriptionsUri,
-			Uri organizationsUri,
-			Uri repositoriesUri,
-			String eventsUri,
-			Uri receivedEventsUri,
-			String type,
-			Boolean siteAdministrator)
+            String login,
+            Int64 id,
+            Uri avatarUri,
+            String gravatarId,
+            Uri uri,
+            Uri htmlUri,
+            Uri followersUri,
+            String followingUri,
+            String gistsUri,
+            String starredUri,
+            Uri subscriptionsUri,
+            Uri organizationsUri,
+            Uri repositoriesUri,
+            String eventsUri,
+            Uri receivedEventsUri,
+            String type,
+            Boolean siteAdministrator)
         {
             Contract.Requires<ArgumentNullException>(login != null);
 
@@ -113,6 +113,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
+                Contract.Ensures(Contract.Result<String>() != null);
+
                 return this._login;
             }
         }

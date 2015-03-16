@@ -14,7 +14,7 @@ namespace CodeEmbed.GitHubClient.Models
         IGistFork
     {
         [ContractPublicPropertyName("User")]
-        private readonly IRepositoryUser _user;
+        private readonly SerializableRepositoryUser _user;
 
         [ContractPublicPropertyName("Uri")]
         private readonly Uri _uri;
@@ -31,11 +31,11 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGistFork.</summary>
         [JsonConstructor]
         public SerializableGistFork(
-			IRepositoryUser user,
-			Uri uri,
-			String id,
-			DateTime createdAt,
-			DateTime updatedAt)
+            SerializableRepositoryUser user,
+            Uri uri,
+            String id,
+            DateTime createdAt,
+            DateTime updatedAt)
         {
 
             this._user = user;
@@ -47,7 +47,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "user"</summary>
         [JsonProperty("user")]
-        public IRepositoryUser User
+        public SerializableRepositoryUser User
         {
             get
             {
@@ -92,6 +92,15 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._updatedAt;
+            }
+        }
+
+        /// <summary>Map to "user"</summary>
+        IRepositoryUser IGistFork.User
+        {
+            get
+            {
+                return this.User;
             }
         }
     }

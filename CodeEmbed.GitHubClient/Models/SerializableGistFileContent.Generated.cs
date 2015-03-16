@@ -20,18 +20,18 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGistFileContent.</summary>
         [JsonConstructor]
         public SerializableGistFileContent(
-			Int64 size,
-			Uri rawUri,
-			String contentType,
-			Boolean truncated,
-			String language,
-			String content)
+            Int64 size,
+            Uri rawUri,
+            String contentType,
+            Boolean truncated,
+            String language,
+            String content)
             : base(
-				size,
-				rawUri,
-				contentType,
-				truncated,
-				language)
+                size,
+                rawUri,
+                contentType,
+                truncated,
+                language)
         {
 
             this._content = content;

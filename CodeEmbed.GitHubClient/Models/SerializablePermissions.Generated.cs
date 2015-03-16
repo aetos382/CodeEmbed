@@ -25,9 +25,9 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializablePermissions.</summary>
         [JsonConstructor]
         public SerializablePermissions(
-			Boolean administration,
-			Boolean push,
-			Boolean pull)
+            Boolean administration,
+            Boolean push,
+            Boolean pull)
         {
 
             this._administration = administration;

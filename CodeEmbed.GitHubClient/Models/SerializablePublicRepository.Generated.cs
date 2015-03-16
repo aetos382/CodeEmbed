@@ -24,7 +24,7 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly String _fullName;
 
         [ContractPublicPropertyName("Owner")]
-        private readonly IRepositoryUser _owner;
+        private readonly SerializableRepositoryUser _owner;
 
         [ContractPublicPropertyName("IsPrivate")]
         private readonly Boolean _isPrivate;
@@ -149,50 +149,50 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializablePublicRepository.</summary>
         [JsonConstructor]
         public SerializablePublicRepository(
-			Int64 id,
-			String name,
-			String fullName,
-			IRepositoryUser owner,
-			Boolean isPrivate,
-			Uri htmlUri,
-			String description,
-			Boolean fork,
-			Uri uri,
-			Uri forksUri,
-			String keysUri,
-			String collaboratorsUri,
-			Uri teamsUri,
-			Uri hooksUri,
-			String issueEventsUri,
-			Uri eventsUri,
-			String assigneesUri,
-			String branchesUri,
-			Uri tagsUri,
-			String blobsUri,
-			String gitTagsUri,
-			String gitReferenesUri,
-			String treesUri,
-			String statusesUri,
-			Uri languagesUri,
-			Uri stargazersUri,
-			Uri contributorsUri,
-			Uri subscribersUri,
-			Uri subscriptionUri,
-			String commitsUri,
-			String gitCommitsUri,
-			string commentsUri,
-			String issueCommentUri,
-			String contentsUri,
-			String compareUri,
-			Uri mergesUri,
-			String archiveUri,
-			Uri downloadsUri,
-			String issuesUri,
-			String pullsUri,
-			String milestonesUri,
-			String notificationsUri,
-			String labelsUri,
-			String releasesUri)
+            Int64 id,
+            String name,
+            String fullName,
+            SerializableRepositoryUser owner,
+            Boolean isPrivate,
+            Uri htmlUri,
+            String description,
+            Boolean fork,
+            Uri uri,
+            Uri forksUri,
+            String keysUri,
+            String collaboratorsUri,
+            Uri teamsUri,
+            Uri hooksUri,
+            String issueEventsUri,
+            Uri eventsUri,
+            String assigneesUri,
+            String branchesUri,
+            Uri tagsUri,
+            String blobsUri,
+            String gitTagsUri,
+            String gitReferenesUri,
+            String treesUri,
+            String statusesUri,
+            Uri languagesUri,
+            Uri stargazersUri,
+            Uri contributorsUri,
+            Uri subscribersUri,
+            Uri subscriptionUri,
+            String commitsUri,
+            String gitCommitsUri,
+            string commentsUri,
+            String issueCommentUri,
+            String contentsUri,
+            String compareUri,
+            Uri mergesUri,
+            String archiveUri,
+            Uri downloadsUri,
+            String issuesUri,
+            String pullsUri,
+            String milestonesUri,
+            String notificationsUri,
+            String labelsUri,
+            String releasesUri)
         {
             Contract.Requires<ArgumentNullException>(name != null);
             Contract.Requires<ArgumentNullException>(owner != null);
@@ -259,6 +259,8 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
+                Contract.Ensures(Contract.Result<String>() != null);
+
                 return this._name;
             }
         }
@@ -275,10 +277,12 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "owner"</summary>
         [JsonProperty("owner")]
-        public IRepositoryUser Owner
+        public SerializableRepositoryUser Owner
         {
             get
             {
+                Contract.Ensures(Contract.Result<SerializableRepositoryUser>() != null);
+
                 return this._owner;
             }
         }
@@ -680,6 +684,15 @@ namespace CodeEmbed.GitHubClient.Models
             get
             {
                 return this._releasesUri;
+            }
+        }
+
+        /// <summary>Map to "owner"</summary>
+        IRepositoryUser IPublicRepository.Owner
+        {
+            get
+            {
+                return this.Owner;
             }
         }
 

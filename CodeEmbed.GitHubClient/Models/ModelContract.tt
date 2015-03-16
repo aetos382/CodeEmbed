@@ -31,11 +31,12 @@
             "System.Diagnostics.Contracts"
         };
     
-    var additionalNamespaces = model.Members
-        .Select(x => x.Type.Namespace)
-        .Distinct()
-        .Select(x => GetClrNamespace(x))
-        .Where(x => x != null);
+    var additionalNamespaces = 
+        ancestorMembers.Concat(model.Members)
+            .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+            .Distinct()
+            .Select(x => GetClrNamespace(x))
+            .Where(x => x != null);
 
     namespaces.AddRange(additionalNamespaces);
 

@@ -2,11 +2,9 @@
 {
     using System;
     using System.IO;
-    using System.Threading;
     using System.Threading.Tasks;
     
     using CodeEmbed.GitHubClient.Models;
-    using CodeEmbed.GitHubClient.Serialization;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -29,13 +27,7 @@
             {
                 string json = await reader.ReadToEndAsync();
 
-                var resolver = new TypeResolver();
-                resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
-
-                var settings = new JsonSerializerSettings();
-                settings.ContractResolver = resolver;
-
-                var user = JsonConvert.DeserializeObject<IRepositoryUser>(json, settings);
+                var user = JsonConvert.DeserializeObject<SerializableRepositoryUser>(json);
 
                 Assert.IsNotNull(user);
 
@@ -69,14 +61,7 @@
             {
                 string json = await reader.ReadToEndAsync();
 
-                var resolver = new TypeResolver();
-                resolver.Map<IPublicRepository, SerializablePublicRepository>();
-                resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
-
-                var settings = new JsonSerializerSettings();
-                settings.ContractResolver = resolver;
-
-                var repository = JsonConvert.DeserializeObject<IPublicRepository>(json, settings);
+                var repository = JsonConvert.DeserializeObject<SerializablePublicRepository>(json);
 
                 Assert.IsNotNull(repository);
                 Assert.IsNotNull(repository.Owner);
@@ -118,14 +103,7 @@
             {
                 string json = await reader.ReadToEndAsync();
 
-                var resolver = new TypeResolver();
-                resolver.Map<IRepository, SerializableRepository>();
-                resolver.Map<IRepositoryUser, SerializableRepositoryUser>();
-
-                var settings = new JsonSerializerSettings();
-                settings.ContractResolver = resolver;
-
-                var repository = JsonConvert.DeserializeObject<IRepository>(json, settings);
+                var repository = JsonConvert.DeserializeObject<SerializableRepository>(json);
 
                 Assert.IsNotNull(repository);
                 Assert.IsNotNull(repository.Owner);

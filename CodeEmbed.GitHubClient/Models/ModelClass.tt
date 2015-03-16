@@ -39,7 +39,7 @@
     }
 
     var additionalNamespaces = model.Members
-        .Select(x => x.Type.Namespace)
+        .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
         .Distinct()
         .Select(x => GetClrNamespace(x))
         .Where(x => x != null);

@@ -25,9 +25,9 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGitObject.</summary>
         [JsonConstructor]
         public SerializableGitObject(
-			String objectType,
-			String hash,
-			Uri uri)
+            String objectType,
+            String hash,
+            Uri uri)
         {
 
             this._objectType = objectType;

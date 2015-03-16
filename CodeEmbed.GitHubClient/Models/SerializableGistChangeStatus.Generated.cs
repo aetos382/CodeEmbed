@@ -25,9 +25,9 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGistChangeStatus.</summary>
         [JsonConstructor]
         public SerializableGistChangeStatus(
-			Int32 deletions,
-			Int32 additions,
-			Int32 total)
+            Int32 deletions,
+            Int32 additions,
+            Int32 total)
         {
 
             this._deletions = deletions;
