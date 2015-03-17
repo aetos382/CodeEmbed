@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -99,9 +100,12 @@
             GC.SuppressFinalize(this);
         }
 
-        public async Task<T> GetData<T>(Uri uri, CancellationToken cancellationToken)
+        public async Task<T> GetData<T>(
+            Uri uri,
+            Encoding encoding,
+            CancellationToken cancellationToken)
         {
-            var result = await this._connection.GetData(uri, cancellationToken).ConfigureAwait(false);
+            var result = await this._connection.GetAsTextReader(uri, encoding, cancellationToken).ConfigureAwait(false);
 
             var data = await this._serializer.Deserialize<T>(result, cancellationToken).ConfigureAwait(false);
 

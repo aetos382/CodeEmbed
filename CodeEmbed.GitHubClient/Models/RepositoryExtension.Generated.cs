@@ -4,6 +4,7 @@ namespace CodeEmbed.GitHubClient.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -20,8 +21,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<Repository>() != null);
-
             var wrapped = new Repository(repository, client);
 
             return wrapped;
@@ -34,8 +33,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<Task<Repository>>() != null);
-
             var wrapped = Wrap(await repository.ConfigureAwait(false), client);
 
             return wrapped;
@@ -44,14 +41,13 @@ namespace CodeEmbed.GitHubClient.Models
         public static async Task<Repository> GetRepository(
             this IGitHubClient client,
             Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<Repository>>() != null);
-
-            var result = await client.GetData<IRepository>(uri, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<IRepository>(uri, encoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
@@ -64,9 +60,7 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<Repository>>() != null);
-
-            var result = GetRepository(client, uri, CancellationToken.None);
+            var result = GetRepository(client, uri, null, CancellationToken.None);
 
             return result;
         }

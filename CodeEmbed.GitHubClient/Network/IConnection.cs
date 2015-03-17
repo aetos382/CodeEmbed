@@ -3,6 +3,7 @@
     using System;
     using System.Diagnostics.Contracts;
     using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -13,6 +14,6 @@
     {
         Uri BaseUri { get; }
 
-        Task<TextReader> GetData(Uri uri, CancellationToken cancellationToken);
+        Task<TextReader> GetAsTextReader(Uri uri, Encoding encoding, CancellationToken cancellationToken);
     }
 }

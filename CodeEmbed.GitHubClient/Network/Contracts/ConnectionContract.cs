@@ -5,6 +5,7 @@
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.IO;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -27,8 +28,9 @@
             }
         }
 
-        public Task<TextReader> GetData(
+        public Task<TextReader> GetAsTextReader(
             Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(uri != null);

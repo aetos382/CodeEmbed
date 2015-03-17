@@ -216,6 +216,63 @@
 
   </g:Model>
 
+  <g:Model name="gi:GitBlob">
+
+    <g:Member name="Content" type="sys:String"/>
+    <g:Member name="Encoding" type="sys:String"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Size" type="sys:Int64"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:CommitSignature">
+
+    <g:Member name="Date" type="sys:DateTime"/>
+    <g:Member name="Name" type="sys:String"/>
+    <g:Member name="Email" type="sys:String"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:CommitTree">
+
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:GitCommit">
+
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Author" type="gi:CommitSignature"/>
+    <g:Member name="Committer" type="gi:CommitSignature"/>
+    <g:Member name="Message" type="sys:String"/>
+    <g:Member name="Tree" type="gi:CommitTree"/>
+    <g:Member name="Parents" type="col:IEnumerable" genericArguments="gi:CommitTree"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:GitTree">
+
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Tree" type="col:IEnumerable" genericArguments="gi:GitTreeNode"/>
+    <g:Member name="Truncated" type="sys:Boolean"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:GitTreeNode">
+
+    <g:Member name="Path" type="sys:String"/>
+    <g:Member name="Mode" type="sys:String"/>
+    <g:Member name="Type" type="sys:String"/>
+    <g:Member name="Size" type="sys:Nullable" genericArguments="sys:Int64"/>
+    <g:Member name="Hash" type="sys:String"/>
+    <g:Member name="Uri" type="sys:Uri"/>
+    
+  </g:Model>
+  
   <g:Model name="gi:User" inherits="gi:RepositoryUser">
 
     <g:Member name="Name" type="sys:String"/>

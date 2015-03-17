@@ -28,6 +28,7 @@ namespace <#= CodeNamespace #>.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -44,8 +45,6 @@ namespace <#= CodeNamespace #>.Models
             Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<<#= modelName #>>() != null);
-
             var wrapped = new <#= modelName #>(<#= camelCasedModelName #>, client);
 
             return wrapped;
@@ -58,8 +57,6 @@ namespace <#= CodeNamespace #>.Models
             Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
-
             var wrapped = Wrap(await <#= camelCasedModelName #>.ConfigureAwait(false), client);
 
             return wrapped;
@@ -68,14 +65,13 @@ namespace <#= CodeNamespace #>.Models
         public static async Task<<#= modelName #>> Get<#= modelName #>(
             this IGitHubClient client,
             Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
-
-            var result = await client.GetData<I<#= modelName #>>(uri, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<I<#= modelName #>>(uri, encoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
@@ -88,9 +84,7 @@ namespace <#= CodeNamespace #>.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<<#= modelName #>>>() != null);
-
-            var result = Get<#= modelName #>(client, uri, CancellationToken.None);
+            var result = Get<#= modelName #>(client, uri, null, CancellationToken.None);
 
             return result;
         }

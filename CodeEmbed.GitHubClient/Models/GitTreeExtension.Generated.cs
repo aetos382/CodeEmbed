@@ -12,33 +12,33 @@ namespace CodeEmbed.GitHubClient.Models
 
     [GeneratedCode("ModelExtension.tt", "1.0")]
     [DebuggerStepThrough]
-    public static partial class GistChangeStatusExtension
+    public static partial class GitTreeExtension
     {
-        public static GistChangeStatus Wrap(
-            this IGistChangeStatus gistChangeStatus,
+        public static GitTree Wrap(
+            this IGitTree gitTree,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(gistChangeStatus != null);
+            Contract.Requires<ArgumentNullException>(gitTree != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            var wrapped = new GistChangeStatus(gistChangeStatus, client);
+            var wrapped = new GitTree(gitTree, client);
 
             return wrapped;
         }
 
-        public static async Task<GistChangeStatus> Wrap(
-            this Task<IGistChangeStatus> gistChangeStatus,
+        public static async Task<GitTree> Wrap(
+            this Task<IGitTree> gitTree,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(gistChangeStatus != null);
+            Contract.Requires<ArgumentNullException>(gitTree != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            var wrapped = Wrap(await gistChangeStatus.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gitTree.ConfigureAwait(false), client);
 
             return wrapped;
         }
 
-        public static async Task<GistChangeStatus> GetGistChangeStatus(
+        public static async Task<GitTree> GetGitTree(
             this IGitHubClient client,
             Uri uri,
             Encoding encoding,
@@ -47,20 +47,20 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = await client.GetData<IGistChangeStatus>(uri, encoding, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<IGitTree>(uri, encoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
         }
 
-        public static Task<GistChangeStatus> GetGistChangeStatus(
+        public static Task<GitTree> GetGitTree(
             this IGitHubClient client,
             Uri uri)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = GetGistChangeStatus(client, uri, null, CancellationToken.None);
+            var result = GetGitTree(client, uri, null, CancellationToken.None);
 
             return result;
         }

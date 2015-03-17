@@ -43,6 +43,7 @@
 
         public Task<T> GetData<T>(
             Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(uri != null);

@@ -17,14 +17,6 @@
 
         private bool _disposed = false;
 
-        public HttpResponseMessageReader(HttpResponseMessage response)
-            : base(response.Content.ReadAsStreamAsync().Result, response.GetContentEncoding())
-        {
-            Contract.Requires<ArgumentNullException>(response != null);
-
-            this._response = response;
-        }
-
         private HttpResponseMessageReader(
             HttpResponseMessage response,
             Stream stream,
@@ -38,14 +30,28 @@
             this._response = response;
         }
 
-        public static async Task<HttpResponseMessageReader> Create(HttpResponseMessage response)
+        public static async Task<HttpResponseMessageReader> Create(
+            HttpResponseMessage response,
+            Encoding encoding)
         {
             Contract.Requires<ArgumentNullException>(response != null);
 
             var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-            var encoding = response.GetContentEncoding();
+
+            if (encoding == null)
+            {
+                encoding = response.GetContentEncoding();
+            }
 
             return new HttpResponseMessageReader(response, stream, encoding);
+        }
+
+        public static Task<HttpResponseMessageReader> Create(
+            HttpResponseMessage response)
+        {
+            Contract.Requires<ArgumentNullException>(response != null);
+
+            return Create(response, null);
         }
 
         protected override void Dispose(bool disposing)

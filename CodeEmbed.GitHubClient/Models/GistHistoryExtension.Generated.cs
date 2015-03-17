@@ -4,6 +4,7 @@ namespace CodeEmbed.GitHubClient.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -20,8 +21,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistHistory != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<GistHistory>() != null);
-
             var wrapped = new GistHistory(gistHistory, client);
 
             return wrapped;
@@ -34,8 +33,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistHistory != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
-
             var wrapped = Wrap(await gistHistory.ConfigureAwait(false), client);
 
             return wrapped;
@@ -44,14 +41,13 @@ namespace CodeEmbed.GitHubClient.Models
         public static async Task<GistHistory> GetGistHistory(
             this IGitHubClient client,
             Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
-
-            var result = await client.GetData<IGistHistory>(uri, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<IGistHistory>(uri, encoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
@@ -64,9 +60,7 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<GistHistory>>() != null);
-
-            var result = GetGistHistory(client, uri, CancellationToken.None);
+            var result = GetGistHistory(client, uri, null, CancellationToken.None);
 
             return result;
         }

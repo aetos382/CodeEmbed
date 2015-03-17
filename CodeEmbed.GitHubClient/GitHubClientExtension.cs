@@ -20,7 +20,7 @@
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = client.GetData<T>(uri, CancellationToken.None);
+            var result = client.GetData<T>(uri, null, CancellationToken.None);
             return result;
         }
 
@@ -31,19 +31,32 @@
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = client.GetString(uri, CancellationToken.None);
+            var result = GetString(client, uri, null);
             return result;
         }
 
         public static Task<string> GetString(
             this IGitHubClient client,
             Uri uri,
+            Encoding encoding)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = GetString(client, uri, encoding, CancellationToken.None);
+            return result;
+        }
+
+        public static Task<string> GetString(
+            this IGitHubClient client,
+            Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = client.Connection.GetString(uri, cancellationToken);
+            var result = client.Connection.GetString(uri, encoding, cancellationToken);
             return result;
         }
 
@@ -109,6 +122,58 @@
 
             var relUri = GitHubUri.GitTag(user, repository, tag);
             var result = await client.GetGitReference(relUri).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public static async Task<GitCommit> GetGitCommit(
+            this IGitHubClient client,
+            string user,
+            string repository,
+            string commit)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(commit != null);
+
+            var relUri = GitHubUri.GitCommit(user, repository, commit);
+            var result = await client.GetGitCommit(relUri).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public static async Task<GitBlob> GetGitBlob(
+            this IGitHubClient client,
+            string user,
+            string repository,
+            string blob)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(blob != null);
+
+            var relUri = GitHubUri.GitBlob(user, repository, blob);
+            var result = await client.GetGitBlob(relUri).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public static async Task<GitTree> GetGitTree(
+            this IGitHubClient client,
+            string user,
+            string repository,
+            string tree,
+            bool recursive)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(tree != null);
+
+            var relUri = GitHubUri.GitTree(user, repository, tree, recursive);
+            var result = await client.GetGitTree(relUri).ConfigureAwait(false);
 
             return result;
         }

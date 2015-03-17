@@ -173,6 +173,45 @@
             return relUri;
         }
 
+        public static Uri GitTree(
+            string user,
+            string repository,
+            string tree,
+            bool recursive)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(tree != null);
+
+            Contract.Ensures(Contract.Result<Uri>() != null);
+
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/trees/{2}?recursive={3}", user, repository, tree, Convert.ToInt32(recursive));
+
+            var relUri = new Uri(relUriString, UriKind.Relative);
+
+            return relUri;
+        }
+
+        public static Uri GitBlob(
+            string user,
+            string repository,
+            string blob)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(blob != null);
+
+            Contract.Ensures(Contract.Result<Uri>() != null);
+
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/blobs/{2}", user, repository, blob);
+
+            var relUri = new Uri(relUriString, UriKind.Relative);
+
+            return relUri;
+        }
+
         public static Uri Gist(
             string id)
         {

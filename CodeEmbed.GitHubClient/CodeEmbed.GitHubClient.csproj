@@ -143,6 +143,18 @@
     <Compile Include="Models\AuthorizedUserExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommitSignature.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitSignatureExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitTree.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitTreeExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Gist.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -188,6 +200,18 @@
     <Compile Include="Models\GistSummaryExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitBlob.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitBlobExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitCommit.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitCommitExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -200,7 +224,25 @@
     <Compile Include="Models\GitReferenceExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitTree.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitTreeExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitTreeNode.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitTreeNodeExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IAuthorizedUser.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ICommitSignature.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ICommitTree.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IGist.Generated.cs">
@@ -227,10 +269,22 @@
     <Compile Include="Models\IGistSummary.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\IGitBlob.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IGitCommit.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IGitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IGitReference.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IGitTree.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IGitTreeNode.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IPermissions.Generated.cs">
@@ -288,6 +342,12 @@
     <Compile Include="Models\SerializableAuthorizedUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SerializableCommitSignature.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SerializableCommitTree.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SerializableGist.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -312,10 +372,22 @@
     <Compile Include="Models\SerializableGistSummary.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SerializableGitBlob.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SerializableGitCommit.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SerializableGitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializableGitReference.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SerializableGitTree.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SerializableGitTreeNode.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializablePermissions.Generated.cs">

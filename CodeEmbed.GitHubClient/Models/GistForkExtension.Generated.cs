@@ -4,6 +4,7 @@ namespace CodeEmbed.GitHubClient.Models
     using System.CodeDom.Compiler;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
 
@@ -20,8 +21,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistFork != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<GistFork>() != null);
-
             var wrapped = new GistFork(gistFork, client);
 
             return wrapped;
@@ -34,8 +33,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(gistFork != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
-
             var wrapped = Wrap(await gistFork.ConfigureAwait(false), client);
 
             return wrapped;
@@ -44,14 +41,13 @@ namespace CodeEmbed.GitHubClient.Models
         public static async Task<GistFork> GetGistFork(
             this IGitHubClient client,
             Uri uri,
+            Encoding encoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
-
-            var result = await client.GetData<IGistFork>(uri, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<IGistFork>(uri, encoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
@@ -64,9 +60,7 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            Contract.Ensures(Contract.Result<Task<GistFork>>() != null);
-
-            var result = GetGistFork(client, uri, CancellationToken.None);
+            var result = GetGistFork(client, uri, null, CancellationToken.None);
 
             return result;
         }
