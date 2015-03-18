@@ -82,6 +82,7 @@
                 };
 
             string result = await GitHubClientCodeExtension.GetGitCodeFromCommit(client, "user", "repo", mockCommit.Hash, "path");
+
             Assert.AreEqual("Hoge", result);
         }
     }
