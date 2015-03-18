@@ -24,7 +24,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(permissions != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._permissions = permissions;
@@ -76,7 +75,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._permissions != null);
-
             Contract.Invariant(this._client != null);
         }
     }

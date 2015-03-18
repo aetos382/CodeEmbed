@@ -119,7 +119,6 @@ namespace <#= CodeNamespace #>.Models
 #>
         {
             Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._<#= camelCasedModelName #> = <#= camelCasedModelName #>;
@@ -129,38 +128,37 @@ namespace <#= CodeNamespace #>.Models
 #>
 
 <#
-        string indent = string.Empty;
-
         if (!member.Required)
         {
-            indent = "    ";
 #>
             if (<#= camelCasedModelName #>.<#= member.Name #> != null)
             {
 <#
+            this.PushIndent("    ");
         }
 
         if (IsEnumerable(member.Type))
         {
 #>
-            <#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.Select(x => new <#= member.ModelType.LocalName #>(x, client));
+            this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.Select(x => new <#= member.ModelType.LocalName #>(x, client));
 <#
         }
         else if (IsDictionary(member.Type))
         {
 #>
-            <#= indent #>this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.ToDictionary(x => x.Key, x => new <#= member.ModelType.LocalName #>(x.Value, client));
+            this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.ToDictionary(x => x.Key, x => new <#= member.ModelType.LocalName #>(x.Value, client));
 <#
         }
         else
         {
 #>
-            <#= indent #>this._<#= ToCamelCase(member.Name) #> = new <#= member.GetTypeName("") #>(<#= camelCasedModelName #>.<#= member.Name #>, client);
+            this._<#= ToCamelCase(member.Name) #> = new <#= member.GetTypeName("") #>(<#= camelCasedModelName #>.<#= member.Name #>, client);
 <#
         }
 
         if (!member.Required)
         {
+            this.PopIndent();
 #>
             }
 <#
@@ -263,7 +261,6 @@ namespace <#= CodeNamespace #>.Models
     if (!inherited)
     {
 #>
-
             Contract.Invariant(this._client != null);
 <#
     }

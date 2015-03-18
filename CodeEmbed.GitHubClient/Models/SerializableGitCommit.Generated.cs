@@ -31,10 +31,10 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly String _message;
 
         [ContractPublicPropertyName("Tree")]
-        private readonly SerializableCommitTree _tree;
+        private readonly SerializableCommitLink _tree;
 
         [ContractPublicPropertyName("Parents")]
-        private readonly IEnumerable<SerializableCommitTree> _parents;
+        private readonly IEnumerable<SerializableCommitLink> _parents;
 
         /// <summary>Create new instance of SerializableGitCommit.</summary>
         [JsonConstructor]
@@ -44,8 +44,8 @@ namespace CodeEmbed.GitHubClient.Models
             SerializableCommitSignature author,
             SerializableCommitSignature committer,
             String message,
-            SerializableCommitTree tree,
-            IEnumerable<SerializableCommitTree> parents)
+            SerializableCommitLink tree,
+            IEnumerable<SerializableCommitLink> parents)
         {
 
             this._hash = hash;
@@ -109,7 +109,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "tree"</summary>
         [JsonProperty("tree")]
-        public SerializableCommitTree Tree
+        public SerializableCommitLink Tree
         {
             get
             {
@@ -119,7 +119,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "parents"</summary>
         [JsonProperty("parents")]
-        public IEnumerable<SerializableCommitTree> Parents
+        public IEnumerable<SerializableCommitLink> Parents
         {
             get
             {
@@ -146,7 +146,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "tree"</summary>
-        ICommitTree IGitCommit.Tree
+        ICommitLink IGitCommit.Tree
         {
             get
             {
@@ -155,7 +155,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "parents"</summary>
-        IEnumerable<ICommitTree> IGitCommit.Parents
+        IEnumerable<ICommitLink> IGitCommit.Parents
         {
             get
             {

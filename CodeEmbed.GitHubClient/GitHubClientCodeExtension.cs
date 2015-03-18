@@ -11,7 +11,7 @@
     public static class GitHubClientCodeExtension
     {
         public static async Task<string> GetGitCode(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string path)
@@ -28,7 +28,7 @@
         }
 
         public static async Task<string> GetGitCodeFromBranch(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string branch,
@@ -47,7 +47,7 @@
         }
 
         public static async Task<string> GetGitCodeFromTag(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string tag,
@@ -66,7 +66,7 @@
         }
 
         public static async Task<string> GetGitCodeFromCommit(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string commit,
@@ -78,26 +78,73 @@
             Contract.Requires<ArgumentNullException>(commit != null);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            var gitCommit = await client.GetGitCommit(user, repository, commit).ConfigureAwait(false);
-            var gitTree = await client.GetGitTree(user, repository, gitCommit.Tree.Hash, true).ConfigureAwait(false);
+            string blobHash = null;
 
-            var matched = gitTree.Tree.SingleOrDefault(x => string.Equals(x.Path, path, StringComparison.OrdinalIgnoreCase));
-            if (matched != null && matched.Type == "blob")
+            var gitCommit = await client.GetGitCommit(user, repository, commit).ConfigureAwait(false);
+            string treeHash = gitCommit.Tree.Hash;
+
+            var pathComponents = path.Split('/');
+
+            for (int i = 0; i < pathComponents.Length; ++i)
             {
-                var result = await GetGitCodeFromBlob(client, user, repository, matched.Hash).ConfigureAwait(false);
-                return result;
+                string pathRemaining = string.Join("/", pathComponents.Skip(i));
+
+                var gitTree = await client.GetGitTree(user, repository, treeHash, true).ConfigureAwait(false);
+
+                var matched = gitTree.Tree.SingleOrDefault(x => x.Path == pathRemaining);
+                if (matched != null)
+                {
+                    if (matched.Type != "blob")
+                    {
+                        throw new NotSupportedException();
+                    }
+
+                    blobHash = matched.Hash;
+                    break;
+                }
+
+                if (!gitTree.Truncated)
+                {
+                    throw new GitHubNotFoundException();
+                }
+
+                gitTree = await client.GetGitTree(user, repository, treeHash, false).ConfigureAwait(false);
+
+                matched = gitTree.Tree.SingleOrDefault(x => x.Path == pathComponents[i]);
+                if (matched != null)
+                {
+                    if (matched.Type == "blob")
+                    {
+                        if (i != pathComponents.Length - 1)
+                        {
+                            throw new GitHubNotFoundException();
+                        }
+
+                        blobHash = matched.Hash;
+                        break;
+                    }
+                    else if (matched.Type == "tree")
+                    {
+                        treeHash = matched.Hash;
+                    }
+                    else
+                    {
+                        throw new NotSupportedException();
+                    }
+                }
             }
 
-            if (gitTree.Truncated)
+            if (blobHash == null)
             {
                 throw new GitHubNotFoundException();
             }
 
-            throw new NotImplementedException();
+            var result = await GetGitCodeFromBlob(client, user, repository, blobHash).ConfigureAwait(false);
+            return result;
         }
 
         public static async Task<string> GetGitCodeFromBlob(
-            this GitHubClient client,
+            this IGitHubClient client,
             string user,
             string repository,
             string blob)
@@ -125,7 +172,7 @@
         }
 
         public static Task<string> GetGistCode(
-            this GitHubClient client,
+            this IGitHubClient client,
             string id,
             string fileName)
         {
@@ -138,7 +185,7 @@
         }
 
         public static async Task<string> GetGistCode(
-            this GitHubClient client,
+            this IGitHubClient client,
             string id,
             string version,
             string fileName)

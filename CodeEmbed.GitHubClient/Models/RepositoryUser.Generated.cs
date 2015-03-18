@@ -24,7 +24,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(repositoryUser != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._repositoryUser = repositoryUser;
@@ -202,7 +201,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._repositoryUser != null);
-
             Contract.Invariant(this._client != null);
         }
     }

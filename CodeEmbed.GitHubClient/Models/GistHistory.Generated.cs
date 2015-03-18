@@ -30,7 +30,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(gistHistory != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gistHistory = gistHistory;
@@ -128,7 +127,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._gistHistory != null);
-
             Contract.Invariant(this._client != null);
         }
     }

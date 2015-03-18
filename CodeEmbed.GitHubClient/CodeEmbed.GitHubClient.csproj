@@ -143,16 +143,25 @@
     <Compile Include="Models\AuthorizedUserExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthorizedUserMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitLink.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitLinkExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CommitLinkMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CommitSignature.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CommitSignatureExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CommitTree.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CommitTreeExtension.Generated.cs">
+    <Compile Include="Models\CommitSignatureMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Gist.Generated.cs">
@@ -161,10 +170,16 @@
     <Compile Include="Models\GistBase.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistBaseMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GistChangeStatus.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistChangeStatusExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistChangeStatusMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistExtension.Generated.cs">
@@ -179,7 +194,13 @@
     <Compile Include="Models\GistFileContentExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistFileContentMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GistFileExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistFileMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistFork.Generated.cs">
@@ -188,10 +209,19 @@
     <Compile Include="Models\GistForkExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistForkMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GistHistory.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistHistoryExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistHistoryMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GistMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GistSummary.Generated.cs">
@@ -200,10 +230,16 @@
     <Compile Include="Models\GistSummaryExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GistSummaryMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GitBlob.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitBlobExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitBlobMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitCommit.Generated.cs">
@@ -212,10 +248,16 @@
     <Compile Include="Models\GitCommitExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitCommitMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GitObject.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitObjectExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitObjectMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitReference.Generated.cs">
@@ -224,10 +266,16 @@
     <Compile Include="Models\GitReferenceExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitReferenceMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GitTree.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitTreeExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitTreeMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\GitTreeNode.Generated.cs">
@@ -236,13 +284,16 @@
     <Compile Include="Models\GitTreeNodeExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitTreeNodeMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IAuthorizedUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ICommitSignature.Generated.cs">
+    <Compile Include="Models\ICommitLink.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ICommitTree.Generated.cs">
+    <Compile Include="Models\ICommitSignature.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IGist.Generated.cs">
@@ -311,6 +362,9 @@
     <Compile Include="Models\PermissionsExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\PermissionsMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\PublicRepository.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -318,6 +372,9 @@
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\PublicRepositoryExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PublicRepositoryMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Repository.Generated.cs">
@@ -330,6 +387,9 @@
     <Compile Include="Models\RepositoryExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RepositoryMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\RepositoryUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -339,13 +399,16 @@
     <Compile Include="Models\RepositoryUserExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\RepositoryUserMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SerializableAuthorizedUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SerializableCommitSignature.Generated.cs">
+    <Compile Include="Models\SerializableCommitLink.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SerializableCommitTree.Generated.cs">
+    <Compile Include="Models\SerializableCommitSignature.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializableGist.Generated.cs">
@@ -414,10 +477,16 @@
     <Compile Include="Models\UserExtension.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\UserMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserPlan.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserPlanExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserPlanMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Network\ConnectionExtension.cs" />
@@ -468,6 +537,7 @@
     <None Include="Models\GitHubModels.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Models\ModelMock.tt" />
     <None Include="Models\ModelExtension.tt" />
     <None Include="Models\ModelClass.tt" />
     <None Include="Models\ModelContract.tt" />

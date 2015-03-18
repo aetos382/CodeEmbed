@@ -26,7 +26,6 @@ namespace CodeEmbed.GitHubClient.Models
             : base(authorizedUser, client)
         {
             Contract.Requires<ArgumentNullException>(authorizedUser != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._authorizedUser = authorizedUser;

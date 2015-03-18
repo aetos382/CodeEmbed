@@ -24,7 +24,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(gistFile != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gistFile = gistFile;
@@ -94,7 +93,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._gistFile != null);
-
             Contract.Invariant(this._client != null);
         }
     }

@@ -34,7 +34,6 @@ namespace CodeEmbed.GitHubClient.Models
             : base(gist, client)
         {
             Contract.Requires<ArgumentNullException>(gist != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gist = gist;

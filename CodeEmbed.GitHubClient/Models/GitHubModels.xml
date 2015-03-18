@@ -234,11 +234,12 @@
     
   </g:Model>
 
-  <g:Model name="gi:CommitTree">
+  <g:Model name="gi:CommitLink">
 
-    <g:Member name="Uri" type="sys:Uri" json="url"/>
     <g:Member name="Hash" type="sys:String" json="sha"/>
-    
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="HtmlUri" type="sys:Uri" json="html_url"/>
+
   </g:Model>
 
   <g:Model name="gi:GitCommit">
@@ -248,8 +249,8 @@
     <g:Member name="Author" type="gi:CommitSignature"/>
     <g:Member name="Committer" type="gi:CommitSignature"/>
     <g:Member name="Message" type="sys:String"/>
-    <g:Member name="Tree" type="gi:CommitTree"/>
-    <g:Member name="Parents" type="col:IEnumerable" genericArguments="gi:CommitTree"/>
+    <g:Member name="Tree" type="gi:CommitLink"/>
+    <g:Member name="Parents" type="col:IEnumerable" genericArguments="gi:CommitLink"/>
     
   </g:Model>
 

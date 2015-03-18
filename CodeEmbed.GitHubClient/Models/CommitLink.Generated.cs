@@ -10,35 +10,25 @@ namespace CodeEmbed.GitHubClient.Models
 
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
-    public partial class CommitTree :
-        ICommitTree
+    public partial class CommitLink :
+        ICommitLink
     {
-        private readonly ICommitTree _commitTree = null;
+        private readonly ICommitLink _commitLink = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
 
-        /// <summary>Create new instance of CommitTree.</summary>
-        public CommitTree(
-            ICommitTree commitTree,
+        /// <summary>Create new instance of CommitLink.</summary>
+        public CommitLink(
+            ICommitLink commitLink,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(commitTree != null);
-
+            Contract.Requires<ArgumentNullException>(commitLink != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            this._commitTree = commitTree;
+            this._commitLink = commitLink;
 
             this._client = client;
-        }
-
-        /// <summary>Map to "url"</summary>
-        public Uri Uri
-        {
-            get
-            {
-                return this._commitTree.Uri;
-            }
         }
 
         /// <summary>Map to "sha"</summary>
@@ -46,7 +36,25 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-                return this._commitTree.Hash;
+                return this._commitLink.Hash;
+            }
+        }
+
+        /// <summary>Map to "url"</summary>
+        public Uri Uri
+        {
+            get
+            {
+                return this._commitLink.Uri;
+            }
+        }
+
+        /// <summary>Map to "html_url"</summary>
+        public Uri HtmlUri
+        {
+            get
+            {
+                return this._commitLink.HtmlUri;
             }
         }
 
@@ -66,8 +74,7 @@ namespace CodeEmbed.GitHubClient.Models
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this._commitTree != null);
-
+            Contract.Invariant(this._commitLink != null);
             Contract.Invariant(this._client != null);
         }
     }

@@ -35,7 +35,6 @@ namespace CodeEmbed.GitHubClient.Models
             : base(repository, client)
         {
             Contract.Requires<ArgumentNullException>(repository != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._repository = repository;

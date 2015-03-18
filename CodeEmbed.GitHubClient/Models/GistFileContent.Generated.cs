@@ -23,7 +23,6 @@ namespace CodeEmbed.GitHubClient.Models
             : base(gistFileContent, client)
         {
             Contract.Requires<ArgumentNullException>(gistFileContent != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gistFileContent = gistFileContent;

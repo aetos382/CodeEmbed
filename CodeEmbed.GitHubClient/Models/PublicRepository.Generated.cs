@@ -27,7 +27,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(publicRepository != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._publicRepository = publicRepository;
@@ -463,7 +462,6 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Invariant(this._publicRepository != null);
 
             Contract.Invariant(this._owner != null);
-
             Contract.Invariant(this._client != null);
         }
     }

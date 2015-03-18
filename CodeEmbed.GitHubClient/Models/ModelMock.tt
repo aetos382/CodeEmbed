@@ -1,0 +1,89 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+
+<#
+    var model = Model.Parse(ModelXml);
+
+    string modelName = model.Name.LocalName;
+
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.ComponentModel",
+            "System.Diagnostics",
+            CodeNamespace
+        };
+
+    var additionalNamespaces = model.Members
+        .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+        .Distinct()
+        .Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+
+    string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+#>
+
+#if BUILD_MOCK
+
+namespace <#= CodeNamespace #>.Models
+{
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
+    [GeneratedCode("ModelMock.tt", "1.0")]
+    [DebuggerStepThrough]
+    public <#= abstractModifier #>partial class <#= modelName #>Mock<#= GeneratedModelPostfix #> :
+<#
+    if (inherits != null)
+    {
+#>
+        <#= inherits #>Mock<#= GeneratedModelPostfix #>,
+<#
+    }
+#>
+        I<#= modelName #><#= GeneratedModelPostfix #>
+    {
+<#
+    foreach (var member in model.Members)
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public <#= member.GetTypeName("I") #> <#= member.Name #> { get; set; }
+<#
+    }
+#>
+    }
+}
+
+#endif

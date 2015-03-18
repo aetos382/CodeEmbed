@@ -24,10 +24,10 @@ namespace CodeEmbed.GitHubClient.Models
         String Message { [Pure] get; }
 
         /// <summary>Map to "tree"</summary>
-        ICommitTree Tree { [Pure] get; }
+        ICommitLink Tree { [Pure] get; }
 
         /// <summary>Map to "parents"</summary>
-        IEnumerable<ICommitTree> Parents { [Pure] get; }
+        IEnumerable<ICommitLink> Parents { [Pure] get; }
 
     }
 }

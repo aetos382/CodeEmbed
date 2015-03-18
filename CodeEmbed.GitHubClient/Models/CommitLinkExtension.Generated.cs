@@ -12,33 +12,33 @@ namespace CodeEmbed.GitHubClient.Models
 
     [GeneratedCode("ModelExtension.tt", "1.0")]
     [DebuggerStepThrough]
-    public static partial class CommitTreeExtension
+    public static partial class CommitLinkExtension
     {
-        public static CommitTree Wrap(
-            this ICommitTree commitTree,
+        public static CommitLink Wrap(
+            this ICommitLink commitLink,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(commitTree != null);
+            Contract.Requires<ArgumentNullException>(commitLink != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            var wrapped = new CommitTree(commitTree, client);
+            var wrapped = new CommitLink(commitLink, client);
 
             return wrapped;
         }
 
-        public static async Task<CommitTree> Wrap(
-            this Task<ICommitTree> commitTree,
+        public static async Task<CommitLink> Wrap(
+            this Task<ICommitLink> commitLink,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(commitTree != null);
+            Contract.Requires<ArgumentNullException>(commitLink != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            var wrapped = Wrap(await commitTree.ConfigureAwait(false), client);
+            var wrapped = Wrap(await commitLink.ConfigureAwait(false), client);
 
             return wrapped;
         }
 
-        public static async Task<CommitTree> GetCommitTree(
+        public static async Task<CommitLink> GetCommitLink(
             this IGitHubClient client,
             Uri uri,
             Encoding encoding,
@@ -47,20 +47,20 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = await client.GetData<ICommitTree>(uri, encoding, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<ICommitLink>(uri, encoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
         }
 
-        public static Task<CommitTree> GetCommitTree(
+        public static Task<CommitLink> GetCommitLink(
             this IGitHubClient client,
             Uri uri)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = GetCommitTree(client, uri, null, CancellationToken.None);
+            var result = GetCommitLink(client, uri, null, CancellationToken.None);
 
             return result;
         }

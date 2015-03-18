@@ -26,15 +26,15 @@
     var settings = new XmlReaderSettings();
     settings.Schemas.Add(SchemaNamespace.NamespaceName, schemaFile);
 
-	settings.ValidationType = ValidationType.Schema;
+    settings.ValidationType = ValidationType.Schema;
     settings.ValidationFlags =
-		XmlSchemaValidationFlags.AllowXmlAttributes |
-		XmlSchemaValidationFlags.ProcessIdentityConstraints |
+        XmlSchemaValidationFlags.AllowXmlAttributes |
+        XmlSchemaValidationFlags.ProcessIdentityConstraints |
         XmlSchemaValidationFlags.ProcessSchemaLocation |
         XmlSchemaValidationFlags.ReportValidationWarnings;
 
     using (var streamReader = new StreamReader(sourceFile))
-	using (var xmlReader = XmlReader.Create(streamReader, settings))
+    using (var xmlReader = XmlReader.Create(streamReader, settings))
     {
         var document = XDocument.Load(xmlReader);
 
@@ -47,61 +47,69 @@
             bool hasRequiredMember = model.Members.Any(x => x.Required);
 
             string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, model);
-			string interfaceFileName = string.Format("I{0}.Generated.cs", model.Name.LocalName);
-			manager.StartNewFile(interfaceFileName);
-			this.Write(interfaceDef);
-			manager.EndBlock();
+            string interfaceFileName = string.Format("I{0}.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(interfaceFileName);
+            this.Write(interfaceDef);
+            manager.EndBlock();
 
-			this.WriteLine(string.Format("Generated {0} from {1}.", interfaceFileName, model.Name.LocalName));
+            this.WriteLine("Generated {0} from {1}.", interfaceFileName, model.Name.LocalName);
 
             if (hasRequiredMember)
             {
-				string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model);
-				string contractFileName = string.Format("{0}Contracts.Generated.cs", model.Name.LocalName);
-				manager.StartNewFile(contractFileName);
-				this.Write(contractDef);
-				manager.EndBlock();
+                string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model);
+                string contractFileName = string.Format("{0}Contracts.Generated.cs", model.Name.LocalName);
+                manager.StartNewFile(contractFileName);
+                this.Write(contractDef);
+                manager.EndBlock();
 
-				this.WriteLine(string.Format("Generated {0} from {1}.", contractFileName, model.Name.LocalName));
+                this.WriteLine("Generated {0} from {1}.", contractFileName, model.Name.LocalName);
             }
 
             string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model);
-			string classFileName = string.Format("{0}.Generated.cs", model.Name.LocalName);
-			manager.StartNewFile(classFileName);
-			this.Write(classDef);
-			manager.EndBlock();
+            string classFileName = string.Format("{0}.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(classFileName);
+            this.Write(classDef);
+            manager.EndBlock();
 
-			this.WriteLine(string.Format("Generated {0} from {1}.", classFileName, model.Name.LocalName));
+            this.WriteLine("Generated {0} from {1}.", classFileName, model.Name.LocalName);
 
             string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, model);
-			string serializableClassFileName = string.Format("Serializable{0}.Generated.cs", model.Name.LocalName);
-			manager.StartNewFile(serializableClassFileName);
-			this.Write(serializableClassDef);
-			manager.EndBlock();
+            string serializableClassFileName = string.Format("Serializable{0}.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(serializableClassFileName);
+            this.Write(serializableClassDef);
+            manager.EndBlock();
 
-			this.WriteLine(string.Format("Generated {0} from {1}.", serializableClassFileName, model.Name.LocalName));
+            this.WriteLine("Generated {0} from {1}.", serializableClassFileName, model.Name.LocalName);
 
-			if (!model.IsAbstract)
+            if (!model.IsAbstract)
             {
-				string extensionClassDef = this.GenerateModel("ModelExtension.tt", codeNamespace, model);
-				string extensionClassFileName = string.Format("{0}Extension.Generated.cs", model.Name.LocalName);
-				manager.StartNewFile(extensionClassFileName);
-				this.Write(extensionClassDef);
-				manager.EndBlock();
+                string extensionClassDef = this.GenerateModel("ModelExtension.tt", codeNamespace, model);
+                string extensionClassFileName = string.Format("{0}Extension.Generated.cs", model.Name.LocalName);
+                manager.StartNewFile(extensionClassFileName);
+                this.Write(extensionClassDef);
+                manager.EndBlock();
 
-				this.WriteLine(string.Format("Generated {0} from {1}.", extensionClassFileName, model.Name.LocalName));
+                this.WriteLine("Generated {0} from {1}.", extensionClassFileName, model.Name.LocalName);
             }
+
+            string mockClassDef = this.GenerateModel("ModelMock.tt", codeNamespace, model);
+            string mockClassFileName = string.Format("{0}Mock.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(mockClassFileName);
+            this.Write(mockClassDef);
+            manager.EndBlock();
+
+            this.WriteLine("Generated {0} from {1}.", mockClassFileName, model.Name.LocalName);
         }
     }
 
-	manager.Process(true);
+    manager.Process(true);
 #>
 
 <#+
     private string GenerateModel(
-		string templateFile,
-		string codeNamespace,
-		Model model)
+        string templateFile,
+        string codeNamespace,
+        Model model)
     {
         string includeContent, location;
 
@@ -118,9 +126,9 @@
 
         var session = sessionHost.CreateSession();
 
-		session["CodeNamespace"] = codeNamespace;
-		session["ModelXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
-		session["AncestorXmls"] = model.Ancestors.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();
+        session["CodeNamespace"] = codeNamespace;
+        session["ModelXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
+        session["AncestorXmls"] = model.Ancestors.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();
 
         sessionHost.Session = session;
 
@@ -128,28 +136,28 @@
 
         string result = engine.ProcessTemplate(includeContent, this.Host);
 
-		var resultBuilder = new StringBuilder(result.Length);
+        var resultBuilder = new StringBuilder(result.Length);
 
-		bool leadingBlank = true;
+        bool leadingBlank = true;
 
-		using (var reader = new StringReader(result))
+        using (var reader = new StringReader(result))
         {
-			string line = reader.ReadLine();
-			while (line != null)
+            string line = reader.ReadLine();
+            while (line != null)
             {
-				line = line.TrimEnd();
+                line = line.TrimEnd();
 
-				if (leadingBlank && line.Length > 0)
+                if (leadingBlank && line.Length > 0)
                 {
-					leadingBlank = false;
+                    leadingBlank = false;
                 }
 
-				if (!leadingBlank)
+                if (!leadingBlank)
                 {
-					resultBuilder.AppendLine(line);
+                    resultBuilder.AppendLine(line);
                 }
 
-				line = reader.ReadLine();
+                line = reader.ReadLine();
             }
         }
 

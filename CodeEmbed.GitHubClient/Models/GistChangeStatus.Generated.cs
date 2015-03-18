@@ -24,7 +24,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(gistChangeStatus != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gistChangeStatus = gistChangeStatus;
@@ -76,7 +75,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._gistChangeStatus != null);
-
             Contract.Invariant(this._client != null);
         }
     }

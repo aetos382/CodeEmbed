@@ -29,7 +29,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(gitTree != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gitTree = gitTree;
@@ -104,7 +103,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._gitTree != null);
-
             Contract.Invariant(this._client != null);
         }
     }

@@ -24,7 +24,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(userPlan != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._userPlan = userPlan;
@@ -85,7 +84,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._userPlan != null);
-
             Contract.Invariant(this._client != null);
         }
     }

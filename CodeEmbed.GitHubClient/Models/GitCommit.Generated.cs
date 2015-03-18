@@ -24,10 +24,10 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly CommitSignature _committer = null;
 
         [ContractPublicPropertyName("Tree")]
-        private readonly CommitTree _tree = null;
+        private readonly CommitLink _tree = null;
 
         [ContractPublicPropertyName("Parents")]
-        private readonly IEnumerable<CommitTree> _parents = null;
+        private readonly IEnumerable<CommitLink> _parents = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
@@ -38,7 +38,6 @@ namespace CodeEmbed.GitHubClient.Models
             IGitHubClient client)
         {
             Contract.Requires<ArgumentNullException>(gitCommit != null);
-
             Contract.Requires<ArgumentNullException>(client != null);
 
             this._gitCommit = gitCommit;
@@ -55,12 +54,12 @@ namespace CodeEmbed.GitHubClient.Models
 
             if (gitCommit.Tree != null)
             {
-                this._tree = new CommitTree(gitCommit.Tree, client);
+                this._tree = new CommitLink(gitCommit.Tree, client);
             }
 
             if (gitCommit.Parents != null)
             {
-                this._parents = gitCommit.Parents.Select(x => new CommitTree(x, client));
+                this._parents = gitCommit.Parents.Select(x => new CommitLink(x, client));
             }
 
             this._client = client;
@@ -112,7 +111,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "tree"</summary>
-        public CommitTree Tree
+        public CommitLink Tree
         {
             get
             {
@@ -121,7 +120,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "parents"</summary>
-        public IEnumerable<CommitTree> Parents
+        public IEnumerable<CommitLink> Parents
         {
             get
             {
@@ -148,7 +147,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "tree"</summary>
-        ICommitTree IGitCommit.Tree
+        ICommitLink IGitCommit.Tree
         {
             get
             {
@@ -157,7 +156,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "parents"</summary>
-        IEnumerable<ICommitTree> IGitCommit.Parents
+        IEnumerable<ICommitLink> IGitCommit.Parents
         {
             get
             {
@@ -182,7 +181,6 @@ namespace CodeEmbed.GitHubClient.Models
         private void ObjectInvariant()
         {
             Contract.Invariant(this._gitCommit != null);
-
             Contract.Invariant(this._client != null);
         }
     }
