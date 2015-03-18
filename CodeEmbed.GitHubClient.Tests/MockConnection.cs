@@ -23,7 +23,7 @@
             }
         }
 
-        public async Task<TextReader> GetAsTextReader(
+        public Task<TextReader> GetAsTextReader(
             Uri uri,
             Encoding encoding,
             CancellationToken cancellationToken)
@@ -31,7 +31,7 @@
             string data = this.DataFactory(uri);
 
             var reader = new StringReader(data);
-            return reader;
+            return Task.FromResult((TextReader)reader);
         }
     }
 }

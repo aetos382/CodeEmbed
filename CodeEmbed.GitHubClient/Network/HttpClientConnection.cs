@@ -68,7 +68,7 @@
             {
                 response.EnsureSuccessStatusCode();
 
-                var result = await HttpResponseMessageReader.Create(response).ConfigureAwait(false);
+                var result = await HttpResponseMessageReader.Create(response, encoding).ConfigureAwait(false);
 
                 response = null;
                 return result;
@@ -89,6 +89,17 @@
                     response.Dispose();
                     response = null;
                 }
+            }
+        }
+
+        protected HttpClient HttpClient
+        {
+            [Pure]
+            get
+            {
+                Contract.Ensures(Contract.Result<HttpClient>() != null);
+
+                return this._client;
             }
         }
 
@@ -164,7 +175,7 @@
             }
         }
 
-        private Uri EnsureUriAbsolute(Uri uri)
+        protected Uri EnsureUriAbsolute(Uri uri)
         {
             Contract.Requires<ArgumentNullException>(uri != null);
 

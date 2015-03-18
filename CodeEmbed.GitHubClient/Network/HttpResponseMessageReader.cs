@@ -17,7 +17,7 @@
 
         private bool _disposed = false;
 
-        private HttpResponseMessageReader(
+        protected HttpResponseMessageReader(
             HttpResponseMessage response,
             Stream stream,
             Encoding encoding)

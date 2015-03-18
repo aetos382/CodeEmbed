@@ -45,14 +45,14 @@
             }
         }
 
-        public async Task<T> GetData<T>(
+        public Task<T> GetData<T>(
             Uri uri,
             Encoding encoding,
             CancellationToken cancellationToken)
         {
             var result = this.ModelFactory(uri);
 
-            return (T)result;
+            return Task.FromResult((T)result);
         }
     }
 }

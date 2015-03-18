@@ -44,14 +44,13 @@
         private static readonly Lazy<IDictionary<Type, Type>> _instance = new Lazy<IDictionary<Type, Type>>(
             () => {
                 var typePairs =
-                                Assembly.GetExecutingAssembly()
-                            .GetTypes()
-                            .Where(x => x.GetCustomAttributes<JsonObjectAttribute>().Any())
-                            .ToDictionary(x => x.GetInterface(GetInterfaceName(x.Name)), x => x);
+                    Assembly.GetExecutingAssembly()
+                        .GetTypes()
+                        .Where(x => x.GetCustomAttributes<JsonObjectAttribute>().Any())
+                        .ToDictionary(x => x.GetInterface(GetInterfaceName(x.Name)), x => x);
 
                 return typePairs;
             });
-
 
         public void MapAllTypes()
         {
