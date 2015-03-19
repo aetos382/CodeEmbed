@@ -185,7 +185,7 @@
 
                 if (requestHeaders != null)
                 {
-                    // TODO: Set request headers
+                    SetRequestHeaders(client, requestHeaders);
                 }
 
                 return client;
@@ -198,6 +198,50 @@
                 }
 
                 throw;
+            }
+        }
+
+        protected static void SetRequestHeaders(
+            HttpClient client,
+            IDictionary<string, string> requestHeaders)
+        {
+            var headers = client.DefaultRequestHeaders;
+
+            var headerSetters = new Dictionary<string, Action<string>>
+                {
+                    { "Accept", value => headers.Accept.ParseAdd(value) },
+                    { "Accept-Charset", value => headers.AcceptCharset.ParseAdd(value) },
+                    { "Accept-Encoding", value => headers.AcceptEncoding.ParseAdd(value) },
+                    { "Accept-Language", value => headers.AcceptLanguage.ParseAdd(value) },
+                    { "Authorization", value => headers.Authorization = AuthenticationHeaderValue.Parse(value) },
+                    { "Expect", value => headers.Expect.ParseAdd(value) },
+                    { "From", value => headers.From = value },
+                    { "Host", value => headers.Host = value },
+                    { "If-Match", value => headers.IfMatch.ParseAdd(value) },
+                    { "If-Modified-Since", value => headers.IfModifiedSince = DateTimeOffset.Parse(value) },
+                    { "If-None-match", value => headers.IfNoneMatch.ParseAdd(value) },
+                    { "If-Range", value => headers.IfRange = RangeConditionHeaderValue.Parse(value) },
+                    { "If-Unmodified-Since", value => headers.IfUnmodifiedSince = DateTimeOffset.Parse(value) },
+                    { "Max-Forwards", value => headers.MaxForwards = int.Parse(value) },
+                    { "Proxy-Authorization", value => headers.ProxyAuthorization = AuthenticationHeaderValue.Parse(value) },
+                    { "Range", value => headers.Range = RangeHeaderValue.Parse(value) },
+                    { "Referer", value => headers.Referrer = new Uri(value) },
+                    { "TE", value => headers.TE.ParseAdd(value) },
+                    { "User-Agent", value => headers.UserAgent.ParseAdd(value) }
+                };
+
+            foreach (var entry in requestHeaders)
+            {
+                Action<string> action;
+
+                if (headerSetters.TryGetValue(entry.Key, out action))
+                {
+                    action(entry.Value);
+                }
+                else
+                {
+                    headers.Add(entry.Key, entry.Value);
+                }
             }
         }
 
