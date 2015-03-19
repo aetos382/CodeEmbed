@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Linq;
@@ -12,23 +13,12 @@
     {
         public static Task<TextReader> GetAsTextReader(
             this IConnection connection,
-            Encoding encoding,
             Uri uri)
         {
             Contract.Requires<ArgumentNullException>(connection != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            return connection.GetAsTextReader(uri, encoding, CancellationToken.None);
-        }
-
-        public static Task<TextReader> GetAsTextReader(
-            this IConnection connection,
-            Uri uri)
-        {
-            Contract.Requires<ArgumentNullException>(connection != null);
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            return GetAsTextReader(connection, null, uri);
+            return connection.GetAsTextReader(uri, null, null, CancellationToken.None);
         }
 
         public static Task<string> GetString(
@@ -38,30 +28,20 @@
             Contract.Requires<ArgumentNullException>(connection != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            return GetString(connection, uri, null);
-        }
-
-        public static Task<string> GetString(
-            this IConnection connection,
-            Uri uri,
-            Encoding encoding)
-        {
-            Contract.Requires<ArgumentNullException>(connection != null);
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            return GetString(connection, uri, encoding, CancellationToken.None);
+            return GetString(connection, uri, null, null, CancellationToken.None);
         }
 
         public static async Task<string> GetString(
             this IConnection connection,
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(connection != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            using (var reader = await connection.GetAsTextReader(uri, encoding, cancellationToken).ConfigureAwait(false))
+            using (var reader = await connection.GetAsTextReader(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false))
             {
                 string result = await reader.ReadToEndAsync().ConfigureAwait(false);
                 return result;

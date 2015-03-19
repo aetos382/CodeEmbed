@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
@@ -22,7 +23,14 @@
         [ContractPublicPropertyName("BaseUri")]
         private readonly Uri _baseUri;
 
-        private readonly HttpClient _client;
+        [ContractPublicPropertyName("UserAgent")]
+        private readonly string _userAgent;
+
+        private readonly string _oauthToken;
+
+        private readonly HttpMessageHandler _handler;
+
+        private readonly bool _disposeHandler;
 
         private bool _disposed = false;
 
@@ -44,7 +52,11 @@
             Contract.Requires<ArgumentNullException>(userAgent != null);
 
             this._baseUri = baseUri ?? DefaultBaseUri;
-            this._client = CreateHttpClient(userAgent, oAuthToken, handler, disposeHandler);
+
+            this._userAgent = userAgent;
+            this._oauthToken = oAuthToken;
+            this._handler = handler;
+            this._disposeHandler = disposeHandler;
         }
 
         public Uri BaseUri
@@ -55,51 +67,56 @@
             }
         }
 
+        public string UserAgent
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<string>() != null);
+
+                return this._userAgent;
+            }
+        }
+
         public async Task<TextReader> GetAsTextReader(
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             uri = this.EnsureUriAbsolute(uri);
 
-            var response = await this._client.GetAsync(uri).ConfigureAwait(false);
-
-            try
+            using (var client = CreateHttpClient(
+                this._userAgent, this._oauthToken, requestHeaders, this._handler, this._disposeHandler))
             {
-                response.EnsureSuccessStatusCode();
 
-                var result = await HttpResponseMessageReader.Create(response, encoding).ConfigureAwait(false);
+                var response = await client.GetAsync(uri).ConfigureAwait(false);
 
-                response = null;
-                return result;
-            }
-            catch (HttpRequestException ex)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound)
+                try
                 {
-                    throw new GitHubNotFoundException(uri, ex);
-                }
+                    response.EnsureSuccessStatusCode();
 
-                throw;
-            }
-            finally
-            {
-                if (response != null)
-                {
-                    response.Dispose();
+                    var result = await HttpResponseMessageReader.Create(response, responseEncoding).ConfigureAwait(false);
+
                     response = null;
+                    return result;
                 }
-            }
-        }
+                catch (HttpRequestException ex)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new GitHubNotFoundException(uri, ex);
+                    }
 
-        protected HttpClient HttpClient
-        {
-            [Pure]
-            get
-            {
-                Contract.Ensures(Contract.Result<HttpClient>() != null);
-
-                return this._client;
+                    throw;
+                }
+                finally
+                {
+                    if (response != null)
+                    {
+                        response.Dispose();
+                        response = null;
+                    }
+                }
             }
         }
 
@@ -123,15 +140,19 @@
 
             if (disposing)
             {
-                this._client.Dispose();
+                if (this._handler != null && this._disposeHandler)
+                {
+                    this._handler.Dispose();
+                }
             }
 
             this._disposed = true;
         }
 
-        private static HttpClient CreateHttpClient(
+        protected static HttpClient CreateHttpClient(
             string userAgent,
             string oAuthToken,
+            IDictionary<string, string> requestHeaders,
             HttpMessageHandler handler,
             bool disposeHandler)
         {
@@ -160,6 +181,11 @@
                 if (!string.IsNullOrEmpty(oAuthToken))
                 {
                     headers.Authorization = new AuthenticationHeaderValue("Token", oAuthToken);
+                }
+
+                if (requestHeaders != null)
+                {
+                    // TODO: Set request headers
                 }
 
                 return client;
@@ -196,7 +222,6 @@
         private void ObjectInvariant()
         {
             Contract.Invariant(this._baseUri != null);
-            Contract.Invariant(this._client != null);
         }
     }
 }

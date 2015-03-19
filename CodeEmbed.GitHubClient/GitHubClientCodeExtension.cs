@@ -108,29 +108,35 @@
                     throw new GitHubNotFoundException();
                 }
 
-                gitTree = await client.GetGitTree(user, repository, treeHash, false).ConfigureAwait(false);
-
                 matched = gitTree.Tree.SingleOrDefault(x => x.Path == pathComponents[i]);
-                if (matched != null)
+                if (matched == null)
                 {
-                    if (matched.Type == "blob")
-                    {
-                        if (i != pathComponents.Length - 1)
-                        {
-                            throw new GitHubNotFoundException();
-                        }
+                    gitTree = await client.GetGitTree(user, repository, treeHash, false).ConfigureAwait(false);
+                    matched = gitTree.Tree.SingleOrDefault(x => x.Path == pathComponents[i]);
+                }
 
-                        blobHash = matched.Hash;
-                        break;
-                    }
-                    else if (matched.Type == "tree")
+                if (matched == null)
+                {
+                    throw new GitHubNotFoundException();
+                }
+
+                if (matched.Type == "blob")
+                {
+                    if (i != pathComponents.Length - 1)
                     {
-                        treeHash = matched.Hash;
+                        throw new GitHubNotFoundException();
                     }
-                    else
-                    {
-                        throw new NotSupportedException();
-                    }
+
+                    blobHash = matched.Hash;
+                    break;
+                }
+                else if (matched.Type == "tree")
+                {
+                    treeHash = matched.Hash;
+                }
+                else
+                {
+                    throw new NotSupportedException();
                 }
             }
 
@@ -155,6 +161,19 @@
             Contract.Requires<ArgumentNullException>(blob != null);
 
             var gitBlob = await client.GetGitBlob(user, repository, blob).ConfigureAwait(false);
+
+            if (gitBlob.Encoding == "base64")
+            {
+                var base64 = await client.GetString(gitBlob.Uri).ConfigureAwait(false);
+
+                var data = Convert.FromBase64String(base64);
+
+                var encoding = (Encoding)Encoding.UTF8.Clone();
+                encoding.EncoderFallback = new EncoderExceptionFallback();
+                encoding.DecoderFallback = new DecoderExceptionFallback();
+
+                content = encoding.GetString(data);
+            }
 
             Encoding encoding = null;
 

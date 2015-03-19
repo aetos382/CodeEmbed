@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
@@ -102,10 +103,11 @@
 
         public async Task<T> GetData<T>(
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
-            var result = await this._connection.GetAsTextReader(uri, encoding, cancellationToken).ConfigureAwait(false);
+            var result = await this._connection.GetAsTextReader(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false);
 
             var data = await this._serializer.Deserialize<T>(result, cancellationToken).ConfigureAwait(false);
 

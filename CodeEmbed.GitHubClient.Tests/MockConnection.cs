@@ -25,7 +25,8 @@
 
         public Task<TextReader> GetAsTextReader(
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeader,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             string data = this.DataFactory(uri);

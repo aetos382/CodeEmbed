@@ -2,6 +2,7 @@ namespace CodeEmbed.GitHubClient.Models
 {
     using System;
     using System.CodeDom.Compiler;
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
     using System.Text;
@@ -41,13 +42,14 @@ namespace CodeEmbed.GitHubClient.Models
         public static async Task<GistHistory> GetGistHistory(
             this IGitHubClient client,
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = await client.GetData<IGistHistory>(uri, encoding, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<IGistHistory>(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
@@ -60,7 +62,7 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = GetGistHistory(client, uri, null, CancellationToken.None);
+            var result = GetGistHistory(client, uri, null, null, CancellationToken.None);
 
             return result;
         }

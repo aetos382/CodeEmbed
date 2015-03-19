@@ -52,9 +52,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="Octokit">
-      <HintPath>..\packages\Octokit.0.6.2\lib\net45\Octokit.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -125,6 +122,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CodeEmbed.GitHubClient\CodeEmbed.GitHubClient.csproj">
+      <Project>{66479f3b-f2b8-484d-8192-0089694a0311}</Project>
+      <Name>CodeEmbed.GitHubClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CodeEmbed.Web.Http\CodeEmbed.Web.Http.csproj">
       <Project>{67de14a6-ed41-4c0e-a98f-4a522437266c}</Project>
       <Name>CodeEmbed.Web.Http</Name>

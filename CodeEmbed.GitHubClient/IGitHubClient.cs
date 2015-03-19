@@ -21,7 +21,8 @@
 
         Task<T> GetData<T>(
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken);
     }
 }

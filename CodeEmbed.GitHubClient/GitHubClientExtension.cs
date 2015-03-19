@@ -20,7 +20,7 @@
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = client.GetData<T>(uri, null, CancellationToken.None);
+            var result = client.GetData<T>(uri, null, null, CancellationToken.None);
             return result;
         }
 
@@ -31,32 +31,21 @@
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = GetString(client, uri, null);
+            var result = GetString(client, uri, null, null, CancellationToken.None);
             return result;
         }
 
         public static Task<string> GetString(
             this IGitHubClient client,
             Uri uri,
-            Encoding encoding)
-        {
-            Contract.Requires<ArgumentNullException>(client != null);
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            var result = GetString(client, uri, encoding, CancellationToken.None);
-            return result;
-        }
-
-        public static Task<string> GetString(
-            this IGitHubClient client,
-            Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = client.Connection.GetString(uri, encoding, cancellationToken);
+            var result = client.Connection.GetString(uri, requestHeaders, responseEncoding, cancellationToken);
             return result;
         }
 

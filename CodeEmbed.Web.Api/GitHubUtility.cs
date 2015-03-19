@@ -4,8 +4,7 @@
     using System.Configuration;
     using System.Linq;
 
-    using Octokit;
-    using Octokit.Internal;
+    using CodeEmbed.GitHubClient;
 
     public static class GitHubUtility
     {
@@ -20,10 +19,7 @@
                 throw new InvalidOperationException();
             }
 
-            var credentialStore = new InMemoryCredentialStore(new Credentials(accessToken));
-
-            var client = new GitHubClient(
-                new ProductHeaderValue(userAgent), credentialStore);
+            var client = new GitHubClient(userAgent, accessToken);
 
             return client;
         }

@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Network
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.IO;
     using System.Text;
@@ -14,6 +15,10 @@
     {
         Uri BaseUri { get; }
 
-        Task<TextReader> GetAsTextReader(Uri uri, Encoding encoding, CancellationToken cancellationToken);
+        Task<TextReader> GetAsTextReader(
+            Uri uri,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
+            CancellationToken cancellationToken);
     }
 }

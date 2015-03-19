@@ -10,9 +10,8 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using CodeEmbed.GitHubClient;
     using CodeEmbed.Web.Http;
-
-    using Octokit;
 
     [RoutePrefix("github-git/{user}/{repository}")]
     public class GitController :
@@ -30,11 +29,11 @@
 
             try
             {
-                var repo = await client.Repository.Get(user, repository);
+                var repo = await client.GetRepository(user, repository);
 
                 response = await this.GetGitCodeByBranch(user, repository, repo.DefaultBranch, path);
             }
-            catch (NotFoundException ex)
+            catch (GitHubNotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
@@ -61,11 +60,11 @@
 
             try
             {
-                var bra = await client.Repository.GetBranch(user, repository, branch);
+                var gitBranch = await client.GetGitBranch(user, repository, branch);
 
-                response = await this.GetGitCodeByCommit(user, repository, bra.Commit.Sha, path);
+                response = await this.GetGitCodeByCommit(user, repository, gitBranch.Target.Hash, path);
             }
-            catch (NotFoundException ex)
+            catch (GitHubNotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
@@ -92,18 +91,11 @@
 
             try
             {
-                var tg = await client.Repository.GetAllTags(user, repository);
-                var t = tg.SingleOrDefault(x => x.Name == tag);
+                var gitTag = await client.GetGitTag(user, repository, tag);
 
-                if (t == null)
-                {
-                    response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, "path not found");
-                    return response;
-                }
-
-                response = await this.GetGitCodeByCommit(user, repository, t.Commit.Sha, path);
+                response = await this.GetGitCodeByCommit(user, repository, gitTag.Target.Hash, path);
             }
-            catch (NotFoundException ex)
+            catch (GitHubNotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }
@@ -187,7 +179,7 @@
 
                 response = this.Plaintext(content);
             }
-            catch (NotFoundException ex)
+            catch (GitHubNotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }

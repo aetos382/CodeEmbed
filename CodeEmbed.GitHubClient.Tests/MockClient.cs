@@ -47,7 +47,8 @@
 
         public Task<T> GetData<T>(
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeader,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             var result = this.ModelFactory(uri);

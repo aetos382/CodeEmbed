@@ -1,6 +1,7 @@
 ﻿namespace CodeEmbed.GitHubClient.Network.Contracts
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
@@ -30,7 +31,8 @@
 
         public Task<TextReader> GetAsTextReader(
             Uri uri,
-            Encoding encoding,
+            IDictionary<string, string> requestHeaders,
+            Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
             Contract.Requires<ArgumentNullException>(uri != null);
