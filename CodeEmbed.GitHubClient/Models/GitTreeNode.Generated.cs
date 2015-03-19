@@ -67,7 +67,7 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "hash"</summary>
+        /// <summary>Map to "sha"</summary>
         public String Hash
         {
             get

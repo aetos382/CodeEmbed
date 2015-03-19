@@ -18,10 +18,10 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly IGitCommit _gitCommit = null;
 
         [ContractPublicPropertyName("Author")]
-        private readonly CommitSignature _author = null;
+        private readonly Signature _author = null;
 
         [ContractPublicPropertyName("Committer")]
-        private readonly CommitSignature _committer = null;
+        private readonly Signature _committer = null;
 
         [ContractPublicPropertyName("Tree")]
         private readonly CommitLink _tree = null;
@@ -44,12 +44,12 @@ namespace CodeEmbed.GitHubClient.Models
 
             if (gitCommit.Author != null)
             {
-                this._author = new CommitSignature(gitCommit.Author, client);
+                this._author = new Signature(gitCommit.Author, client);
             }
 
             if (gitCommit.Committer != null)
             {
-                this._committer = new CommitSignature(gitCommit.Committer, client);
+                this._committer = new Signature(gitCommit.Committer, client);
             }
 
             if (gitCommit.Tree != null)
@@ -84,7 +84,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "author"</summary>
-        public CommitSignature Author
+        public Signature Author
         {
             get
             {
@@ -93,7 +93,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "committer"</summary>
-        public CommitSignature Committer
+        public Signature Committer
         {
             get
             {
@@ -129,7 +129,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "author"</summary>
-        ICommitSignature IGitCommit.Author
+        ISignature IGitCommit.Author
         {
             get
             {
@@ -138,7 +138,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "committer"</summary>
-        ICommitSignature IGitCommit.Committer
+        ISignature IGitCommit.Committer
         {
             get
             {

@@ -13,7 +13,9 @@
     internal class MockConnection :
         IConnection
     {
-        public Func<Uri, string> DataFactory { get; set; } 
+        public Func<Uri, string> DataFactory { get; set; }
+
+        public Func<Uri, Stream> StreamFactory { get; set; } 
 
         public Uri BaseUri
         {
@@ -21,6 +23,15 @@
             {
                 return new Uri("http://www.example.com");
             }
+        }
+
+        public Task<Stream> GetAsStream(
+            Uri uri,
+            IDictionary<string, string> requestHeaders,
+            CancellationToken cancellationToken)
+        {
+            var stream = this.StreamFactory(uri);
+            return Task.FromResult(stream);
         }
 
         public Task<TextReader> GetAsTextReader(

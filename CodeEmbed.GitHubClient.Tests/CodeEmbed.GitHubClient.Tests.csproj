@@ -70,9 +70,6 @@
     <Compile Include="..\CodeEmbed.GitHubClient\Models\CommitLinkMock.Generated.cs">
       <Link>Models\CommitLinkMock.Generated.cs</Link>
     </Compile>
-    <Compile Include="..\CodeEmbed.GitHubClient\Models\CommitSignatureMock.Generated.cs">
-      <Link>Models\CommitSignatureMock.Generated.cs</Link>
-    </Compile>
     <Compile Include="..\CodeEmbed.GitHubClient\Models\GistBaseMock.Generated.cs">
       <Link>Models\GistBaseMock.Generated.cs</Link>
     </Compile>
@@ -109,6 +106,9 @@
     <Compile Include="..\CodeEmbed.GitHubClient\Models\GitReferenceMock.Generated.cs">
       <Link>Models\GitReferenceMock.Generated.cs</Link>
     </Compile>
+    <Compile Include="..\CodeEmbed.GitHubClient\Models\GitTagMock.Generated.cs">
+      <Link>Models\GitTagMock.Generated.cs</Link>
+    </Compile>
     <Compile Include="..\CodeEmbed.GitHubClient\Models\GitTreeMock.Generated.cs">
       <Link>Models\GitTreeMock.Generated.cs</Link>
     </Compile>
@@ -126,6 +126,9 @@
     </Compile>
     <Compile Include="..\CodeEmbed.GitHubClient\Models\RepositoryUserMock.Generated.cs">
       <Link>Models\RepositoryUserMock.Generated.cs</Link>
+    </Compile>
+    <Compile Include="..\CodeEmbed.GitHubClient\Models\SignatureMock.Generated.cs">
+      <Link>Models\SignatureMock.Generated.cs</Link>
     </Compile>
     <Compile Include="..\CodeEmbed.GitHubClient\Models\UserMock.Generated.cs">
       <Link>Models\UserMock.Generated.cs</Link>

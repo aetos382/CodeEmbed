@@ -32,11 +32,11 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "type"</summary>
-        public String ObjectType
+        public String Type
         {
             get
             {
-                return this._gitObject.ObjectType;
+                return this._gitObject.Type;
             }
         }
 

@@ -8,7 +8,7 @@ namespace CodeEmbed.GitHubClient.Models
     public partial interface IGitObject
     {
         /// <summary>Map to "type"</summary>
-        String ObjectType { [Pure] get; }
+        String Type { [Pure] get; }
 
         /// <summary>Map to "sha"</summary>
         String Hash { [Pure] get; }

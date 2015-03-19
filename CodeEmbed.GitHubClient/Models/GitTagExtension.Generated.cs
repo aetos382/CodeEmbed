@@ -13,33 +13,33 @@ namespace CodeEmbed.GitHubClient.Models
 
     [GeneratedCode("ModelExtension.tt", "1.0")]
     [DebuggerStepThrough]
-    public static partial class CommitSignatureExtension
+    public static partial class GitTagExtension
     {
-        public static CommitSignature Wrap(
-            this ICommitSignature commitSignature,
+        public static GitTag Wrap(
+            this IGitTag gitTag,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(commitSignature != null);
+            Contract.Requires<ArgumentNullException>(gitTag != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            var wrapped = new CommitSignature(commitSignature, client);
+            var wrapped = new GitTag(gitTag, client);
 
             return wrapped;
         }
 
-        public static async Task<CommitSignature> Wrap(
-            this Task<ICommitSignature> commitSignature,
+        public static async Task<GitTag> Wrap(
+            this Task<IGitTag> gitTag,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(commitSignature != null);
+            Contract.Requires<ArgumentNullException>(gitTag != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            var wrapped = Wrap(await commitSignature.ConfigureAwait(false), client);
+            var wrapped = Wrap(await gitTag.ConfigureAwait(false), client);
 
             return wrapped;
         }
 
-        public static async Task<CommitSignature> GetCommitSignature(
+        public static async Task<GitTag> GetGitTag(
             this IGitHubClient client,
             Uri uri,
             IDictionary<string, string> requestHeaders,
@@ -49,20 +49,20 @@ namespace CodeEmbed.GitHubClient.Models
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = await client.GetData<ICommitSignature>(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false);
+            var result = await client.GetData<IGitTag>(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false);
             var wrapped = Wrap(result, client);
 
             return wrapped;
         }
 
-        public static Task<CommitSignature> GetCommitSignature(
+        public static Task<GitTag> GetGitTag(
             this IGitHubClient client,
             Uri uri)
         {
             Contract.Requires<ArgumentNullException>(client != null);
             Contract.Requires<ArgumentNullException>(uri != null);
 
-            var result = GetCommitSignature(client, uri, null, null, CancellationToken.None);
+            var result = GetGitTag(client, uri, null, null, CancellationToken.None);
 
             return result;
         }

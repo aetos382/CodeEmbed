@@ -50,6 +50,8 @@
         {
             get
             {
+                Contract.Ensures(Contract.Result<int>() == this._typeMap.Count);
+
                 return this._typeMap.Count;
             }
         }
@@ -58,6 +60,8 @@
         {
             get
             {
+                Contract.Ensures(Contract.Result<bool>() == false);
+
                 return false;
             }
         }
@@ -87,6 +91,9 @@
 
             set
             {
+                Contract.EnsuresOnThrow<ArgumentNullException>(value == null);
+                Contract.EnsuresOnThrow<ArgumentException>(!key.IsAssignableFrom(value));
+
                 if (key == null)
                 {
                     throw new ArgumentNullException("key");
@@ -109,6 +116,8 @@
         public void Map<TRequire, TImplement>()
             where TImplement : TRequire
         {
+            Contract.Ensures(this.Count >= Contract.OldValue(this.Count));
+
             this._typeMap[typeof(TRequire)] = typeof(TImplement);
         }
 
@@ -117,6 +126,8 @@
             Contract.Requires<ArgumentNullException>(requiredType != null);
             Contract.Requires<ArgumentNullException>(implementType != null);
             Contract.Requires<ArgumentException>(requiredType.IsAssignableFrom(implementType));
+
+            Contract.Ensures(this.Count >= Contract.OldValue(this.Count));
 
             this._typeMap[requiredType] = implementType;
         }
@@ -144,6 +155,12 @@
 
         public void Add(KeyValuePair<Type, Type> item)
         {
+            Contract.EnsuresOnThrow<ArgumentNullException>(item.Key == null);
+            Contract.EnsuresOnThrow<ArgumentNullException>(item.Value == null);
+            Contract.EnsuresOnThrow<ArgumentException>(!item.Key.IsAssignableFrom(item.Value));
+
+            Contract.Assume(this.Count >= Contract.OldValue(this.Count));
+
             if (item.Key == null || item.Value == null)
             {
                 throw new ArgumentNullException("item");    
@@ -181,6 +198,8 @@
 
         public bool ContainsKey(Type key)
         {
+            Contract.Ensures(Contract.Result<bool>() == this._typeMap.ContainsKey(key));
+
             return this._typeMap.ContainsKey(key);
         }
 
@@ -188,6 +207,10 @@
             Type key,
             Type value)
         {
+            Contract.EnsuresOnThrow<ArgumentNullException>(key == null);
+            Contract.EnsuresOnThrow<ArgumentNullException>(value == null);
+            Contract.EnsuresOnThrow<ArgumentException>(!key.IsAssignableFrom(value));
+
             if (key == null)
             {
                 throw new ArgumentNullException("key");    
@@ -215,6 +238,8 @@
             Type key,
             out Type value)
         {
+            Contract.Ensures(Contract.Result<bool>() == false || Contract.ValueAtReturn(out value) != null);
+
             return this._typeMap.TryGetValue(key, out value);
         }
 
@@ -226,6 +251,7 @@
         {
             Contract.Invariant(this._baseResolver != null);
             Contract.Invariant(this._typeMap != null);
+            Contract.Invariant(this.Count == this._typeMap.Count);
         }
     }
 }

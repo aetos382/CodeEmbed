@@ -43,8 +43,16 @@
 
             using (var reader = await connection.GetAsTextReader(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false))
             {
-                string result = await reader.ReadToEndAsync().ConfigureAwait(false);
-                return result;
+                try
+                {
+                    string result = await reader.ReadToEndAsync().ConfigureAwait(false);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    
+                    throw;
+                }
             }
         }
     }

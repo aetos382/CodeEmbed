@@ -1,9 +1,11 @@
 ﻿namespace CodeEmbed.GitHubClient
 {
     using System;
+    using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Text;
+    using System.Threading;
     using System.Threading.Tasks;
 
     using CodeEmbed.GitHubClient.Models;
@@ -40,7 +42,7 @@
             Contract.Requires<ArgumentNullException>(branch != null);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            var gitBranch = await client.GetGitBranch(user, repository, branch).ConfigureAwait(false);
+            var gitBranch = await client.GetGitBranchReference(user, repository, branch).ConfigureAwait(false);
             var result = await GetGitCodeFromCommit(client, user, repository, gitBranch.Target.Hash, path).ConfigureAwait(false);
 
             return result;
@@ -59,8 +61,16 @@
             Contract.Requires<ArgumentNullException>(tag != null);
             Contract.Requires<ArgumentNullException>(path != null);
 
-            var gitTag = await client.GetGitTag(user, repository, tag).ConfigureAwait(false);
-            var result = await GetGitCodeFromCommit(client, user, repository, gitTag.Target.Hash, path).ConfigureAwait(false);
+            var gitTagRef = await client.GetGitTagReference(user, repository, tag).ConfigureAwait(false);
+            string commitHash = gitTagRef.Target.Hash;
+
+            if (gitTagRef.Target.Type == "tag")
+            {
+                var gitTag = await client.GetGitTag(user, repository, gitTagRef.Target.Hash).ConfigureAwait(false);
+                commitHash = gitTag.Target.Hash;
+            }
+
+            var result = await GetGitCodeFromCommit(client, user, repository, commitHash, path).ConfigureAwait(false);
 
             return result;
         }
@@ -96,7 +106,7 @@
                 {
                     if (matched.Type != "blob")
                     {
-                        throw new NotSupportedException();
+                        throw new GitHubNotFoundException();
                     }
 
                     blobHash = matched.Hash;
@@ -160,32 +170,12 @@
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(blob != null);
 
-            var gitBlob = await client.GetGitBlob(user, repository, blob).ConfigureAwait(false);
+            var blobUri = GitHubUri.GitBlob(user, repository, blob);
 
-            if (gitBlob.Encoding == "base64")
-            {
-                var base64 = await client.GetString(gitBlob.Uri).ConfigureAwait(false);
+            var headers = new Dictionary<string, string>();
+            headers["Accept"] = "application/vnd.github.v3.raw";
 
-                var data = Convert.FromBase64String(base64);
-
-                var encoding = (Encoding)Encoding.UTF8.Clone();
-                encoding.EncoderFallback = new EncoderExceptionFallback();
-                encoding.DecoderFallback = new DecoderExceptionFallback();
-
-                content = encoding.GetString(data);
-            }
-
-            Encoding encoding = null;
-
-            try
-            {
-                encoding = Encoding.GetEncoding(gitBlob.Encoding);
-            }
-            catch
-            {
-            }
-
-            string result = await client.GetString(gitBlob.Uri, encoding).ConfigureAwait(false);
+            string result = await client.GetString(blobUri, headers, null, CancellationToken.None).ConfigureAwait(false);
 
             return result;
         }

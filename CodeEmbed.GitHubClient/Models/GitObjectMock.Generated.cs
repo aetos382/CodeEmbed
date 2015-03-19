@@ -16,7 +16,7 @@ namespace CodeEmbed.GitHubClient.Models
     {
 
         /// <summary>Map to "type"</summary>
-        public String ObjectType { get; set; }
+        public String Type { get; set; }
 
         /// <summary>Map to "sha"</summary>
         public String Hash { get; set; }

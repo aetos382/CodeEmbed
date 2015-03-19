@@ -10,8 +10,8 @@ namespace CodeEmbed.GitHubClient.Models
     [GeneratedCode("SerializableClass.tt", "1.0")]
     [DebuggerStepThrough]
     [JsonObject]
-    public partial class SerializableCommitSignature :
-        ICommitSignature
+    public partial class SerializableSignature :
+        ISignature
     {
         [ContractPublicPropertyName("Date")]
         private readonly DateTime _date;
@@ -22,9 +22,9 @@ namespace CodeEmbed.GitHubClient.Models
         [ContractPublicPropertyName("Email")]
         private readonly String _email;
 
-        /// <summary>Create new instance of SerializableCommitSignature.</summary>
+        /// <summary>Create new instance of SerializableSignature.</summary>
         [JsonConstructor]
-        public SerializableCommitSignature(
+        public SerializableSignature(
             DateTime date,
             String name,
             String email)

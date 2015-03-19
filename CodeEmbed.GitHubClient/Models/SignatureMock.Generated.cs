@@ -11,8 +11,8 @@ namespace CodeEmbed.GitHubClient.Models
 
     [GeneratedCode("ModelMock.tt", "1.0")]
     [DebuggerStepThrough]
-    public partial class CommitSignatureMock :
-        ICommitSignature
+    public partial class SignatureMock :
+        ISignature
     {
 
         /// <summary>Map to "date"</summary>

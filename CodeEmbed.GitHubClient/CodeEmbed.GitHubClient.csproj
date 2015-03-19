@@ -155,15 +155,6 @@
     <Compile Include="Models\CommitLinkMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\CommitSignature.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CommitSignatureExtension.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\CommitSignatureMock.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Gist.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -269,6 +260,15 @@
     <Compile Include="Models\GitReferenceMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\GitTag.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitTagExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GitTagMock.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\GitTree.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -291,9 +291,6 @@
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ICommitLink.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ICommitSignature.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IGist.Generated.cs">
@@ -332,6 +329,9 @@
     <Compile Include="Models\IGitReference.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\IGitTag.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\IGitTree.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -348,6 +348,9 @@
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IRepositoryUser.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ISignature.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IUser.Generated.cs">
@@ -408,9 +411,6 @@
     <Compile Include="Models\SerializableCommitLink.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\SerializableCommitSignature.Generated.cs">
-      <DependentUpon>GitHubModels.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\SerializableGist.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -447,6 +447,9 @@
     <Compile Include="Models\SerializableGitReference.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SerializableGitTag.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SerializableGitTree.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
@@ -465,10 +468,22 @@
     <Compile Include="Models\SerializableRepositoryUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SerializableSignature.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SerializableUser.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SerializableUserPlan.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Signature.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignatureExtension.Generated.cs">
+      <DependentUpon>GitHubModels.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SignatureMock.Generated.cs">
       <DependentUpon>GitHubModels.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.Generated.cs">
@@ -501,6 +516,7 @@
     <Compile Include="Network\HttpResponseMessageExtension.cs" />
     <Compile Include="Network\HttpResponseMessageReader.cs" />
     <Compile Include="IGitHubClient.cs" />
+    <Compile Include="Network\HttpResponseStream.cs" />
     <Compile Include="Serialization\CamelCaseStringEnumConverter.cs" />
     <Compile Include="Serialization\Contracts\JsonSerializerContract.cs" />
     <Compile Include="Serialization\IJsonSerializer.cs" />

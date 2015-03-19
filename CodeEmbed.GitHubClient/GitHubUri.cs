@@ -82,7 +82,7 @@
             return relUri;
         }
 
-        public static Uri GitBranch(
+        public static Uri GitBranchReferenece(
             string user,
             string repository,
             string branch)
@@ -101,7 +101,7 @@
             return relUri;
         }
 
-        public static Uri GitTag(
+        public static Uri GitTagReference(
             string user,
             string repository,
             string tag)
@@ -114,6 +114,25 @@
 
             string relUriString = string.Format(
                 CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/refs/tags/{2}", user, repository, tag);
+
+            var relUri = new Uri(relUriString, UriKind.Relative);
+
+            return relUri;
+        }
+
+        public static Uri GitTag(
+            string user,
+            string repository,
+            string tag)
+        {
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(tag != null);
+
+            Contract.Ensures(Contract.Result<Uri>() != null);
+
+            string relUriString = string.Format(
+                CultureInfo.InvariantCulture, "/repos/{0}/{1}/git/tags/{2}", user, repository, tag);
 
             var relUri = new Uri(relUriString, UriKind.Relative);
 

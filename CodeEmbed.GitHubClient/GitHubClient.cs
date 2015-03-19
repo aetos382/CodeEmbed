@@ -5,6 +5,7 @@
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading;
@@ -107,11 +108,13 @@
             Encoding responseEncoding,
             CancellationToken cancellationToken)
         {
-            var result = await this._connection.GetAsTextReader(uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false);
+            using (var reader = await this._connection.GetAsTextReader(
+                uri, requestHeaders, responseEncoding, cancellationToken).ConfigureAwait(false))
+            {
+                var data = await this._serializer.Deserialize<T>(reader, cancellationToken).ConfigureAwait(false);
 
-            var data = await this._serializer.Deserialize<T>(result, cancellationToken).ConfigureAwait(false);
-
-            return data;
+                return data;
+            }
         }
 
         protected virtual void Dispose(bool disposing)

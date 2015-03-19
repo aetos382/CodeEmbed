@@ -29,6 +29,16 @@
             }
         }
 
+        public Task<Stream> GetAsStream(
+            Uri uri,
+            IDictionary<string, string> requestHeaders,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            throw new NotImplementedException();
+        }
+
         public Task<TextReader> GetAsTextReader(
             Uri uri,
             IDictionary<string, string> requestHeaders,

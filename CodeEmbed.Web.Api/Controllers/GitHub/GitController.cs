@@ -29,9 +29,9 @@
 
             try
             {
-                var repo = await client.GetRepository(user, repository);
+                string code = await client.GetGitCode(user, repository, path);
 
-                response = await this.GetGitCodeByBranch(user, repository, repo.DefaultBranch, path);
+                response = this.Plaintext(code);
             }
             catch (GitHubNotFoundException ex)
             {
@@ -60,9 +60,9 @@
 
             try
             {
-                var gitBranch = await client.GetGitBranch(user, repository, branch);
+                string code = await client.GetGitCodeFromBranch(user, repository, branch, path);
 
-                response = await this.GetGitCodeByCommit(user, repository, gitBranch.Target.Hash, path);
+                response = this.Plaintext(code);
             }
             catch (GitHubNotFoundException ex)
             {
@@ -91,9 +91,9 @@
 
             try
             {
-                var gitTag = await client.GetGitTag(user, repository, tag);
+                string code = await client.GetGitCodeFromTag(user, repository, tag, path);
 
-                response = await this.GetGitCodeByCommit(user, repository, gitTag.Target.Hash, path);
+                response = this.Plaintext(code);
             }
             catch (GitHubNotFoundException ex)
             {
@@ -122,74 +122,13 @@
 
             try
             {
-                var com = await client.Repository.Commits.Get(user, repository, commit);
+                string code = await client.GetGitCodeFromCommit(user, repository, commit, path);
 
-                var tree = await client.GitDatabase.Tree.Get(user, repository, com.Commit.Tree.Sha);
-
-                var names = path.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-
-                string blobHash = null;
-
-                foreach (var name in names)
-                {
-                    var node = tree.Tree.SingleOrDefault(x => x.Path == name);
-                    if (node == null)
-                    {
-                        response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, "path not found");
-                        return response;
-                    }
-
-                    if (node.Type == TreeType.Blob)
-                    {
-                        blobHash = node.Sha;
-                        break;
-                    }
-
-                    tree = await client.GitDatabase.Tree.Get(user, repository, node.Sha);
-                }
-
-                if (blobHash == null)
-                {
-                    response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, "path not found");
-                    return response;
-                }
-
-                var blob = await client.GitDatabase.Blob.Get(user, repository, blobHash);
-
-                string content;
-
-                if (blob.Encoding == EncodingType.Base64)
-                {
-                    var data = Convert.FromBase64String(blob.Content);
-
-                    var encoding = (Encoding)Encoding.UTF8.Clone();
-                    encoding.EncoderFallback = new EncoderExceptionFallback();
-                    encoding.DecoderFallback = new DecoderExceptionFallback();
-
-                    content = encoding.GetString(data);
-                }
-                else if (blob.Encoding == EncodingType.Utf8)
-                {
-                    content = blob.Content;
-                }
-                else
-                {
-                    throw new NotSupportedException(string.Format("blob.encoding = {0}", blob.Encoding));
-                }
-
-                response = this.Plaintext(content);
+                response = this.Plaintext(code);
             }
             catch (GitHubNotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
-            }
-            catch (DecoderFallbackException ex)
-            {
-                response = this.Request.CreateErrorResponse(HttpStatusCode.Forbidden, ex);
-            }
-            catch (EncoderFallbackException ex)
-            {
-                response = this.Request.CreateErrorResponse(HttpStatusCode.Forbidden, ex);
             }
             catch (Exception ex)
             {

@@ -27,7 +27,7 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Map to "size"</summary>
         public Nullable<Int64> Size { get; set; }
 
-        /// <summary>Map to "hash"</summary>
+        /// <summary>Map to "sha"</summary>
         public String Hash { get; set; }
 
         /// <summary>Map to "uri"</summary>

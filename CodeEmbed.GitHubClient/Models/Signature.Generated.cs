@@ -10,23 +10,23 @@ namespace CodeEmbed.GitHubClient.Models
 
     [GeneratedCode("ModelClass.tt", "1.0")]
     [DebuggerStepThrough]
-    public partial class CommitSignature :
-        ICommitSignature
+    public partial class Signature :
+        ISignature
     {
-        private readonly ICommitSignature _commitSignature = null;
+        private readonly ISignature _signature = null;
 
         [ContractPublicPropertyName("Client")]
         private readonly IGitHubClient _client = null;
 
-        /// <summary>Create new instance of CommitSignature.</summary>
-        public CommitSignature(
-            ICommitSignature commitSignature,
+        /// <summary>Create new instance of Signature.</summary>
+        public Signature(
+            ISignature signature,
             IGitHubClient client)
         {
-            Contract.Requires<ArgumentNullException>(commitSignature != null);
+            Contract.Requires<ArgumentNullException>(signature != null);
             Contract.Requires<ArgumentNullException>(client != null);
 
-            this._commitSignature = commitSignature;
+            this._signature = signature;
 
             this._client = client;
         }
@@ -36,7 +36,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-                return this._commitSignature.Date;
+                return this._signature.Date;
             }
         }
 
@@ -45,7 +45,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-                return this._commitSignature.Name;
+                return this._signature.Name;
             }
         }
 
@@ -54,7 +54,7 @@ namespace CodeEmbed.GitHubClient.Models
         {
             get
             {
-                return this._commitSignature.Email;
+                return this._signature.Email;
             }
         }
 
@@ -74,7 +74,7 @@ namespace CodeEmbed.GitHubClient.Models
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this._commitSignature != null);
+            Contract.Invariant(this._signature != null);
             Contract.Invariant(this._client != null);
         }
     }

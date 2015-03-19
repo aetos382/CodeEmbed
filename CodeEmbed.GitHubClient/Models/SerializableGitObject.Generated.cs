@@ -13,8 +13,8 @@ namespace CodeEmbed.GitHubClient.Models
     public partial class SerializableGitObject :
         IGitObject
     {
-        [ContractPublicPropertyName("ObjectType")]
-        private readonly String _objectType;
+        [ContractPublicPropertyName("Type")]
+        private readonly String _type;
 
         [ContractPublicPropertyName("Hash")]
         private readonly String _hash;
@@ -25,23 +25,23 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Create new instance of SerializableGitObject.</summary>
         [JsonConstructor]
         public SerializableGitObject(
-            String objectType,
+            String type,
             String hash,
             Uri uri)
         {
 
-            this._objectType = objectType;
+            this._type = type;
             this._hash = hash;
             this._uri = uri;
         }
 
         /// <summary>Map to "type"</summary>
         [JsonProperty("type")]
-        public String ObjectType
+        public String Type
         {
             get
             {
-                return this._objectType;
+                return this._type;
             }
         }
 

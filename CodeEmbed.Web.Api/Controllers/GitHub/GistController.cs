@@ -8,9 +8,9 @@
     using System.Threading.Tasks;
     using System.Web.Http;
 
+    using CodeEmbed.GitHubClient;
+    using CodeEmbed.GitHubClient.Models;
     using CodeEmbed.Web.Http;
-
-    using Octokit;
 
     [RoutePrefix("github-gist/{id}")]
     public class GistController : ApiController
@@ -26,19 +26,39 @@
 
             try
             {
-                var gist = await client.Gist.Get(id);
-
-                GistFile file;
-                if (gist.Files.TryGetValue(fileName, out file))
-                {
-                    response = this.Plaintext(file.Content);
-                }
-                else
-                {
-                    response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, "file not found.");
-                }
+                string code = await client.GetGistCode(id, fileName);
+                response = this.Plaintext(code);
             }
-            catch (NotFoundException ex)
+            catch (GitHubNotFoundException ex)
+            {
+                response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+                response = this.Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+            }
+
+            return response;
+        }
+
+        [Route("{version}/{filename}")]
+        public async Task<HttpResponseMessage> GetGistCode(
+            string id,
+            string version,
+            string fileName)
+        {
+            var client = GitHubUtility.GetClient();
+
+            HttpResponseMessage response;
+
+            try
+            {
+                string code = await client.GetGistCode(id, version, fileName);
+                response = this.Plaintext(code);
+            }
+            catch (GitHubNotFoundException ex)
             {
                 response = this.Request.CreateErrorResponse(HttpStatusCode.NotFound, ex);
             }

@@ -210,7 +210,7 @@
 
   <g:Model name="gi:GitObject">
 
-    <g:Member name="ObjectType" type="sys:String" json="type"/>
+    <g:Member name="Type" type="sys:String" json="type"/>
     <g:Member name="Hash" type="sys:String" json="sha"/>
     <g:Member name="Uri" type="sys:Uri" json="url"/>
 
@@ -226,7 +226,18 @@
     
   </g:Model>
 
-  <g:Model name="gi:CommitSignature">
+  <g:Model name="GitTag">
+
+    <g:Member name="Tag" type="sys:String"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Message" type="sys:String"/>
+    <g:Member name="Tagger" type="gi:Signature"/>
+    <g:Member name="Target" type="gi:GitObject" json="object"/>
+    
+  </g:Model>
+  
+  <g:Model name="gi:Signature">
 
     <g:Member name="Date" type="sys:DateTime"/>
     <g:Member name="Name" type="sys:String"/>
@@ -246,8 +257,8 @@
 
     <g:Member name="Hash" type="sys:String" json="sha"/>
     <g:Member name="Uri" type="sys:Uri" json="url"/>
-    <g:Member name="Author" type="gi:CommitSignature"/>
-    <g:Member name="Committer" type="gi:CommitSignature"/>
+    <g:Member name="Author" type="gi:Signature"/>
+    <g:Member name="Committer" type="gi:Signature"/>
     <g:Member name="Message" type="sys:String"/>
     <g:Member name="Tree" type="gi:CommitLink"/>
     <g:Member name="Parents" type="col:IEnumerable" genericArguments="gi:CommitLink"/>
@@ -269,7 +280,7 @@
     <g:Member name="Mode" type="sys:String"/>
     <g:Member name="Type" type="sys:String"/>
     <g:Member name="Size" type="sys:Nullable" genericArguments="sys:Int64"/>
-    <g:Member name="Hash" type="sys:String"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
     <g:Member name="Uri" type="sys:Uri"/>
     
   </g:Model>

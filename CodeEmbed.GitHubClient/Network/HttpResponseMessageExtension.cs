@@ -13,7 +13,16 @@
         {
             Contract.Requires<ArgumentNullException>(response != null);
 
+            if (response.Content.Headers.ContentType == null)
+            {
+                return null;
+            }
+
             string charSet = response.Content.Headers.ContentType.CharSet;
+            if (string.IsNullOrEmpty(charSet))
+            {
+                return null;
+            }
 
             Encoding encoding = Encoding.GetEncoding(charSet);
 

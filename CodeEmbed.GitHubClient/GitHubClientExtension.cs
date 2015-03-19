@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
     using System.Text;
     using System.Threading;
@@ -21,6 +22,30 @@
             Contract.Requires<ArgumentNullException>(uri != null);
 
             var result = client.GetData<T>(uri, null, null, CancellationToken.None);
+            return result;
+        }
+
+        public static Task<Stream> GetAsStream(
+            this IGitHubClient client,
+            Uri uri,
+            IDictionary<string, string> requestHeaders,
+            CancellationToken cancellationToken)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = client.Connection.GetAsStream(uri, requestHeaders, cancellationToken);
+            return result;
+        }
+
+        public static Task<Stream> GetAsStream(
+            this IGitHubClient client,
+            Uri uri)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(uri != null);
+
+            var result = GetAsStream(client, uri, null, CancellationToken.None);
             return result;
         }
 
@@ -81,7 +106,7 @@
             return result;
         }
 
-        public static async Task<GitReference> GetGitBranch(
+        public static async Task<GitReference> GetGitBranchReference(
             this IGitHubClient client,
             string user,
             string repository,
@@ -92,13 +117,30 @@
             Contract.Requires<ArgumentNullException>(repository != null);
             Contract.Requires<ArgumentNullException>(branch != null);
 
-            var relUri = GitHubUri.GitBranch(user, repository, branch);
+            var relUri = GitHubUri.GitBranchReferenece(user, repository, branch);
             var result = await client.GetGitReference(relUri).ConfigureAwait(false);
 
             return result;
         }
 
-        public static async Task<GitReference> GetGitTag(
+        public static async Task<GitReference> GetGitTagReference(
+            this IGitHubClient client,
+            string user,
+            string repository,
+            string tag)
+        {
+            Contract.Requires<ArgumentNullException>(client != null);
+            Contract.Requires<ArgumentNullException>(user != null);
+            Contract.Requires<ArgumentNullException>(repository != null);
+            Contract.Requires<ArgumentNullException>(tag != null);
+
+            var relUri = GitHubUri.GitTagReference(user, repository, tag);
+            var result = await client.GetGitReference(relUri).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public static async Task<GitTag> GetGitTag(
             this IGitHubClient client,
             string user,
             string repository,
@@ -110,7 +152,7 @@
             Contract.Requires<ArgumentNullException>(tag != null);
 
             var relUri = GitHubUri.GitTag(user, repository, tag);
-            var result = await client.GetGitReference(relUri).ConfigureAwait(false);
+            var result = await client.GetGitTag(relUri).ConfigureAwait(false);
 
             return result;
         }

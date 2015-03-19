@@ -22,10 +22,10 @@ namespace CodeEmbed.GitHubClient.Models
         private readonly Uri _uri;
 
         [ContractPublicPropertyName("Author")]
-        private readonly SerializableCommitSignature _author;
+        private readonly SerializableSignature _author;
 
         [ContractPublicPropertyName("Committer")]
-        private readonly SerializableCommitSignature _committer;
+        private readonly SerializableSignature _committer;
 
         [ContractPublicPropertyName("Message")]
         private readonly String _message;
@@ -41,8 +41,8 @@ namespace CodeEmbed.GitHubClient.Models
         public SerializableGitCommit(
             String hash,
             Uri uri,
-            SerializableCommitSignature author,
-            SerializableCommitSignature committer,
+            SerializableSignature author,
+            SerializableSignature committer,
             String message,
             SerializableCommitLink tree,
             IEnumerable<SerializableCommitLink> parents)
@@ -79,7 +79,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "author"</summary>
         [JsonProperty("author")]
-        public SerializableCommitSignature Author
+        public SerializableSignature Author
         {
             get
             {
@@ -89,7 +89,7 @@ namespace CodeEmbed.GitHubClient.Models
 
         /// <summary>Map to "committer"</summary>
         [JsonProperty("committer")]
-        public SerializableCommitSignature Committer
+        public SerializableSignature Committer
         {
             get
             {
@@ -128,7 +128,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "author"</summary>
-        ICommitSignature IGitCommit.Author
+        ISignature IGitCommit.Author
         {
             get
             {
@@ -137,7 +137,7 @@ namespace CodeEmbed.GitHubClient.Models
         }
 
         /// <summary>Map to "committer"</summary>
-        ICommitSignature IGitCommit.Committer
+        ISignature IGitCommit.Committer
         {
             get
             {

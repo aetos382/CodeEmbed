@@ -90,8 +90,8 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "hash"</summary>
-        [JsonProperty("hash")]
+        /// <summary>Map to "sha"</summary>
+        [JsonProperty("sha")]
         public String Hash
         {
             get

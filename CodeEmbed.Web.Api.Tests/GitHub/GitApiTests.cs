@@ -195,17 +195,6 @@
         }
 
         [TestMethod]
-        public async Task GetGitCodeBinaryFileTest()
-        {
-            var uri = new Uri(ApiBaseUri, "aetos382/CodeEmbed/CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.zip");
-
-            using (var response = await this._client.GetAsync(uri))
-            {
-                Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
-            }
-        }
-
-        [TestMethod]
         public async Task GetGitCodeGetDirTest()
         {
             var uri = new Uri(ApiBaseUri, "aetos382/CodeEmbed/CodeEmbed.Web.Api.Tests/Test/Foo/Bar");

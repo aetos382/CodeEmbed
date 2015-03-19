@@ -16,7 +16,7 @@
             Contract.Requires<ArgumentNullException>(publicRepository != null);
             Contract.Requires<ArgumentNullException>(branch != null);
 
-            var relUri = GitHubUri.GitBranch(publicRepository.Owner.Login, publicRepository.Name, branch);
+            var relUri = GitHubUri.GitBranchReferenece(publicRepository.Owner.Login, publicRepository.Name, branch);
 
             var result = await publicRepository.Client.GetGitReference(relUri).ConfigureAwait(false);
 

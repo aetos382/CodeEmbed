@@ -5,7 +5,7 @@ namespace CodeEmbed.GitHubClient.Models
     using System.Diagnostics.Contracts;
 
     [GeneratedCode("ModelInterface.tt", "1.0")]
-    public partial interface ICommitSignature
+    public partial interface ISignature
     {
         /// <summary>Map to "date"</summary>
         DateTime Date { [Pure] get; }

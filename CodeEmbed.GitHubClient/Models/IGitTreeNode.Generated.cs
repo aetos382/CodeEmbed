@@ -19,7 +19,7 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Map to "size"</summary>
         Nullable<Int64> Size { [Pure] get; }
 
-        /// <summary>Map to "hash"</summary>
+        /// <summary>Map to "sha"</summary>
         String Hash { [Pure] get; }
 
         /// <summary>Map to "uri"</summary>

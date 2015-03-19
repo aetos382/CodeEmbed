@@ -77,6 +77,48 @@
             }
         }
 
+        public async Task<Stream> GetAsStream(
+            Uri uri,
+            IDictionary<string, string> requestHeaders,
+            CancellationToken cancellationToken)
+        {
+            uri = this.EnsureUriAbsolute(uri);
+
+            using (var client = CreateHttpClient(
+                this._userAgent, this._oauthToken, requestHeaders, this._handler, this._disposeHandler))
+            {
+
+                var response = await client.GetAsync(uri).ConfigureAwait(false);
+
+                try
+                {
+                    response.EnsureSuccessStatusCode();
+
+                    var result = await HttpResponseStream.Create(response).ConfigureAwait(false);
+
+                    response = null;
+                    return result;
+                }
+                catch (HttpRequestException ex)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        throw new GitHubNotFoundException(uri, ex);
+                    }
+
+                    throw;
+                }
+                finally
+                {
+                    if (response != null)
+                    {
+                        response.Dispose();
+                        response = null;
+                    }
+                }
+            }
+        }
+
         public async Task<TextReader> GetAsTextReader(
             Uri uri,
             IDictionary<string, string> requestHeaders,
@@ -173,20 +215,27 @@
                     client = new HttpClient(handler, disposeHandler);
                 }
 
-                var headers = client.DefaultRequestHeaders;
-
-                headers.Add("User-Agent", userAgent);
-                headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
-
-                if (!string.IsNullOrEmpty(oAuthToken))
+                if (requestHeaders == null)
                 {
-                    headers.Authorization = new AuthenticationHeaderValue("Token", oAuthToken);
+                    requestHeaders = new Dictionary<string, string>();
                 }
 
-                if (requestHeaders != null)
+                if (!requestHeaders.ContainsKey("User-Agent"))
                 {
-                    SetRequestHeaders(client, requestHeaders);
+                    requestHeaders["User-Agent"] = userAgent;
                 }
+
+                if (!requestHeaders.ContainsKey("Accept"))
+                {
+                    requestHeaders["Accept"] = "application/vnd.github.v3+json";
+                }
+
+                if (!requestHeaders.ContainsKey("Authorization") && !string.IsNullOrEmpty(oAuthToken))
+                {
+                    requestHeaders["Authorization"] = "Token " + oAuthToken;
+                }
+
+                SetRequestHeaders(client.DefaultRequestHeaders, requestHeaders);
 
                 return client;
             }
@@ -202,12 +251,13 @@
         }
 
         protected static void SetRequestHeaders(
-            HttpClient client,
+            HttpRequestHeaders headers,
             IDictionary<string, string> requestHeaders)
         {
-            var headers = client.DefaultRequestHeaders;
+            Contract.Requires<ArgumentNullException>(headers != null);
+            Contract.Requires<ArgumentNullException>(requestHeaders != null);
 
-            var headerSetters = new Dictionary<string, Action<string>>
+            var headerSetters = new Dictionary<string, Action<string>>(StringComparer.OrdinalIgnoreCase)
                 {
                     { "Accept", value => headers.Accept.ParseAdd(value) },
                     { "Accept-Charset", value => headers.AcceptCharset.ParseAdd(value) },
@@ -219,7 +269,7 @@
                     { "Host", value => headers.Host = value },
                     { "If-Match", value => headers.IfMatch.ParseAdd(value) },
                     { "If-Modified-Since", value => headers.IfModifiedSince = DateTimeOffset.Parse(value) },
-                    { "If-None-match", value => headers.IfNoneMatch.ParseAdd(value) },
+                    { "If-None-Match", value => headers.IfNoneMatch.ParseAdd(value) },
                     { "If-Range", value => headers.IfRange = RangeConditionHeaderValue.Parse(value) },
                     { "If-Unmodified-Since", value => headers.IfUnmodifiedSince = DateTimeOffset.Parse(value) },
                     { "Max-Forwards", value => headers.MaxForwards = int.Parse(value) },

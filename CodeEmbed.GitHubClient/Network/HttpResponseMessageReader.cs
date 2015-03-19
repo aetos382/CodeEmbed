@@ -40,7 +40,7 @@
 
             if (encoding == null)
             {
-                encoding = response.GetContentEncoding();
+                encoding = response.GetContentEncoding() ?? Encoding.UTF8;
             }
 
             return new HttpResponseMessageReader(response, stream, encoding);
