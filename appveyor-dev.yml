@@ -6,7 +6,7 @@
 version: 0.2.{build}                 # You can use {branch} to, for example
 
 # Do not build on tags (GitHub only)
-skip_tags: false
+skip_tags: true
 
 skip_commits:
   message: /#nobuild/
@@ -26,8 +26,6 @@ environment:
   github_oauth_token:
     secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
   deploy_password:
-    secure: zNLL5lRzzeLaTlAkc9ZMdIGidTDNRFw+QmBxq08UM8V/0LFN2RxKXHs2W75E36hxaACrk/e9E99gFGP5VqSzfg==
-  deploy_password_dev:
     secure: KgSo90aar4SKwjJH91cbxC+fn0ZXhzRnr29DflE9jJ2cm2Y4EzdLkKy7C2stLYfYcGsXxb41VUQiwjHFtSvXTA==
 
 # this is how to allow failing jobs in the matrix
@@ -40,7 +38,11 @@ install:
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
-  patch: false
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{build}"
+  assembly_file_version: "{build}"
+  assembly_informatonal_version: "{build}"
 
 #---------------------------------#
 #       build configuration       #
@@ -52,7 +54,6 @@ platform: Any CPU
 # build Configuration, i.e. Debug, Release, etc.
 configuration:
   - Debug
-  - Release
 
 build:
   parallel: true           # enable MSBuild parallel builds
@@ -83,18 +84,7 @@ artifacts:
 #---------------------------------#
 
 # to run your custom scripts instead of provider deployments
-deploy_script: deploy.cmd
-
-deploy:
-  - provider: GitHub
-    auth_token:
-      secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
-    artifact: Publish.zip
-    draft: true
-    prerelease: false
-    on:
-      branch: master
-      appveyor_repo_tag: true
+deploy_script: deploy-dev.cmd
 
 #---------------------------------#
 #         notifications           #

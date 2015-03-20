@@ -1,0 +1,113 @@
+#---------------------------------#
+#      general configuration      #
+#---------------------------------#
+
+# version format
+version: 0.2.{build}                 # You can use {branch} to, for example
+
+# Do not build on tags (GitHub only)
+skip_tags: false
+
+skip_commits:
+  message: /#nobuild/
+
+# fetch repository as zip archive
+shallow_clone: true
+
+#---------------------------------#
+#    environment configuration    #
+#---------------------------------#
+
+# Operating system (build VM template)
+os: Windows Server 2012 R2
+
+# environment variables
+environment:
+  github_oauth_token:
+    secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
+  deploy_password:
+    secure: zNLL5lRzzeLaTlAkc9ZMdIGidTDNRFw+QmBxq08UM8V/0LFN2RxKXHs2W75E36hxaACrk/e9E99gFGP5VqSzfg==
+
+# this is how to allow failing jobs in the matrix
+matrix:
+  fast_finish: true     # set this flag to immediately finish build once one of the jobs fails.
+
+# scripts that run after cloning repository
+install:
+  - cinst WAWSDeploy -y
+
+# enable patching of AssemblyInfo.* files
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{build}"
+  assembly_file_version: "{build}"
+  assembly_informatonal_version: "{build}"
+
+#---------------------------------#
+#       build configuration       #
+#---------------------------------#
+
+# build platform, i.e. x86, x64, Any CPU. This setting is optional.
+platform: Any CPU
+
+# build Configuration, i.e. Debug, Release, etc.
+configuration:
+  - Release
+
+build:
+  parallel: true           # enable MSBuild parallel builds
+  project: CodeEmbed.sln   # path to Visual Studio solution or project
+
+  # MSBuild verbosity level
+  verbosity: normal
+
+# scripts to run before build
+before_build:
+  - ps: .\beforeBuild.ps1
+  - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /p:Transform=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj.transform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /p:Transform=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj.transform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+#---------------------------------#
+#       tests configuration       #
+#---------------------------------#
+
+#---------------------------------#
+#      artifacts configuration    #
+#---------------------------------#
+
+artifacts:
+  - path: Publish
+
+#---------------------------------#
+#     deployment configuration    #
+#---------------------------------#
+
+# to run your custom scripts instead of provider deployments
+deploy_script: deploy-release.cmd
+
+deploy:
+  - provider: GitHub
+    auth_token:
+      secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
+    artifact: Publish.zip
+    draft: true
+    prerelease: false
+    on:
+      branch: master
+      appveyor_repo_tag: true
+      configuration: Release
+
+#---------------------------------#
+#         notifications           #
+#---------------------------------#
+
+# on build failure
+notifications:
+
+  # Email
+  - provider: Email
+    to: build-notification@aerie.jp
+    on_build_success: false
+    on_build_failure: true
+    on_build_status_changed: true
