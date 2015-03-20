@@ -6,7 +6,7 @@
 version: 0.2.{build}                 # You can use {branch} to, for example
 
 # Do not build on tags (GitHub only)
-skip_tags: true
+skip_tags: false
 
 skip_commits:
   message: /#nobuild/
@@ -26,6 +26,8 @@ environment:
   github_oauth_token:
     secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
   deploy_password:
+    secure: zNLL5lRzzeLaTlAkc9ZMdIGidTDNRFw+QmBxq08UM8V/0LFN2RxKXHs2W75E36hxaACrk/e9E99gFGP5VqSzfg==
+  deploy_password_dev:
     secure: KgSo90aar4SKwjJH91cbxC+fn0ZXhzRnr29DflE9jJ2cm2Y4EzdLkKy7C2stLYfYcGsXxb41VUQiwjHFtSvXTA==
 
 # this is how to allow failing jobs in the matrix

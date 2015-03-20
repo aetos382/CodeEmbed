@@ -1,10 +1,53 @@
 @echo off
 
-if "%Configuration%" == "Release" goto DEPLOY_RELEASE
+setlocal
 
-"%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Site codeembed-dev.PublishSettings /p %deploy_password% /d
-"%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Api codeembed-dev.PublishSettings /p %deploy_password% /d /t api/v1
+set EXIT_CODE=0
+
+if /i "%Configuration%" EQU "Debug" goto DEPLOY_DEBUG
+if /i "%Configuration%" EQU "Release" goto DEPLOY_RELEASE
+
+echo Invalid Configuration: %Configuration%> &2
+set EXIT_CODE=1
+goto DEPLOY_END
+
+:DEPLOY_DEBUG
+
+"%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Site codeembed-dev.PublishSettings /p %deploy_password_dev% /d
+if ERRORLEVEL 1 (
+	set EXIT_CODE=%ERRORLEVEL%
+	goto DEPLOY_END
+)
+
+"%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Api codeembed-dev.PublishSettings /p %deploy_password_dev% /d /t api/v1
+if ERRORLEVEL 1 (
+	set EXIT_CODE=%ERRORLEVEL%
+	goto DEPLOY_END
+)
+
+goto DEPLOY_END
 
 :DEPLOY_RELEASE
 
-exit /b
+if /i "%APPVEYOR_REPO_TAG%" EQU "true" goto DEPLOY_TAG
+goto DEPLOY_END
+
+:DEPLOY_TAG
+
+"%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Site codeembed.PublishSettings /p %deploy_password% /d
+if ERRORLEVEL 1 (
+	set EXIT_CODE=%ERRORLEVEL%
+	goto DEPLOY_END
+)
+
+"%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Api codeembed.PublishSettings /p %deploy_password% /d /t api/v1
+if ERRORLEVEL 1 (
+	set EXIT_CODE=%ERRORLEVEL%
+	goto DEPLOY_END
+)
+
+goto DEPLOY_END
+
+:DEPLOY_END
+
+endlocal & exit /b %EXIT_CODE%
