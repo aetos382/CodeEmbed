@@ -85,6 +85,15 @@ artifacts:
 # to run your custom scripts instead of provider deployments
 deploy_script: deploy.cmd
 
+deploy:
+  - provider: GitHub
+    artifact: Publish.zip
+    draft: true
+    prerelease: false
+    on:
+      branch: master
+      appveyor_repo_tag: true
+
 #---------------------------------#
 #         notifications           #
 #---------------------------------#
