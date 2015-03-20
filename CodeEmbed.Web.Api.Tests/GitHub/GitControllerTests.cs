@@ -12,6 +12,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [DeploymentItem("appSettings.local.config")]
     public class GitControllerTests
     {
         private GitController _controller;
@@ -190,15 +191,6 @@
                 string result = await response.Content.ReadAsStringAsync();
 
                 Assert.AreEqual(Expected, result);
-            }
-        }
-
-        [TestMethod]
-        public async Task GetGitCodeBinaryFileTest()
-        {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.zip"))
-            {
-                Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
             }
         }
 

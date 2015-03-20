@@ -12,6 +12,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [DeploymentItem("appSettings.local.config")]
     public sealed class GistControllerTests :
         IDisposable
     {

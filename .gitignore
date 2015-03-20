@@ -30,3 +30,4 @@ UpgradeLog*.htm
 *.vssscc
 StyleCop.Cache
 Publish/
+*.local.config

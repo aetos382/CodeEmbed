@@ -9,7 +9,6 @@
     using System.Web.Http;
 
     using CodeEmbed.GitHubClient;
-    using CodeEmbed.GitHubClient.Models;
     using CodeEmbed.Web.Http;
 
     [RoutePrefix("github-gist/{id}")]
