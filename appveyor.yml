@@ -87,6 +87,8 @@ deploy_script: deploy.cmd
 
 deploy:
   - provider: GitHub
+    auth_token:
+      secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
     artifact: Publish.zip
     draft: true
     prerelease: false
