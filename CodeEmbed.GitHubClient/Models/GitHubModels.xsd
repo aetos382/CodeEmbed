@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema
+  targetNamespace="http://schemas.aerie.jp/codeembed/github-models-v3"
+  elementFormDefault="qualified"
+  xmlns="http://schemas.aerie.jp/codeembed/github-models-v3"
+  xmlns:g="http://schemas.aerie.jp/codeembed/github-models-v3"
+  xmlns:gi="http://schemas.aerie.jp/codeembed/github-models-v3-instance"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="Models" type="g:models">
+    <xs:key name="model-name">
+      <xs:selector xpath="g:Model"/>
+      <xs:field xpath="@name"/>
+    </xs:key>
+    <xs:keyref name="inherits-ref" refer="g:model-name">
+      <xs:selector xpath="g:Model"/>
+      <xs:field xpath="@inherits"/>
+    </xs:keyref>
+  </xs:element>
+  
+  <xs:complexType name="models">
+    <xs:sequence>
+      <xs:element name="Model" type="g:model" maxOccurs="unbounded">
+        <xs:key name="member-name">
+          <xs:selector xpath="g:Member"/>
+          <xs:field xpath="@name"/>
+        </xs:key>
+        <xs:unique name="member-json">
+          <xs:selector xpath="g:Member"/>
+          <xs:field xpath="@json"/>
+        </xs:unique>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="codeNamespace" type="xs:NCName"/>
+  </xs:complexType>
+  
+  <xs:complexType name="model">
+    <xs:sequence>
+      <xs:element name="Member" type="g:member" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:QName" use="required"/>
+    <xs:attribute name="inherits" type="xs:QName"/>
+    <xs:attribute name="abstract" type="xs:boolean" default="false"/>
+  </xs:complexType>
+  
+  <xs:complexType name="member">
+    <xs:attribute name="name" type="xs:NCName" use="required"/>
+    <xs:attribute name="type" type="xs:QName" use="required"/>
+    <xs:attribute name="genericArguments">
+      <xs:simpleType>
+        <xs:list itemType="xs:QName"/>
+      </xs:simpleType>
+    </xs:attribute>
+    <xs:attribute name="json" type="xs:NCName"/>
+    <xs:attribute name="required" type="xs:boolean" default="false"/>
+  </xs:complexType>
+
+</xs:schema>

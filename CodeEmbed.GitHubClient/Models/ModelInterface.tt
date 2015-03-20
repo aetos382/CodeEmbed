@@ -1,0 +1,87 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+
+<#
+    var model = Model.Parse(ModelXml);
+
+    string modelName = model.Name.LocalName;
+
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.Diagnostics.Contracts"
+        };
+    
+    var additionalNamespaces = model.Members
+        .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+        .Distinct()
+        .Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+#>
+
+namespace <#= CodeNamespace #>.Models
+{
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
+    [GeneratedCode("ModelInterface.tt", "1.0")]
+<#
+    if (hasRequiredMember)
+    {
+#>
+    [ContractClass(typeof(<#= modelName #>Contract<#= GeneratedModelPostfix #>))]
+<#        
+    }
+#>
+    public partial interface I<#= modelName #><#= GeneratedModelPostfix #>
+<#
+    if (model.Inherits != null)
+    {
+#>
+        : I<#= model.Inherits.LocalName #><#= GeneratedModelPostfix #>
+<#
+    }
+#>
+    {
+<#
+    foreach (var member in model.Members)
+    {
+#>
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        <#= member.GetTypeName("I") #> <#= member.Name #> { [Pure] get; }
+
+<#
+    }
+#>
+    }
+}

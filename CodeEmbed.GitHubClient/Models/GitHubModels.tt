@@ -1,0 +1,166 @@
+﻿<#@ template debug="true" hostspecific="true" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml" #>
+<#@ import namespace="System.Xml.Linq" #>
+<#@ import namespace="System.Xml.Schema" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+<#@ include file="MultipleOutputHelper.ttinclude" #>
+
+<#@ output extension=".Generated.txt" #>
+
+<#
+    var manager = Manager.Create(this.Host, this.GenerationEnvironment);
+    string sourceFile = this.Host.ResolvePath("GitHubModels.xml");
+    string schemaFile = this.Host.ResolvePath("GitHubModels.xsd");
+
+    var settings = new XmlReaderSettings();
+    settings.Schemas.Add(SchemaNamespace.NamespaceName, schemaFile);
+
+    settings.ValidationType = ValidationType.Schema;
+    settings.ValidationFlags =
+        XmlSchemaValidationFlags.AllowXmlAttributes |
+        XmlSchemaValidationFlags.ProcessIdentityConstraints |
+        XmlSchemaValidationFlags.ProcessSchemaLocation |
+        XmlSchemaValidationFlags.ReportValidationWarnings;
+
+    using (var streamReader = new StreamReader(sourceFile))
+    using (var xmlReader = XmlReader.Create(streamReader, settings))
+    {
+        var document = XDocument.Load(xmlReader);
+
+        string codeNamespace = (string)document.Element(SchemaNamespace + "Models").Attribute("codeElement") ?? "CodeEmbed.GitHubClient";
+
+        var models = Model.ParseModels(document);
+
+        foreach (var model in models)
+        {
+            bool hasRequiredMember = model.Members.Any(x => x.Required);
+
+            string interfaceDef = this.GenerateModel("ModelInterface.tt", codeNamespace, model);
+            string interfaceFileName = string.Format("I{0}.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(interfaceFileName);
+            this.Write(interfaceDef);
+            manager.EndBlock();
+
+            this.WriteLine("Generated {0} from {1}.", interfaceFileName, model.Name.LocalName);
+
+            if (hasRequiredMember)
+            {
+                string contractDef = this.GenerateModel("ModelContract.tt", codeNamespace, model);
+                string contractFileName = string.Format("{0}Contracts.Generated.cs", model.Name.LocalName);
+                manager.StartNewFile(contractFileName);
+                this.Write(contractDef);
+                manager.EndBlock();
+
+                this.WriteLine("Generated {0} from {1}.", contractFileName, model.Name.LocalName);
+            }
+
+            string classDef = this.GenerateModel("ModelClass.tt", codeNamespace, model);
+            string classFileName = string.Format("{0}.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(classFileName);
+            this.Write(classDef);
+            manager.EndBlock();
+
+            this.WriteLine("Generated {0} from {1}.", classFileName, model.Name.LocalName);
+
+            string serializableClassDef = this.GenerateModel("SerializableClass.tt", codeNamespace, model);
+            string serializableClassFileName = string.Format("Serializable{0}.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(serializableClassFileName);
+            this.Write(serializableClassDef);
+            manager.EndBlock();
+
+            this.WriteLine("Generated {0} from {1}.", serializableClassFileName, model.Name.LocalName);
+
+            if (!model.IsAbstract)
+            {
+                string extensionClassDef = this.GenerateModel("ModelExtension.tt", codeNamespace, model);
+                string extensionClassFileName = string.Format("{0}Extension.Generated.cs", model.Name.LocalName);
+                manager.StartNewFile(extensionClassFileName);
+                this.Write(extensionClassDef);
+                manager.EndBlock();
+
+                this.WriteLine("Generated {0} from {1}.", extensionClassFileName, model.Name.LocalName);
+            }
+
+            string mockClassDef = this.GenerateModel("ModelMock.tt", codeNamespace, model);
+            string mockClassFileName = string.Format("{0}Mock.Generated.cs", model.Name.LocalName);
+            manager.StartNewFile(mockClassFileName);
+            this.Write(mockClassDef);
+            manager.EndBlock();
+
+            this.WriteLine("Generated {0} from {1}.", mockClassFileName, model.Name.LocalName);
+        }
+    }
+
+    manager.Process(true);
+#>
+
+<#+
+    private string GenerateModel(
+        string templateFile,
+        string codeNamespace,
+        Model model)
+    {
+        string includeContent, location;
+
+        templateFile = this.Host.ResolvePath(templateFile);
+
+        bool loaded = this.Host.LoadIncludeText(templateFile, out includeContent, out location);
+        if (!loaded)
+        {
+            this.Error(string.Format("Can't load {0}.", templateFile));
+            return null;
+        }
+
+        var sessionHost = (ITextTemplatingSessionHost)this.Host;
+
+        var session = sessionHost.CreateSession();
+
+        session["CodeNamespace"] = codeNamespace;
+        session["ModelXml"] = model.RawXml.ToString(SaveOptions.DisableFormatting);
+        session["AncestorXmls"] = model.Ancestors.Select(x => x.RawXml.ToString(SaveOptions.DisableFormatting)).ToArray();
+
+        sessionHost.Session = session;
+
+        var engine = new Engine();
+
+        string result = engine.ProcessTemplate(includeContent, this.Host);
+
+        var resultBuilder = new StringBuilder(result.Length);
+
+        bool leadingBlank = true;
+
+        using (var reader = new StringReader(result))
+        {
+            string line = reader.ReadLine();
+            while (line != null)
+            {
+                line = line.TrimEnd();
+
+                if (leadingBlank && line.Length > 0)
+                {
+                    leadingBlank = false;
+                }
+
+                if (!leadingBlank)
+                {
+                    resultBuilder.AppendLine(line);
+                }
+
+                line = reader.ReadLine();
+            }
+        }
+
+        return resultBuilder.ToString();
+    }
+#>

@@ -10,12 +10,12 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class PlainTextMediaTypeFormatter :
+    public class PlaintextMediaTypeFormatter :
         MediaTypeFormatter
     {
         private const int DefaultBufferSize = 1024;
 
-        public PlainTextMediaTypeFormatter()
+        public PlaintextMediaTypeFormatter()
         {
             this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/plain"));
             this.SupportedEncodings.Add(Encoding.UTF8);

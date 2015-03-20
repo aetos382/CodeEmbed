@@ -12,7 +12,9 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class GistControllerTests
+    [DeploymentItem("appSettings.local.config")]
+    public sealed class GistControllerTests :
+        IDisposable
     {
         private GistController _controller;
 
@@ -32,20 +34,20 @@
         [TestCleanup]
         public void Cleanup()
         {
-            this._controller.Dispose();
+            this.Dispose();
         }
 
         [TestMethod]
         public async Task GetGistCodeTest()
         {
-            const string expected =
+            const string Expected =
                 "This is gist. \nThere are many like it, but this one is mine. \nIt is my life. \nI must master it as I must master my life. \nWithout me gist is useless. \nWithout gist, I am useless.";
 
             using (var response = await this._controller.GetGistCode("1", "gistfile1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
@@ -65,6 +67,11 @@
             {
                 Assert.AreEqual(HttpStatusCode.NotFound, response.StatusCode);
             }
+        }
+
+        public void Dispose()
+        {
+            this._controller.Dispose();
         }
     }
 }

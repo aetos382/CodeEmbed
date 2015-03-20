@@ -12,6 +12,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
+    [DeploymentItem("appSettings.local.config")]
     public class GitControllerTests
     {
         private GitController _controller;
@@ -38,31 +39,31 @@
         [TestMethod]
         public async Task GetGitCodeDefaultBranchTest()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
             using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
         [TestMethod]
         public async Task GetGitCodeDefaultBranchTest2()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
             using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
         [TestMethod]
-        public async Task GetGitCodeInvaldUserTest()
+        public async Task GetGitCodeInvalidUserTest()
         {
             using (var response = await this._controller.GetGitCode("--- invalid user name ---", "repository", "path"))
             {
@@ -71,7 +72,7 @@
         }
 
         [TestMethod]
-        public async Task GetGitCodeInvaldRepositoryTest()
+        public async Task GetGitCodeInvalidRepositoryTest()
         {
             using (var response = await this._controller.GetGitCode("aetos382", "--- invalid repository name ---", "path"))
             {
@@ -91,13 +92,13 @@
         [TestMethod]
         public async Task GetGitCodeByBranchTest()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
             using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
@@ -113,26 +114,26 @@
         [TestMethod]
         public async Task GetGitCodeByBranchTest2()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
             using (var response = await this._controller.GetGitCodeByBranch("aetos382", "CodeEmbed", "master", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
         [TestMethod]
         public async Task GetGitCodeByCommitTest()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
             using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "62905855d49ef1670b10ed176105bf1c6a1cbe86", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
@@ -148,26 +149,26 @@
         [TestMethod]
         public async Task GetGitCodeByCommitTest2()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
             using (var response = await this._controller.GetGitCodeByCommit("aetos382", "CodeEmbed", "62905855d49ef1670b10ed176105bf1c6a1cbe86", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
         [TestMethod]
         public async Task GetGitCodeByTagTest()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test2", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "0.1.1", "CodeEmbed.Web.Api.Tests/Test/Test1.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
+                Assert.AreEqual(Expected, result);
             }
         }
 
@@ -183,22 +184,13 @@
         [TestMethod]
         public async Task GetGitCodeByTagTest2()
         {
-            const string expected = "Hello, CodeEmbed.";
+            const string Expected = "Hello, CodeEmbed.";
 
-            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "test2", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
+            using (var response = await this._controller.GetGitCodeByTag("aetos382", "CodeEmbed", "0.1.1", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.txt"))
             {
                 string result = await response.Content.ReadAsStringAsync();
 
-                Assert.AreEqual(expected, result);
-            }
-        }
-
-        [TestMethod]
-        public async Task GetGitCodeBinaryFileTest()
-        {
-            using (var response = await this._controller.GetGitCode("aetos382", "CodeEmbed", "CodeEmbed.Web.Api.Tests/Test/Foo/Bar/Test2.zip"))
-            {
-                Assert.AreEqual(HttpStatusCode.Forbidden, response.StatusCode);
+                Assert.AreEqual(Expected, result);
             }
         }
 

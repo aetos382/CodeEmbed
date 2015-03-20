@@ -3,7 +3,8 @@
 
   var apiEndpoint = Configuration.ApiEndpoint;
 
-  string sourceUri = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/HelloWorld.cs").AbsoluteUri;
+  var sourceUri1 = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/HelloWorld.cs");
+  var sourceUri2 = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/8bb67885fee24a9c3c15efe362bfa9f958bed090/HelloWorld.cs");
 }
 
 @section head
@@ -19,20 +20,47 @@
     <ul>
       <li>Gist の ID</li>
       <li>ファイル名</li>
+      <li>バージョン（オプション）</li>
     </ul>
   </div>
-  <div class="col-md-3 col-md-offset-3">
-    <a href="@Url.Content("~/Content/Images/gist.png")" class="thumbnail lightview" data-lightview-options="skin: 'dark'">
-      <img src="@Url.Content("~/Content/Images/gist.png")" title="クリックで拡大" />
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <a href="@Url.Content("~/Content/Images/gist-1.png")" class="thumbnail lightview" data-lightview-group="github-gist" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
+      <img src="@Url.Content("~/Content/Images/gist-1.png")" title="クリックで拡大" />
+    </a>
+  </div>
+  <div class="col-md-3">
+    <a href="@Url.Content("~/Content/Images/gist-2.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+      <img src="@Url.Content("~/Content/Images/gist-2.png")" title="クリックで拡大" />
+    </a>
+  </div>
+  <div class="col-md-3">
+    <a href="@Url.Content("~/Content/Images/gist-3.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+      <img src="@Url.Content("~/Content/Images/gist-3.png")" title="クリックで拡大" />
+    </a>
+  </div>
+  <div class="col-md-3">
+    <a href="@Url.Content("~/Content/Images/gist-4.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+      <img src="@Url.Content("~/Content/Images/gist-4.png")" title="クリックで拡大" />
     </a>
   </div>
 </div>
 
 <h3>URL</h3>
 <div class="panel panel-default">
+  <div class="panel-heading">デフォルト</div>
   <div class="panel-body">
     <p>@(apiEndpoint)github-gist/:id/:filename</p>
     <p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs</p>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">バージョン指定</div>
+  <div class="panel-body">
+    <p>@(apiEndpoint)github-gist/:id/:version/:filename</p>
+    <p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/8bb67885fee24a9c3c15efe362bfa9f958bed090/HelloWorld.cs</p>
   </div>
 </div>
 
@@ -52,11 +80,22 @@
 
 <h3>デモ</h3>
 <div class="panel panel-default">
+  <div class="panel-heading">デフォルト</div>
+  <div class="panel-body">
+    <div class="wait-indicator text-center">
+      <img src="@Url.Content("~/Content/Images/wait.gif")"/>
+    </div>
+    <pre id="code-1" class="brush: csharp hidden"></pre>
+  </div>
+</div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">バージョン指定</div>
   <div class="panel-body">
     <div class="wait-indicator text-center">
       <img src="@Url.Content("~/Content/Images/wait.gif")" />
     </div>
-    <pre id="code" class="brush: csharp hidden"></pre>
+    <pre id="code-2" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
@@ -69,17 +108,25 @@
 
     $(function () {
 
-      $.ajax("@sourceUri", {
+      var uris = [
+        "@sourceUri1",
+        "@sourceUri2"
+      ];
 
-        success: function (data) {
+      var requests = [];
 
-          $('.wait-indicator').hide();
-          $('#code').text(data).show();
+      for (var i = 0; i < uris.length; ++i) {
+        requests.push($.ajax(uris[i]));
+      }
 
-          SyntaxHighlighter.defaults['auto-links'] = false;
-          SyntaxHighlighter.highlight();
+      $.when.apply($, requests).then(function (r1, r2) {
 
-        }
+        $('.wait-indicator').hide();
+        $('#code-1').text(r1[0]).show();
+        $('#code-2').text(r2[0]).show();
+
+        SyntaxHighlighter.defaults['auto-links'] = false;
+        SyntaxHighlighter.highlight();
       });
 
     });

@@ -1,0 +1,239 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+
+<#
+    var model = Model.Parse(ModelXml);
+    var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
+
+    string modelName = model.Name.LocalName;
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.Diagnostics",
+            "System.Diagnostics.Contracts",
+            "Newtonsoft.Json"
+        };
+
+    if (hasRequiredMember)
+    {
+        namespaces.Add("System.ComponentModel");
+    }
+
+    if (model.Members.Any(x => IsEnumerable(x.Type) || IsDictionary(x.Type)))
+    {
+        namespaces.Add("System.Linq");
+    }
+
+    var additionalNamespaces = 
+        ancestorMembers.Concat(model.Members)
+            .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+            .Distinct()
+            .Select(x => GetClrNamespace(x))
+            .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+
+    string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+    string constructorModifier = model.IsAbstract ? "protected" : "public";
+#>
+
+namespace <#= CodeNamespace #>.Models
+{
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
+    [GeneratedCode("SerializableClass.tt", "1.0")]
+    [DebuggerStepThrough]
+    [JsonObject]
+    public <#= abstractModifier #>partial class Serializable<#= modelName #><#= GeneratedModelPostfix #> :
+<#
+    if (inherits != null)
+    {
+#>
+        Serializable<#= inherits #><#= GeneratedModelPostfix #>,
+<#
+    }
+#>
+        I<#= modelName #><#= GeneratedModelPostfix #>
+    {
+<#
+foreach (var member in model.Members)
+{
+#>
+        [ContractPublicPropertyName("<#= member.Name #>")]
+        private readonly <#= member.GetTypeName("Serializable") #> _<#= member.CamelCasedName #>;
+
+<#
+}
+#>
+        /// <summary>Create new instance of Serializable<#= modelName #><#= GeneratedModelPostfix #>.</summary>
+        [JsonConstructor]
+        <#= constructorModifier #> Serializable<#= modelName #><#= GeneratedModelPostfix #>(
+<#
+if (inherits != null)
+{
+    foreach (var m in ancestorMembers)
+    {
+#>
+            <#= m.GetTypeName("Serializable") #> <#= m.CamelCasedName #>,
+<#
+    }
+}
+
+foreach (var m in model.Members.Take(model.Members.Count() - 1))
+{
+#>
+            <#= m.GetTypeName("Serializable") #> <#= m.CamelCasedName #>,
+<#
+}
+
+var lm = model.Members.Last();
+#>
+            <#= lm.GetTypeName("Serializable") #> <#= lm.CamelCasedName #>)
+<#
+    if (inherits != null)
+    {
+#>
+            : base(
+<#
+        foreach (var m in ancestorMembers.Take(ancestorMembers.Length - 1))
+        {
+#>
+                <#= m.CamelCasedName #>,
+<#
+        }
+
+        var alm = ancestorMembers[ancestorMembers.Length - 1];
+#>
+                <#= alm.CamelCasedName #>)
+<#
+    }
+#>
+        {
+<#
+        foreach (var member in ancestorMembers.Concat(model.Members).Where(x => x.Required))
+        {
+#>
+            Contract.Requires<ArgumentNullException>(<#= member.CamelCasedName #> != null);
+<#
+        }
+#>
+
+<#
+foreach (var member in model.Members)
+{
+#>
+            this._<#= member.CamelCasedName #> = <#= member.CamelCasedName #>;
+<#
+}
+#>
+        }
+<#
+    foreach (var member in model.Members)
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        [JsonProperty("<#= member.Json #>")]
+        public <#= member.GetTypeName("Serializable") #> <#= member.Name #>
+        {
+            get
+            {
+<#
+        if (member.Required)
+        {
+#>
+                Contract.Ensures(Contract.Result<<#= member.GetTypeName("Serializable") #>>() != null);
+
+<#
+        }
+#>
+                return this._<#= member.CamelCasedName #>;
+            }
+        }
+<#
+    }
+
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        <#= member.GetTypeName("I") #> I<#= modelName #><#= GeneratedModelPostfix #>.<#= member.Name #>
+        {
+            get
+            {
+<#
+        if (IsDictionary(member.Type))
+        {
+#>
+                return this._<#= member.CamelCasedName #>.ToDictionary(x => x.Key, x => (<#= ParseType(member.ModelType, null, "I") #>)x.Value);
+<#
+        }
+        else
+        {
+#>
+                return this.<#= member.Name #>;
+<#
+        }
+#>
+            }
+        }
+<#
+    }
+
+    if (hasRequiredMember)
+    {
+#>
+
+        /// <summary>Specifies invariant contracts of object.</summary>
+        [Conditional("CONTRACTS_FULL")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+<#
+        foreach (var member in model.Members.Where(x => x.Required))
+        {
+
+#>
+            Contract.Invariant(this._<#= member.CamelCasedName #> != null);
+<#
+        }
+#>
+        }
+<#
+    }
+#>
+    }
+}
