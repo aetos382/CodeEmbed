@@ -88,6 +88,8 @@ deploy_script: deploy-release.cmd
 
 deploy:
   - provider: GitHub
+    release: $(APPVEYOR_REPO_TAG_NAME)
+    descrition: $(APPVEYOR_REPO_COMMIT_MESSAGE)
     auth_token:
       secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
     artifact: Publish.zip
