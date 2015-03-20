@@ -7,7 +7,6 @@ set EXIT_CODE=0
 if /i "%Configuration%" EQU "Debug" goto DEPLOY_DEBUG
 if /i "%Configuration%" EQU "Release" goto DEPLOY_RELEASE
 
-echo Invalid Configuration: %Configuration%> &2
 set EXIT_CODE=1
 goto DEPLOY_END
 
