@@ -152,7 +152,7 @@
 
     <g:Member name="Files" type="col:IReadOnlyDictionary" genericArguments="sys:String gi:GistFileContent"/>
     <g:Member name="Forks" type="col:IEnumerable" genericArguments="gi:GistFork"/>
-    <g:Member name="Histories" type="col:IEnumerable" genericArguments="gi:GistHistory"/>
+    <g:Member name="Histories" type="col:IEnumerable" genericArguments="gi:GistHistory" json="history"/>
 
   </g:Model>
 

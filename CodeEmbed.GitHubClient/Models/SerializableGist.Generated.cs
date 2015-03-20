@@ -89,8 +89,8 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "histories"</summary>
-        [JsonProperty("histories")]
+        /// <summary>Map to "history"</summary>
+        [JsonProperty("history")]
         public IEnumerable<SerializableGistHistory> Histories
         {
             get
@@ -117,7 +117,7 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "histories"</summary>
+        /// <summary>Map to "history"</summary>
         IEnumerable<IGistHistory> IGist.Histories
         {
             get

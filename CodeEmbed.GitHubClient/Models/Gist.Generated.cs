@@ -72,7 +72,7 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "histories"</summary>
+        /// <summary>Map to "history"</summary>
         public IEnumerable<GistHistory> Histories
         {
             get
@@ -99,7 +99,7 @@ namespace CodeEmbed.GitHubClient.Models
             }
         }
 
-        /// <summary>Map to "histories"</summary>
+        /// <summary>Map to "history"</summary>
         IEnumerable<IGistHistory> IGist.Histories
         {
             get

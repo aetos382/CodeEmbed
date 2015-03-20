@@ -23,7 +23,7 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Map to "forks"</summary>
         public IEnumerable<IGistFork> Forks { get; set; }
 
-        /// <summary>Map to "histories"</summary>
+        /// <summary>Map to "history"</summary>
         public IEnumerable<IGistHistory> Histories { get; set; }
     }
 }

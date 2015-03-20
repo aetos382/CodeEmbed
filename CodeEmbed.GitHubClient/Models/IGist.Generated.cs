@@ -15,7 +15,7 @@ namespace CodeEmbed.GitHubClient.Models
         /// <summary>Map to "forks"</summary>
         IEnumerable<IGistFork> Forks { [Pure] get; }
 
-        /// <summary>Map to "histories"</summary>
+        /// <summary>Map to "history"</summary>
         IEnumerable<IGistHistory> Histories { [Pure] get; }
 
     }
