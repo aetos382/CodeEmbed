@@ -39,10 +39,9 @@ install:
 # enable patching of AssemblyInfo.* files
 assembly_info:
   patch: true
-  file: AssemblyInfo.*
-  assembly_version: "{build}"
+  file: "AssemblyInfo.*"
+  assembly_version: "0.2.0"
   assembly_file_version: "{build}"
-  assembly_informatonal_version: "{build}"
 
 #---------------------------------#
 #       build configuration       #
