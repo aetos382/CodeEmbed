@@ -15,11 +15,7 @@
         {
             const string expected = "Hoge";
 
-            var mockBlob = new GitBlobMock
-                {
-                    Hash = "{CB566919-8484-499C-9EFF-D786477C2904}",
-                    Uri = new Uri("http://www.example.com")
-                };
+            string blobHash = "{CB566919-8484-499C-9EFF-D786477C2904}";
 
             var mockTree = new GitTreeMock
                 {
@@ -31,7 +27,7 @@
                                 {
                                     Path = "path",
                                     Type = "blob",
-                                    Hash = mockBlob.Hash
+                                    Hash = blobHash
                                 }
                         }
                 };
@@ -49,7 +45,7 @@
             {
                 DataFactory = uri =>
                 {
-                    if (uri == mockBlob.Uri)
+                    if (uri == GitHubUri.GitBlob("user", "repo", blobHash))
                     {
                         return expected;
                     }
@@ -74,11 +70,6 @@
                     if (uri == GitHubUri.GitTree("user", "repo", mockTree.Hash, true))
                     {
                         return mockTree;
-                    }
-
-                    if (uri == GitHubUri.GitBlob("user", "repo", mockBlob.Hash))
-                    {
-                        return mockBlob;
                     }
 
                     throw new ArgumentException();
@@ -134,11 +125,7 @@
         {
             const string expected = "Hoge";
 
-            var mockBlob = new GitBlobMock
-                {
-                    Hash = "{CB566919-8484-499C-9EFF-D786477C2904}",
-                    Uri = new Uri("http://www.example.com")
-                };
+            string blobHash = "{CB566919-8484-499C-9EFF-D786477C2904}";
 
             var mockTree1 = new GitTreeMock
                 {
@@ -148,7 +135,7 @@
                         {
                             new GitTreeNodeMock
                                 {
-                                    Hash = mockBlob.Hash,
+                                    Hash = blobHash,
                                     Path = "file",
                                     Type = "blob"
                                 }
@@ -183,7 +170,7 @@
             {
                 DataFactory = uri =>
                 {
-                    if (uri == mockBlob.Uri)
+                    if (uri == GitHubUri.GitBlob("user", "repo", blobHash))
                     {
                         return expected;
                     }
@@ -219,11 +206,6 @@
                     return mockTree2;
                 }
 
-                if (uri == GitHubUri.GitBlob("user", "repo", mockBlob.Hash))
-                {
-                    return mockBlob;
-                }
-
                 throw new ArgumentException();
             };
 
@@ -237,11 +219,7 @@
         {
             const string expected = "Hoge";
 
-            var mockBlob = new GitBlobMock
-            {
-                Hash = "{CB566919-8484-499C-9EFF-D786477C2904}",
-                Uri = new Uri("http://www.example.com")
-            };
+            string blobHash = "{CB566919-8484-499C-9EFF-D786477C2904}";
 
             var mockTree1 = new GitTreeMock
             {
@@ -251,7 +229,7 @@
                         {
                             new GitTreeNodeMock
                                 {
-                                    Hash = mockBlob.Hash,
+                                    Hash = blobHash,
                                     Path = "file",
                                     Type = "blob"
                                 }
@@ -293,7 +271,7 @@
             {
                 DataFactory = uri =>
                 {
-                    if (uri == mockBlob.Uri)
+                    if (uri == GitHubUri.GitBlob("user", "repo", blobHash))
                     {
                         return expected;
                     }
@@ -327,11 +305,6 @@
                 if (uri == GitHubUri.GitTree("user", "repo", mockTree22.Hash, false))
                 {
                     return mockTree22;
-                }
-
-                if (uri == GitHubUri.GitBlob("user", "repo", mockBlob.Hash))
-                {
-                    return mockBlob;
                 }
 
                 throw new ArgumentException();
