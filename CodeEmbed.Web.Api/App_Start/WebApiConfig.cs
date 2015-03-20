@@ -17,7 +17,7 @@
             var corsAttribute = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(corsAttribute);
 
-            config.Formatters.Add(new PlainTextMediaTypeFormatter());
+            config.Formatters.Add(new PlaintextMediaTypeFormatter());
         }
     }
 }

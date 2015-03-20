@@ -3,7 +3,7 @@
     using System;
     using System.Web.Optimization;
 
-    public class BundleConfig
+    public static class BundleConfig
     {
         // バンドルの詳細については、http://go.microsoft.com/fwlink/?LinkId=301862  を参照してください
         public static void RegisterBundles(BundleCollection bundles)

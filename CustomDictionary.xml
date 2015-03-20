@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- see https://msdn.microsoft.com/ja-jp/library/bb514188.aspx -->
+<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Git</Word>
+      <Word>Api</Word>
+      <Word>Mvc</Word>
+    </Recognized>
+    <DiscreteExceptions>
+      <Word>oAuth</Word>
+    </DiscreteExceptions>
+  </Words>
+</Dictionary>

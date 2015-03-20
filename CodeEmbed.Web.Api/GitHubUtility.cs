@@ -4,20 +4,22 @@
     using System.Configuration;
     using System.Linq;
 
-    using Octokit;
-    using Octokit.Internal;
+    using CodeEmbed.GitHubClient;
 
     public static class GitHubUtility
     {
         public static IGitHubClient GetClient()
         {
-            string userAgent = ConfigurationManager.AppSettings["UserAgent"];
+            string userAgent = ConfigurationManager.AppSettings["UserAgent"] ?? "CodeEmbed.v1";
             string accessToken = ConfigurationManager.AppSettings["OAuthToken"];
 
-            var credentialStore = new InMemoryCredentialStore(new Credentials(accessToken));
+            if (accessToken == null)
+            {
+                // TODO: Use derived exception.
+                throw new InvalidOperationException();
+            }
 
-            var client = new GitHubClient(
-                new ProductHeaderValue(userAgent), credentialStore);
+            var client = new GitHubClient(userAgent, accessToken);
 
             return client;
         }

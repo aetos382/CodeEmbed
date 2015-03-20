@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Routing;
-
-namespace CodeEmbed.Web.Api
+﻿namespace CodeEmbed.Web.Api
 {
-    using System.Web.SessionState;
+    using System;
+    using System.Linq;
+    using System.Web.Http;
 
     public class WebApiApplication : System.Web.HttpApplication
     {

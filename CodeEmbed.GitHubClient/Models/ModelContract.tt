@@ -1,0 +1,111 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+
+<#
+    var model = Model.Parse(ModelXml);
+    var ancestorMembers = AncestorXmls.Select(Model.Parse).SelectMany(x => x.Members).ToArray();
+
+    string modelName = model.Name.LocalName;
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.ComponentModel",
+            "System.Diagnostics",
+            "System.Diagnostics.Contracts"
+        };
+    
+    var additionalNamespaces = 
+        ancestorMembers.Concat(model.Members)
+            .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+            .Distinct()
+            .Select(x => GetClrNamespace(x))
+            .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+#>
+
+namespace <#= CodeNamespace #>.Models
+{
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
+    /// <summary>Contract class for I<#= modelName #><#= GeneratedModelPostfix #>.</summary>
+    [GeneratedCode("ModelContract.tt", "1.0")]
+    [DebuggerStepThrough]
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    [ContractClassFor(typeof(I<#= modelName #><#= GeneratedModelPostfix #>))]
+    public abstract partial class <#= modelName #>Contract<#= GeneratedModelPostfix #> :
+        I<#= modelName #><#= GeneratedModelPostfix #>
+    {
+<#
+    foreach (var member in ancestorMembers)
+    {
+#>
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
+
+<#
+    }
+#>
+<#
+    foreach (var member in model.Members)
+    {
+        if (member.Required)
+        {
+#>
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public <#= member.GetTypeName("I") #> <#= member.Name #>
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<<#= member.GetTypeName("I") #>>() != null);
+
+                throw new NotImplementedException();
+            }
+        }
+<#
+        }
+        else
+        {
+#>
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public abstract <#= member.GetTypeName("I") #> <#= member.Name #> { get; }
+<#
+        }
+#>
+        
+<#
+    }
+#>
+    }
+}

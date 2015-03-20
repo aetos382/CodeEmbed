@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<g:Models
+  codeNamespace="CodeEmbed.GitHubClient"
+  xmlns="foo"
+  xmlns:g="http://schemas.aerie.jp/codeembed/github-models-v3"
+  xmlns:gi="http://schemas.aerie.jp/codeembed/github-models-v3-instance"
+  xmlns:sys="http://schemas.aerie.jp/codeembed/clr-namespace/System"
+  xmlns:col="http://schemas.aerie.jp/codeembed/clr-namespace/System.Collections.Generic"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://schemas.aerie.jp/codeembed/github-models-v3 GitHubModels.xsd">
+
+  <g:Model name="gi:PublicRepository">
+
+    <g:Member name="Id" type="sys:Int64"/>
+    <g:Member name="Name" type="sys:String" required="true"/>
+    <g:Member name="FullName" type="sys:String"/>
+    <g:Member name="Owner" type="gi:RepositoryUser" required="true"/>
+    <g:Member name="IsPrivate" type="sys:Boolean" json="private"/>
+    <g:Member name="HtmlUri" type="sys:Uri" json="html_url"/>
+    <g:Member name="Description" type="sys:String"/>
+    <g:Member name="Fork" type="sys:Boolean"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="ForksUri" type="sys:Uri" json="forks_url"/>
+    <g:Member name="KeysUri" type="sys:String" json="keys_url"/>
+    <g:Member name="CollaboratorsUri" type="sys:String" json="collaborators_url"/>
+    <g:Member name="TeamsUri" type="sys:Uri" json="teams_url"/>
+    <g:Member name="HooksUri" type="sys:Uri" json="hooks_url"/>
+    <g:Member name="IssueEventsUri" type="sys:String" json="issue_events_url"/>
+    <g:Member name="EventsUri" type="sys:Uri" json="events_url"/>
+    <g:Member name="AssigneesUri" type="sys:String" json="assignees_url"/>
+    <g:Member name="BranchesUri" type="sys:String" json="branches_url"/>
+    <g:Member name="TagsUri" type="sys:Uri" json="tags_url"/>
+    <g:Member name="BlobsUri" type="sys:String" json="blobs_url"/>
+    <g:Member name="GitTagsUri" type="sys:String" json="git_tags_url"/>
+    <g:Member name="GitReferenesUri" type="sys:String" json="git_refs_url"/>
+    <g:Member name="TreesUri" type="sys:String" json="trees_url"/>
+    <g:Member name="StatusesUri" type="sys:String" json="statuses_url"/>
+    <g:Member name="LanguagesUri" type="sys:Uri" json="languages_url"/>
+    <g:Member name="StargazersUri" type="sys:Uri" json="stargazers_url"/>
+    <g:Member name="ContributorsUri" type="sys:Uri" json="contributos_url"/>
+    <g:Member name="SubscribersUri" type="sys:Uri" json="subscribers_url"/>
+    <g:Member name="SubscriptionUri" type="sys:Uri" json="subscription_url"/>
+    <g:Member name="CommitsUri" type="sys:String" json="commits_url"/>
+    <g:Member name="GitCommitsUri" type="sys:String" json="git_commits_url"/>
+    <g:Member name="CommentsUri" type="sys:string" json="comments_url"/>
+    <g:Member name="IssueCommentUri" type="sys:String" json="issue_comment_url"/>
+    <g:Member name="ContentsUri" type="sys:String" json="contents_url"/>
+    <g:Member name="CompareUri" type="sys:String" json="compare_url"/>
+    <g:Member name="MergesUri" type="sys:Uri" json="merges_url"/>
+    <g:Member name="ArchiveUri" type="sys:String" json="archive_url"/>
+    <g:Member name="DownloadsUri" type="sys:Uri" json="downloads_url"/>
+    <g:Member name="IssuesUri" type="sys:String" json="issues_url"/>
+    <g:Member name="PullsUri" type="sys:String" json="pulls_url"/>
+    <g:Member name="MilestonesUri" type="sys:String" json="milestones_url"/>
+    <g:Member name="NotificationsUri" type="sys:String" json="notifications_url"/>
+    <g:Member name="LabelsUri" type="sys:String" json="labels_url"/>
+    <g:Member name="ReleasesUri" type="sys:String" json="releases_url"/>
+
+  </g:Model>
+  
+  <g:Model name="gi:Repository" inherits="gi:PublicRepository">
+
+    <g:Member name="CreatedAt" type="sys:DateTime"/>
+    <g:Member name="UpdatedAt" type="sys:DateTime"/>
+    <g:Member name="PushedAt" type="sys:DateTime"/>
+    <g:Member name="GitUri" type="sys:Uri" json="git_url"/>
+    <g:Member name="SshUri" type="sys:String" json="ssh_url"/>
+    <g:Member name="CloneUri" type="sys:Uri"/>
+    <g:Member name="SubversionUri" type="sys:Uri" json="svn_url"/>
+    <g:Member name="Homepage" type="sys:String"/>
+    <g:Member name="Size" type="sys:Int64"/>
+    <g:Member name="StargazersCount" type="sys:Int32"/>
+    <g:Member name="WatchersCount" type="sys:Int32"/>
+    <g:Member name="Language" type="sys:String"/>
+    <g:Member name="HasIssues" type="sys:Boolean"/>
+    <g:Member name="HasDownloads" type="sys:Boolean"/>
+    <g:Member name="HasWiki" type="sys:Boolean"/>
+    <g:Member name="HasPages" type="sys:Boolean"/>
+    <g:Member name="ForksCount" type="sys:Int32"/>
+    <g:Member name="MirrorUri" type="sys:Uri" json="mirror_url"/>
+    <g:Member name="OpenIssuesCount" type="sys:Int32"/>
+    <g:Member name="Forks" type="sys:Int32"/>
+    <g:Member name="OpenIssues" type="sys:Int32"/>
+    <g:Member name="Watchers" type="sys:Int32"/>
+    <g:Member name="DefaultBranch" type="sys:String" required="true"/>
+    <g:Member name="Permissions" type="gi:Permissions"/>
+    <g:Member name="Organization" type="gi:RepositoryUser"/>
+    <g:Member name="Parent" type="gi:Repository"/>
+    <g:Member name="Source" type="gi:Repository"/>
+    <g:Member name="NetworkCount" type="sys:Int32"/>
+    <g:Member name="SubscribersCount" type="sys:Int32"/>
+  
+  </g:Model>
+
+  <g:Model name="gi:Permissions">
+    
+    <g:Member name="Administration" type="sys:Boolean" json="admin"/>
+    <g:Member name="Push" type="sys:Boolean"/>
+    <g:Member name="Pull" type="sys:Boolean"/>
+  
+  </g:Model>
+    
+  <g:Model name="gi:RepositoryUser">
+
+    <g:Member name="Login" type="sys:String" required="true"/>
+    <g:Member name="Id" type="sys:Int64"/>
+    <g:Member name="AvatarUri" type="sys:Uri" json="avatar_url"/>
+    <g:Member name="GravatarId" type="sys:String"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="HtmlUri" type="sys:Uri" json="html_url"/>
+    <g:Member name="FollowersUri" type="sys:Uri" json="followers_url"/>
+    <g:Member name="FollowingUri" type="sys:String" json="following_url"/>
+    <g:Member name="GistsUri" type="sys:String" json="gists_url"/>
+    <g:Member name="StarredUri" type="sys:String" json="starred_url"/>
+    <g:Member name="SubscriptionsUri" type="sys:Uri" json="subscriptions_url"/>
+    <g:Member name="OrganizationsUri" type="sys:Uri" json="organizations_url"/>
+    <g:Member name="RepositoriesUri" type="sys:Uri" json="repos_url"/>
+    <g:Member name="EventsUri" type="sys:String" json="events_url"/>
+    <g:Member name="ReceivedEventsUri" type="sys:Uri" json="received_events_url"/>
+    <g:Member name="Type" type="sys:String"/>
+    <g:Member name="SiteAdministrator" type="sys:Boolean" json="site_admin"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GistBase" abstract="true">
+    
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="ForksUri" type="sys:Uri" json="forks_url"/>
+    <g:Member name="CommitsUri" type="sys:Uri" json="commits_url"/>
+    <g:Member name="Id" type="sys:String"/>
+    <g:Member name="Description" type="sys:String"/>
+    <g:Member name="IsPublic" type="sys:Boolean" json="public"/>
+    <g:Member name="Owner" type="gi:RepositoryUser"/>
+    <g:Member name="User" type="sys:String"/>
+    <g:Member name="Comments" type="sys:Int32"/>
+    <g:Member name="CommentsUri" type="sys:Uri" json="comments_url"/>
+    <g:Member name="HtmlUri" type="sys:Uri" json="html_url"/>
+    <g:Member name="GitPullUri" type="sys:Uri" json="git_pull_url"/>
+    <g:Member name="GitPushUri" type="sys:Uri" json="git_push_url"/>
+    <g:Member name="CreatedAt" type="sys:DateTime"/>
+    <g:Member name="UpdatedAt" type="sys:DateTime"/>
+    
+  </g:Model>
+  
+  <g:Model name="gi:GistSummary" inherits="gi:GistBase">
+    
+    <g:Member name="Files" type="col:IReadOnlyDictionary" genericArguments="sys:String gi:GistFile"/>
+
+  </g:Model>
+
+  <g:Model name="gi:Gist" inherits="gi:GistBase">
+
+    <g:Member name="Files" type="col:IReadOnlyDictionary" genericArguments="sys:String gi:GistFileContent"/>
+    <g:Member name="Forks" type="col:IEnumerable" genericArguments="gi:GistFork"/>
+    <g:Member name="Histories" type="col:IEnumerable" genericArguments="gi:GistHistory"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GistFile">
+
+    <g:Member name="Size" type="sys:Int64"/>
+    <g:Member name="RawUri" type="sys:Uri" json="raw_url"/>
+    <g:Member name="ContentType" type="sys:String" json="type"/>
+    <g:Member name="Truncated" type="sys:Boolean"/>
+    <g:Member name="Language" type="sys:String"/>
+  
+  </g:Model>
+
+  <g:Model name="gi:GistFileContent" inherits="gi:GistFile">
+    
+    <g:Member name="Content" type="sys:String"/>
+    
+  </g:Model>
+  
+  <g:Model name="gi:GistFork">
+
+    <g:Member name="User" type="gi:RepositoryUser"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Id" type="sys:String"/>
+    <g:Member name="CreatedAt" type="sys:DateTime"/>
+    <g:Member name="UpdatedAt" type="sys:DateTime"/>
+  
+  </g:Model>
+  
+  <g:Model name="gi:GistHistory">
+    
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Version" type="sys:String"/>
+    <g:Member name="User" type="gi:RepositoryUser"/>
+    <g:Member name="ChangeStatus" type="gi:GistChangeStatus"/>
+    <g:Member name="CommittedAt" type="sys:DateTime"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GistChangeStatus">
+
+    <g:Member name="Deletions" type="sys:Int32"/>
+    <g:Member name="Additions" type="sys:Int32"/>
+    <g:Member name="Total" type="sys:Int32"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GitReference">
+
+    <g:Member name="Reference" type="sys:String" json="ref"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Target" type="gi:GitObject" json="object"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GitObject">
+
+    <g:Member name="Type" type="sys:String" json="type"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GitBlob">
+
+    <g:Member name="Content" type="sys:String"/>
+    <g:Member name="Encoding" type="sys:String"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Size" type="sys:Int64"/>
+    
+  </g:Model>
+
+  <g:Model name="GitTag">
+
+    <g:Member name="Tag" type="sys:String"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Message" type="sys:String"/>
+    <g:Member name="Tagger" type="gi:Signature"/>
+    <g:Member name="Target" type="gi:GitObject" json="object"/>
+    
+  </g:Model>
+  
+  <g:Model name="gi:Signature">
+
+    <g:Member name="Date" type="sys:DateTime"/>
+    <g:Member name="Name" type="sys:String"/>
+    <g:Member name="Email" type="sys:String"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:CommitLink">
+
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="HtmlUri" type="sys:Uri" json="html_url"/>
+
+  </g:Model>
+
+  <g:Model name="gi:GitCommit">
+
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Author" type="gi:Signature"/>
+    <g:Member name="Committer" type="gi:Signature"/>
+    <g:Member name="Message" type="sys:String"/>
+    <g:Member name="Tree" type="gi:CommitLink"/>
+    <g:Member name="Parents" type="col:IEnumerable" genericArguments="gi:CommitLink"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:GitTree">
+
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri" json="url"/>
+    <g:Member name="Tree" type="col:IEnumerable" genericArguments="gi:GitTreeNode"/>
+    <g:Member name="Truncated" type="sys:Boolean"/>
+    
+  </g:Model>
+
+  <g:Model name="gi:GitTreeNode">
+
+    <g:Member name="Path" type="sys:String"/>
+    <g:Member name="Mode" type="sys:String"/>
+    <g:Member name="Type" type="sys:String"/>
+    <g:Member name="Size" type="sys:Nullable" genericArguments="sys:Int64"/>
+    <g:Member name="Hash" type="sys:String" json="sha"/>
+    <g:Member name="Uri" type="sys:Uri"/>
+    
+  </g:Model>
+  
+  <g:Model name="gi:User" inherits="gi:RepositoryUser">
+
+    <g:Member name="Name" type="sys:String"/>
+    <g:Member name="Company" type="sys:String"/>
+    <g:Member name="Blog" type="sys:Uri"/>
+    <g:Member name="Location" type="sys:String"/>
+    <g:Member name="Email" type="sys:String"/>
+    <g:Member name="Hireable" type="sys:Boolean"/>
+    <g:Member name="Bio" type="sys:String"/>
+    <g:Member name="PublicRepositories" type="sys:Int32" json="public_repos"/>
+    <g:Member name="PublicGists" type="sys:Int32"/>
+    <g:Member name="Followers" type="sys:Int32"/>
+    <g:Member name="Following" type="sys:Int32"/>
+    <g:Member name="CreatedAt" type="sys:DateTime"/>
+    <g:Member name="UpdatedAt" type="sys:DateTime"/>
+
+  </g:Model>
+
+  <g:Model name="gi:AuthorizedUser" inherits="gi:User">
+    
+    <g:Member name="TotalPrivateRepositories" type="sys:Int32" json="total_private_repos"/>
+    <g:Member name="OwnedPrivateRepositories" type="sys:Int32" json="owned_private_repos"/>
+    <g:Member name="PrivateGists" type="sys:Int32"/>
+    <g:Member name="DiskUsage" type="sys:Int64"/>
+    <g:Member name="Collaborators" type="sys:Int32"/>
+    <g:Member name="Plan" type="gi:UserPlan"/>
+  
+  </g:Model>
+
+  <g:Model name="gi:UserPlan">
+      
+    <g:Member name="Name" type="sys:String"/>
+    <g:Member name="Space" type="sys:Int64"/>
+    <g:Member name="PrivateRepositories" type="sys:Int32" json="private_repos"/>
+    <g:Member name="Collaborators" type="sys:Int32"/>
+
+  </g:Model>
+
+</g:Models>

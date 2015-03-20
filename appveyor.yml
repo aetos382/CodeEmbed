@@ -5,14 +5,11 @@
 # version format
 version: 0.2.{build}                 # You can use {branch} to, for example
 
-# branches to build
-branches:
-  only:
-    - master
-    - develop
-
 # Do not build on tags (GitHub only)
 skip_tags: true
+
+skip_commits:
+  message: /#nobuild/
 
 # fetch repository as zip archive
 shallow_clone: true
@@ -27,7 +24,7 @@ os: Windows Server 2012 R2
 # environment variables
 environment:
   github_oauth_token:
-    secure: jqtdWF2szgieS3RJDDjtE6Ttj0QXORa+kmLJkHCCBpKsyMz/UeFOZSfIP2jHu9L2
+    secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
   deploy_password:
     secure: KgSo90aar4SKwjJH91cbxC+fn0ZXhzRnr29DflE9jJ2cm2Y4EzdLkKy7C2stLYfYcGsXxb41VUQiwjHFtSvXTA==
 
@@ -37,7 +34,7 @@ matrix:
 
 # scripts that run after cloning repository
 install:
-  - cinst WAWSDeploy
+  - cinst WAWSDeploy -y
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
@@ -60,16 +57,13 @@ build:
   project: CodeEmbed.sln   # path to Visual Studio solution or project
 
   # MSBuild verbosity level
-  verbosity: minimal
+  verbosity: normal
 
 # scripts to run before build
 before_build:
   - ps: .\beforeBuild.ps1
-
-# scripts to run after build
-after_build:
-  - msbuild.exe CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj @publish.rsp /p:PublishUrl="..\Publish\CodeEmbed.Web.Api"
-  - msbuild.exe CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj @publish.rsp /p:PublishUrl="..\Publish\CodeEmbed.Web.Site"
+  - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /p:Transform=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj.transform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /p:Transform=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj.transform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 #---------------------------------#
 #       tests configuration       #

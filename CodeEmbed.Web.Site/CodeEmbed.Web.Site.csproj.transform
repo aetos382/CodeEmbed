@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xdt:Transform="SetAttributes(DefaultTargets)" DefaultTargets="Build;WebPublish"
+  xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+  xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+  <PropertyGroup xdt:Transform="InsertBefore(//*[local-name() = 'ItemGroup'][1])">
+    <WebPublishMethod>FileSystem</WebPublishMethod>
+    <DeleteExistingFiles>True</DeleteExistingFiles>
+    <PrecompileBeforePublish>True</PrecompileBeforePublish>
+    <PublishUrl>..\Publish\CodeEmbed.Web.Site\</PublishUrl>
+  </PropertyGroup>
+</Project>

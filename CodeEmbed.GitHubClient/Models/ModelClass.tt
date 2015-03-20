@@ -1,0 +1,270 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Xml" #>
+<#@ assembly name="System.Xml.Linq" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
+
+<#@ parameter name="CodeNamespace" type="System.String" #>
+<#@ parameter name="ModelXml" type="System.String" #>
+<#@ parameter name="AncestorXmls" type="System.String[]" #>
+
+<#@ include file="ModelDefinitionParser.ttinclude" #>
+
+<#
+    var model = Model.Parse(ModelXml);
+
+    string modelName = model.Name.LocalName;
+
+    string inherits = model.Inherits == null ? null : model.Inherits.LocalName;
+    bool inherited = inherits != null;
+
+    bool hasRequiredMember = model.Members.Any(x => x.Required);
+
+    var namespaces = new List<string> {
+            "System",
+            "System.CodeDom.Compiler",
+            "System.ComponentModel",
+            "System.Diagnostics",
+            "System.Diagnostics.Contracts",
+            CodeNamespace
+        };
+    
+    if (model.Members.Any(x => IsEnumerable(x.Type) || IsDictionary(x.Type)))
+    {
+        namespaces.Add("System.Linq");
+    }
+
+    var additionalNamespaces = model.Members
+        .SelectMany(x => new[] { x.Type }.Concat(x.GenericArguments).Select(y => y.Namespace))
+        .Distinct()
+        .Select(x => GetClrNamespace(x))
+        .Where(x => x != null);
+
+    namespaces.AddRange(additionalNamespaces);
+
+    var orderedNamespaces = OrderNamespace(namespaces);
+
+    string camelCasedModelName = ToCamelCase(modelName);
+
+    string abstractModifier = model.IsAbstract ? "abstract " : string.Empty;
+    string constructorModifier = model.IsAbstract ? "protected" : "public";
+#>
+
+namespace <#= CodeNamespace #>.Models
+{
+<#
+    foreach (var nss in orderedNamespaces)
+    {
+        foreach (var ns in nss)
+        {
+#>
+    using <#= ns #>;
+<#
+        }
+#>
+    
+<#
+    }
+#>
+    [GeneratedCode("ModelClass.tt", "1.0")]
+    [DebuggerStepThrough]
+    public <#= abstractModifier #>partial class <#= modelName #><#= GeneratedModelPostfix #> :
+<#
+    if (inherits != null)
+    {
+#>
+        <#= inherits #><#= GeneratedModelPostfix #>,
+<#
+    }
+#>
+        I<#= modelName #><#= GeneratedModelPostfix #>
+    {
+        private readonly I<#= modelName #><#= GeneratedModelPostfix #> _<#= camelCasedModelName #> = null;
+<#
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
+    {
+#>
+
+        [ContractPublicPropertyName("<#= member.Name #>")]
+        private readonly <#= member.GetTypeName("") #> _<#= ToCamelCase(member.Name) #> = null;
+<#
+    }
+#>
+<#
+    if (!inherited)
+    {
+#>
+
+        [ContractPublicPropertyName("Client")]
+        private readonly IGitHubClient _client = null;
+<#
+    }
+#>
+
+        /// <summary>Create new instance of <#= modelName #><#= GeneratedModelPostfix #>.</summary>
+        <#= constructorModifier #> <#= modelName #><#= GeneratedModelPostfix #>(
+            I<#= modelName #><#= GeneratedModelPostfix #> <#= camelCasedModelName #>,
+            IGitHubClient client)
+<#
+    if (inherited)
+    {
+#>
+            : base(<#= camelCasedModelName #>, client)
+<#
+    }
+#>
+        {
+            Contract.Requires<ArgumentNullException>(<#= camelCasedModelName #> != null);
+            Contract.Requires<ArgumentNullException>(client != null);
+
+            this._<#= camelCasedModelName #> = <#= camelCasedModelName #>;
+<#
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
+    {
+#>
+
+<#
+        if (!member.Required)
+        {
+#>
+            if (<#= camelCasedModelName #>.<#= member.Name #> != null)
+            {
+<#
+            this.PushIndent("    ");
+        }
+
+        if (IsEnumerable(member.Type))
+        {
+#>
+            this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.Select(x => new <#= member.ModelType.LocalName #>(x, client));
+<#
+        }
+        else if (IsDictionary(member.Type))
+        {
+#>
+            this._<#= ToCamelCase(member.Name) #> = <#= camelCasedModelName #>.<#= member.Name #>.ToDictionary(x => x.Key, x => new <#= member.ModelType.LocalName #>(x.Value, client));
+<#
+        }
+        else
+        {
+#>
+            this._<#= ToCamelCase(member.Name) #> = new <#= member.GetTypeName("") #>(<#= camelCasedModelName #>.<#= member.Name #>, client);
+<#
+        }
+
+        if (!member.Required)
+        {
+            this.PopIndent();
+#>
+            }
+<#
+        }
+    }
+
+    if (!inherited)
+    {
+#>
+
+            this._client = client;
+<#
+    }
+#>
+        }
+<#
+    foreach (var member in model.Members)
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        public <#= member.GetTypeName("") #> <#= member.Name #>
+        {
+            get
+            {
+<#
+        if (member.ModelType != null)
+        {
+            if (member.Required)
+            {
+#>
+                Contract.Ensures(Contract.Result<<#= member.GetTypeName("") #>>() != null);
+
+<#
+            }
+#>
+                return this._<#= ToCamelCase(member.Name) #>;
+<#
+        }
+        else
+        {
+#>
+                return this._<#= camelCasedModelName #>.<#= member.Name #>;
+<#
+        }
+#>
+            }
+        }
+<#
+    }
+
+    foreach (var member in model.Members.Where(x => x.ModelType != null))
+    {
+#>
+
+        /// <summary>Map to "<#= member.Json #>"</summary>
+        <#= member.GetTypeName("I") #> I<#= modelName #><#= GeneratedModelPostfix #>.<#= member.Name #>
+        {
+            get
+            {
+                return this._<#= camelCasedModelName #>.<#= member.Name #>;
+            }
+        }
+<#
+    }
+
+    if (!inherited)
+    {
+#>
+
+        public IGitHubClient Client
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IGitHubClient>() != null);
+
+                return this._client;
+            }
+        }
+<#
+    }
+#>
+
+        /// <summary>Specifies invariant contracts of object.</summary>
+        [Conditional("CONTRACTS_FULL")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this._<#= camelCasedModelName #> != null);
+<#
+    foreach (var member in model.Members.Where(x => x.ModelType != null && x.Required))
+    {
+#>
+
+            Contract.Invariant(this._<#= ToCamelCase(member.Name) #> != null);
+<#
+    }
+
+    if (!inherited)
+    {
+#>
+            Contract.Invariant(this._client != null);
+<#
+    }
+#>
+        }
+    }
+}
