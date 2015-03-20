@@ -15,11 +15,6 @@
     {
         Uri BaseUri { get; }
 
-        Task<Stream> GetAsStream(
-            Uri uri,
-            IDictionary<string, string> requestHeaders,
-            CancellationToken cancellationToken);
-
         Task<TextReader> GetAsTextReader(
             Uri uri,
             IDictionary<string, string> requestHeaders,

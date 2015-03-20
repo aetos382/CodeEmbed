@@ -25,30 +25,6 @@
             return result;
         }
 
-        public static Task<Stream> GetAsStream(
-            this IGitHubClient client,
-            Uri uri,
-            IDictionary<string, string> requestHeaders,
-            CancellationToken cancellationToken)
-        {
-            Contract.Requires<ArgumentNullException>(client != null);
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            var result = client.Connection.GetAsStream(uri, requestHeaders, cancellationToken);
-            return result;
-        }
-
-        public static Task<Stream> GetAsStream(
-            this IGitHubClient client,
-            Uri uri)
-        {
-            Contract.Requires<ArgumentNullException>(client != null);
-            Contract.Requires<ArgumentNullException>(uri != null);
-
-            var result = GetAsStream(client, uri, null, CancellationToken.None);
-            return result;
-        }
-
         public static Task<string> GetString(
             this IGitHubClient client,
             Uri uri)

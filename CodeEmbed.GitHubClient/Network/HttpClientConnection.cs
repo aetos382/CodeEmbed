@@ -77,48 +77,6 @@
             }
         }
 
-        public async Task<Stream> GetAsStream(
-            Uri uri,
-            IDictionary<string, string> requestHeaders,
-            CancellationToken cancellationToken)
-        {
-            uri = this.EnsureUriAbsolute(uri);
-
-            using (var client = CreateHttpClient(
-                this._userAgent, this._oauthToken, requestHeaders, this._handler, this._disposeHandler))
-            {
-
-                var response = await client.GetAsync(uri).ConfigureAwait(false);
-
-                try
-                {
-                    response.EnsureSuccessStatusCode();
-
-                    var result = await HttpResponseStream.Create(response).ConfigureAwait(false);
-
-                    response = null;
-                    return result;
-                }
-                catch (HttpRequestException ex)
-                {
-                    if (response.StatusCode == HttpStatusCode.NotFound)
-                    {
-                        throw new GitHubNotFoundException(uri, ex);
-                    }
-
-                    throw;
-                }
-                finally
-                {
-                    if (response != null)
-                    {
-                        response.Dispose();
-                        response = null;
-                    }
-                }
-            }
-        }
-
         public async Task<TextReader> GetAsTextReader(
             Uri uri,
             IDictionary<string, string> requestHeaders,

@@ -516,7 +516,6 @@
     <Compile Include="Network\HttpResponseMessageExtension.cs" />
     <Compile Include="Network\HttpResponseMessageReader.cs" />
     <Compile Include="IGitHubClient.cs" />
-    <Compile Include="Network\HttpResponseStream.cs" />
     <Compile Include="Serialization\CamelCaseStringEnumConverter.cs" />
     <Compile Include="Serialization\Contracts\JsonSerializerContract.cs" />
     <Compile Include="Serialization\IJsonSerializer.cs" />

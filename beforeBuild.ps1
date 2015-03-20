@@ -12,7 +12,7 @@
 	$element.SetAttribute('value', $env:github_oauth_token)
 	
 	$settings = $xml.SelectSingleNode('/configuration/appSettings')
-	$settings.AppendChild($element)
+	$settings.AppendChild($element) | Out-Null
 	
 	$xml.Save($fullpath)
 }
