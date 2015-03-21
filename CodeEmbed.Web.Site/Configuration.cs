@@ -1,7 +1,6 @@
 ﻿namespace CodeEmbed.Web.Site
 {
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
     
@@ -21,14 +20,6 @@
                 var uri = new Uri(value);
 
                 return uri;
-            }
-        }
-
-        public static string Version
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["Version"];
             }
         }
     }

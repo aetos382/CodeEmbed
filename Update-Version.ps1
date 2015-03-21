@@ -2,25 +2,32 @@ function Set-BuildVersion {
 
   param(
     [Parameter(Mandatory, Position = 0)]
-    [string] $Path,
-
-    [Parameter(Mandatory, Position = 1)]
-    [string] $Version)
+    [string] $Path)
 
   $fullpath = Convert-Path $Path
   $xml = [xml] (Get-Content $fullpath)
 	
   $settings = $xml.SelectSingleNode('/configuration/appSettings')
-  $element = $settings.SelectSingleNode('add[@key = "Version"]')
 
-  if ($element -eq $null) {
-    $element = $xml.CreateElement('add')
-    $element.SetAttribute('key', 'Version')
+  $buildNo = $xml.CreateElement('add')
+  $buildNo.SetAttribute('key', 'ver:BuildNo')
+  $buildNo.SetAttribute('value', $env:APPVEYOR_BUILD_VERSION)
+  $settings.AppendChild($buildNo) | Out-Null
 
-    $settings.AppendChild($element) | Out-Null
-  }
+  $branch = $xml.CreateElement('add')
+  $branch.SetAttribute('key', 'ver:Branch')
+  $branch.SetAttribute('value', $env:APPVEYOR_REPO_BRANCH)
+  $settings.AppendChild($branch) | Out-Null
 
-  $element.SetAttribute('value', $Version)
+  $commit = $xml.CreateElement('add')
+  $commit.SetAttribute('key', 'ver:Commit')
+  $commit.SetAttribute('value', $env:APPVEYOR_REPO_COMMIT)
+  $settings.AppendChild($commit) | Out-Null
+
+  $configuration = $xml.CreateElement('add')
+  $configuration.SetAttribute('key', 'ver:Configuration')
+  $configuration.SetAttribute('value', $env:Configuration)
+  $settings.AppendChild($configuration) | Out-Null
 
   $xml.Save($fullpath)
 }
@@ -29,8 +36,7 @@ Push-Location $PSScriptRoot
 
 try {
 
-  $version = "$env:APPVEYOR_BUILD_VERSION | $env:APPVEYOR_REPO_BRANCH | $env:APPVEYOR_REPO_COMMIT | $env:Configuration"
-  Set-BuildVersion '.\CodeEmbed.Web.Site\Web.config' $version
+  Set-BuildVersion '.\CodeEmbed.Web.Site\Web.config'
 
 }
 finally {
