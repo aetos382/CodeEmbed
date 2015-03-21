@@ -16,7 +16,6 @@
   ],
   "devDependencies": {
     "jquery": "~2.1.3",
-    "bootstrap": "~3.3.4",
-    "Lightview": "powerfinger/Lightview"
+    "bootstrap": "~3.3.4"
   }
 }

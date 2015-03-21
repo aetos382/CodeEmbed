@@ -96,7 +96,7 @@ gulp.task('clean:fonts', function(cb) {
 gulp.task('clean:lightview', function(cb) {
 	
 	del([
-		'css/skins/**/*',
+		'css/skins',
 	], cb);
 
 });
