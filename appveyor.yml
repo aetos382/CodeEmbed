@@ -24,7 +24,7 @@ os: Windows Server 2012 R2
 # environment variables
 environment:
   github_oauth_token:
-    secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
+    secure: mExIOSztxCyWXgD34Rb/k1zqlC6PvJrOVmD3BCaztfBURfg3vPteV5d0Ba2o8+pL
   deploy_password:
     secure: zNLL5lRzzeLaTlAkc9ZMdIGidTDNRFw+QmBxq08UM8V/0LFN2RxKXHs2W75E36hxaACrk/e9E99gFGP5VqSzfg==
   deploy_password_dev:
