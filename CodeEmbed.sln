@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		CodeEmbed.Tests.runsettings = CodeEmbed.Tests.runsettings
 		CustomDictionary.xml = CustomDictionary.xml
-		LICENSE.txt = LICENSE.txt
-		README.md = README.md
 		packages\repositories.config = packages\repositories.config
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
@@ -30,14 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{2DB6C5
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AppVeyor", "AppVeyor", "{46318556-2CEE-4898-98F4-7AE30EDAF2F4}"
-	ProjectSection(SolutionItems) = preProject
-		appveyor.yml = appveyor.yml
-		beforeBuild.ps1 = beforeBuild.ps1
-		codeembed-dev.PublishSettings = codeembed-dev.PublishSettings
-		deploy.cmd = deploy.cmd
 	EndProjectSection
 EndProject
 Global

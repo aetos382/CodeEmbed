@@ -27,6 +27,8 @@ environment:
     secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
   deploy_password:
     secure: zNLL5lRzzeLaTlAkc9ZMdIGidTDNRFw+QmBxq08UM8V/0LFN2RxKXHs2W75E36hxaACrk/e9E99gFGP5VqSzfg==
+  deploy_password_dev:
+    secure: KgSo90aar4SKwjJH91cbxC+fn0ZXhzRnr29DflE9jJ2cm2Y4EzdLkKy7C2stLYfYcGsXxb41VUQiwjHFtSvXTA==
 
 # this is how to allow failing jobs in the matrix
 matrix:
@@ -52,6 +54,7 @@ platform: Any CPU
 
 # build Configuration, i.e. Debug, Release, etc.
 configuration:
+  - Debug
   - Release
 
 build:
@@ -83,21 +86,7 @@ artifacts:
 #---------------------------------#
 
 # to run your custom scripts instead of provider deployments
-deploy_script: deploy-release.cmd
-
-deploy:
-  - provider: GitHub
-    release: $(APPVEYOR_REPO_TAG_NAME)
-    descrition: $(APPVEYOR_REPO_COMMIT_MESSAGE)
-    auth_token:
-      secure: OwvxISpSp/TROa9IOWxMCicthlwg4/+EfSL3sBUaLAsE3+EKyTvnDhua+Q32jM+a
-    artifact: Publish.zip
-    draft: true
-    prerelease: false
-    on:
-      branch: master
-      appveyor_repo_tag: true
-      configuration: Release
+deploy_script: deploy.cmd
 
 #---------------------------------#
 #         notifications           #
