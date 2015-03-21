@@ -9,11 +9,6 @@
   var sourceUri4 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/commits/3663d9bc29b8fef20050ed2fe85223f774618e54/CodeEmbed.Web.Site/Content/HelloWorld.cs");
 }
 
-@section head
-{
-  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/lightview/lightview.css")" />
-}
-
 <h2>@ViewBag.Title</h2>
 
 <h3>必要なもの</h3>
@@ -33,13 +28,13 @@
     </ul>
   </div>
   <div class="col-md-3">
-    <a href="@Url.Content("~/Content/Images/git-default.png")" class="thumbnail lightview" data-lightview-group="github-git" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
-      <img src="@Url.Content("~/Content/Images/git-default.png")" title="クリックで拡大" />
+    <a href="@Url.Content("~/images/git-default.png")" class="thumbnail lightview" data-lightview-group="github-git" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
+      <img src="@Url.Content("~/images/git-default.png")" title="クリックで拡大" />
     </a>
   </div>
   <div class="col-md-3">
-    <a href="@Url.Content("~/Content/Images/git-commit.png")" class="thumbnail lightview" data-lightview-group="github-git">
-      <img src="@Url.Content("~/Content/Images/git-commit.png")" title="クリックで拡大" />
+    <a href="@Url.Content("~/images/git-commit.png")" class="thumbnail lightview" data-lightview-group="github-git">
+      <img src="@Url.Content("~/images/git-commit.png")" title="クリックで拡大" />
     </a>
   </div>
 </div>
@@ -98,9 +93,7 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/H
 <div class="panel panel-default">
   <div class="panel-heading">デフォルト</div>
   <div class="panel-body">
-    <div class="wait-indicator text-center">
-      <img src="@Url.Content("~/Content/Images/wait.gif")" />
-    </div>
+    <div class="wait-indicator"></div>
     <pre id="code-1" class="brush: csharp hidden"></pre>
   </div>
 </div>
@@ -108,9 +101,7 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/H
 <div class="panel panel-default">
   <div class="panel-heading">ブランチ指定</div>
   <div class="panel-body">
-    <div class="wait-indicator text-center">
-      <img src="@Url.Content("~/Content/Images/wait.gif")" />
-    </div>
+    <div class="wait-indicator"></div>
     <pre id="code-2" class="brush: csharp hidden"></pre>
   </div>
 </div>
@@ -118,9 +109,7 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/H
 <div class="panel panel-default">
   <div class="panel-heading">タグ指定</div>
   <div class="panel-body">
-    <div class="wait-indicator text-center">
-      <img src="@Url.Content("~/Content/Images/wait.gif")" />
-    </div>
+    <div class="wait-indicator"></div>
     <pre id="code-3" class="brush: csharp hidden"></pre>
   </div>
 </div>
@@ -128,18 +117,13 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/Content/H
 <div class="panel panel-default">
   <div class="panel-heading">コミット ハッシュ指定</div>
   <div class="panel-body">
-    <div class="wait-indicator text-center">
-      <img src="@Url.Content("~/Content/Images/wait.gif")" />
-    </div>
+    <div class="wait-indicator"></div>
     <pre id="code-4" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
 @section scripts
 {
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-  <script type="text/javascript" src="@Url.Content("~/bundles/LightView")"></script>
-
   <script type="text/javascript">
 
     $(function () {

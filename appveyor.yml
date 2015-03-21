@@ -71,12 +71,9 @@ build:
 # scripts to run before build
 before_build:
   - ps: .\Set-OAuthToken.ps1
+  - ps: .\Update-Version.ps1
   - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj /p:Transform=CodeEmbed.Web.Api\CodeEmbed.Web.Api.csproj.transform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - msbuild.exe transform.proj /p:Source=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj /p:Transform=CodeEmbed.Web.Site\CodeEmbed.Web.Site.csproj.transform /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-
-# scripts to run after build
-after_build:
-  - ps: .\Update-Version.ps1
 
 #---------------------------------#
 #       tests configuration       #
