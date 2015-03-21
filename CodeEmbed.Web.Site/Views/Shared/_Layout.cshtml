@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ja-JP" xml:lang="ja-JP" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -34,7 +34,9 @@
   </div>
 
   <div class="container body-content">
-    @RenderBody()
+    <main>
+      @RenderBody()
+    </main>
     <hr />
     <footer>
       <div class="row">
@@ -55,4 +57,3 @@
   @RenderSection("scripts", required: false)
 </body>
 </html>
-

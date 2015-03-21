@@ -39,8 +39,10 @@ install:
   - cinst WAWSDeploy -y
   - ps: .\Update-Npm.ps1 -Version '0.12' -Bitness 'x64'
   - npm install -g bower gulp
-  - bower -v
-  - gulp -v
+  - git --version
+  - npm --version
+  - bower --version
+  - gulp --version
 
 # enable patching of AssemblyInfo.* files
 assembly_info:

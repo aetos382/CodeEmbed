@@ -37,5 +37,3 @@ finally {
   Pop-Location
 
 }
-
-npm -v
