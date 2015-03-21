@@ -4,15 +4,18 @@
 		[Parameter(Mandatory, Position = 0)]
 		[string] $Path)
 
-	$fullpath = Convert-Path $Path
-	$xml = [xml] (Get-Content $fullpath)
+	$fullpath = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path)
+	$xml = New-Object 'System.Xml.XmlDocument'
 	
-	$element = $xml.CreateElement('add')
-	$element.SetAttribute('key', 'OAuthToken')
-	$element.SetAttribute('value', $env:github_oauth_token)
+	$appSettings = $xml.CreateElement('appSettings')
 	
-	$settings = $xml.SelectSingleNode('/configuration/appSettings')
-	$settings.AppendChild($element) | Out-Null
+	$add = $xml.CreateElement('add')
+	$add.SetAttribute('key', 'OAuthToken')
+	$add.SetAttribute('value', $env:github_oauth_token)
+	
+	$appSettings.AppendChild($add) | Out-Null
+	
+	$xml.AppendChild($appSettings) | Out-Null
 	
 	$xml.Save($fullpath)
 }
@@ -20,9 +23,9 @@
 Push-Location $PSScriptRoot
 
 try {
-	Set-OAuthToken '.\CodeEmbed.GitHubClient.Tests\App.config'
-	Set-OAuthToken '.\CodeEmbed.Web.Api\Web.config'
-	Set-OAuthToken '.\CodeEmbed.Web.Api.Tests\App.config'
+	Set-OAuthToken '.\CodeEmbed.GitHubClient.Tests\appSettings.local.config'
+	Set-OAuthToken '.\CodeEmbed.Web.Api\appSettings.local.config'
+	Set-OAuthToken '.\CodeEmbed.Web.Api.Tests\appSettings.local.config'
 }
 finally {
 	Pop-Location
