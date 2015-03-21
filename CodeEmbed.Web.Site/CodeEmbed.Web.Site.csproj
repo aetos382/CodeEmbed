@@ -21,7 +21,6 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,14 +41,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime">
-      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -59,6 +51,30 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -76,46 +92,15 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
-    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Mvc, Version=__MvcPagesVersion__, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.2\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.2\lib\net45\System.Web.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <Private>True</Private>
-      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.2\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
-    </Reference>
-    <Reference Include="WebGrease">
-      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Configuration.cs" />
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-    <Content Include="Content\HelloWorld.cs" />
+    <Content Include="content\HelloWorld.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -124,102 +109,33 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Images\gist-1.png" />
-    <Content Include="Content\Images\gist-2.png" />
-    <Content Include="Content\Images\gist-3.png" />
-    <Content Include="Content\Images\gist-4.png" />
-    <Content Include="Content\Images\git-commit.png" />
-    <Content Include="Content\Images\git-default.png" />
-    <Content Include="Content\Images\icon.png" />
-    <Content Include="Content\Images\mscc.png" />
-    <Content Include="Content\Images\wait.gif" />
-    <Content Include="Content\lightview\lightview.css" />
-    <Content Include="Content\lightview\skins\blank.gif" />
-    <Content Include="Content\lightview\skins\dark\sprite.png" />
-    <Content Include="Content\lightview\skins\dark\sprite_ie_lt_7.png" />
-    <Content Include="Content\lightview\skins\light\sprite.png" />
-    <Content Include="Content\lightview\skins\light\sprite_ie_lt_7.png" />
-    <Content Include="Content\lightview\skins\mac\sprite.png" />
-    <Content Include="Content\lightview\skins\mac\sprite_ie_lt_7.png" />
-    <Content Include="Content\SyntaxHighlighter\shCore.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreDefault.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreDjango.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreEclipse.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreEmacs.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreFadeToGrey.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreMDUltra.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreMidnight.css" />
-    <Content Include="Content\SyntaxHighlighter\shCoreRDark.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeDefault.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeDjango.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeEclipse.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeEmacs.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeFadeToGrey.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeMDUltra.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeMidnight.css" />
-    <Content Include="Content\SyntaxHighlighter\shThemeRDark.css" />
+    <Content Include="css\skins\blank.gif" />
+    <Content Include="css\skins\dark\sprite.png" />
+    <Content Include="css\skins\dark\sprite_ie_lt_7.png" />
+    <Content Include="css\skins\light\sprite.png" />
+    <Content Include="css\skins\light\sprite_ie_lt_7.png" />
+    <Content Include="css\skins\mac\sprite.png" />
+    <Content Include="css\skins\mac\sprite_ie_lt_7.png" />
+    <Content Include="css\styles.css" />
+    <Content Include="css\styles.css.map" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap-theme.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <None Include="Scripts\jquery-2.1.3.intellisense.js" />
+    <Content Include="images\gist-1.png" />
+    <Content Include="images\gist-2.png" />
+    <Content Include="images\gist-3.png" />
+    <Content Include="images\gist-4.png" />
+    <Content Include="images\git-commit.png" />
+    <Content Include="images\git-default.png" />
+    <Content Include="images\icon.png" />
+    <Content Include="images\mscc.png" />
+    <Content Include="images\wait.gif" />
     <Content Include="robots.txt" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\jquery-2.1.3.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.js" />
-    <Content Include="Scripts\jquery-2.1.3.min.map" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\lightview\lightview.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
-    <Content Include="Scripts\npm.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.js" />
-    <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\spinners\spinners.min.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shAutoloader.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushAppleScript.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushAS3.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushBash.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushColdFusion.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushCpp.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushCSharp.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushCss.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushDelphi.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushDiff.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushErlang.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushGroovy.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushJava.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushJavaFX.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushJScript.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushPerl.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushPhp.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushPlain.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushPowerShell.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushPython.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushRuby.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushSass.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushScala.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushSql.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushVb.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shBrushXml.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shCore.js" />
-    <Content Include="Scripts\SyntaxHighlighter\shLegacy.js" />
-    <Content Include="Scripts\_references.js" />
+    <Content Include="scripts\scripts.js" />
+    <Content Include="scripts\scripts.js.map" />
     <Content Include="Views\Home\GitHubGit.cshtml">
       <SubType>Code</SubType>
     </Content>
@@ -239,7 +155,6 @@
     <Content Include="Views\Home\Default.cshtml" />
     <Content Include="Views\Home\GitHubGist.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
@@ -278,6 +193,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>"$(ProjectDir)preBuild.cmd"</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

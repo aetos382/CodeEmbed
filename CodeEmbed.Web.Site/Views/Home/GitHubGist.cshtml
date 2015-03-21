@@ -7,11 +7,6 @@
   var sourceUri2 = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/8bb67885fee24a9c3c15efe362bfa9f958bed090/HelloWorld.cs");
 }
 
-@section head
-{
-  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/lightview/lightview.css")" />
-}
-
 <h2>@ViewBag.Title</h2>
 
 <h3>必要なもの</h3>
@@ -26,23 +21,23 @@
 </div>
 <div class="row">
   <div class="col-md-3">
-    <a href="@Url.Content("~/Content/Images/gist-1.png")" class="thumbnail lightview" data-lightview-group="github-gist" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
-      <img src="@Url.Content("~/Content/Images/gist-1.png")" title="クリックで拡大" />
+    <a href="@Url.Content("~/images/gist-1.png")" class="thumbnail lightview" data-lightview-group="github-gist" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
+      <img src="@Url.Content("~/images/gist-1.png")" title="クリックで拡大" />
     </a>
   </div>
   <div class="col-md-3">
-    <a href="@Url.Content("~/Content/Images/gist-2.png")" class="thumbnail lightview" data-lightview-group="github-gist">
-      <img src="@Url.Content("~/Content/Images/gist-2.png")" title="クリックで拡大" />
+    <a href="@Url.Content("~/images/gist-2.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+      <img src="@Url.Content("~/images/gist-2.png")" title="クリックで拡大" />
     </a>
   </div>
   <div class="col-md-3">
-    <a href="@Url.Content("~/Content/Images/gist-3.png")" class="thumbnail lightview" data-lightview-group="github-gist">
-      <img src="@Url.Content("~/Content/Images/gist-3.png")" title="クリックで拡大" />
+    <a href="@Url.Content("~/images/gist-3.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+      <img src="@Url.Content("~/images/gist-3.png")" title="クリックで拡大" />
     </a>
   </div>
   <div class="col-md-3">
-    <a href="@Url.Content("~/Content/Images/gist-4.png")" class="thumbnail lightview" data-lightview-group="github-gist">
-      <img src="@Url.Content("~/Content/Images/gist-4.png")" title="クリックで拡大" />
+    <a href="@Url.Content("~/images/gist-4.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+      <img src="@Url.Content("~/images/gist-4.png")" title="クリックで拡大" />
     </a>
   </div>
 </div>
@@ -82,9 +77,7 @@
 <div class="panel panel-default">
   <div class="panel-heading">デフォルト</div>
   <div class="panel-body">
-    <div class="wait-indicator text-center">
-      <img src="@Url.Content("~/Content/Images/wait.gif")"/>
-    </div>
+    <div class="wait-indicator"></div>
     <pre id="code-1" class="brush: csharp hidden"></pre>
   </div>
 </div>
@@ -92,18 +85,13 @@
 <div class="panel panel-default">
   <div class="panel-heading">バージョン指定</div>
   <div class="panel-body">
-    <div class="wait-indicator text-center">
-      <img src="@Url.Content("~/Content/Images/wait.gif")" />
-    </div>
+    <div class="wait-indicator"></div>
     <pre id="code-2" class="brush: csharp hidden"></pre>
   </div>
 </div>
 
 @section scripts
 {
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-  <script type="text/javascript" src="@Url.Content("~/bundles/LightView")"></script>
-
   <script type="text/javascript">
 
     $(function () {

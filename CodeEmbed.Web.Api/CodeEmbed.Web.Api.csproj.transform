@@ -2,10 +2,16 @@
 <Project xdt:Transform="SetAttributes(DefaultTargets)" DefaultTargets="Build;WebPublish"
   xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
   xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
+
   <PropertyGroup xdt:Transform="InsertBefore(//*[local-name() = 'ItemGroup'][1])">
     <WebPublishMethod>FileSystem</WebPublishMethod>
     <DeleteExistingFiles>True</DeleteExistingFiles>
     <PrecompileBeforePublish>True</PrecompileBeforePublish>
     <PublishUrl>..\Publish\CodeEmbed.Web.Api\</PublishUrl>
   </PropertyGroup>
+  
+  <ItemGroup xdt:Transform="InsertAfter(//*[local-name() = 'ItemGroup'][last()])">
+    <ExcludeFromPackageFiles Include="packages.config"/>
+  </ItemGroup>
+
 </Project>

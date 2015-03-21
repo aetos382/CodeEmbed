@@ -2,17 +2,13 @@
 <!DOCTYPE html>
 <html lang="ja-JP" xml:lang="ja-JP" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>@ViewBag.Title - CodeEmbed</title>
 
-  @Styles.Render("~/Content/css")
-
-  <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/SyntaxHighlighter/shCoreEclipse.css")" />
-
-  @Scripts.Render("~/bundles/modernizr")
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/styles.css")" />
 
   @RenderSection("head", false)
 </head>
@@ -38,26 +34,26 @@
   </div>
 
   <div class="container body-content">
-    @RenderBody()
+    <main>
+      @RenderBody()
+    </main>
     <hr />
     <footer>
       <div class="row">
         <div class="col-md-2">
-          <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home"><img src="@Url.Content("~/Content/Images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品" /></a>
+          <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home"><img src="@Url.Content("~/images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品" /></a>
         </div>
         <div class="col-md-10">
           <p>CodeEmbed | Copyright &copy; @DateTime.Now.Year - aetos. All rights reserved.</p>
+          <p>Version: @Configuration.Version</p>
           <p><a href="https://ci.appveyor.com/project/aerie/codeembed"><img src="https://ci.appveyor.com/api/projects/status/h22cd6uydo1e9gqv?svg=true" /></a></p>
         </div>
       </div>
     </footer>
   </div>
 
-  @Scripts.Render("~/bundles/jquery")
-  @Scripts.Render("~/bundles/bootstrap")
-  @Scripts.Render("~/bundles/SyntaxHighlighter")
+  <script type="text/javascript" src="@Url.Content("~/scripts/scripts.js")"></script>
 
   @RenderSection("scripts", required: false)
 </body>
 </html>
-

@@ -22,6 +22,8 @@ goto DEPLOY_END
 
 :DEPLOY_RELEASE
 
+if /i "%APPVEYOR_REPO_BRANCH%" NEQ "master" goto DEPLOY_END
+
 "%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Site codeembed.PublishSettings /p %deploy_password% /d
 if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto DEPLOY_END
 
