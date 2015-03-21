@@ -6,7 +6,7 @@
 version: 0.2.{build}                 # You can use {branch} to, for example
 
 # Do not build on tags (GitHub only)
-skip_tags: false
+skip_tags: true
 
 skip_commits:
   message: /#nobuild/
@@ -40,7 +40,10 @@ install:
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
-  patch: false
+  patch: true
+  file: "AssemblyInfo.*"
+  assembly_version: "0.2.0"
+  assembly_file_version: "{version}"
 
 #---------------------------------#
 #       build configuration       #
@@ -84,15 +87,6 @@ artifacts:
 
 # to run your custom scripts instead of provider deployments
 deploy_script: deploy.cmd
-
-deploy:
-  - provider: GitHub
-    artifact: Publish.zip
-    draft: true
-    prerelease: false
-    on:
-      branch: master
-      appveyor_repo_tag: true
 
 #---------------------------------#
 #         notifications           #

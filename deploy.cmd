@@ -13,37 +13,20 @@ goto DEPLOY_END
 :DEPLOY_DEBUG
 
 "%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Site codeembed-dev.PublishSettings /p %deploy_password_dev% /d
-if ERRORLEVEL 1 (
-	set EXIT_CODE=%ERRORLEVEL%
-	goto DEPLOY_END
-)
+if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto DEPLOY_END
 
 "%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Api codeembed-dev.PublishSettings /p %deploy_password_dev% /d /t api/v1
-if ERRORLEVEL 1 (
-	set EXIT_CODE=%ERRORLEVEL%
-	goto DEPLOY_END
-)
+if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto DEPLOY_END
 
 goto DEPLOY_END
 
 :DEPLOY_RELEASE
 
-if /i "%APPVEYOR_REPO_TAG%" EQU "true" goto DEPLOY_TAG
-goto DEPLOY_END
-
-:DEPLOY_TAG
-
 "%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Site codeembed.PublishSettings /p %deploy_password% /d
-if ERRORLEVEL 1 (
-	set EXIT_CODE=%ERRORLEVEL%
-	goto DEPLOY_END
-)
+if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto DEPLOY_END
 
 "%ChocolateyInstall%\bin\WAWSDeploy.exe" Publish\CodeEmbed.Web.Api codeembed.PublishSettings /p %deploy_password% /d /t api/v1
-if ERRORLEVEL 1 (
-	set EXIT_CODE=%ERRORLEVEL%
-	goto DEPLOY_END
-)
+if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto DEPLOY_END
 
 goto DEPLOY_END
 
