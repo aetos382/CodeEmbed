@@ -23,5 +23,13 @@
                 return uri;
             }
         }
+
+        public static string Version
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["Version"];
+            }
+        }
     }
 }

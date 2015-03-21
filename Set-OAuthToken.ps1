@@ -1,7 +1,7 @@
 ﻿function Set-OAuthToken {
 
 	param(
-		[Parameter(Mandatory)]
+		[Parameter(Mandatory, Position = 0)]
 		[string] $Path)
 
 	$fullpath = Convert-Path $Path
@@ -20,9 +20,9 @@
 Push-Location $PSScriptRoot
 
 try {
-	Set-OAuthToken .\CodeEmbed.GitHubClient.Tests\App.config
-	Set-OAuthToken .\CodeEmbed.Web.Api\Web.config
-	Set-OAuthToken .\CodeEmbed.Web.Api.Tests\App.config
+	Set-OAuthToken '.\CodeEmbed.GitHubClient.Tests\App.config'
+	Set-OAuthToken '.\CodeEmbed.Web.Api\Web.config'
+	Set-OAuthToken '.\CodeEmbed.Web.Api.Tests\App.config'
 }
 finally {
 	Pop-Location
