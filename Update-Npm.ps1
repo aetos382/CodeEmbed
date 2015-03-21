@@ -9,7 +9,7 @@ param(
 Import-Module 'nodejs-utils' -Force
 
 $latest = Get-NodeJsLatestBuild $Version
-Update-NodeJsIntallation $latest $Bitness
+Update-NodeJsInstallation $latest $Bitness
 
 npm install -g npm
 if ($LASTEXITCODE -ne 0) {
@@ -37,3 +37,5 @@ finally {
   Pop-Location
 
 }
+
+npm -v

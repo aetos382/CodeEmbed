@@ -31,3 +31,5 @@ UpgradeLog*.htm
 StyleCop.Cache
 Publish/
 *.local.config
+CodeEmbed.Web.Site/node_modules/
+CodeEmbed.Web.Site/bower_components/

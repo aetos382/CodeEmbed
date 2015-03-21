@@ -30,7 +30,7 @@ Push-Location $PSScriptRoot
 try {
 
   $version = "$env:APPVEYOR_BUILD_VERSION ($env:APPVEYOR_REPO_COMMIT) / $env:Configuration"
-  Set-BuildVersion '.\CodeEmbed.Web.Site\Web.config'
+  Set-BuildVersion '.\CodeEmbed.Web.Site\Web.config' $version
 
 }
 finally {
