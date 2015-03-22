@@ -3,7 +3,7 @@
 #---------------------------------#
 
 # version format
-version: 0.2.{build}                 # You can use {branch} to, for example
+version: 0.3.{build}                 # You can use {branch} to, for example
 
 # Do not build on tags (GitHub only)
 skip_tags: true
@@ -48,7 +48,7 @@ install:
 assembly_info:
   patch: true
   file: "AssemblyInfo.*"
-  assembly_version: "0.2.0"
+  assembly_version: "0.3.0"
   assembly_file_version: "{version}"
 
 #---------------------------------#
