@@ -62,14 +62,14 @@
 <h3>例</h3>
 <div class="panel panel-default">
   <div class="panel-body">
-    <pre class="brush: js">
-  $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
-    success: function (data) {
-      $('#code').text(data);
-      SyntaxHighlighter.highlight();
-    }
-  });
-</pre>
+    <pre id="sample">
+$.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
+  success: function (data) {
+    $('#code').text(data);
+    SyntaxHighlighter.highlight();
+  }
+});
+    </pre>
   </div>
 </div>
 
@@ -77,16 +77,16 @@
 <div class="panel panel-default">
   <div class="panel-heading">デフォルト</div>
   <div class="panel-body">
-    <div class="wait-indicator"></div>
-    <pre id="code-1" class="brush: csharp hidden"></pre>
+    <div class="wait-indicator" id="wi-1"></div>
+    <pre id="code-1" class="hidden"></pre>
   </div>
 </div>
 
 <div class="panel panel-default">
   <div class="panel-heading">バージョン指定</div>
   <div class="panel-body">
-    <div class="wait-indicator"></div>
-    <pre id="code-2" class="brush: csharp hidden"></pre>
+    <div class="wait-indicator" id="wi-2"></div>
+    <pre id="code-2" class="hidden"></pre>
   </div>
 </div>
 
@@ -94,30 +94,16 @@
 {
   <script type="text/javascript">
 
-    $(function () {
+  $(function () {
 
-      var uris = [
-        "@sourceUri1",
-        "@sourceUri2"
-      ];
+    SyntaxHighlighter.defaults['auto-links'] = false;
 
-      var requests = [];
+    $('#sample').SyntaxHighlight("js");
 
-      for (var i = 0; i < uris.length; ++i) {
-        requests.push($.ajax(uris[i]));
-      }
+    $.ajax("@sourceUri1").done(function (data) { $('#wi-1').hide(); $('#code-1').text(data).SyntaxHighlight("csharp").show(); });
+    $.ajax("@sourceUri2").done(function (data) { $('#wi-2').hide(); $('#code-2').text(data).SyntaxHighlight("csharp").show(); });
 
-      $.when.apply($, requests).then(function (r1, r2) {
-
-        $('.wait-indicator').hide();
-        $('#code-1').text(r1[0]).show();
-        $('#code-2').text(r2[0]).show();
-
-        SyntaxHighlighter.defaults['auto-links'] = false;
-        SyntaxHighlighter.highlight();
-      });
-
-    });
+  });
 
   </script>
 }

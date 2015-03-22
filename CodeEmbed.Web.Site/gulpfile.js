@@ -18,7 +18,9 @@ gulp.task('scripts', ['clean:scripts'], function() {
 			'lib/syntaxhighlighter/scripts/shBrushJScript.js',
 			
 			'lib/lightview/js/lightview/lightview.js',
-			'lib/lightview/js/spinners/spinners.min.js'
+			'lib/lightview/js/spinners/spinners.min.js',
+      
+      'scripts/jQuery.SyntaxHighlighter.js'
 			])
 		.pipe(sourcemaps.init())
 		.pipe(concat('scripts.js'))
