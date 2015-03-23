@@ -86,6 +86,8 @@ before_build:
 
 artifacts:
   - path: Publish
+  - path: CodeEmbed.Web.Api
+  - path: CodeEmbed.Web.Site
 
 #---------------------------------#
 #     deployment configuration    #
