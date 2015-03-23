@@ -89,11 +89,14 @@
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
-    <Content Include="App.config" />
+    <None Include="App.config" />
     <Content Include="Test\Foo\Bar\Test2.txt" />
     <Content Include="Test\Test1.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="appSettings.local.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Test\Foo\Bar\Test2.zip" />
   </ItemGroup>
@@ -115,8 +118,8 @@
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>set file=$(ProjectDir)appSettings.local.config
-if exist "%25file%25" copy /y "%25file%25" "$(TargetDir)appSettings.local.config"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

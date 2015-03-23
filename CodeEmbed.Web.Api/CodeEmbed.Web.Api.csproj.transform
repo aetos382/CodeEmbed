@@ -12,6 +12,7 @@
   
   <ItemGroup xdt:Transform="InsertAfter(//*[local-name() = 'ItemGroup'][last()])">
     <ExcludeFromPackageFiles Include="packages.config"/>
+    <ExcludeFromPackageFiles Include="appSettings.local.config"/>
   </ItemGroup>
 
 </Project>
