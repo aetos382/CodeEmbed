@@ -44,6 +44,14 @@ install:
   - bower --version
   - gulp --version
 
+# caching files
+cache:
+  - packages -> **\packages.config
+  - node_modules -> **\package.json
+  - bower_components -> **\bower.json
+  - $(AppData)\npm-cache -> **\package.json
+  - $(ChocolateyInstall) -> deploy.cmd
+
 # enable patching of AssemblyInfo.* files
 assembly_info:
   patch: true
