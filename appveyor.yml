@@ -50,7 +50,7 @@ cache:
   - node_modules -> **\package.json
   - bower_components -> **\bower.json
   - $(AppData)\npm-cache -> **\package.json
-  - $(ChocolateyInstall) -> deploy.cmd
+  - $(ChocolateyInstall) -> appveyor.yml
 
 # enable patching of AssemblyInfo.* files
 assembly_info:
