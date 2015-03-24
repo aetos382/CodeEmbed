@@ -16,11 +16,23 @@
 <!--
     <Content Include="css\skins\**\*"/>
 -->
+    <Content Include="css\skins\blank.gif"/>
+    <Content Include="css\skins\dark\sprite.png"/>
+    <Content Include="css\skins\dark\sprite_ie_lt_7.png"/>
+    <Content Include="css\skins\light\sprite.png"/>
+    <Content Include="css\skins\light\sprite_ie_lt_7.png"/>
+    <Content Include="css\skins\mac\sprite.png"/>
+    <Content Include="css\skins\mac\sprite_ie_lt_7.png"/>
     <Content Include="scripts\scripts.js"/>
     <Content Include="scripts\scripts.js.map"/>
 <!--
-    <Content Include="fonts\**\*"/>
+    <Content Include="fonts\*"/>
 -->
+    <Content Include="fonts\glyphicons-halflings-regular.eot"/>
+    <Content Include="fonts\glyphicons-halflings-regular.svg"/>
+    <Content Include="fonts\glyphicons-halflings-regular.ttf"/>
+    <Content Include="fonts\glyphicons-halflings-regular.woff"/>
+    <Content Include="fonts\glyphicons-halflings-regular.woff2"/>
   </ItemGroup>
   
   <ItemGroup xdt:Transform="InsertAfter(//*[local-name() = 'ItemGroup'][last()])">
@@ -31,5 +43,15 @@
     <ExcludeFromPackageFiles Include="bower.json"/>
     <ExcludeFromPackageFiles Include="gulpfile.js"/>
   </ItemGroup>
+
+  <Target Name="AfterBuild" xdt:Transform="Insert">
+    <Message Text="あっあー"/>
+    <Warning Text="css\skins\**\* が存在しません。" Condition="!Exists('css\skins\**\*')"/>
+    <Warning Text="css\skins\blank.gif が存在しません。" Condition="!Exists('css\skins\blank.gif')"/>
+    <Warning Text="css\skins\dark\sprite.png が存在しません。" Condition="!Exists('css\skins\dark\sprite.png')"/>
+    <Warning Text="fonts\* が存在しません。" Condition="!Exists('fonts\*')"/>
+    <Warning Text="fonts\glyphicons-halflings-regular.eot が存在しません。" Condition="!Exists('fonts\glyphicons-halflings-regular.eot')"/>
+    <Message Text="うっうー"/>
+  </Target>
 
 </Project>
