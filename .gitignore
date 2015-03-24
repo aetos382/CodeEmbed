@@ -15,7 +15,7 @@ _ReSharper*/
 *.DotSettings.user
 
 # NuGet Packages Directory
-packages/*
+packages/**/*
 !packages/repositories.config
 
 # Backup & report files from converting an old project file
