@@ -31,8 +31,10 @@ UpgradeLog*.htm
 StyleCop.Cache
 Publish/
 *.local.config
-CodeEmbed.Web.Site/node_modules/
-CodeEmbed.Web.Site/bower_components/
+
+**/node_modules/
+**/bower_components/
+
 CodeEmbed.Web.Site/fonts/
 CodeEmbed.Web.Site/css/skins/
 CodeEmbed.Web.Site/css/styles.css
