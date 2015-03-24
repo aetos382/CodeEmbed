@@ -45,4 +45,9 @@
     <ExcludeFromPackageFiles Include="gulpfile.js"/>
   </ItemGroup>
 
+  <Target Name="AfterBuild" xdt:Transform="Insert">
+    <Message Text="FilesToIncludeForPublish = $(FilesToIncludeForPublish)" Condition="'$(FilesToIncludeForPublish) != ''" />
+    <Message Text="FilesToIncludeForPublish = Undefined" Condition="'$(FilesToIncludeForPublish) == ''" />
+  </Target>
+
 </Project>
