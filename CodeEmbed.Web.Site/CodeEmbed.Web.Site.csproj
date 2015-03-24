@@ -110,6 +110,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="lib\**\*" />
     <Content Include="css\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
