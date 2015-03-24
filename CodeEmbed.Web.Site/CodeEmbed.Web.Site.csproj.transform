@@ -13,10 +13,14 @@
   <ItemGroup xdt:Transform="InsertAfter(//*[local-name() = 'ItemGroup'][last()])">
     <Content Include="css\styles.css"/>
     <Content Include="css\styles.css.map"/>
+<!--
     <Content Include="css\skins\**\*"/>
+-->
     <Content Include="scripts\scripts.js"/>
     <Content Include="scripts\scripts.js.map"/>
+<!--
     <Content Include="fonts\**\*"/>
+-->
   </ItemGroup>
   
   <ItemGroup xdt:Transform="InsertAfter(//*[local-name() = 'ItemGroup'][last()])">
