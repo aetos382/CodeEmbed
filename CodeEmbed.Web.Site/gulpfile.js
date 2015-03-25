@@ -6,6 +6,7 @@ var uglify = require('gulp-uglify');
 var prefix = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
 var useref = require('gulp-useref');
+var newer = require('gulp-newer');
 
 gulp.task('html', function() {
 	
@@ -17,7 +18,7 @@ gulp.task('html', function() {
 		.pipe(assets, { noconcat: true })
 		.pipe(assets.restore())
 		.pipe(useref())
-		.pipe(gulp.dest('x'));
+		.pipe(gulp.dest('Views'));
 });
 
 gulp.task('scripts', ['clean:scripts'], function() {
@@ -36,6 +37,7 @@ gulp.task('scripts', ['clean:scripts'], function() {
             
             'scripts/jQuery.SyntaxHighlighter.js'
         ])
+        .pipe(newer('scripts/script.js'))
         .pipe(sourcemaps.init())
         .pipe(concat('scripts.js'))
         .pipe(uglify())
@@ -56,6 +58,7 @@ gulp.task('styles', ['clean:styles'], function() {
             
             'css/site.css'
         ])
+        .pipe(newer('css/styles.css'))
         .pipe(sourcemaps.init())
         .pipe(prefix())
         .pipe(concat('styles.css'))
@@ -70,6 +73,7 @@ gulp.task('fonts', ['clean:fonts'], function() {
     return gulp.src(
             'bower_components/bootstrap/dist/fonts/*'
         )
+        .pipe(newer('fonts'))
         .pipe(gulp.dest('fonts'));
         
 });
@@ -79,6 +83,7 @@ gulp.task('lightview', ['clean:lightview'], function() {
     return gulp.src(
             'lib/lightview/css/lightview/skins/**/*'
         )
+        .pipe(newer('css/skins'))
         .pipe(gulp.dest('css/skins'));
 
 });
