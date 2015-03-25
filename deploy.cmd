@@ -2,6 +2,8 @@
 
 setlocal
 
+pushd "%~dp0"
+
 set EXIT_CODE=0
 
 if /i "%Configuration%" EQU "Debug" goto DEPLOY_DEBUG
@@ -33,5 +35,7 @@ if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto DEPLOY_END
 goto DEPLOY_END
 
 :DEPLOY_END
+
+popd
 
 endlocal & exit /b %EXIT_CODE%

@@ -2,9 +2,9 @@
 
 setlocal
 
-set EXIT_CODE=0
-
 pushd "%~dp0"
+
+set EXIT_CODE=0
 
 call npm install
 if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto END_PREBUILD
