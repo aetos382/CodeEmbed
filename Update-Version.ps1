@@ -6,7 +6,7 @@ function Set-BuildVersion {
 
   $fullpath = Convert-Path $Path
   $xml = [xml] (Get-Content $fullpath)
-	
+
   $settings = $xml.SelectSingleNode('/configuration/appSettings')
 
   $buildNo = $xml.CreateElement('add')
