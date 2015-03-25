@@ -28,7 +28,13 @@
 
   <title>@ViewBag.Title - CodeEmbed</title>
 
-  <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/styles.css")" />
+  <!-- build:css @Url.Content("~/css/styles.css") type="text/css" -->
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/bower_components/bootstrap/dist/css/bootstrap.css")" />
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/syntaxhighlighter/styles/shCore.css")"/>
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/syntaxhighlighter/styles/shThemeEclipse.css")"/>
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/lightview/css/lightview/lightview.css")"/>
+  <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/site.css")"/>
+  <!-- endbuild -->
 
   @RenderSection("head", false)
 </head>
@@ -76,7 +82,17 @@
     </footer>
   </div>
 
-  <script type="text/javascript" src="@Url.Content("~/scripts/scripts.js")"></script>
+  <!-- build:js @Url.Content("~scripts/scripts.js") type="text/javascript" -->
+  <script type="text/javascript" src="@Url.Content("~/bower_components/jquery/dist/jquery.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/bower_components/bootstrap/dist/js/bootstrap.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/lib/syntaxhighlighter/scripts/shCore.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/lib/syntaxhighlighter/scripts/shBrushCSharp.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/lib/syntaxhighlighter/scripts/shBrushJScript.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/lib/lightview/js/lightview/lightview.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/lib/lightview/js/spinners/spinners.min.js")"></script>
+  <script type="text/javascript" src="@Url.Content("~/scripts/jQuery.SyntaxHighlighter.js")"></script>
+  <!-- endbuild -->
+
   @RenderSection("scripts", required: false)
 
 </body>
