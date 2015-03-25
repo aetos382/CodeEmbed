@@ -24,6 +24,10 @@ os: Windows Server 2012 R2
 # file chaching
 cache:
   - packages -> **\packages.config
+  - C:\Users\appveyor\AppData\Roaming\npm-cache -> **\package.json
+  - C:\Users\appveyor\AppData\Roaming\bower\cache\packages -> **\bower.json
+  - C:\ProgramData\chocolatey\lib -> appveyor.yml
+  - C:\ProgramData\chocolatey\bin -> appveyor.yml
 
 # environment variables
 environment:
