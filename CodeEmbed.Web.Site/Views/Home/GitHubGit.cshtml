@@ -9,74 +9,82 @@
   var sourceUri4 = new Uri(apiEndpoint, "github-git/aetos382/CodeEmbed/commits/aa94c4b12d52055fadbf21d581dfd578d48c0786/CodeEmbed.Web.Site/content/HelloWorld.cs");
 }
 
-<h2>@ViewBag.Title</h2>
+<article>
+  <header>
+    <h2>@ViewBag.Title</h2>
+  </header>
 
-<h3>必要なもの</h3>
-<div class="row">
-  <div class="col-md-6">
-    <ul>
-      <li>ユーザー名</li>
-      <li>リポジトリ名</li>
-      <li>ファイル パス</li>
-    </ul>
+  <section>
+    <h3>必要なもの</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <ul>
+          <li>ユーザー名</li>
+          <li>リポジトリ名</li>
+          <li>ファイル パス</li>
+        </ul>
 
-    <p>オプションで以下のいずれかを指定できます。</p>
-    <ul>
-      <li>ブランチ名</li>
-      <li>タグ名</li>
-      <li>コミット ハッシュ</li>
-    </ul>
-  </div>
-  <div class="col-md-3">
-    <a href="@Url.Content("~/images/git-default.png")" class="thumbnail lightview" data-lightview-group="github-git" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
-      <img src="@Url.Content("~/images/git-default.png")" title="クリックで拡大" />
-    </a>
-  </div>
-  <div class="col-md-3">
-    <a href="@Url.Content("~/images/git-commit.png")" class="thumbnail lightview" data-lightview-group="github-git">
-      <img src="@Url.Content("~/images/git-commit.png")" title="クリックで拡大" />
-    </a>
-  </div>
-</div>
+        <p>オプションで以下のいずれかを指定できます。</p>
+        <ul>
+          <li>ブランチ名</li>
+          <li>タグ名</li>
+          <li>コミット ハッシュ</li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <a href="@Url.Content("~/images/git-default.png")" class="thumbnail lightview" data-lightview-group="github-git" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
+          <img src="@Url.Content("~/images/git-default.png")" title="クリックで拡大" />
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a href="@Url.Content("~/images/git-commit.png")" class="thumbnail lightview" data-lightview-group="github-git">
+          <img src="@Url.Content("~/images/git-commit.png")" title="クリックで拡大" />
+        </a>
+      </div>
+    </div>
+  </section>
 
-<h3>URL</h3>
+  <section>
+    <h3>URL</h3>
 
-<div class="panel panel-default">
-  <div class="panel-heading">デフォルト</div>
-  <div class="panel-body">
-    <p>@(apiEndpoint)github-git/:user/:repo/:path</p>
-    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">デフォルト</div>
+      <div class="panel-body">
+        <p>@(apiEndpoint)github-git/:user/:repo/:path</p>
+        <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">ブランチ指定</div>
-  <div class="panel-body">
-    <p>@(apiEndpoint)github-git/:user/:repo/branches/:branch/:path</p>
-    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">ブランチ指定</div>
+      <div class="panel-body">
+        <p>@(apiEndpoint)github-git/:user/:repo/branches/:branch/:path</p>
+        <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/branches/master/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">タグ指定</div>
-  <div class="panel-body">
-    <p>@(apiEndpoint)github-git/:user/:repo/tags/:tag/:path</p>
-    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/tags/v0.3.0/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">タグ指定</div>
+      <div class="panel-body">
+        <p>@(apiEndpoint)github-git/:user/:repo/tags/:tag/:path</p>
+        <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/tags/v0.3.0/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">コミット ハッシュ指定</div>
-  <div class="panel-body">
-    <p>@(apiEndpoint)github-git/:user/:repo/:sha/:path</p>
-    <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/commits/aa94c4b12d52055fadbf21d581dfd578d48c0786/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">コミット ハッシュ指定</div>
+      <div class="panel-body">
+        <p>@(apiEndpoint)github-git/:user/:repo/:sha/:path</p>
+        <p>例：@(apiEndpoint)github-git/aetos382/CodeEmbed/commits/aa94c4b12d52055fadbf21d581dfd578d48c0786/CodeEmbed.Web.Site/content/HelloWorld.cs</p>
+      </div>
+    </div>
+  </section>
 
-<h3>例</h3>
-<div class="panel panel-default">
-  <div class="panel-body">
-      <pre id="sample">
+  <section>
+    <h3>例</h3>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <pre id="sample">
 $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/content/HelloWorld.cs", {
   success: function (data) {
     $('#code').text(data);
@@ -84,43 +92,47 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/content/H
   }
 });
     </pre>
-  </div>
-</div>
+      </div>
+    </div>
+  </section>
 
-<h3>デモ</h3>
-<p>見た目は全部同じですが、取得方法は異なります。詳細はソースを参照してください。</p>
+  <section>
+    <h3>デモ</h3>
+    <p>見た目は全部同じですが、取得方法は異なります。詳細はソースを参照してください。</p>
 
-<div class="panel panel-default">
-  <div class="panel-heading">デフォルト</div>
-  <div class="panel-body">
-    <div class="wait-indicator" id="wi-1"></div>
-    <pre id="code-1" class="hidden"></pre>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">デフォルト</div>
+      <div class="panel-body">
+        <div class="wait-indicator" id="wi-1"></div>
+        <pre id="code-1" class="hidden"></pre>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">ブランチ指定</div>
-  <div class="panel-body">
-    <div class="wait-indicator" id="wi-2"></div>
-    <pre id="code-2" class="hidden"></pre>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">ブランチ指定</div>
+      <div class="panel-body">
+        <div class="wait-indicator" id="wi-2"></div>
+        <pre id="code-2" class="hidden"></pre>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">タグ指定</div>
-  <div class="panel-body">
-    <div class="wait-indicator" id="wi-3"></div>
-    <pre id="code-3" class="hidden"></pre>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">タグ指定</div>
+      <div class="panel-body">
+        <div class="wait-indicator" id="wi-3"></div>
+        <pre id="code-3" class="hidden"></pre>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">コミット ハッシュ指定</div>
-  <div class="panel-body">
-    <div class="wait-indicator" id="wi-4"></div>
-    <pre id="code-4" class="hidden"></pre>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">コミット ハッシュ指定</div>
+      <div class="panel-body">
+        <div class="wait-indicator" id="wi-4"></div>
+        <pre id="code-4" class="hidden"></pre>
+      </div>
+    </div>
+  </section>
+</article>
 
 @section scripts
 {

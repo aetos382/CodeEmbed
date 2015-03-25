@@ -10,20 +10,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <meta name="author" content="aetos"/>
-  <meta name="keywords" content="CodeEmbed,GitHub,Gist,BitBucket"/>
-  <meta name="description" content="ブログ等のサイトに GitHub のリポジトリや Gist にあるコードを埋め込むためのサービスです。"/>
+  <meta name="author" content="aetos" />
+  <meta name="keywords" content="CodeEmbed,GitHub,Gist,BitBucket" />
+  <meta name="description" content="ブログ等のサイトに GitHub のリポジトリや Gist にあるコードを埋め込むためのサービスです。" />
 
-  <meta name="dc:creator" property="dc:creator" content="aetos"/>
-  <meta name="og:title" property="og:title" content="@ViewBag.Title"/>
-  <meta name="og:locale" property="og:locale" content="ja_JP"/>
+  <meta name="dc:creator" property="dc:creator" content="aetos" />
+  <meta name="og:title" property="og:title" content="@ViewBag.Title" />
+  <meta name="og:locale" property="og:locale" content="ja_JP" />
   <meta name="og:site_name" property="og:site_name" content="CodeEmbed" />
   <meta name="og:description" property="og:description" content="ブログ等のサイトに GitHub のリポジトリや Gist にあるコードを埋め込むためのサービスです。" />
 
-  <meta name="twitter:card" content="summary"/>
+  <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="@ViewBag.Title" />
   <meta name="twitter:description" content="ブログ等のサイトに GitHub のリポジトリや Gist にあるコードを埋め込むためのサービスです。" />
-  <meta name="twitter:site" content="@("@aetos382")"/>
+  <meta name="twitter:site" content="@("@aetos382")" />
   <meta name="twitter:creator" content="@("@aetos382")" />
 
   <title>@ViewBag.Title - CodeEmbed</title>
@@ -33,25 +33,29 @@
   @RenderSection("head", false)
 </head>
 <body>
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        @Html.ActionLink("CodeEmbed", "Default", "Home", null, new { @class = "navbar-brand" })
-      </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li>@Html.ActionLink("Home", "Default", "Home")</li>
-          <li>@Html.ActionLink("GitHub-Git", "GitHubGit", "Home")</li>
-          <li>@Html.ActionLink("GitHub-Gist", "GitHubGist", "Home")</li>
-        </ul>
+  <header>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          @Html.ActionLink("CodeEmbed", "Default", "Home", null, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+          <nav>
+            <ul class="nav navbar-nav">
+              <li>@Html.ActionLink("Home", "Default", "Home")</li>
+              <li>@Html.ActionLink("GitHub-Git", "GitHubGit", "Home")</li>
+              <li>@Html.ActionLink("GitHub-Gist", "GitHubGist", "Home")</li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="container body-content">
     <main>
@@ -64,7 +68,7 @@
           <a href="http://microsoft-worldwide-community-champion-ja-jp.azurewebsites.net/Home"><img src="@Url.Content("~/images/mscc.png")" alt="Microsoft Community Champion 提出作品" title="Microsoft Community Champion 提出作品" /></a>
         </div>
         <div class="col-md-10">
-          <p>CodeEmbed | Copyright &copy; @DateTime.Now.Year - aetos. All rights reserved.</p>
+          <p>CodeEmbed | Copyright &copy; 2015 - aetos. All rights reserved.</p>
           <p>Version: <a href="https://ci.appveyor.com/project/aerie/codeembed/build/@VersionInfo.BuildNo">@VersionInfo.BuildNo</a> | <a href="https://github.com/aetos382/CodeEmbed/tree/@VersionInfo.Branch">@VersionInfo.Branch</a> | <a href="https://github.com/aetos382/CodeEmbed/commit/@VersionInfo.Commit">@VersionInfo.Commit</a> | @VersionInfo.Configuration</p>
           <p><a href="https://ci.appveyor.com/project/aerie/codeembed"><img src="https://ci.appveyor.com/api/projects/status/h22cd6uydo1e9gqv?svg=true" /></a></p>
         </div>
@@ -73,7 +77,7 @@
   </div>
 
   <script type="text/javascript" src="@Url.Content("~/scripts/scripts.js")"></script>
-
   @RenderSection("scripts", required: false)
+
 </body>
 </html>

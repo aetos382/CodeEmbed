@@ -7,62 +7,70 @@
   var sourceUri2 = new Uri(apiEndpoint, "github-gist/d80103a9d1c3c12b1786/8bb67885fee24a9c3c15efe362bfa9f958bed090/HelloWorld.cs");
 }
 
-<h2>@ViewBag.Title</h2>
+<article>
+  <header>
+    <h2>@ViewBag.Title</h2>
+  </header>
 
-<h3>必要なもの</h3>
-<div class="row">
-  <div class="col-md-6">
-    <ul>
-      <li>Gist の ID</li>
-      <li>ファイル名</li>
-      <li>バージョン（オプション）</li>
-    </ul>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-3">
-    <a href="@Url.Content("~/images/gist-1.png")" class="thumbnail lightview" data-lightview-group="github-gist" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
-      <img src="@Url.Content("~/images/gist-1.png")" title="クリックで拡大" />
-    </a>
-  </div>
-  <div class="col-md-3">
-    <a href="@Url.Content("~/images/gist-2.png")" class="thumbnail lightview" data-lightview-group="github-gist">
-      <img src="@Url.Content("~/images/gist-2.png")" title="クリックで拡大" />
-    </a>
-  </div>
-  <div class="col-md-3">
-    <a href="@Url.Content("~/images/gist-3.png")" class="thumbnail lightview" data-lightview-group="github-gist">
-      <img src="@Url.Content("~/images/gist-3.png")" title="クリックで拡大" />
-    </a>
-  </div>
-  <div class="col-md-3">
-    <a href="@Url.Content("~/images/gist-4.png")" class="thumbnail lightview" data-lightview-group="github-gist">
-      <img src="@Url.Content("~/images/gist-4.png")" title="クリックで拡大" />
-    </a>
-  </div>
-</div>
+  <section>
+    <h3>必要なもの</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <ul>
+          <li>Gist の ID</li>
+          <li>ファイル名</li>
+          <li>バージョン（オプション）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <a href="@Url.Content("~/images/gist-1.png")" class="thumbnail lightview" data-lightview-group="github-gist" data-lightview-group-options="controls: 'thumbnails', skin: 'dark'">
+          <img src="@Url.Content("~/images/gist-1.png")" title="クリックで拡大" />
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a href="@Url.Content("~/images/gist-2.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+          <img src="@Url.Content("~/images/gist-2.png")" title="クリックで拡大" />
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a href="@Url.Content("~/images/gist-3.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+          <img src="@Url.Content("~/images/gist-3.png")" title="クリックで拡大" />
+        </a>
+      </div>
+      <div class="col-md-3">
+        <a href="@Url.Content("~/images/gist-4.png")" class="thumbnail lightview" data-lightview-group="github-gist">
+          <img src="@Url.Content("~/images/gist-4.png")" title="クリックで拡大" />
+        </a>
+      </div>
+    </div>
+  </section>
 
-<h3>URL</h3>
-<div class="panel panel-default">
-  <div class="panel-heading">デフォルト</div>
-  <div class="panel-body">
-    <p>@(apiEndpoint)github-gist/:id/:filename</p>
-    <p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs</p>
-  </div>
-</div>
+  <section>
+    <h3>URL</h3>
+    <div class="panel panel-default">
+      <div class="panel-heading">デフォルト</div>
+      <div class="panel-body">
+        <p>@(apiEndpoint)github-gist/:id/:filename</p>
+        <p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs</p>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">バージョン指定</div>
-  <div class="panel-body">
-    <p>@(apiEndpoint)github-gist/:id/:version/:filename</p>
-    <p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/8bb67885fee24a9c3c15efe362bfa9f958bed090/HelloWorld.cs</p>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">バージョン指定</div>
+      <div class="panel-body">
+        <p>@(apiEndpoint)github-gist/:id/:version/:filename</p>
+        <p>例：@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/8bb67885fee24a9c3c15efe362bfa9f958bed090/HelloWorld.cs</p>
+      </div>
+    </div>
+  </section>
 
-<h3>例</h3>
-<div class="panel panel-default">
-  <div class="panel-body">
-    <pre id="sample">
+  <section>
+    <h3>例</h3>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <pre id="sample">
 $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
   success: function (data) {
     $('#code').text(data);
@@ -70,40 +78,44 @@ $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
   }
 });
     </pre>
-  </div>
-</div>
+      </div>
+    </div>
+  </section>
 
-<h3>デモ</h3>
-<div class="panel panel-default">
-  <div class="panel-heading">デフォルト</div>
-  <div class="panel-body">
-    <div class="wait-indicator" id="wi-1"></div>
-    <pre id="code-1" class="hidden"></pre>
-  </div>
-</div>
+  <section>
+    <h3>デモ</h3>
+    <div class="panel panel-default">
+      <div class="panel-heading">デフォルト</div>
+      <div class="panel-body">
+        <div class="wait-indicator" id="wi-1"></div>
+        <pre id="code-1" class="hidden"></pre>
+      </div>
+    </div>
 
-<div class="panel panel-default">
-  <div class="panel-heading">バージョン指定</div>
-  <div class="panel-body">
-    <div class="wait-indicator" id="wi-2"></div>
-    <pre id="code-2" class="hidden"></pre>
-  </div>
-</div>
+    <div class="panel panel-default">
+      <div class="panel-heading">バージョン指定</div>
+      <div class="panel-body">
+        <div class="wait-indicator" id="wi-2"></div>
+        <pre id="code-2" class="hidden"></pre>
+      </div>
+    </div>
+  </section>
+</article>
 
 @section scripts
 {
   <script type="text/javascript">
 
-  $(function () {
+    $(function () {
 
-    SyntaxHighlighter.defaults['auto-links'] = false;
+      SyntaxHighlighter.defaults['auto-links'] = false;
 
-    $('#sample').SyntaxHighlight("js");
+      $('#sample').SyntaxHighlight("js");
 
-    $.ajax("@sourceUri1").done(function (data) { $('#wi-1').hide(); $('#code-1').text(data).SyntaxHighlight("csharp").show(); });
-    $.ajax("@sourceUri2").done(function (data) { $('#wi-2').hide(); $('#code-2').text(data).SyntaxHighlight("csharp").show(); });
+      $.ajax("@sourceUri1").done(function (data) { $('#wi-1').hide(); $('#code-1').text(data).SyntaxHighlight("csharp").show(); });
+      $.ajax("@sourceUri2").done(function (data) { $('#wi-2').hide(); $('#code-2').text(data).SyntaxHighlight("csharp").show(); });
 
-  });
+    });
 
   </script>
 }
