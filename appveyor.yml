@@ -74,7 +74,7 @@ build:
 before_build:
   - ps: .\Set-OAuthToken.ps1
   - ps: .\Update-Version.ps1
-  - transform.cmd
+  - preBuild.cmd
 
 #---------------------------------#
 #       tests configuration       #
