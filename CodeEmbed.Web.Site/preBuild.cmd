@@ -2,6 +2,8 @@
 
 setlocal
 
+set powershell=C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+
 pushd "%~dp0"
 
 set EXIT_CODE=0
@@ -13,6 +15,9 @@ call bower install
 if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto END_PREBUILD
 
 call gulp
+if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto END_PREBUILD
+
+"%powershell%" -File Set-Bom.ps1
 if ERRORLEVEL 1 set EXIT_CODE=%ERRORLEVEL% && goto END_PREBUILD
 
 :END_PREBUILD
