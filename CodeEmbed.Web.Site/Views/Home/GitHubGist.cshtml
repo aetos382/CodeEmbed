@@ -108,6 +108,7 @@ $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
     $(function () {
 
       SyntaxHighlighter.defaults['auto-links'] = false;
+      SyntaxHighlighter.config.space = '&#x20;';
 
       $('#sample').SyntaxHighlight("js");
 

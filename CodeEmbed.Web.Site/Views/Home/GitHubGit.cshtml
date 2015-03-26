@@ -140,6 +140,7 @@ $.ajax("@(apiEndpoint)github-git/aetos382/CodeEmbed/CodeEmbed.Web.Site/content/H
     $(function () {
 
       SyntaxHighlighter.defaults['auto-links'] = false;
+      SyntaxHighlighter.config.space = '&#x20;';
 
       $('#sample').SyntaxHighlight("js");
 
