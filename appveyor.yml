@@ -82,8 +82,10 @@ build:
 before_build:
   - ps: .\Set-OAuthToken.ps1
   - ps: .\Update-Version.ps1
+  - ps: .\Bundle-Reference.ps1
   - preBuild.cmd
-
+  - transform.cmd
+  
 #---------------------------------#
 #       tests configuration       #
 #---------------------------------#
@@ -94,7 +96,6 @@ before_build:
 
 artifacts:
   - path: Publish
-  - path: CodeEmbed.Web.Site
 
 #---------------------------------#
 #     deployment configuration    #
