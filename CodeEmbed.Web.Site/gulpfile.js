@@ -5,7 +5,7 @@ var uglify = require('gulp-uglify');
 var prefix = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
 
-gulp.task('scripts', ['clean:scripts'], function() {
+gulp.task('scripts', function() {
     
     return gulp.src([
             'bower_components/jquery/dist/jquery.js',
@@ -29,7 +29,7 @@ gulp.task('scripts', ['clean:scripts'], function() {
         
 });
 
-gulp.task('styles', ['clean:styles'], function() {
+gulp.task('styles', function() {
     
     return gulp.src([
             'bower_components/bootstrap/dist/css/bootstrap.css',
@@ -50,7 +50,7 @@ gulp.task('styles', ['clean:styles'], function() {
         
 });
 
-gulp.task('fonts', ['clean:fonts'], function() {
+gulp.task('fonts', function() {
     
     return gulp.src(
             'bower_components/bootstrap/dist/fonts/*'
@@ -59,7 +59,7 @@ gulp.task('fonts', ['clean:fonts'], function() {
         
 });
 
-gulp.task('lightview', ['clean:lightview'], function() {
+gulp.task('lightview', function() {
 
     return gulp.src(
             'lib/lightview/css/lightview/skins/**/*'

@@ -70,12 +70,14 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <pre id="sample">
+<![CDATA[
 $.ajax("@(apiEndpoint)github-gist/d80103a9d1c3c12b1786/HelloWorld.cs", {
   success: function (data) {
     $('#code').text(data);
     SyntaxHighlighter.highlight();
   }
 });
+]]>
     </pre>
       </div>
     </div>
