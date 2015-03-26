@@ -5,21 +5,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 var prefix = require('gulp-autoprefixer');
 var minifyCss = require('gulp-minify-css');
-var useref = require('gulp-useref');
 var newer = require('gulp-newer');
-
-gulp.task('html', function() {
-	
-	var assets = useref.assets();
-	
-	return gulp.src(
-			'Views/**/*.cshtml', { base: 'Views' }
-		)
-		.pipe(assets, { noconcat: true })
-		.pipe(assets.restore())
-		.pipe(useref())
-		.pipe(gulp.dest('Views'));
-});
 
 gulp.task('scripts', ['clean:scripts'], function() {
     
@@ -123,4 +109,4 @@ gulp.task('clean:lightview', function(cb) {
 });
 
 gulp.task('clean', ['clean:scripts', 'clean:styles', 'clean:fonts', 'clean:lightview' ]);
-gulp.task('default', ['html', 'scripts', 'styles', 'fonts', 'lightview']);
+gulp.task('default', ['scripts', 'styles', 'fonts', 'lightview']);

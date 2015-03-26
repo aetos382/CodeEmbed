@@ -23,12 +23,6 @@
     <ExcludeFromPackageFiles Include="packages.config">
 		<FromTarget>Project</FromTarget>
 	</ExcludeFromPackageFiles>
-    <ExcludeFromPackageFiles Include="bower_components\**\*">
-		<FromTarget>Project</FromTarget>
-	</ExcludeFromPackageFiles>
-    <ExcludeFromPackageFiles Include="lib\**\*">
-		<FromTarget>Project</FromTarget>
-	</ExcludeFromPackageFiles>
     <ExcludeFromPackageFiles Include="css\site.css">
 		<FromTarget>Project</FromTarget>
 	</ExcludeFromPackageFiles>

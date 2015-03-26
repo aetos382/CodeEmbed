@@ -101,10 +101,6 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
     <Compile Include="VersionInfo.cs" />
-    <Content Include="bower_components\bootstrap\dist\css\bootstrap.css" />
-    <Content Include="bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="bower_components\bootstrap\dist\js\bootstrap.js" />
-    <Content Include="bower_components\jquery\dist\jquery.js" />
     <Content Include="content\HelloWorld.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -127,21 +123,6 @@
     <Content Include="images\icon.png" />
     <Content Include="images\mscc.png" />
     <Content Include="images\wait.gif" />
-    <Content Include="lib\lightview\css\lightview\lightview.css" />
-    <Content Include="lib\lightview\css\lightview\skins\blank.gif" />
-    <Content Include="lib\lightview\css\lightview\skins\dark\sprite.png" />
-    <Content Include="lib\lightview\css\lightview\skins\dark\sprite_ie_lt_7.png" />
-    <Content Include="lib\lightview\css\lightview\skins\light\sprite.png" />
-    <Content Include="lib\lightview\css\lightview\skins\light\sprite_ie_lt_7.png" />
-    <Content Include="lib\lightview\css\lightview\skins\mac\sprite.png" />
-    <Content Include="lib\lightview\css\lightview\skins\mac\sprite_ie_lt_7.png" />
-    <Content Include="lib\lightview\js\lightview\lightview.js" />
-    <Content Include="lib\lightview\js\spinners\spinners.min.js" />
-    <Content Include="lib\syntaxhighlighter\scripts\shBrushCSharp.js" />
-    <Content Include="lib\syntaxhighlighter\scripts\shBrushJScript.js" />
-    <Content Include="lib\syntaxhighlighter\scripts\shCore.js" />
-    <Content Include="lib\syntaxhighlighter\styles\shCore.css" />
-    <Content Include="lib\syntaxhighlighter\styles\shThemeEclipse.css" />
     <Content Include="robots.txt" />
     <Content Include="scripts\jQuery.SyntaxHighlighter.js" />
     <Content Include="Views\Home\GitHubGit.cshtml">
@@ -165,12 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="bower_components\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
